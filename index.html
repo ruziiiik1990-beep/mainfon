@@ -24,6 +24,16 @@
             })
             .catch(error => console.error('Ошибка загрузки шапки:', error));
     </script>
-
+<!-- Загружаем шапку -->
+<script>
+    fetch('header.html').then(r => r.text()).then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+        // После загрузки шапки подключаем скрипт авторизации
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = 'auth.js';
+        document.body.appendChild(script);
+    });
+</script>
 </body>
 </html>
