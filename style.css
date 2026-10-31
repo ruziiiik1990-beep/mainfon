@@ -1,0 +1,39 @@
+/* Общие стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body, html {
+    width: 100%;
+}
+
+/* Стили для картинки-фона */
+.bg-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Стили для шапки, чтобы она была поверх фона */
+.header-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Элементы шапки */
+.logo-image { height: 40px; width: auto; display: block; margin-right: 12px; }
+.header-auth-block { margin-left: auto !important; order: 99 !important; white-space: nowrap; }
+.auth-links a { font-size: 14px; white-space: nowrap; }
+.header-container { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; }
+.header-left { display: flex; align-items: center; }
+
+/* Мобильная адаптация */
+@media (max-width: 768px) { 
+    .logo-image { height: 32px; } 
+    .auth-links { display: none; } 
+}
