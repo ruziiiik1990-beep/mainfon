@@ -1,0 +1,184 @@
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steam ID</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* СКРЫВАЕМ ЗАГОЛОВКИ GITHUB PAGES */
+  #header, header, h1, .header, a[href*="openID"], a[href*="steamID"], .page-header, .project-name, .project-tagline {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* Убираем overflow:hidden у body, чтобы не ломать высоту */
+  body { font-family: 'Inter', sans-serif; background: transparent; color: #e0e6f0; }
+  .profile-table-wrapper {
+    max-width: 900px; margin: 0 auto; background: #374151;
+    border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); overflow: hidden;
+    position: relative; z-index: 10;
+  }
+  .profile-body { padding: 0 24px; }
+  .profile-section { padding: 20px 0; }
+  .profile-section-name {
+    font-size: 16px; font-weight: 600; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .profile-section-name span { font-size: 22px; color: #66c0f4; }
+  .profile-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 18px; background: rgba(102,192,244,0.1);
+    border: 1px solid rgba(102,192,244,0.3); color: #66c0f4;
+    border-radius: 8px; cursor: pointer; font-size: 14px;
+    font-weight: 500; font-family: 'Inter', sans-serif;
+    transition: all 0.2s; text-decoration: none;
+  }
+  .profile-label:hover { background: rgba(102,192,244,0.2); }
+  .steam-status-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 500;
+  }
+  .steam-status-badge.verified {
+    background: rgba(76,175,80,0.15); color: #4caf50;
+    border: 1px solid rgba(76,175,80,0.3);
+  }
+  .steam-status-badge.unverified {
+    background: rgba(255,152,0,0.15); color: #ff9800;
+    border: 1px solid rgba(255,152,0,0.3);
+  }
+  .steam-link-display { color: #66c0f4; text-decoration: none; font-size: 14px; }
+  .steam-link-display:hover { text-decoration: underline; }
+  .steam-hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div class="profile-table-wrapper">
+  <div class="profile-body">
+    <div class="profile-section">
+      <h3 class="profile-section-name">
+        <span>🎮</span> Steam ID — Верификация профиля
+      </h3>
+
+      <!-- Кнопка входа -->
+      <div id="steamLoginBlock">
+        <p style="font-size:13px;color:#8f9bb3;margin-bottom:12px;">
+          Нажмите кнопку, чтобы войти через Steam и подтвердить владение аккаунтом.
+        </p>
+        <button class="profile-label" onclick="steamLogin()">
+          <span>🔐</span> Войти через Steam
+        </button>
+      </div>
+
+      <!-- Статус "Не подтверждён" -->
+      <div id="steamStatusRow" class="steam-hidden" style="margin-top:12px;">
+        <span class="steam-status-badge unverified">⏳ Не подтверждён</span>
+        <button class="profile-label" onclick="steamLogin()" style="margin-left:10px;">
+          Войти через Steam
+        </button>
+      </div>
+
+      <!-- Статус "Подтверждён" -->
+      <div id="steamVerifiedRow" class="steam-hidden" style="margin-top:12px;">
+        <span class="steam-status-badge verified">✅ Подтверждён</span>
+        <a href="" id="steamProfileLink" class="steam-link-display" target="_blank" style="margin-left:10px;"></a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, onValue, update } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const firebaseConfig = { databaseURL: 'https://ak4ak-d948e-default-rtdb.firebaseio.com/' };
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const params = new URLSearchParams(window.location.search);
+const uid = params.get('uid') || 'guest';
+const BACKEND_URL = 'https://steam-verify-backend.onrender.com';
+
+// Открываем окно входа Steam
+window.steamLogin = function() {
+  const width = 600, height = 700;
+  const left = (screen.width - width) / 2;
+  const top = (screen.height - height) / 2;
+  window.open(
+    BACKEND_URL + '/auth/steam?uid=' + encodeURIComponent(uid),
+    'steam_login',
+    `width=${width},height=${height},left=${left},top=${top}`
+  );
+};
+
+// Слушаем сообщение от окна входа
+window.addEventListener('message', function(event) {
+  if (event.data && event.data.type === 'steam_verified') {
+    const steamId = event.data.steamid;
+    update(ref(db, 'steamVerification/' + uid), {
+      steamId: steamId,
+      verified: true
+    }).then(function() {
+      showVerifiedState(steamId);
+    });
+  }
+});
+
+function showVerifiedState(steamId) {
+  document.getElementById('steamLoginBlock').classList.add('steam-hidden');
+  document.getElementById('steamStatusRow').classList.add('steam-hidden');
+  document.getElementById('steamVerifiedRow').classList.remove('steam-hidden');
+  const link = document.getElementById('steamProfileLink');
+  link.href = 'https://steamcommunity.com/profiles/' + steamId;
+  link.textContent = steamId;
+  // Отправляем высоту один раз после смены контента (с небольшой задержкой для рендера)
+  setTimeout(sendHeight, 50);
+}
+
+function showUnverifiedState() {
+  document.getElementById('steamLoginBlock').classList.add('steam-hidden');
+  document.getElementById('steamStatusRow').classList.remove('steam-hidden');
+  document.getElementById('steamVerifiedRow').classList.add('steam-hidden');
+  setTimeout(sendHeight, 50);
+}
+
+// Слушаем Firebase — если уже подтверждён, показываем
+onValue(ref(db, 'steamVerification/' + uid), function(snapshot) {
+  const data = snapshot.val();
+  if (data && data.verified && data.steamId) {
+    showVerifiedState(data.steamId);
+  } else if (data && data.steamId) {
+    showUnverifiedState();
+  } else {
+    // Если данных нет (первый вход) — просто отправляем высоту
+    setTimeout(sendHeight, 50);
+  }
+});
+
+// Функция высоты (без циклов)
+function sendHeight() {
+  const h = Math.max(
+    document.body.scrollHeight,
+    document.body.offsetHeight,
+    document.documentElement.scrollHeight,
+    document.documentElement.offsetHeight
+  );
+  window.parent.postMessage({ type: 'resize', frame: 'steam', height: h }, '*');
+}
+
+// Вызываем только при загрузке и после шрифтов (чтобы высота учла Inter)
+window.addEventListener('load', sendHeight);
+document.fonts.ready.then(sendHeight);
+
+// Если шрифты грузятся долго — один раз проверим через 1 секунду
+setTimeout(sendHeight, 1000);
+</script>
+
+</body>
+</html>
