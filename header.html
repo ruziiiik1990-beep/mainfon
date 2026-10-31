@@ -3,35 +3,20 @@
     
     <!-- ЛЕВАЯ ЧАСТЬ: Логотип и меню -->
     <div class="header-left">
-      <a class="logo-link" href="/" title="Главная">
-        <!-- Твой логотип -->
+      <a class="logo-link" href="index.html" title="Главная">
         <img src="logo1.jpg" alt="4ak4ak" class="logo-image" loading="lazy">
         <span class="logo-slogan">4ak4ak</span>
       </a>
       
-      <style>
-        .logo-image { height: 40px; width: auto; display: block; margin-right: 12px; }
-        @media (max-width: 768px) { .logo-image { height: 32px; } }
-        .header-auth-block { margin-left: auto !important; order: 99 !important; white-space: nowrap; }
-        .auth-links a { font-size: 14px; white-space: nowrap; }
-        @media (max-width: 768px) { .auth-links { display: none; } }
-      </style>
-
       <div class="main-menu menu-evolving">
-        <!-- Кнопка мобильного меню (крестик) -->
-        <button class="header-mobile-button header-mobile-close js-mobile-menu-close">
-          <span style="font-size: 24px; color: #fff;">✕</span> 
-        </button>
-        
         <div class="menubar">
           <nav class="main-menu-nav" id="site_main_menu">
             <div class="main-menu-container">
               <div class="main-menu-scroll-area">
-                <!-- ЗДЕСЬ БУДЕТ ТВОЕ МЕНЮ. Ссылки пока пустые (#), потом заменишь -->
                 <ul style="display: flex; list-style: none; gap: 20px; margin: 0; padding: 0;">
-                  <li><a href="#" style="color: white; text-decoration: none;">Главная</a></li>
-                  <li><a href="#" style="color: white; text-decoration: none;">Турниры</a></li>
-                  <li><a href="#" style="color: white; text-decoration: none;">Правила</a></li>
+                  <li><a href="index.html" style="color: white; text-decoration: none;">Главная</a></li>
+                  <li><a href="tournaments.html" style="color: white; text-decoration: none;">Турниры</a></li>
+                  <li><a href="rules.html" style="color: white; text-decoration: none;">Правила</a></li>
                 </ul>
               </div>
             </div>
@@ -40,31 +25,19 @@
       </div>
     </div>
 
-    <!-- ПРАВАЯ ЧАСТЬ: Поиск и Авторизация -->
+    <!-- ПРАВАЯ ЧАСТЬ: Авторизация -->
     <div class="header-right" style="display: flex; align-items: center; gap: 20px;">
-      
-      <!-- Блок авторизации (упрощенный) -->
       <div class="header-auth-block">
         <div class="auth-links" style="display: flex; align-items: center; gap: 15px;">
-          
-          <!-- Вход -->
-          <a title="Вход" href="#" style="display: block; cursor: pointer;">
+          <a title="Вход" href="login.html" style="display: block; cursor: pointer;">
             <img src="Screenshot_11.png" alt="Вход" style="height: 70px; width: auto; max-width: 110px; vertical-align: middle;">
           </a>
-
-          <!-- Регистрация -->
-          <a title="Регистрация" href="#" style="display: block; cursor: pointer;">
+          <a title="Регистрация" href="register.html" style="display: block; cursor: pointer;">
             <img src="Screenshot_12.png" alt="Регистрация" style="height: 70px; width: auto; max-width: 200px; vertical-align: middle;">
           </a>
-
         </div>
       </div>
-
-      <!-- Кнопка мобильного меню (гамбургер) -->
-      <button class="header-mobile-button js-mobile-menu-btn">
-        <span style="font-size: 24px; color: #fff;">☰</span> 
-      </button>
-
     </div>
+
   </div>
 </header>
