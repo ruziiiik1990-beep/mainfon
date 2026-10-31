@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой профиль - 4ak4ak</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Шрифты и иконки (оставил как в оригинале) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
@@ -13,7 +12,6 @@
     
     <style>
         body {
-            /* Используем твой фон, если он есть в репозитории */
             background-image: url('kolo13.jpg'); 
             background-size: cover;
             background-position: center;
@@ -25,14 +23,12 @@
             color: #fff;
         }
 
-        /* Обертка для контента, чтобы не наезжать на шапку */
         .profile-container {
             max-width: 900px;
-            margin: 100px auto 40px auto; /* 100px сверху для шапки */
+            margin: 100px auto 40px auto;
             padding: 0 20px;
         }
 
-        /* === Profile Table === */
         .profile-table-wrapper {
             background: #374151;
             border-radius: 16px;
@@ -40,19 +36,13 @@
             overflow: hidden;
         }
         
-        .profile-intro, .profile-body {
-            padding: 0 24px;
-        }
+        .profile-intro, .profile-body { padding: 0 24px; }
 
         .profile-head {
             display: flex;
             align-items: center;
             padding: 30px 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .profile-photo-block {
-            margin-right: 20px;
         }
 
         .profile-photo {
@@ -63,53 +53,18 @@
             background-position: center;
             background-color: #555;
             border: 3px solid #e3769c;
+            margin-right: 20px;
         }
 
-        .profile-name {
-            flex: 1;
-        }
+        .profile-full-name { font-size: 24px; font-weight: 700; display: block; margin-bottom: 5px; }
+        .profile-nickname a { color: #e3769c; text-decoration: none; font-size: 16px; }
 
-        .profile-full-name {
-            font-size: 24px;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 5px;
-        }
+        .profile-section { padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .profile-section:last-child { border-bottom: none; }
+        .profile-section-name { font-size: 18px; margin-bottom: 15px; color: #e3769c; }
+        .profile-section-content { font-size: 15px; line-height: 1.5; color: #d1d5db; }
 
-        .profile-nickname a {
-            color: #e3769c;
-            text-decoration: none;
-            font-size: 16px;
-        }
-
-        .profile-section {
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .profile-section:last-child {
-            border-bottom: none;
-        }
-
-        .profile-section-name {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #e3769c;
-        }
-
-        .profile-section-content {
-            font-size: 15px;
-            line-height: 1.5;
-            color: #d1d5db;
-        }
-
-        .profile-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
+        .profile-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
         .profile-label {
             background: #4b5563;
             color: white;
@@ -119,12 +74,8 @@
             font-size: 14px;
             transition: background 0.3s;
         }
+        .profile-label:hover { background: #e3769c; }
 
-        .profile-label:hover {
-            background: #e3769c;
-        }
-
-        /* Стили для iframe */
         .seamless-iframe {
             width: 100%;
             border: none;
@@ -137,39 +88,24 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
-        .seamless-iframe::-webkit-scrollbar {
-            display: none;
-            width: 0;
-            height: 0;
-        }
+        .seamless-iframe::-webkit-scrollbar { display: none; width: 0; height: 0; }
 
         @media (max-width: 768px) {
-            .profile-head {
-                flex-direction: column;
-                text-align: center;
-            }
-            .profile-photo-block {
-                margin-right: 0;
-                margin-bottom: 15px;
-            }
+            .profile-head { flex-direction: column; text-align: center; }
+            .profile-photo { margin-right: 0; margin-bottom: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. Шапка -->
     <div id="header-placeholder"></div>
 
-    <!-- 2. Контент профиля -->
     <div class="profile-container">
         <div class="profile-table-wrapper">
             <div class="profile">
                 <div class="profile-intro">
                     <div class="profile-head">
-                        <div class="profile-photo-block">
-                            <!-- Пока ставим заглушку. Позже заменим на аватар из Firebase -->
-                            <div class="profile-photo" style="background-image: url('logo1.jpg');"></div>
-                        </div>
+                        <div class="profile-photo" style="background-image: url('logo1.jpg');"></div>
                         <div class="profile-name">
                             <div class="profile-full-name">Имя Пользователя</div>
                             <div class="profile-nickname"><a href="#">@username</a></div>
@@ -184,9 +120,7 @@
                     <div class="profile-body">
                         <div class="profile-section">
                             <h3 class="profile-section-name">О себе</h3>
-                            <div class="profile-section-content">
-                                Здесь будет информация о пользователе.
-                            </div>
+                            <div class="profile-section-content">Здесь будет информация о пользователе.</div>
                         </div>
                         
                         <div class="profile-section">
@@ -204,9 +138,9 @@
             </div>
         </div>
 
-        <!-- Iframe: OpenID -->
+        <!-- Iframe: OpenID (Steam ID) -->
         <iframe
-            src="https://ruziiiik1990-beep.github.io/mainfon/openID1/"
+            src="https://ruziiiik1990-beep.github.io/openID1/"
             style="width:100%;border:none;overflow:hidden;display:block;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.4);margin-top:20px;"
             scrolling="no"
             class="seamless-iframe"
@@ -217,7 +151,7 @@
         <!-- Iframe: Достижения -->
         <div style="max-width:900px;margin:20px auto 0;">
             <iframe
-                src="https://ruziiiik1990-beep.github.io/mainfon/dostizheni/"
+                src="https://ruziiiik1990-beep.github.io/dostizheni/"
                 style="width:100%;border:none;overflow:hidden;display:block;"
                 scrolling="no"
                 class="seamless-iframe"
@@ -226,7 +160,7 @@
         </div>
     </div>
 
-    <!-- 3. Загрузка шапки и auth.js (ОБЯЗАТЕЛЬНО НА КАЖДОЙ СТРАНИЦЕ) -->
+    <!-- Загрузка шапки и auth.js -->
     <script>
         fetch('header.html').then(r => r.text()).then(data => {
             document.getElementById('header-placeholder').innerHTML = data;
@@ -237,7 +171,7 @@
         });
     </script>
 
-    <!-- 4. Скрипт для авто-размера iframe -->
+    <!-- Скрипт для авто-размера iframe -->
     <script>
         window.addEventListener('message', function(event) {
             if (event.data && event.data.type === 'resize') {
