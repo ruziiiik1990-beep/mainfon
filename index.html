@@ -12,30 +12,25 @@
         }
         body, html {
             width: 100%;
-            /* Убрали height: 100% и overflow: hidden, чтобы появился скролл */
+            /* Убрали height: 100% и overflow: hidden, чтобы появился ползунок */
         }
         .background-container {
             width: 100%;
-            min-height: 100vh; /* Блок будет растягиваться по содержимому, но не меньше высоты экрана */
-            /* Замените имя ниже на имя вашей картинки */
+            /* Вместо height: 100% используем min-height, чтобы блок мог расти */
+            min-height: 100vh; 
             background-image: url('kolo11.png'); 
             
-            /* --- ВОТ ГЛАВНЫЕ ИЗМЕНЕНИЯ ДЛЯ КАРТИНКИ --- */
-            background-size: contain; /* Картинка будет вписываться целиком, не обрезаясь */
-            background-position: top center; /* Прижимаем картинку к верху по центру */
-            background-repeat: no-repeat; /* Картинка не будет повторяться */
-            
-            /* Если вы хотите, чтобы картинка заполняла ширину экрана, 
-               и при этом прокручивалась вниз, используйте эти настройки вместо contain: */
-            /* background-size: 100% auto; */
+            /* ВОТ ГЛАВНОЕ: ширина 100% экрана, высота подстраивается (auto) */
+            background-size: 100% auto; 
+            background-position: top center;
+            background-repeat: no-repeat;
         }
     </style>
 </head>
 <body>
 
     <div class="background-container">
-        <!-- Здесь пока пусто, но как только вы добавите контент, 
-             высота страницы увеличится и ползунок появится -->
+        <!-- В будущем сюда вы будете добавлять другие элементы -->
     </div>
 
 </body>
