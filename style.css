@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif; /* Красивый современный шрифт */
+    font-family: 'Arial', sans-serif;
 }
 body, html {
     width: 100%;
@@ -16,15 +16,15 @@ body, html {
     display: block;
 }
 
-/* Шапка: белый фон, тень для красоты */
+/* Шапка */
 .header-wrapper {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 10;
-    background: #ffffff; /* Белый фон вместо прозрачного */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Легкая тень снизу */
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Элементы шапки */
@@ -38,20 +38,19 @@ body, html {
 .header-left { 
     display: flex; 
     align-items: center; 
+    gap: 40px; /* Расстояние между логотипом и меню */
 }
 
+/* Стили для логотипа (сделал больше) */
 .logo-image { 
-    height: 50px; /* Чуть увеличил логотип */
+    height: 65px; /* Увеличили размер */
     width: auto; 
     display: block; 
-    margin-right: 15px; 
+    transition: transform 0.3s ease; /* Плавный эффект при наведении */
 }
 
-.logo-slogan {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333; /* Темный текст для белого фона */
-    letter-spacing: 1px;
+.logo-image:hover {
+    transform: scale(1.05); /* Легкое увеличение при наведении */
 }
 
 /* Стилизация меню */
@@ -64,15 +63,15 @@ body, html {
 }
 
 .nav-link {
-    color: #333; /* Темный цвет */
+    color: #333; 
     text-decoration: none;
     font-size: 18px;
     font-weight: 500;
-    transition: color 0.3s ease; /* Плавное изменение цвета */
+    transition: color 0.3s ease; 
 }
 
 .nav-link:hover {
-    color: #007bff; /* Синий цвет при наведении */
+    color: #007bff; 
 }
 
 /* Правая часть (кнопки) */
@@ -82,16 +81,16 @@ body, html {
     white-space: nowrap; 
 }
 
-/* Мобильная адаптация (чтобы ничего не съезжало на телефонах) */
+/* Мобильная адаптация */
 @media (max-width: 1024px) { 
-    .header-left { margin-left: 0 !important; } /* Убираем сдвиг на планшетах */
+    .header-left { margin-left: 0 !important; } 
 }
 
 @media (max-width: 768px) { 
-    .logo-image { height: 40px; } 
-    .logo-slogan { font-size: 20px; }
+    .logo-image { height: 50px; } 
+    .header-left { gap: 20px; }
     .nav-list { gap: 15px; }
     .nav-link { font-size: 16px; }
-    .auth-links { display: none; } /* Прячем кнопки на телефоне, если не влезают */
+    .auth-links { display: none; } 
     .header-container { padding: 10px 15px; }
 }
