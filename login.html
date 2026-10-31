@@ -4,27 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вход - 4ak4ak</title>
-    <link rel="stylesheet" href="style.css"> <!-- Стили шапки и фона -->
+    <link rel="stylesheet" href="style.css">
     <style>
-        /* Убираем градиент с body, чтобы не перекрывал шапку. 
-           Фон теперь будет просто белым или картинкой kolo11.png */
+        /* Стили формы (из предыдущего сообщения) */
         body {
             margin: 0;
             padding: 0;
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f4f4f4; /* Светлый фон, чтобы шапка выделялась */
+            background: #f4f4f4;
         }
-
-        /* Контейнер формы (сдвигаем вниз, чтобы не наезжал на шапку) */
         .auth-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: calc(100vh - 100px); /* Высота экрана минус шапка */
+            min-height: calc(100vh - 100px);
             padding: 40px 20px;
         }
-
         .auth-box {
             display: flex;
             width: 100%;
@@ -35,8 +31,6 @@
             overflow: hidden;
             min-height: 500px;
         }
-
-        /* ... (стили формы остаются прежними) ... */
         .auth-form-side { width: 50%; padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
         .decor { position: absolute; color: #e5e5e5; font-weight: bold; pointer-events: none; }
         .decor.cross { top: 10%; left: 15%; font-size: 30px; }
@@ -61,25 +55,60 @@
         .auth-image-side { width: 50%; background-color: #eef0f3; position: relative; }
         .auth-image-side img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
         .error-msg { color: red; font-size: 14px; text-align: center; margin-bottom: 15px; display: none; }
-        
-        @media (max-width: 768px) { 
-            .auth-box { flex-direction: column; } 
-            .auth-form-side { width: 100%; padding: 30px 20px; } 
-            .auth-image-side { display: none; } 
-        }
+        @media (max-width: 768px) { .auth-box { flex-direction: column; } .auth-form-side { width: 100%; padding: 30px 20px; } .auth-image-side { display: none; } }
     </style>
 </head>
 <body>
 
-    <!-- 1. ШАПКА -->
-    <div id="header-placeholder" class="header-wrapper"></div>
-    <script>
-        fetch('header.html').then(r => r.text()).then(data => {
-            document.getElementById('header-placeholder').innerHTML = data;
-        });
-    </script>
+    <!-- ================= ШАПКА (ВСТАВЛЕНА НАПРЯМУЮ) ================= -->
+    <header class="header">
+      <div class="container header-container">
+        <div class="header-left" style="margin-left: 200px;">
+          <a class="logo-link" href="index.html" title="Главная">
+            <img src="logo1.jpg" alt="4ak4ak" class="logo-image" loading="lazy">
+          </a>
+          <div class="main-menu menu-evolving">
+            <div class="menubar">
+              <nav class="main-menu-nav" id="site_main_menu">
+                <div class="main-menu-container">
+                  <div class="main-menu-scroll-area">
+                    <ul class="nav-list">
+                      <li><a href="index.html" class="nav-link">Главная</a></li>
+                      <li><a href="tournaments.html" class="nav-link">Турниры</a></li>
+                      <li><a href="rules.html" class="nav-link">Правила</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <div class="header-right" style="display: flex; align-items: center; gap: 20px;">
+          <div class="header-auth-block">
+            <div id="guest-buttons" class="auth-links" style="display: flex; align-items: center; gap: 15px;">
+              <a title="Вход" href="login.html" style="display: block; cursor: pointer;">
+                <img src="Screenshot_11.png" alt="Вход" style="height: 70px; width: auto; max-width: 110px; vertical-align: middle;">
+              </a>
+              <a title="Регистрация" href="register.html" style="display: block; cursor: pointer;">
+                <img src="Screenshot_12.png" alt="Регистрация" style="height: 70px; width: auto; max-width: 200px; vertical-align: middle;">
+              </a>
+            </div>
+            <!-- Блок для авторизованных (скрыт) -->
+            <div id="user-buttons" class="auth-links" style="display: none; align-items: center; gap: 15px;">
+              <a title="Мой профиль" href="profile.html" style="display: block; cursor: pointer;">
+                <img src="Screenshot_8.png" alt="Профиль" style="height: 70px; width: auto; max-width: 110px; vertical-align: middle;">
+              </a>
+              <a title="Выход" href="#" id="logout-btn" style="display: block; cursor: pointer;">
+                <img src="Screenshot_7.png" alt="Выход" style="height: 70px; width: auto; max-width: 100px; vertical-align: middle;">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- ================= КОНЕЦ ШАПКИ ================= -->
 
-    <!-- 2. ФОРМА ВХОДА (в контейнере, чтобы не наезжать на шапку) -->
+    <!-- ФОРМА ВХОДА -->
     <div class="auth-wrapper">
         <div class="auth-box">
             <div class="auth-form-side">
@@ -100,31 +129,25 @@
                         <div class="input-group">
                             <input type="password" id="login-password" placeholder="Пароль" required>
                         </div>
-                        
                         <div class="auth-options">
-                            <label>
-                                <input type="checkbox"> Запомнить
-                            </label>
+                            <label><input type="checkbox"> Запомнить</label>
                             <a href="#">Забыли пароль?</a>
                         </div>
-
                         <button type="submit" id="login-btn" class="submit-btn">Войти</button>
-                        
                         <p class="switch-page">Нет аккаунта? <a href="register.html">Регистрация</a></p>
                     </form>
                 </div>
             </div>
-
             <div class="auth-image-side">
                 <img src="logo1.jpg" alt="4ak4ak">
             </div>
         </div>
     </div>
 
-    <!-- 3. FIREBASE СКРИПТ -->
+    <!-- ================= FIREBASE ================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "ТВОЙ_API_KEY",
@@ -139,6 +162,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
+        // Форма входа
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value;
@@ -151,15 +175,34 @@
             errorDiv.style.display = 'none';
 
             signInWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    window.location.href = "index.html"; // Успешный вход
-                })
+                .then(() => { window.location.href = "index.html"; })
                 .catch((error) => {
                     errorDiv.textContent = "Ошибка: " + error.message;
                     errorDiv.style.display = 'block';
                     btn.disabled = false;
                     btn.textContent = 'Войти';
                 });
+        });
+
+        // Проверка статуса входа для шапки
+        onAuthStateChanged(auth, (user) => {
+            const guestBtns = document.getElementById('guest-buttons');
+            const userBtns = document.getElementById('user-buttons');
+            if (user) {
+                if(guestBtns) guestBtns.style.display = 'none';
+                if(userBtns) userBtns.style.display = 'flex';
+            } else {
+                if(guestBtns) guestBtns.style.display = 'flex';
+                if(userBtns) userBtns.style.display = 'none';
+            }
+        });
+
+        // Выход
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('#logout-btn')) {
+                e.preventDefault();
+                signOut(auth).then(() => window.location.reload());
+            }
         });
     </script>
 </body>
