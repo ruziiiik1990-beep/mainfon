@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Arial', sans-serif; /* Красивый современный шрифт */
 }
 body, html {
     width: 100%;
@@ -15,25 +16,82 @@ body, html {
     display: block;
 }
 
-/* Стили для шапки, чтобы она была поверх фона */
+/* Шапка: белый фон, тень для красоты */
 .header-wrapper {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 10;
-    background: rgba(0, 0, 0, 0.5);
+    background: #ffffff; /* Белый фон вместо прозрачного */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Легкая тень снизу */
 }
 
 /* Элементы шапки */
-.logo-image { height: 40px; width: auto; display: block; margin-right: 12px; }
-.header-auth-block { margin-left: auto !important; order: 99 !important; white-space: nowrap; }
-.auth-links a { font-size: 14px; white-space: nowrap; }
-.header-container { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; }
-.header-left { display: flex; align-items: center; }
+.header-container { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 10px 30px; 
+}
 
-/* Мобильная адаптация */
+.header-left { 
+    display: flex; 
+    align-items: center; 
+}
+
+.logo-image { 
+    height: 50px; /* Чуть увеличил логотип */
+    width: auto; 
+    display: block; 
+    margin-right: 15px; 
+}
+
+.logo-slogan {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333; /* Темный текст для белого фона */
+    letter-spacing: 1px;
+}
+
+/* Стилизация меню */
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+    color: #333; /* Темный цвет */
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    transition: color 0.3s ease; /* Плавное изменение цвета */
+}
+
+.nav-link:hover {
+    color: #007bff; /* Синий цвет при наведении */
+}
+
+/* Правая часть (кнопки) */
+.header-auth-block { 
+    margin-left: auto !important; 
+    order: 99 !important; 
+    white-space: nowrap; 
+}
+
+/* Мобильная адаптация (чтобы ничего не съезжало на телефонах) */
+@media (max-width: 1024px) { 
+    .header-left { margin-left: 0 !important; } /* Убираем сдвиг на планшетах */
+}
+
 @media (max-width: 768px) { 
-    .logo-image { height: 32px; } 
-    .auth-links { display: none; } 
+    .logo-image { height: 40px; } 
+    .logo-slogan { font-size: 20px; }
+    .nav-list { gap: 15px; }
+    .nav-link { font-size: 16px; }
+    .auth-links { display: none; } /* Прячем кнопки на телефоне, если не влезают */
+    .header-container { padding: 10px 15px; }
 }
