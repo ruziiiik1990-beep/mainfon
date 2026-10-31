@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -12,23 +11,88 @@
         }
         body, html {
             width: 100%;
-            /* Убрали overflow: hidden, теперь ползунок разрешен */
+            /* Убрали overflow: hidden, чтобы работал ползунок */
         }
+        
+        /* Стили для картинки-фона */
         .bg-image {
-            width: 100%;      /* Картинка на всю ширину экрана */
-            height: auto;     /* Высота подстраивается под оригинал */
-            display: block;   /* Убирает лишние отступы снизу */
+            width: 100%;
+            height: auto;
+            display: block;
         }
+
+        /* Стили для шапки, чтобы она была поверх фона */
+        .header-wrapper {
+            position: absolute; /* Шапка "висит" поверх картинки */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10; /* Чтобы шапка была сверху */
+            background: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон для читаемости текста */
+        }
+
+        /* Твой код шапки (стили из предыдущего сообщения) */
+        .logo-image { height: 40px; width: auto; display: block; margin-right: 12px; }
+        .header-auth-block { margin-left: auto !important; order: 99 !important; white-space: nowrap; }
+        .auth-links a { font-size: 14px; white-space: nowrap; }
+        @media (max-width: 768px) { .logo-image { height: 32px; } }
+        @media (max-width: 768px) { .auth-links { display: none; } }
+        
+        /* Выравнивание элементов в шапке */
+        .header-container { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; }
+        .header-left { display: flex; align-items: center; }
     </style>
 </head>
 <body>
 
-    <!-- Вставляем картинку как элемент, чтобы появился ползунок -->
+    <!-- 1. ФОН (картинка) -->
     <img src="kolo11.png" class="bg-image" alt="Фон">
 
-    <!-- Сюда будешь добавлять iframe или другие элементы поверх картинки -->
-    <div class="content">
-        
+    <!-- 2. ШАПКА (вставляем сюда код из предыдущего сообщения) -->
+    <div class="header-wrapper">
+        <header class="header">
+          <div class="container header-container">
+            
+            <!-- ЛЕВАЯ ЧАСТЬ: Логотип и меню -->
+            <div class="header-left">
+              <a class="logo-link" href="/" title="Главная">
+                <img src="logo1.jpg" alt="4ak4ak" class="logo-image" loading="lazy">
+                <span class="logo-slogan">4ak4ak</span>
+              </a>
+              
+              <div class="main-menu menu-evolving">
+                <div class="menubar">
+                  <nav class="main-menu-nav" id="site_main_menu">
+                    <div class="main-menu-container">
+                      <div class="main-menu-scroll-area">
+                        <ul style="display: flex; list-style: none; gap: 20px; margin: 0; padding: 0;">
+                          <li><a href="#" style="color: white; text-decoration: none;">Главная</a></li>
+                          <li><a href="#" style="color: white; text-decoration: none;">Турниры</a></li>
+                          <li><a href="#" style="color: white; text-decoration: none;">Правила</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+              </div>
+            </div>
+
+            <!-- ПРАВАЯ ЧАСТЬ: Авторизация -->
+            <div class="header-right" style="display: flex; align-items: center; gap: 20px;">
+              <div class="header-auth-block">
+                <div class="auth-links" style="display: flex; align-items: center; gap: 15px;">
+                  <a title="Вход" href="#" style="display: block; cursor: pointer;">
+                    <img src="Screenshot_11.png" alt="Вход" style="height: 70px; width: auto; max-width: 110px; vertical-align: middle;">
+                  </a>
+                  <a title="Регистрация" href="#" style="display: block; cursor: pointer;">
+                    <img src="Screenshot_12.png" alt="Регистрация" style="height: 70px; width: auto; max-width: 200px; vertical-align: middle;">
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </header>
     </div>
 
 </body>
