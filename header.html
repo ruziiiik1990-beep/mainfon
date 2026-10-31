@@ -26,8 +26,8 @@
     <div class="header-right" style="display: flex; align-items: center; gap: 20px;">
       <div class="header-auth-block">
         
-        <!-- Кнопки для гостей -->
-        <div id="guest-buttons" class="auth-links" style="display: none; align-items: center; gap: 15px;">
+        <!-- Кнопки для гостей: теперь видны по умолчанию -->
+        <div id="guest-buttons" class="auth-links" style="display: flex; align-items: center; gap: 15px;">
           <a title="Вход" href="login.html" style="display: block; cursor: pointer;">
             <img src="Screenshot_11.png" alt="Вход" style="height: 70px; width: auto; max-width: 110px; vertical-align: middle;">
           </a>
@@ -36,7 +36,7 @@
           </a>
         </div>
 
-        <!-- Кнопки для авторизованных -->
+        <!-- Кнопки для авторизованных: скрыты по умолчанию -->
         <div id="user-buttons" class="auth-links" style="display: none; align-items: center; gap: 15px;">
           <a title="Мой профиль" href="profile.html" style="display: block; cursor: pointer;">
             <img src="Screenshot_8.png" alt="Профиль" style="height: 70px; width: auto; max-width: 110px; vertical-align: middle;">
@@ -56,57 +56,46 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+    // ВСТАВЬ СЮДА СВОИ КЛЮЧИ! Без них скрипт не заработает.
     const firebaseConfig = {
-        apiKey: "ТВОЙ_API_KEY", // <-- ВСТАВЬ СВОИ КЛЮЧИ
+        apiKey: "ТВОЙ_API_KEY",
         authDomain: "ak4ak-8be45.firebaseapp.com",
         databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
         projectId: "ak4ak-8be45",
         storageBucket: "ak4ak-8be45.appspot.com",
-        messagingSenderId: "ТВОЙ_SENDER_ID", // <-- ВСТАВЬ
-        appId: "ТВОЙ_APP_ID" // <-- ВСТАВЬ
+        messagingSenderId: "ТВОЙ_SENDER_ID",
+        appId: "ТВОЙ_APP_ID"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Функция для переключения кнопок
-    function updateHeaderUI(user) {
-        const guestBtns = document.getElementById('guest-buttons');
-        const userBtns = document.getElementById('user-buttons');
+    // Эта функция переключает кнопки
+    function updateButtons(user) {
+        const guest = document.getElementById('guest-buttons');
+        const userDiv = document.getElementById('user-buttons');
         
-        if (guestBtns && userBtns) {
-            if (user) {
-                guestBtns.style.display = 'none';
-                userBtns.style.display = 'flex';
-            } else {
-                guestBtns.style.display = 'flex';
-                userBtns.style.display = 'none';
-            }
+        if (!guest || !userDiv) return;
+
+        if (user) {
+            guest.style.display = 'none';
+            userDiv.style.display = 'flex';
+        } else {
+            guest.style.display = 'flex';
+            userDiv.style.display = 'none';
         }
     }
 
-    // Слушаем изменения состояния
+    // Следим за входом/выходом
     onAuthStateChanged(auth, (user) => {
-        updateHeaderUI(user);
+        updateButtons(user);
     });
 
-    // Дополнительная проверка: если Firebase уже знает пользователя (например, при перезагрузке)
-    // но onAuthStateChanged еще не сработал, мы проверяем currentUser с небольшой задержкой
-    setTimeout(() => {
-        if (auth.currentUser) {
-            updateHeaderUI(auth.currentUser);
-        }
-    }, 500);
-
-    // Обработчик выхода
+    // Выход
     document.addEventListener('click', function(e) {
         if (e.target.closest('#logout-btn')) {
             e.preventDefault();
-            signOut(auth).then(() => {
-                window.location.reload();
-            }).catch((error) => {
-                console.error('Ошибка выхода:', error);
-            });
+            signOut(auth).then(() => window.location.reload());
         }
     });
 </script>
