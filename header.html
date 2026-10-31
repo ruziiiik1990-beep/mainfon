@@ -1,11 +1,12 @@
 <header class="header">
   <div class="container header-container">
     
-    <!-- ЛЕВАЯ ЧАСТЬ -->
+    <!-- ЛЕВАЯ ЧАСТЬ: Логотип и меню -->
     <div class="header-left" style="margin-left: 200px;">
       <a class="logo-link" href="index.html" title="Главная">
         <img src="logo1.jpg" alt="4ak4ak" class="logo-image" loading="lazy">
       </a>
+      
       <div class="main-menu menu-evolving">
         <div class="menubar">
           <nav class="main-menu-nav" id="site_main_menu">
@@ -23,11 +24,11 @@
       </div>
     </div>
 
-    <!-- ПРАВАЯ ЧАСТЬ: ТВОИ КАРТИНКИ 11 и 12 -->
+    <!-- ПРАВАЯ ЧАСТЬ: Кнопки -->
     <div class="header-right" style="display: flex; align-items: center; gap: 20px;">
       <div class="header-auth-block">
         
-        <!-- Кнопки для гостей (Вход и Регистрация) -->
+        <!-- Для гостей (Вход / Регистрация) -->
         <div id="guest-buttons" class="auth-links" style="display: flex; align-items: center; gap: 15px;">
           <a title="Вход" href="login.html" style="display: block; cursor: pointer;">
             <img src="Screenshot_11.png" alt="Вход" style="height: 70px; width: auto; max-width: 110px; vertical-align: middle;">
@@ -37,7 +38,7 @@
           </a>
         </div>
 
-        <!-- Кнопки для авторизованных (Профиль и Выход) -->
+        <!-- Для авторизованных (Профиль / Выход) -->
         <div id="user-buttons" class="auth-links" style="display: none; align-items: center; gap: 15px;">
           <a title="Мой профиль" href="profile.html" style="display: block; cursor: pointer;">
             <img src="Screenshot_8.png" alt="Профиль" style="height: 70px; width: auto; max-width: 110px; vertical-align: middle;">
@@ -53,19 +54,18 @@
   </div>
 </header>
 
-<!-- Скрипт проверки входа для шапки -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     const firebaseConfig = {
-        apiKey: "ТВОЙ_API_KEY", // ВСТАВЬ СВОИ КЛЮЧИ!
+        apiKey: "ТВОЙ_API_KEY", // <-- ВСТАВЬ СВОИ КЛЮЧИ
         authDomain: "ak4ak-8be45.firebaseapp.com",
         databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
         projectId: "ak4ak-8be45",
         storageBucket: "ak4ak-8be45.appspot.com",
-        messagingSenderId: "ТВОЙ_SENDER_ID",
-        appId: "ТВОЙ_APP_ID"
+        messagingSenderId: "ТВОЙ_SENDER_ID", // <-- ВСТАВЬ
+        appId: "ТВОЙ_APP_ID" // <-- ВСТАВЬ
     };
 
     const app = initializeApp(firebaseConfig);
