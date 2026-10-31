@@ -1,10 +1,8 @@
 <header class="header">
   <div class="container header-container">
     
-    <!-- ЛЕВАЯ ЧАСТЬ: Логотип и меню -->
     <div class="header-left" style="margin-left: 200px;">
       <a class="logo-link" href="index.html" title="Главная">
-        <!-- Оставили только картинку логотипа -->
         <img src="logo1.jpg" alt="4ak4ak" class="logo-image" loading="lazy">
       </a>
       
@@ -25,10 +23,11 @@
       </div>
     </div>
 
-    <!-- ПРАВАЯ ЧАСТЬ: Авторизация -->
     <div class="header-right" style="display: flex; align-items: center; gap: 20px;">
       <div class="header-auth-block">
-        <div class="auth-links" style="display: flex; align-items: center; gap: 15px;">
+        
+        <!-- БЛОК ДЛЯ ГОСТЕЙ (показывается, когда не залогинен) -->
+        <div id="guest-buttons" class="auth-links" style="display: flex; align-items: center; gap: 15px;">
           <a title="Вход" href="login.html" style="display: block; cursor: pointer;">
             <img src="Screenshot_11.png" alt="Вход" style="height: 70px; width: auto; max-width: 110px; vertical-align: middle;">
           </a>
@@ -36,8 +35,39 @@
             <img src="Screenshot_12.png" alt="Регистрация" style="height: 70px; width: auto; max-width: 200px; vertical-align: middle;">
           </a>
         </div>
+
+        <!-- БЛОК ДЛЯ АВТОРИЗОВАННЫХ (показывается после входа) -->
+        <div id="user-buttons" class="auth-links" style="display: none; align-items: center; gap: 15px;">
+          <a title="Мой профиль" href="profile.html" style="display: block; cursor: pointer;">
+            <img src="Screenshot_8.png" alt="Профиль" style="height: 70px; width: auto; max-width: 110px; vertical-align: middle;">
+          </a>
+          <a title="Выход" href="#" id="logout-btn" style="display: block; cursor: pointer;">
+            <img src="Screenshot_7.png" alt="Выход" style="height: 70px; width: auto; max-width: 100px; vertical-align: middle;">
+          </a>
+        </div>
+
       </div>
     </div>
 
   </div>
 </header>
+
+<!-- Скрипт, который переключает кнопки (Симуляция входа) -->
+<script>
+    // Проверяем, сохранен ли статус входа в браузере
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+    if (isLoggedIn === 'true') {
+        document.getElementById('guest-buttons').style.display = 'none';
+        document.getElementById('user-buttons').style.display = 'flex';
+    }
+
+    // Обработчик кнопки "Выход"
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('#logout-btn')) {
+            e.preventDefault();
+            localStorage.removeItem('isLoggedIn'); // Удаляем статус
+            window.location.reload(); // Перезагружаем страницу
+        }
+    });
+</script>
