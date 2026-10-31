@@ -55,22 +55,12 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-    // ВСТАВЬ СЮДА СВОИ КЛЮЧИ! Без них скрипт не заработает.
-    const firebaseConfig = {
-        apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
-        authDomain: "ak4ak-8be45.firebaseapp.com",
-        databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "ak4ak-8be45",
-        storageBucket: "ak4ak-8be45.appspot.com",
-        messagingSenderId: "408070680295",
-        appId: "1:408070680295:web:77b9656094e330b803bc42"
-    };
+    import { firebaseConfig } from "./firebase-config.js";
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Эта функция переключает кнопки
+    // Функция для переключения кнопок
     function updateButtons(user) {
         const guest = document.getElementById('guest-buttons');
         const userDiv = document.getElementById('user-buttons');
@@ -86,10 +76,17 @@
         }
     }
 
-    // Следим за входом/выходом
+    // Следим за изменениями
     onAuthStateChanged(auth, (user) => {
         updateButtons(user);
     });
+
+    // Дополнительная проверка на случай задержки
+    setTimeout(() => {
+        if (auth.currentUser) {
+            updateButtons(auth.currentUser);
+        }
+    }, 1000); // Ждем 1 секунду и проверяем еще раз
 
     // Выход
     document.addEventListener('click', function(e) {
