@@ -6,13 +6,34 @@
     <title>Регистрация - 4ak4ak</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Те же стили, что и для входа */
         body {
-            margin: 0; padding: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(135deg, #6b2069 0%, #a33d63 50%, #f47a5d 100%);
+            margin: 0;
+            padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
         }
-        .auth-box { display: flex; width: 100%; max-width: 900px; background: #fff; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); overflow: hidden; margin: 20px; min-height: 500px; }
+        #header-placeholder {
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+        .auth-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 100px);
+            padding: 40px 20px;
+        }
+        .auth-box {
+            display: flex;
+            width: 100%;
+            max-width: 900px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            min-height: 500px;
+        }
         .auth-form-side { width: 50%; padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
         .decor { position: absolute; color: #e5e5e5; font-weight: bold; pointer-events: none; }
         .decor.cross { top: 10%; left: 15%; font-size: 30px; }
@@ -32,57 +53,71 @@
         .auth-image-side { width: 50%; background-color: #eef0f3; position: relative; }
         .auth-image-side img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
         .error-msg { color: red; font-size: 14px; text-align: center; margin-bottom: 15px; display: none; }
-        @media (max-width: 768px) { .auth-box { flex-direction: column; } .auth-form-side { width: 100%; padding: 30px 20px; } .auth-image-side { display: none; } }
+        @media (max-width: 768px) { 
+            .auth-box { flex-direction: column; } 
+            .auth-form-side { width: 100%; padding: 30px 20px; } 
+            .auth-image-side { display: none; } 
+        }
     </style>
 </head>
 <body>
 
-    <div class="auth-box">
-        <div class="auth-form-side">
-            <span class="decor cross">✕</span>
-            <span class="decor circle">○</span>
-            <span class="decor triangle">△</span>
-            <span class="decor cross2">✕</span>
-            <span class="decor circle2">○</span>
+    <!-- 1. Загрузка шапки -->
+    <div id="header-placeholder"></div>
+    <script>
+        fetch('header.html').then(r => r.text()).then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+        });
+    </script>
 
-            <div class="auth-form-container">
-                <h1>РЕГИСТРАЦИЯ</h1>
-                <div id="error-message" class="error-msg"></div>
-                
-                <form id="register-form">
-                    <div class="input-group">
-                        <input type="email" id="reg-email" placeholder="Email" required>
-                    </div>
-                    <div class="input-group">
-                        <input type="password" id="reg-password" placeholder="Пароль (мин. 6 символов)" required>
-                    </div>
+    <!-- 2. Форма регистрации -->
+    <div class="auth-wrapper">
+        <div class="auth-box">
+            <div class="auth-form-side">
+                <span class="decor cross">✕</span>
+                <span class="decor circle">○</span>
+                <span class="decor triangle">△</span>
+                <span class="decor cross2">✕</span>
+                <span class="decor circle2">○</span>
 
-                    <button type="submit" id="reg-btn" class="submit-btn">Создать</button>
+                <div class="auth-form-container">
+                    <h1>РЕГИСТРАЦИЯ</h1>
+                    <div id="error-message" class="error-msg"></div>
                     
-                    <p class="switch-page">Уже есть аккаунт? <a href="login.html">Войти</a></p>
-                </form>
-            </div>
-        </div>
+                    <form id="register-form">
+                        <div class="input-group">
+                            <input type="email" id="reg-email" placeholder="Email" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="reg-password" placeholder="Пароль (мин. 6 символов)" required>
+                        </div>
 
-        <div class="auth-image-side">
-            <img src="logo1.jpg" alt="4ak4ak">
+                        <button type="submit" id="reg-btn" class="submit-btn">Создать</button>
+                        
+                        <p class="switch-page">Уже есть аккаунт? <a href="login.html">Войти</a></p>
+                    </form>
+                </div>
+            </div>
+
+            <div class="auth-image-side">
+                <img src="logo1.jpg" alt="4ak4ak">
+            </div>
         </div>
     </div>
 
-    <!-- Firebase код -->
+    <!-- 3. Firebase скрипт -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // ВСТАВЬ СВОИ КЛЮЧИ СЮДА!
         const firebaseConfig = {
-            apiKey: "ТВОЙ_API_KEY",
+            apiKey: "ТВОЙ_API_KEY", // <-- ВСТАВЬ СВОИ КЛЮЧИ
             authDomain: "ak4ak-8be45.firebaseapp.com",
             databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "ak4ak-8be45",
             storageBucket: "ak4ak-8be45.appspot.com",
-            messagingSenderId: "ТВОЙ_SENDER_ID",
-            appId: "ТВОЙ_APP_ID"
+            messagingSenderId: "ТВОЙ_SENDER_ID", // <-- ВСТАВЬ
+            appId: "ТВОЙ_APP_ID" // <-- ВСТАВЬ
         };
 
         const app = initializeApp(firebaseConfig);
@@ -101,7 +136,7 @@
 
             createUserWithEmailAndPassword(auth, email, password)
                 .then(() => {
-                    window.location.href = "index.html"; // Успешная регистрация
+                    window.location.href = "index.html";
                 })
                 .catch((error) => {
                     errorDiv.textContent = "Ошибка: " + error.message;
