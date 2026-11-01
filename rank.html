@@ -4,14 +4,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Рейтинг турнира</title>
   <style>
-    #header, header, h1, .header, a[href*="rank"] {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
     body {
@@ -23,13 +15,11 @@
       scrollbar-width: none;
       -ms-overflow-style: none;
     }
-    body::-webkit-scrollbar {
-      display: none;
-    }
+    body::-webkit-scrollbar { display: none; }
 
     .rating-container {
       max-width: 650px;
-      margin: 0 auto;
+      margin: 100px auto 40px auto;
       padding: 20px;
       background: rgba(10, 42, 107, 0.55);
       backdrop-filter: blur(10px);
@@ -49,11 +39,7 @@
       text-align: center;
     }
 
-    .rating-table-wrapper {
-      display: flex;
-      justify-content: center;
-      margin: 0 auto;
-    }
+    .rating-table-wrapper { display: flex; justify-content: center; margin: 0 auto; }
 
     .rating-scroll {
       max-height: 400px;
@@ -62,30 +48,14 @@
       scrollbar-color: rgba(74, 158, 255, 0.5) rgba(10, 42, 107, 0.3);
       border-radius: 8px;
     }
-    .rating-scroll::-webkit-scrollbar {
-      width: 8px;
-    }
-    .rating-scroll::-webkit-scrollbar-track {
-      background: rgba(10, 42, 107, 0.3);
-      border-radius: 4px;
-    }
-    .rating-scroll::-webkit-scrollbar-thumb {
-      background: rgba(74, 158, 255, 0.5);
-      border-radius: 4px;
-    }
-    .rating-scroll::-webkit-scrollbar-thumb:hover {
-      background: rgba(74, 158, 255, 0.7);
-    }
+    .rating-scroll::-webkit-scrollbar { width: 8px; }
+    .rating-scroll::-webkit-scrollbar-track { background: rgba(10, 42, 107, 0.3); border-radius: 4px; }
+    .rating-scroll::-webkit-scrollbar-thumb { background: rgba(74, 158, 255, 0.5); border-radius: 4px; }
+    .rating-scroll::-webkit-scrollbar-thumb:hover { background: rgba(74, 158, 255, 0.7); }
 
-    .rating-table {
-      width: 100%;
-      border-collapse: collapse;
-      color: #fff;
-      table-layout: fixed;
-    }
+    .rating-table { width: 100%; border-collapse: collapse; color: #fff; table-layout: fixed; }
 
-    .rating-table th,
-    .rating-table td {
+    .rating-table th, .rating-table td {
       padding: 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.12);
       text-align: center;
@@ -94,11 +64,7 @@
       white-space: nowrap;
     }
 
-    .cell-content {
-      display: block;
-      padding: 6px 16px;
-      text-align: center;
-    }
+    .cell-content { display: block; padding: 6px 16px; text-align: center; }
 
     .rating-table th {
       font-weight: 700;
@@ -111,147 +77,41 @@
       z-index: 1;
     }
 
-    .rating-table tbody tr:last-child td {
-      border-bottom: none;
-    }
+    .rating-table tbody tr:last-child td { border-bottom: none; }
 
-    .pos-cell {
-      width: 40px;
-      font-weight: 800;
-      font-size: 16px;
-      color: rgba(255, 255, 255, 0.5);
-    }
+    .pos-cell { width: 40px; font-weight: 800; font-size: 16px; color: rgba(255, 255, 255, 0.5); }
     .pos-cell.first { color: #ffd700; font-size: 18px; }
     .pos-cell.second { color: #C0C0C0; font-size: 17px; }
     .pos-cell.third { color: #CD7F32; font-size: 16px; }
 
-    .name-cell {
-      font-weight: 600;
-      font-size: 15px;
-    }
+    .name-cell { font-weight: 600; font-size: 15px; }
     .name-cell.first { color: #ffd700; font-weight: 800; }
     .name-cell.second { color: #C0C0C0; font-weight: 800; }
     .name-cell.third { color: #CD7F32; font-weight: 800; }
 
-    .name-cell a {
-      color: inherit;
-      text-decoration: none;
-      transition: text-decoration 0.2s;
-    }
-    .name-cell a:hover {
-      text-decoration: underline;
-    }
+    .name-cell a { color: inherit; text-decoration: none; transition: text-decoration 0.2s; }
+    .name-cell a:hover { text-decoration: underline; }
 
-    .champ-cell,
-    .finalist-cell,
-    .points-cell {
-      text-align: center;
-    }
+    .champ-cell, .finalist-cell, .points-cell { text-align: center; }
 
-    .champ-cell {
-      width: 90px;
-      font-weight: 700;
-      font-size: 15px;
-    }
+    .champ-cell { width: 90px; font-weight: 700; font-size: 15px; }
     .champ-cell.first { color: #ffd700; }
     .champ-cell.second { color: #C0C0C0; }
     .champ-cell.third { color: #CD7F32; }
 
-    .finalist-cell {
-      width: 90px;
-      font-weight: 700;
-      font-size: 15px;
-    }
+    .finalist-cell { width: 90px; font-weight: 700; font-size: 15px; }
     .finalist-cell.first { color: #ffd700; }
     .finalist-cell.second { color: #C0C0C0; }
     .finalist-cell.third { color: #CD7F32; }
 
-    .points-cell {
-      width: 110px;
-      font-weight: 700;
-      color: #ffd700;
-      font-size: 18px;
-    }
+    .points-cell { width: 110px; font-weight: 700; color: #ffd700; font-size: 18px; }
     .points-cell.zero { color: rgba(255, 215, 0, 0.3); font-size: 14px; }
 
-    .points-logo {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      vertical-align: middle;
-      margin-left: 6px;
-    }
+    .points-logo { width: 20px; height: 20px; border-radius: 50%; vertical-align: middle; margin-left: 6px; }
 
-    .rating-empty {
-      text-align: center;
-      color: rgba(255, 255, 255, 0.35);
-      font-size: 14px;
-      padding: 24px;
-      font-style: italic;
-    }
+    .rating-empty { text-align: center; color: rgba(255, 255, 255, 0.35); font-size: 14px; padding: 24px; font-style: italic; }
 
-    .rating-note {
-      text-align: center;
-      color: rgba(255, 255, 255, 0.45);
-      font-size: 12px;
-      margin-top: 12px;
-    }
-
-    .admin-section {
-      text-align: center;
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .admin-section input {
-      padding: 12px 18px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      font-size: 14px;
-      width: 200px;
-      font-family: 'Inter', sans-serif;
-    }
-    .admin-section input::placeholder {
-      color: rgba(255, 255, 255, 0.4);
-    }
-    .btn-admin {
-      padding: 12px 26px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      background: linear-gradient(135deg, #0a2a6b, #1a4a8b);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50px;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn-admin:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(10, 42, 107, 0.7);
-    }
-    .btn-reset {
-      padding: 10px 24px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      background: linear-gradient(135deg, #c0392b, #e74c3c);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      transition: transform 0.2s, box-shadow 0.2s;
-      display: none;
-      margin: 16px auto 0;
-    }
-    .btn-reset:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 22px rgba(192, 57, 43, 0.5);
-    }
+    .rating-note { text-align: center; color: rgba(255, 255, 255, 0.45); font-size: 12px; margin-top: 12px; }
   </style>
 </head>
 <body>
@@ -281,36 +141,26 @@
     </div>
 
     <div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
-
-    <div class="admin-section">
-      <input type="password" id="adminPassInput" placeholder="Админ-пароль" onkeydown="if(event.key==='Enter') toggleAdmin()">
-      <button class="btn-admin" onclick="toggleAdmin()">Войти как админ</button>
-    </div>
-    <button class="btn-reset" id="btnReset" onclick="resetRating()">Сбросить чак-чаки</button>
   </div>
 
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
   <script>
     (function() {
       var firebaseConfig = {
-        apiKey: "AIzaSyCNQ0WFAiQjnISQjXJnHoln-wI64G2BqWs",
-        authDomain: "ak4ak-d948e.firebaseapp.com",
-        databaseURL: "https://ak4ak-d948e-default-rtdb.firebaseio.com",
-        projectId: "ak4ak-d948e",
-        storageBucket: "ak4ak-d948e.firebasestorage.app",
-        messagingSenderId: "787151252619",
-        appId: "1:787151252619:web:05eff65dc74b01d6e8f88e",
-        measurementId: "G-DBB4YBNF2Q"
+        apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
+        authDomain: "ak4ak-8be45.firebaseapp.com",
+        databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "ak4ak-8be45",
+        storageBucket: "ak4ak-8be45.appspot.com",
+        messagingSenderId: "408070680295",
+        appId: "1:408070680295:web:77b9656094e330b803bc42"
       };
       firebase.initializeApp(firebaseConfig);
       var db = firebase.database();
 
-      var ADMIN_PASSWORD = '12$sacreD';
-      var isAdmin = false;
-      var LOGO_URL = 'https://4ak4ak.moy.su/logo1.jpg';
+      var LOGO_URL = 'png/logo1.jpg';
 
       function escapeHtml(t) {
         if (!t) return '';
@@ -378,7 +228,7 @@
 
           html += '<tr>'
             + '<td class="pos-cell"><span class="cell-content">' + pos + '</span></td>'
-            + '<td><span class="cell-content"><span class="name-cell' + nameClass + '"><a href="https://4ak4ak.moy.su/index/8-0-' + encodeURIComponent(row.nick) + '" target="_top" style="color:inherit;text-decoration:none;">' + escapeHtml(row.nick) + '</a></span></span></td>'
+            + '<td><span class="cell-content"><span class="name-cell' + nameClass + '"><a href="profile.html?nick=' + encodeURIComponent(row.nick) + '" target="_top">' + escapeHtml(row.nick) + '</a></span></span></td>'
             + '<td class="champ-cell"><span class="cell-content"><span class="champ-cell' + champClass + '">' + row.champ + '</span></span></td>'
             + '<td class="finalist-cell"><span class="cell-content"><span class="finalist-cell' + finalistClass + '">' + row.finalist + '</span></span></td>'
             + '<td class="points-cell"><span class="cell-content"><span class="points-cell' + pointsClass + '">' + row.points + logoHtml + '</span></span></td>'
@@ -386,43 +236,6 @@
         });
         body.innerHTML = html;
       }
-
-      window.toggleAdmin = function() {
-        var p = document.getElementById('adminPassInput').value;
-        var btnReset = document.getElementById('btnReset');
-        if (!isAdmin) {
-          if (p === ADMIN_PASSWORD) {
-            isAdmin = true;
-            document.querySelector('.admin-section').style.display = 'none';
-            btnReset.style.display = 'block';
-          } else {
-            alert('Неверный пароль!');
-          }
-        } else {
-          isAdmin = false;
-          document.querySelector('.admin-section').style.display = 'flex';
-          btnReset.style.display = 'none';
-        }
-      };
-
-      window.resetRating = function() {
-        if (!isAdmin) return;
-        if (!confirm('Сбросить чак-чаки? Результаты всех финалов будут удалены.')) return;
-        db.ref('playoff/tournaments').once('value').then(function(snap) {
-          var tournaments = snap.val() || {};
-          var updates = {};
-          Object.keys(tournaments).forEach(function(tid) {
-            if (tournaments[tid] && tournaments[tid].finalResult) {
-              updates['playoff/tournaments/' + tid + '/finalResult'] = null;
-            }
-          });
-          if (Object.keys(updates).length > 0) {
-            db.ref().update(updates);
-          }
-          renderRating([]);
-          alert('Чак-чаки сброшены!');
-        });
-      };
 
       function loadAndRender() {
         db.ref('playoff/tournaments').on('value', function(snap) {
