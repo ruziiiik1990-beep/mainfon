@@ -1517,7 +1517,7 @@ function downloadAndDecryptLogs(fileName) {
 
  
 
-  checkAdminNicks();
+  setTimeout(checkAdminNicks, 1500);
   loadTournaments(function(sorted) {
     if (sorted.length > 0) {
       currentTournamentId = sorted[0].id;
