@@ -667,12 +667,24 @@ if (myUid) {
     loadPrizesEnabled();
   };
 
-  window.createTournament = function() {
+   window.createTournament = function() {
     if (!isAdmin) { alert('Только админ может создавать турниры!'); return; }
     var name = document.getElementById('newTournamentName').value.trim();
     if (!name) { alert('Введите название турнира!'); return; }
     var newId = db.ref('playoff/tournaments').push().key;
-    var data = { name: name, createdAt: Date.now() };
+    var data = {
+      name: name,
+      createdAt: Date.now(),
+      matches: {
+        qf_w1: { left: [], right: [] },
+        qf_w2: { left: [], right: [] },
+        qf_e1: { left: [], right: [] },
+        qf_e2: { left: [], right: [] },
+        sf_w:  { left: [], right: [] },
+        sf_e:  { left: [], right: [] },
+        final: { left: [], right: [] }
+      }
+    };
     db.ref('playoff/tournaments/' + newId).set(data).then(function() {
       currentTournamentId = newId;
       document.getElementById('newTournamentName').value = '';
