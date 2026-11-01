@@ -5,13 +5,15 @@ const admin = require('firebase-admin');
 
 const app = express();
 
+// Важно для Render: доверяем заголовкам прокси, иначе Steam не проверит OpenID
+app.set('trust proxy', 1);
+
 app.use(cors({
   origin: ['https://4ak4ak.pages.dev', 'http://localhost:3000']
 }));
 app.use(express.json());
 
 // ====== Firebase Admin ======
-// Ключ сервисного аккаунта Firebase (JSON) — добавим в Environment Variables на Render
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
@@ -51,7 +53,6 @@ app.get('/auth/steam/authenticate', async (req, res) => {
 
     console.log('Успешный вход через Steam. ID:', steamId, 'uid:', uid);
 
-    // Запись в Firebase Realtime Database
     if (uid !== 'guest') {
       await db.ref('steamVerification/' + uid).set({
         steamId: steamId,
@@ -60,7 +61,6 @@ app.get('/auth/steam/authenticate', async (req, res) => {
       });
     }
 
-    // Передаём steamId в родительское окно
     res.send(`
       <!DOCTYPE html>
       <html>
