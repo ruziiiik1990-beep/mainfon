@@ -247,7 +247,7 @@
             get(ref(db, 'users/' + targetUid)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
-                    document.getElementById('profile-name').textContent = data.email.split('@')[0];
+                    document.getElementById('profile-name').textContent = data.nick || data.email.split('@')[0];
                 } else {
                     document.getElementById('profile-name').textContent = "Пользователь";
                 }
