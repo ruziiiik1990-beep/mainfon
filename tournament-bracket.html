@@ -557,7 +557,7 @@ if (myUid) {
   db.ref('users/' + myUid).once('value').then(function(snap) {
     if (snap.exists()) {
       var data = snap.val();
-      myNick = data.email.split('@')[0];
+      myNick = data.nick || data.email.split('@')[0];
     }
   });
 }
