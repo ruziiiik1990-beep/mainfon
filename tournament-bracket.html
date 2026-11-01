@@ -4,14 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Турнир</title>
 <style>
-  #header, header, h1, .header, a[href*="tournament"] {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
+ 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 body { margin: 0; padding: 0; background: transparent; font-family: 'Inter', sans-serif; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
@@ -53,7 +46,7 @@ body::-webkit-scrollbar { display: none; }
 .btn-delete-tournament:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(192,57,43,0.5); }
 
 .tournament-wrapper {
-  background-image: url('https://4ak4ak.moy.su/Tchak.jpg');
+  background-image: url('png/Tchak.jpg');
   background-size: cover; background-position: center center; background-repeat: no-repeat;
   padding: 30px 0; border-radius: 12px; position: relative; overflow: hidden;
   max-width: 1100px; margin: 0 auto;
@@ -381,7 +374,7 @@ body::-webkit-scrollbar { display: none; }
     <div class="prize-popup-title">Возможные призы финалисту</div>
     <div class="prize-popup-skins">
       <div class="prize-skin-card">
-        <img src="png/prizSkinFinalis/ak-47_kolymaga.png" alt="AK-47">
+        <img src="png/ak-47_kolymaga.png" alt="AK-47">
         <div class="prize-skin-name">AK-47 Колымага</div>
       </div>
       <div class="prize-skin-card">
@@ -557,14 +550,17 @@ var maps = [
   ];
 
   function getUrlParam(n) { var u = new URL(window.location.href); return u.searchParams.get(n); }
-  myNick = getUrlParam('user');
-  myUid = getUrlParam('uid');
+myUid = getUrlParam('uid');
 
-  // Save player's uCoz ID to Firebase when available
-  if (myNick && myUid) {
-    db.ref('playoff/playerIds/' + encodeURIComponent(myNick)).set(myUid);
-  }
-
+// Берём ник из профиля по uid (email до @)
+if (myUid) {
+  db.ref('users/' + myUid).once('value').then(function(snap) {
+    if (snap.exists()) {
+      var data = snap.val();
+      myNick = data.email.split('@')[0];
+    }
+  });
+}
   // Load all player IDs from Firebase
   db.ref('playoff/playerIds').on('value', function(snap) {
     playerIds = snap.val() || {};
@@ -587,9 +583,8 @@ var maps = [
   }
 
   function isLoggedIn() {
-    return myNick && myNick !== 'null' && myNick !== '' && myNick !== 'guest' && myNick !== '\u0413\u043e\u0441\u0442\u044c';
-  }
-
+  return !!myUid;
+}
   function tPath(sub) {
     return 'playoff/tournaments/' + currentTournamentId + (sub ? '/' + sub : '');
   }
