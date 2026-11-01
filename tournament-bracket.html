@@ -179,9 +179,28 @@ body::-webkit-scrollbar { display: none; }
 .admin-winner-btn.win-left { background: linear-gradient(135deg, #4a90d9, #6fb3ff); color: #fff; }
 .admin-winner-btn.win-right { background: linear-gradient(135deg, #e07845, #ff8a65); color: #fff; }
 
-.map-center { flex: 0 0 auto; width: 140px; display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 40px; }
+.map-center { 
+  flex: 0 0 auto; 
+  width: 140px; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: flex-start;
+  gap: 10px; 
+  padding-top: 40px; 
+  margin: 0 auto;
+}
 .map-label { font-size: 11px; font-weight: 700; color: rgba(255,215,0,0.7); text-transform: uppercase; letter-spacing: 1px; text-align: center; }
-.map-image { width: 120px; height: 120px; border-radius: 10px; object-fit: cover; border: 2px solid rgba(255,215,0,0.3); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+.map-image { 
+  width: 120px; 
+  height: 120px; 
+  border-radius: 10px; 
+  object-fit: cover; 
+  border: 2px solid rgba(255,215,0,0.3); 
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4); 
+  margin: 0 auto;
+  display: block;
+}
 .map-vs { font-size: 22px; font-weight: 800; color: rgba(255,215,0,0.6); text-align: center; }
 .map-name { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.8); text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
 .map-placeholder { width: 120px; height: 120px; border-radius: 10px; border: 2px dashed rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.4; padding: 10px; }
