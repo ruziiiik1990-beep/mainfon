@@ -106,55 +106,53 @@
     </div>
 
     <!-- 3. Firebase скрипт -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+   <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk", // <-- ВСТАВЬ СВОИ КЛЮЧИ
-            authDomain: "ak4ak-8be45.firebaseapp.com",
-            databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "ak4ak-8be45",
-            storageBucket: "ak4ak-8be45.appspot.com",
-            messagingSenderId: "408070680295", // <-- ВСТАВЬ
-            appId: "1:408070680295:web:77b9656094e330b803bc42" // <-- ВСТАВЬ
-        };
+    const firebaseConfig = {
+        apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
+        authDomain: "ak4ak-8be45.firebaseapp.com",
+        databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "ak4ak-8be45",
+        storageBucket: "ak4ak-8be45.appspot.com",
+        messagingSenderId: "408070680295",
+        appId: "1:408070680295:web:77b9656094e330b803bc42"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
 
-        document.getElementById('register-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            const errorDiv = document.getElementById('error-message');
-            const btn = document.getElementById('reg-btn');
+    document.getElementById('register-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('reg-email').value;
+        const password = document.getElementById('reg-password').value;
+        const errorDiv = document.getElementById('error-message');
+        const btn = document.getElementById('reg-btn');
 
-            btn.disabled = true;
-            btn.textContent = 'Создание...';
-            errorDiv.style.display = 'none';
+        btn.disabled = true;
+        btn.textContent = 'Создание...';
+        errorDiv.style.display = 'none';
 
-            createUserWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    window.location.href = "index.html";
-                })
-                .catch((error) => {
-                    errorDiv.textContent = "Ошибка: " + error.message;
-                    errorDiv.style.display = 'block';
-                    btn.disabled = false;
-                    btn.textContent = 'Создать';
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                return set(ref(db, 'users/' + user.uid), {
+                    email: email,
+                    createdAt: Date.now()
                 });
-        });
-    </script>
-    <!-- Загружаем шапку -->
-<script>
-    fetch('header.html').then(r => r.text()).then(data => {
-        document.getElementById('header-placeholder').innerHTML = data;
-        // После загрузки шапки подключаем скрипт авторизации
-        const script = document.createElement('script');
-        script.type = 'module';
-        script.src = 'auth.js';
-        document.body.appendChild(script);
+            })
+            .then(() => {
+                window.location.href = "profile.html";
+            })
+            .catch((error) => {
+                errorDiv.textContent = "Ошибка: " + error.message;
+                errorDiv.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Создать';
+            });
     });
 </script>
 </body>
