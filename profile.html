@@ -57,24 +57,6 @@
         }
 
         .profile-full-name { font-size: 24px; font-weight: 700; display: block; margin-bottom: 5px; }
-        .profile-nickname a { color: #e3769c; text-decoration: none; font-size: 16px; }
-
-        .profile-section { padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .profile-section:last-child { border-bottom: none; }
-        .profile-section-name { font-size: 18px; margin-bottom: 15px; color: #e3769c; }
-        .profile-section-content { font-size: 15px; line-height: 1.5; color: #d1d5db; }
-
-        .profile-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-        .profile-label {
-            background: #4b5563;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 14px;
-            transition: background 0.3s;
-        }
-        .profile-label:hover { background: #e3769c; }
 
         .seamless-iframe {
             width: 100%;
@@ -108,30 +90,6 @@
                         <div class="profile-photo" style="background-image: url('logo1.jpg');"></div>
                         <div class="profile-name">
                             <div class="profile-full-name" id="profile-name">Загрузка...</div>
-                            <div class="profile-nickname"><a href="#" id="profile-email">...</a></div>
-                        </div>
-                    </div>
-                    
-                    <div class="profile-buttons profile-labels">
-                        <a href="#" class="profile-label">Изменить данные</a>
-                        <a href="#" class="profile-label">Мои подписки</a>
-                    </div>
-                    
-                    <div class="profile-body">
-                        <div class="profile-section">
-                            <h3 class="profile-section-name">О себе</h3>
-                            <div class="profile-section-content">Здесь будет информация о пользователе.</div>
-                        </div>
-                        
-                        <div class="profile-section">
-                            <h3 class="profile-section-name">Материалы пользователя</h3>
-                            <div class="profile-section-content">
-                                <div class="profile-buttons">
-                                    <a href="#" class="profile-label">Комментарии (0)</a>
-                                    <a href="#" class="profile-label">Форум (0)</a>
-                                    <a href="#" class="profile-label">Новости (0)</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -189,7 +147,7 @@
         });
     </script>
 
-    <!-- Firebase: загрузка данных профиля -->
+    <!-- Firebase: загрузка данных профиля (только имя, без email) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -218,10 +176,8 @@
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     document.getElementById('profile-name').textContent = data.email.split('@')[0];
-                    document.getElementById('profile-email').textContent = data.email;
                 } else {
-                    document.getElementById('profile-name').textContent = user.email;
-                    document.getElementById('profile-email').textContent = user.email;
+                    document.getElementById('profile-name').textContent = "Пользователь";
                 }
             });
         });
