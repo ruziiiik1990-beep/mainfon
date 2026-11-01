@@ -3,6 +3,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Правила - 4ak4ak</title>
+  <link rel="stylesheet" href="style.css">
   <style>
     html, body {
       margin: 0;
@@ -12,7 +13,32 @@
       overflow-y: auto;
       overflow-x: hidden;
     }
-    
+
+    /* Фон страницы правил */
+    .rules-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('png/dust2B.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .rules-bg::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    /* Отступ сверху, чтобы шапка не перекрывала книгу */
     .book-viewport {
       perspective: 2000px;
       display: flex;
@@ -21,6 +47,7 @@
       padding: 20px 0;
       background: transparent !important;
       min-height: 100vh;
+      margin-top: 100px;
     }
     .book-wrapper {
       position: relative;
@@ -57,14 +84,12 @@
       border: 1px solid #e8dec9;
     }
     
-    /* ПЕРЕДНЯЯ ОБЛОЖКА */
     .front-cover-page {
       background: linear-gradient(135deg, #8B0000 0%, #4A0000 100%);
       border-left: 8px solid #2A0000;
       border: 2px solid #5A0000;
     }
     
-    /* ЗАДНЯЯ ОБЛОЖКА */
     .back-cover-page {
       background: linear-gradient(135deg, #4A0000 0%, #2A0000 100%);
       border-left: 8px solid #1A0000;
@@ -200,7 +225,6 @@
     .text-box ul { padding-left: 15px; margin: 0; }
     .text-box li { margin-bottom: 12px; }
     
-    /* Стили для гифок */
     .gif-container {
       display: flex;
       flex-direction: column;
@@ -239,7 +263,6 @@
       padding-top: 10px;
     }
     
-    /* Страница "Спасибо" */
     .thanks-page .text-box {
       display: flex;
       flex-direction: column;
@@ -261,7 +284,6 @@
       margin-bottom: 30px;
     }
     
-    /* Страница-заставка "Читай внимательно" */
     .intro-page .text-box {
       display: flex;
       flex-direction: column;
@@ -292,173 +314,193 @@
 </head>
 <body>
 
-<div class="book-viewport">
-  <div class="book-wrapper" id="myBook">
-    
-    <!-- ЗАДНЯЯ ОБЛОЖКА -->
-    <div class="b-page back-cover-page" style="z-index: 1;">
-      <div class="back-cover-text">Спасибо за прочтение<br>и удача в погоне за <span style="white-space: nowrap;">Чак-Чак!</span></div>
-      <img src="logo1.jpg" class="back-cover-logo" alt="Чак-Чак">
-    </div>
-    
-    <!-- СТРАНИЦА 5: СПАСИБО -->
-    <div class="b-page paper-page thanks-page" id="p5" style="z-index: 2;">
-      <div class="page-side front-side">
-        <div class="text-box">
-          <h3>Спасибо за прочтение!</h3>
-          <p>Желаем удачи в турнире и только побед!</p>
-          <button class="open-book-btn" onclick="closeBook()">Закрыть книгу 📕</button>
-        </div>
-      </div>
-      <div class="page-side back-side">
-        <button class="nav-arrow prev-arrow" onclick="turnPage(5, 'prev')">↩ Назад</button>
-      </div>
-    </div>
+  <!-- Фон -->
+  <div class="rules-bg"></div>
 
-    <!-- СТРАНИЦА 4: ПРИЗЫ -->
-    <div class="b-page paper-page" id="p4" style="z-index: 3;">
-      <div class="page-side front-side">
-        <div class="text-box">
-          <h3>🏆 Призы и Рейтинг</h3>
-          <ul>
-            <li><b>Финал матча:</b> Победители получают скины лучшего качества, проигравшие в финале — скины послабее. Призы отображаются в меню противостояния.</li>
-            <li><b>Выдача скинов:</b> Админ добавляет вас в друзья в Steam, заносит в блокнот и передает скины сразу, как спадет временная блокировка обмена Steam.</li>
-            <li><b>Рейтинг «Чак-Чак»:</b> За победу в турнире начисляется <b>2 чак-чака</b>, за участие в финале (2 место) — <b>1 чак-чак</b>.</li>
-          </ul>
-          <p class="small-text-note">Турнир создан ради эмоций и символических призов!</p>
-        </div>
-        <button class="nav-arrow next-arrow" onclick="turnPage(4, 'next')">Вперед ↪</button>
-      </div>
-      <div class="page-side back-side">
-        <button class="nav-arrow prev-arrow" onclick="turnPage(4, 'prev')">↩ Назад</button>
-      </div>
-    </div>
+  <!-- Шапка -->
+  <div id="header-placeholder" class="header-wrapper"></div>
 
-    <!-- СТРАНИЦА 3: АНТИЧИТ -->
-    <div class="b-page paper-page" id="p3" style="z-index: 4;">
-      <div class="page-side front-side">
-        <div class="text-box">
-          <h3>🛡️ Anti-cheat и Старт</h3>
-          <ul>
-            <li><b>Запуск:</b> Перед запуском игры <b>обязательно</b> включите античит <u>ruzikTastyAC</u>. Включение во время игры — тех. поражение всей команде, если вы зальете такой файл на сайт. Но если вы случайно запустили, после захода в игру, вы можете выйти из игры, остановить анти-чити запустить заново, файл переливается, в моих документах он всегда один</li>
-            <li><b>Коннект к серверу:</b> После согласования времени в чате появится кнопка <b>Connected</b> для автовыхода на сервер CS2.</li>
-            <li><b>Залив файла анти-чита:</b> После игры найдите в «Моих документах» файл <b>match_log</b> и загрузите его через <b>желтый плюс</b> в противостоянии матча.</li>
-          </ul>
-        </div>
-        <button class="nav-arrow next-arrow" onclick="turnPage(3, 'next')">Вперед ↪</button>
+  <div class="book-viewport">
+    <div class="book-wrapper" id="myBook">
+      
+      <!-- ЗАДНЯЯ ОБЛОЖКА -->
+      <div class="b-page back-cover-page" style="z-index: 1;">
+        <div class="back-cover-text">Спасибо за прочтение<br>и удача в погоне за <span style="white-space: nowrap;">Чак-Чак!</span></div>
+        <img src="logo1.jpg" class="back-cover-logo" alt="Чак-Чак">
       </div>
-      <div class="page-side back-side">
-        <div class="gif-container">
-          <img src="20261026_InexpensiveBlueSquirrelNotATK-tmAsxdSkeHp.gif" class="page-gif" alt="Призы">
-          <div class="gif-caption">Ценные призы ждут победителей!</div>
+      
+      <!-- СТРАНИЦА 5: СПАСИБО -->
+      <div class="b-page paper-page thanks-page" id="p5" style="z-index: 2;">
+        <div class="page-side front-side">
+          <div class="text-box">
+            <h3>Спасибо за прочтение!</h3>
+            <p>Желаем удачи в турнире и только побед!</p>
+            <button class="open-book-btn" onclick="closeBook()">Закрыть книгу 📕</button>
+          </div>
         </div>
-        <button class="nav-arrow prev-arrow" onclick="turnPage(3, 'prev')">↩ Назад</button>
+        <div class="page-side back-side">
+          <button class="nav-arrow prev-arrow" onclick="turnPage(5, 'prev')">↩ Назад</button>
+        </div>
       </div>
-    </div>
 
-    <!-- СТРАНИЦА 2: ОСНОВНЫЕ ПРАВИЛА -->
-    <div class="b-page paper-page" id="p2" style="z-index: 5;">
-      <div class="page-side front-side">
-        <div class="text-box">
-          <h3>📝 Основные правила</h3>
-          <ul>
-            <li><b>Верификация:</b> Обязательно привяжите Steam к сайту. Чтобы админ верифицировал ваш аккаунт и видел вас в матче, что это именно вы.</li>
-            <li><b>Формат:</b> Сетка плей-офф 5х5. Турнир проходит раз в 2 недели (с пятницы по воскресенье). Регистрация открывается 1-го числа.</li>
-            <li><b>Рандом:</b> Участники распределяются по командам случайно. Победители этапа снова перемешиваются в новые команды для следующей стадии.</li>
-          </ul>
+      <!-- СТРАНИЦА 4: ПРИЗЫ -->
+      <div class="b-page paper-page" id="p4" style="z-index: 3;">
+        <div class="page-side front-side">
+          <div class="text-box">
+            <h3>🏆 Призы и Рейтинг</h3>
+            <ul>
+              <li><b>Финал матча:</b> Победители получают скины лучшего качества, проигравшие в финале — скины послабее. Призы отображаются в меню противостояния.</li>
+              <li><b>Выдача скинов:</b> Админ добавляет вас в друзья в Steam, заносит в блокнот и передает скины сразу, как спадет временная блокировка обмена Steam.</li>
+              <li><b>Рейтинг «Чак-Чак»:</b> За победу в турнире начисляется <b>2 чак-чака</b>, за участие в финале (2 место) — <b>1 чак-чак</b>.</li>
+            </ul>
+            <p class="small-text-note">Турнир создан ради эмоций и символических призов!</p>
+          </div>
+          <button class="nav-arrow next-arrow" onclick="turnPage(4, 'next')">Вперед ↪</button>
         </div>
-        <button class="nav-arrow next-arrow" onclick="turnPage(2, 'next')">Вперед ↪</button>
-      </div>
-      <div class="page-side back-side">
-        <div class="gif-container">
-          <img src="20261026_SuccessfulEagerPastaArsonNoSexy-gUbG2z5bg.gif" class="page-gif" alt="Античит">
-          <div class="gif-caption">Следи за статусом античита!</div>
+        <div class="page-side back-side">
+          <button class="nav-arrow prev-arrow" onclick="turnPage(4, 'prev')">↩ Назад</button>
         </div>
-        <button class="nav-arrow prev-arrow" onclick="turnPage(2, 'prev')">↩ Назад</button>
       </div>
-    </div>
 
-    <!-- СТРАНИЦА 1: ЗАСТАВКА "ЧИТАЙ ВНИМАТЕЛЬНО" -->
-    <div class="b-page paper-page intro-page" id="p1" style="z-index: 6;">
-      <div class="page-side front-side">
-        <div class="text-box">
-          <h2>Читай<br>внимательно!</h2>
-          <p>Здесь собраны все важные правила турнира.</p>
+      <!-- СТРАНИЦА 3: АНТИЧИТ -->
+      <div class="b-page paper-page" id="p3" style="z-index: 4;">
+        <div class="page-side front-side">
+          <div class="text-box">
+            <h3>🛡️ Anti-cheat и Старт</h3>
+            <ul>
+              <li><b>Запуск:</b> Перед запуском игры <b>обязательно</b> включите античит <u>ruzikTastyAC</u>. Включение во время игры — тех. поражение всей команде, если вы зальете такой файл на сайт. Но если вы случайно запустили, после захода в игру, вы можете выйти из игры, остановить анти-чити запустить заново, файл переливается, в моих документах он всегда один</li>
+              <li><b>Коннект к серверу:</b> После согласования времени в чате появится кнопка <b>Connected</b> для автовыхода на сервер CS2.</li>
+              <li><b>Залив файла анти-чита:</b> После игры найдите в «Моих документах» файл <b>match_log</b> и загрузите его через <b>желтый плюс</b> в противостоянии матча.</li>
+            </ul>
+          </div>
+          <button class="nav-arrow next-arrow" onclick="turnPage(3, 'next')">Вперед ↪</button>
         </div>
-        <button class="nav-arrow next-arrow" onclick="turnPage(1, 'next')">Вперед ↪</button>
-      </div>
-      <div class="page-side back-side">
-        <div class="gif-container">
-          <img src="sdsd.gif" class="page-gif" alt="Правила">
-          <div class="gif-caption">Играй честно и побеждай!</div>
+        <div class="page-side back-side">
+          <div class="gif-container">
+            <img src="gif/20261026_InexpensiveBlueSquirrelNotATK-tmAsxdSkeHp.gif" class="page-gif" alt="Призы">
+            <div class="gif-caption">Ценные призы ждут победителей!</div>
+          </div>
+          <button class="nav-arrow prev-arrow" onclick="turnPage(3, 'prev')">↩ Назад</button>
         </div>
-        <button class="nav-arrow prev-arrow" onclick="turnPage(1, 'prev')">↩ Назад</button>
       </div>
-    </div>
 
-    <!-- ПЕРЕДНЯЯ ОБЛОЖКА -->
-    <div class="b-page front-cover-page" id="p0" style="z-index: 7;">
-      <div class="page-side front-side">
-        <div class="cover-design">
-          <img src="logo1.jpg" class="front-cover-logo" alt="Логотип">
-          <h2>РУКОВОДСТВО</h2>
-          <div class="gold-badge">ЧАК-ЧАК</div>
-          <p>Официальные правила турниров CS2</p>
-          <button class="open-book-btn" onclick="turnPage(0, 'next')">Открыть книгу 📖</button>
-          <button class="back-to-start-btn" id="backToStartBtn" onclick="closeBook()">Вернуться на обложку</button>
+      <!-- СТРАНИЦА 2: ОСНОВНЫЕ ПРАВИЛА -->
+      <div class="b-page paper-page" id="p2" style="z-index: 5;">
+        <div class="page-side front-side">
+          <div class="text-box">
+            <h3>📝 Основные правила</h3>
+            <ul>
+              <li><b>Верификация:</b> Обязательно привяжите Steam к сайту. Чтобы админ верифицировал ваш аккаунт и видел вас в матче, что это именно вы.</li>
+              <li><b>Формат:</b> Сетка плей-офф 5х5. Турнир проходит раз в 2 недели (с пятницы по воскресенье). Регистрация открывается 1-го числа.</li>
+              <li><b>Рандом:</b> Участники распределяются по командам случайно. Победители этапа снова перемешиваются в новые команды для следующей стадии.</li>
+            </ul>
+          </div>
+          <button class="nav-arrow next-arrow" onclick="turnPage(2, 'next')">Вперед ↪</button>
+        </div>
+        <div class="page-side back-side">
+          <div class="gif-container">
+            <img src="gif/20261026_SuccessfulEagerPastaArsonNoSexy-gUbG2z5bg.gif" class="page-gif" alt="Античит">
+            <div class="gif-caption">Следи за статусом античита!</div>
+          </div>
+          <button class="nav-arrow prev-arrow" onclick="turnPage(2, 'prev')">↩ Назад</button>
         </div>
       </div>
-    </div>
 
+      <!-- СТРАНИЦА 1: ЗАСТАВКА "ЧИТАЙ ВНИМАТЕЛЬНО" -->
+      <div class="b-page paper-page intro-page" id="p1" style="z-index: 6;">
+        <div class="page-side front-side">
+          <div class="text-box">
+            <h2>Читай<br>внимательно!</h2>
+            <p>Здесь собраны все важные правила турнира.</p>
+          </div>
+          <button class="nav-arrow next-arrow" onclick="turnPage(1, 'next')">Вперед ↪</button>
+        </div>
+        <div class="page-side back-side">
+          <div class="gif-container">
+            <img src="gif/sdsd.gif" class="page-gif" alt="Правила">
+            <div class="gif-caption">Играй честно и побеждай!</div>
+          </div>
+          <button class="nav-arrow prev-arrow" onclick="turnPage(1, 'prev')">↩ Назад</button>
+        </div>
+      </div>
+
+      <!-- ПЕРЕДНЯЯ ОБЛОЖКА -->
+      <div class="b-page front-cover-page" id="p0" style="z-index: 7;">
+        <div class="page-side front-side">
+          <div class="cover-design">
+            <img src="logo1.jpg" class="front-cover-logo" alt="Логотип">
+            <h2>РУКОВОДСТВО</h2>
+            <div class="gold-badge">ЧАК-ЧАК</div>
+            <p>Официальные правила турниров CS2</p>
+            <button class="open-book-btn" onclick="turnPage(0, 'next')">Открыть книгу 📖</button>
+            <button class="back-to-start-btn" id="backToStartBtn" onclick="closeBook()">Вернуться на обложку</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
-</div>
 
-<script>
-function turnPage(pageId, direction) {
-  const page = document.getElementById('p' + pageId);
-  
-  if (direction === 'next') {
-    page.classList.add('flipped');
-    setTimeout(() => { page.style.zIndex = pageId; }, 300);
+  <script>
+    // Загрузка шапки
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = 'auth.js';
+        document.body.appendChild(script);
+      })
+      .catch(error => console.error('Ошибка загрузки шапки:', error));
+  </script>
+
+  <script>
+  function turnPage(pageId, direction) {
+    const page = document.getElementById('p' + pageId);
     
-    if (pageId === 0) {
-      document.getElementById('backToStartBtn').style.display = 'inline-block';
+    if (direction === 'next') {
+      page.classList.add('flipped');
+      setTimeout(() => { page.style.zIndex = pageId; }, 300);
+      
+      if (pageId === 0) {
+        document.getElementById('backToStartBtn').style.display = 'inline-block';
+      }
+    } else if (direction === 'prev') {
+      page.style.zIndex = 100; 
+      setTimeout(() => { page.classList.remove('flipped'); }, 10);
+      setTimeout(() => { 
+        if (pageId === 1) page.style.zIndex = 6;
+        else if (pageId === 2) page.style.zIndex = 5;
+        else if (pageId === 3) page.style.zIndex = 4;
+        else if (pageId === 4) page.style.zIndex = 3;
+        else if (pageId === 5) page.style.zIndex = 2;
+      }, 800); 
     }
-  } else if (direction === 'prev') {
-    page.style.zIndex = 100; 
-    setTimeout(() => { page.classList.remove('flipped'); }, 10);
-    setTimeout(() => { 
-      if (pageId === 1) page.style.zIndex = 6;
-      else if (pageId === 2) page.style.zIndex = 5;
-      else if (pageId === 3) page.style.zIndex = 4;
-      else if (pageId === 4) page.style.zIndex = 3;
-      else if (pageId === 5) page.style.zIndex = 2;
-    }, 800); 
   }
-}
 
-function closeBook() {
-  [1, 2, 3, 4, 5].forEach(i => {
-    const page = document.getElementById('p' + i);
-    if (page) {
-      page.classList.remove('flipped');
-      if (i === 1) page.style.zIndex = 6;
-      else if (i === 2) page.style.zIndex = 5;
-      else if (i === 3) page.style.zIndex = 4;
-      else if (i === 4) page.style.zIndex = 3;
-      else if (i === 5) page.style.zIndex = 2;
-    }
-  });
-  
-  const p0 = document.getElementById('p0');
-  setTimeout(() => {
-    p0.classList.remove('flipped');
-    p0.style.zIndex = 7;
-  }, 100);
+  function closeBook() {
+    [1, 2, 3, 4, 5].forEach(i => {
+      const page = document.getElementById('p' + i);
+      if (page) {
+        page.classList.remove('flipped');
+        if (i === 1) page.style.zIndex = 6;
+        else if (i === 2) page.style.zIndex = 5;
+        else if (i === 3) page.style.zIndex = 4;
+        else if (i === 4) page.style.zIndex = 3;
+        else if (i === 5) page.style.zIndex = 2;
+      }
+    });
+    
+    const p0 = document.getElementById('p0');
+    setTimeout(() => {
+      p0.classList.remove('flipped');
+      p0.style.zIndex = 7;
+    }, 100);
 
-  document.getElementById('backToStartBtn').style.display = 'none';
-}
-</script>
+    document.getElementById('backToStartBtn').style.display = 'none';
+  }
+  </script>
 
 </body>
 </html>
