@@ -119,5 +119,29 @@ fetch('header.html')
   .catch(error => console.error('Ошибка загрузки шапки:', error));
 </script>
 
+<!-- Подставляем uid в iframe турнирной сетки -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
+  authDomain: "ak4ak-8be45.firebaseapp.com",
+  projectId: "ak4ak-8be45",
+  storageBucket: "ak4ak-8be45.appspot.com",
+  messagingSenderId: "408070680295",
+  appId: "1:408070680295:web:77b9656094e330b803bc42"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById('tournamentFrame').src = 'tournament-bracket.html?uid=' + user.uid;
+  }
+});
+</script>
+
 </body>
 </html>
