@@ -107,8 +107,8 @@
                     <div class="profile-head">
                         <div class="profile-photo" style="background-image: url('logo1.jpg');"></div>
                         <div class="profile-name">
-                            <div class="profile-full-name">Имя Пользователя</div>
-                            <div class="profile-nickname"><a href="#">@username</a></div>
+                            <div class="profile-full-name" id="profile-name">Загрузка...</div>
+                            <div class="profile-nickname"><a href="#" id="profile-email">...</a></div>
                         </div>
                     </div>
                     
@@ -186,6 +186,44 @@
                     }
                 }
             }
+        });
+    </script>
+
+    <!-- Firebase: загрузка данных профиля -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
+            authDomain: "ak4ak-8be45.firebaseapp.com",
+            databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "ak4ak-8be45",
+            storageBucket: "ak4ak-8be45.appspot.com",
+            messagingSenderId: "408070680295",
+            appId: "1:408070680295:web:77b9656094e330b803bc42"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "login.html";
+                return;
+            }
+            get(ref(db, 'users/' + user.uid)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    document.getElementById('profile-name').textContent = data.email.split('@')[0];
+                    document.getElementById('profile-email').textContent = data.email;
+                } else {
+                    document.getElementById('profile-name').textContent = user.email;
+                    document.getElementById('profile-email').textContent = user.email;
+                }
+            });
         });
     </script>
 </body>
