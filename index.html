@@ -56,7 +56,6 @@
             display: block;
             border-radius: 16px;
         }
-        /* Контентная карточка: текст и кнопка в левом верхнем углу, полностью прозрачные */
         .promo-card-inner {
             position: absolute;
             top: 0;
@@ -93,8 +92,6 @@
             transition: background 0.3s;
         }
         .promo-btn:hover { background: #d05c83; }
-
-        /* Стрелки внутри слайда, внизу у краёв */
         .slide-arrow {
             position: absolute;
             bottom: 20px;
@@ -121,7 +118,6 @@
         }
         .slide-arrow-prev { left: 20px; }
         .slide-arrow-next { right: 20px; }
-
         @media (max-width: 768px) {
             .promo-card-content { max-width: 100%; }
             .promo-card-content h2 { font-size: 18px; }
@@ -152,14 +148,14 @@
                         <button class="slide-arrow slide-arrow-next swiper-btn-next">&#8250;</button>
                     </div>
                     
-                    <!-- СЛАЙД 2: Плей-офф -->
+                    <!-- СЛАЙД 2: Плей-офф (надпись от таблицы) -->
                     <div class="swiper-slide promo-card">
                         <div class="slide-inner-frame-bg">
                             <iframe src="playoff.html"></iframe>
                         </div>
                         <div class="promo-card-inner">
                             <div class="promo-card-content">
-                                <h2>за участие получай чак-чак</h2>
+                                <h2>участвуй в турнире</h2>
                                 <a href="tournaments.html" class="promo-btn">Read More</a>
                             </div>
                         </div>
@@ -167,14 +163,14 @@
                         <button class="slide-arrow slide-arrow-next swiper-btn-next">&#8250;</button>
                     </div>
                     
-                    <!-- СЛАЙД 3: Таблица -->
+                    <!-- СЛАЙД 3: Таблица (надпись от плей-офф) -->
                     <div class="swiper-slide promo-card">
                         <div class="slide-inner-frame-bg">
                             <iframe src="table.html"></iframe>
                         </div>
                         <div class="promo-card-inner">
                             <div class="promo-card-content">
-                                <h2>участвуй в турнире</h2>
+                                <h2>за участие получай чак-чак</h2>
                                 <a href="tournaments.html" class="promo-btn">Read More</a>
                             </div>
                         </div>
