@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS2 Auto Particles Showcase (Optimized)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { overflow: hidden; background: transparent; width: 100vw; height: 100vh; }
+        canvas { display: block; width: 100%; height: 100%; background: transparent; }
+    </style>
+</head>
+<body>
+
+<canvas class="webgl"></canvas>
+
+<script>
+    // НАДЁЖНОЕ ВСТРОЕННОЕ ЯДРО THREE.JS ДЛЯ СТАБИЛЬНОЙ РАБОТЫ ЧАСТИЦ
+    const threeCode = `
+    (function(g,f){typeof exports==='object'&&typeof module!=='undefined'?f(exports):typeof define==='function'&&define.amd?define(['exports'],f):(g=typeof globalThis!=='undefined'?globalThis:g||self,f(g.THREE={}));})(this,function(exports){'use strict';
+    function Scene(){this.type="Scene";this.children=[];}
+    Scene.prototype={
+        add:function(o){this.children.push(o);},
+        remove:function(o){var idx=this.children.indexOf(o);if(idx!==-1)this.children.splice(idx,1);}
+    };
+    function PerspectiveCamera(){this.type="PerspectiveCamera";this.position={z:5};}
+    function WebGLRenderer(p){var _c=p.canvas;var _ctx=_c.getContext('2d');this.setSize=function(w,h){_c.width=w;_c.height=h;};
+    this.render=function(s,cam){
+        _ctx.clearRect(0,0,_c.width,_c.height);var cx=_c.width/2,cy=_c.height/2;
+        for(var i=0;i<s.children.length;i++){
+            var obj=s.children[i];if(!obj||!obj.geometry)continue;
+            var pos=obj.geometry.attributes.position.array;var col=obj.geometry.attributes.color.array;
+            var rotY=obj.rotation.y;var cos=Math.cos(rotY),sin=Math.sin(rotY);
+            for(var j=0;j<pos.length;j+=3){
+                var rx=pos[j]*cos-pos[j+2]*sin;var rz=pos[j+2]*cos+pos[j]*sin;var p=400/(400+rz*20);
+                var sx=cx+rx*140*p;var sy=cy+pos[j+1]*140*p;
+                if(sx>=0&&sx<=_c.width&&sy>=0&&sy<=_c.height){
+                    _ctx.fillStyle='rgb('+Math.floor(col[j]*255)+','+Math.floor(col[j+1]*255)+','+Math.floor(col[j+2]*255)+')';
+                    _ctx.fillRect(sx,sy,2.5*p,2.5*p);
+                }
+            }
+        }
+    };}
+    function BufferGeometry(){this.attributes={};}BufferGeometry.prototype={setAttribute:function(n,a){this.attributes[n]=a;return this;},dispose:function(){}};
+    function Float32BufferAttribute(a,s){this.array=a;this.itemSize=s;}
+    function PointsMaterial(){this.vertexColors=true;}
+    function Points(g,m){this.geometry=g;this.material=m;this.rotation={y:0};}
+    function Clock(){this.time=performance.now();}Clock.prototype={getElapsedTime:function(){return (performance.now()-this.time)/1000;}};
+    exports.Scene=Scene;exports.PerspectiveCamera=PerspectiveCamera;exports.WebGLRenderer=WebGLRenderer;
+    exports.BufferGeometry=BufferGeometry;exports.Float32BufferAttribute=Float32BufferAttribute;
+    exports.PointsMaterial=PointsMaterial;exports.Points=Points;exports.Clock=Clock;
+    });`;
+
+    const blob = new Blob([threeCode], { type: 'application/javascript' });
+    const script = document.createElement('script');
+    script.src = URL.createObjectURL(blob);
+    script.onload = () => { initParticlesApp(); };
+    document.head.appendChild(script);
+
+    function initParticlesApp() {
+        const canvas = document.querySelector('canvas.webgl');
+        const scene = new THREE.Scene();
+
+        // ТВOЙ ПОЛНЫЙ ПРОВЕРЕННЫЙ СПИСОК ИМЕН
+        const weaponsList = [
+            'ak-47_kolymaga.png',
+            'AK-47_diletanti.png',
+            'AK-47_fantomni_vreditel.png',
+            'AK-47_led9noi_ygol.png',
+            'AK-47_nyvo_ryzh.png',
+            'AK-47_zhgycha9_9rkost.png',
+            'AWP_dvoistvennost.png',
+            'AWP_konec.png',
+            'AWP_led9noi_ygol.png',
+            'AWP_mortic.png',
+            'AWP_zelena9_energia.png',
+            'AWPelitnoe_snar9zhenie.png',
+            'M4A1-S_4erni_lotoc.png',
+            'M4A1-S_diki_tysovchik.png',
+            'M4A1-S_no4noi_koshmar.png',
+            'M4A1-S_panel_ypravleni9.png',
+            'M4A1-S_stratosfera.png',
+            'M4A1-S_yedinenie.png',
+            'M4A4_adok.png',
+            'M4A4_zybna9_fei.png'
+        ];
+        
+        let currentWeaponIndex = 0;
+        let geometry = null;
+        let material = null;
+        let points = null;
+
+        let targetPositions = [];
+        let currentPositions = [];
+        let colors = [];
+        let isChanging = false;
+
+        const sizes = { width: window.innerWidth, height: window.innerHeight };
+        const camera = new THREE.PerspectiveCamera();
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas });
+        renderer.setSize(sizes.width, sizes.height);
+
+        const imgCanvas = document.createElement('canvas');
+        // ИСПРАВЛЕНО: Добавили параметр willReadFrequently, чтобы убрать предупреждение и ускорить getImageData
+        const ctx = imgCanvas.getContext('2d', { willReadFrequently: true });
+
+        const loadWeaponParticles = (fileName) => {
+            isChanging = true;
+
+            const image = new Image();
+            image.crossOrigin = "anonymous";
+            image.src = fileName; 
+
+            image.onload = () => {
+                if(points !== null){
+                    scene.remove(points);
+                    geometry.dispose();
+                }
+
+                targetPositions = [];
+                currentPositions = [];
+                colors = [];
+
+                const isAWP = fileName.toLowerCase().includes('awp');
+                const width = isAWP ? 220 : 180; 
+                const height = Math.round((image.height / image.width) * width);
+                
+                imgCanvas.width = width;
+                imgCanvas.height = height;
+                ctx.drawImage(image, 0, 0, width, height);
+                const imgData = ctx.getImageData(0, 0, width, height).data;
+
+                const scaleFactor = isAWP ? 0.035 : 0.04;
+
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        const index = (y * width + x) * 4;
+                        if (imgData[index + 3] > 40) {
+                            const tX = (x - width / 2) * scaleFactor;
+                            const tY = (y - height / 2) * scaleFactor;
+                            const tZ = (Math.random() - 0.5) * 0.12;
+                            targetPositions.push(tX, tY, tZ);
+
+                            // Падение частиц сверху вниз
+                            currentPositions.push(
+                                tX + (Math.random() - 0.5) * 1.5,
+                                tY - 5 - Math.random() * 4, 
+                                tZ + (Math.random() - 0.5) * 1.5
+                            );
+                            colors.push(imgData[index]/255, imgData[index+1]/255, imgData[index+2]/255);
+                        }
+                    }
+                }
+
+                geometry = new THREE.BufferGeometry();
+                geometry.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(currentPositions), 3));
+                geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+                material = new THREE.PointsMaterial();
+                points = new THREE.Points(geometry, material);
+                scene.add(points);
+                
+                isChanging = false;
+            };
+
+            image.onerror = () => {
+                isChanging = false;
+                nextWeapon();
+            };
+        };
+
+        const nextWeapon = () => {
+            currentWeaponIndex = (currentWeaponIndex + 1) % weaponsList.length;
+            loadWeaponParticles(weaponsList[currentWeaponIndex]);
+        };
+
+        // Старт цикла
+        loadWeaponParticles(weaponsList[currentWeaponIndex]);
+
+        // Интервал смены скинов (9 секунд)
+        setInterval(nextWeapon, 9000);
+
+        window.addEventListener('resize', () => {
+            sizes.width = window.innerWidth;
+            sizes.height = window.innerHeight;
+            renderer.setSize(sizes.width, sizes.height);
+        });
+
+        const clock = new THREE.Clock();
+        const tick = () => {
+            if (points && currentPositions.length > 0) {
+                const posArray = points.geometry.attributes.position.array;
+                for (let i = 0; i < posArray.length; i++) {
+                    posArray[i] += (targetPositions[i] - posArray[i]) * 0.05;
+                }
+                points.rotation.y = clock.getElapsedTime() * 0.45; 
+            }
+            renderer.render(scene, camera);
+            window.requestAnimationFrame(tick);
+        };
+        tick();
+    }
+</script>
+
+</body>
+</html>
