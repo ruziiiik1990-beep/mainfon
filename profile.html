@@ -225,7 +225,6 @@
         var currentUid = null;
         var isAdmin = false;
 
-        // ===== ПРОФИЛЬ (с поддержкой чужого профиля через ?uid=) =====
         const urlParams = new URLSearchParams(window.location.search);
         const viewUid = urlParams.get('uid');
 
@@ -236,14 +235,11 @@
             }
             currentUid = user.uid;
 
-            // Если в URL есть uid — показываем чужой профиль, иначе свой
             const targetUid = viewUid || user.uid;
 
-            // Проверка админа через базу (для кнопки добавления достижений)
             const adminSnap = await get(ref(db, 'users/' + user.uid + '/admin'));
             isAdmin = adminSnap.exists() && adminSnap.val() === true;
 
-            // Имя профиля
             get(ref(db, 'users/' + targetUid)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
@@ -253,19 +249,16 @@
                 }
             });
 
-            // Запускаем Steam и Достижения с uid целевого профиля
             initSteam(targetUid, user.uid);
             initAchievements(targetUid, isAdmin);
         });
 
-        // ===== STEAM =====
         const BACKEND_URL = 'https://mainfon.onrender.com';
         var targetSteamUid = null;
 
         function initSteam(uid, myUid) {
             targetSteamUid = uid;
 
-            // Кнопку "Войти через Steam" показываем только если смотрим свой профиль
             if (uid === myUid) {
                 document.getElementById('steamLoginBtn').addEventListener('click', function() { steamLogin(uid); });
                 document.getElementById('steamLoginBtn2').addEventListener('click', function() { steamLogin(uid); });
@@ -312,7 +305,6 @@
             document.getElementById('steamVerifiedRow').classList.add('steam-hidden');
         }
 
-        // ===== ДОСТИЖЕНИЯ =====
         var achRef = null;
         var lastAchData = null;
         var targetAchievementsUid = null;
