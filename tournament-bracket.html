@@ -558,6 +558,9 @@ if (myUid) {
     if (snap.exists()) {
       var data = snap.val();
       myNick = data.nick || data.email.split('@')[0];
+      console.log('NICK ЗАГРУЖЕН:', myNick);
+    } else {
+      console.log('ПОЛЬЗОВАТЕЛЬ НЕ НАЙДЕН:', myUid);
     }
   });
 }
