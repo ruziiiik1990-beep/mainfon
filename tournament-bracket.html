@@ -369,11 +369,11 @@ body::-webkit-scrollbar { display: none; }
     <div class="prize-popup-title">Возможные призы победителю</div>
     <div class="prize-popup-skins">
       <div class="prize-skin-card">
-        <img src="https://4ak4ak.moy.su/prizSkin/ak-47_poljot_zhuravlja.png" alt="AK-47">
+        <img src="png/ak-47_poljot_zhuravlja.png" alt="AK-47">
         <div class="prize-skin-name">AK-47 Полёт журавля</div>
       </div>
       <div class="prize-skin-card">
-        <img src="https://4ak4ak.moy.su/prizSkin/m4a1-s_dikij_tusovshhik.png" alt="M4A1-S">
+        <img src="png/m4a1-s_dikij_tusovshhik.png" alt="M4A1-S">
         <div class="prize-skin-name">M4A1-S Дикий тусовщик</div>
       </div>
     </div>
@@ -381,11 +381,11 @@ body::-webkit-scrollbar { display: none; }
     <div class="prize-popup-title">Возможные призы финалисту</div>
     <div class="prize-popup-skins">
       <div class="prize-skin-card">
-        <img src="https://4ak4ak.moy.su/prizSkinFinalis/ak-47_kolymaga.png" alt="AK-47">
+        <img src="png/prizSkinFinalis/ak-47_kolymaga.png" alt="AK-47">
         <div class="prize-skin-name">AK-47 Колымага</div>
       </div>
       <div class="prize-skin-card">
-        <img src="https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_vzgljad_v_proshloe.png" alt="M4A1-S">
+        <img src="png/m4a1-s_vzgljad_v_proshloe.png" alt="M4A1-S">
         <div class="prize-skin-name">M4A1-S Взгляд в прошлое</div>
       </div>
     </div>
@@ -438,25 +438,25 @@ body::-webkit-scrollbar { display: none; }
 <script>
 (function() {
   var firebaseConfig = {
-    apiKey: "AIzaSyCNQ0WFAiQjnISQjXJnHoln-wI64G2BqWs",
-    authDomain: "ak4ak-d948e.firebaseapp.com",
-    databaseURL: "https://ak4ak-d948e-default-rtdb.firebaseio.com",
-    projectId: "ak4ak-d948e",
-    storageBucket: "ak4ak-d948e.firebasestorage.app",
-    messagingSenderId: "787151252619",
-    appId: "1:787151252619:web:05eff65dc74b01d6e8f88e",
-    measurementId: "G-DBB4YBNF2Q"
-  };
+   apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
+  authDomain: "ak4ak-8be45.firebaseapp.com",
+  databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "ak4ak-8be45",
+  storageBucket: "ak4ak-8be45.firebasestorage.app",
+  messagingSenderId: "408070680295",
+  appId: "1:408070680295:web:77b9656094e330b803bc42",
+  measurementId: "G-4H84P5N6RY"
+};
   firebase.initializeApp(firebaseConfig);
   var db = firebase.database();
 
-  var SITE_URL = 'https://4ak4ak.moy.su';
+  var SITE_URL = 'https://4ak4ak.pages.dev';
   var playerIds = {};
   var myUid = null;
 
   var ADMIN_PASSWORD = '12$sacreD';
   var MAX_PLAYERS = 5;
-  var WIN_LOGO = 'https://4ak4ak.moy.su/logo1.jpg';
+  var WIN_LOGO = 'png/logo1.jpg';
   var myNick = null;
   var isAdmin = false;
   var currentTournamentId = null;
@@ -468,68 +468,67 @@ body::-webkit-scrollbar { display: none; }
   var qfMatchIds = ['qf_w1','qf_w2','qf_e1','qf_e2'];
 
     var PRIZE_SKINS_WINNER = [
-    { url: 'https://4ak4ak.moy.su/prizSkin/ak-47_poljot_zhuravlja.png', name: 'AK-47 Полёт журавля' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a1-s_dikij_tusovshhik.png', name: 'M4A1-S Дикий тусовщик' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/ak-47_diletanty.png', name: 'AK-47 Дилетанты' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/ak-47_fantomnyj_vreditel.png', name: 'AK-47 Фантомный вредитель' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/ak-47_ledjanoj_ugol.png', name: 'AK-47 Ледяной угол' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/ak-47_nuvo_ruzh.png', name: 'AK-47 Нуво-руж' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/ak-47_zhguchaja_jarost.png', name: 'AK-47 Жгучая ярость' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/awp_dvojstvennost.png', name: 'AWP Двойственность' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/awp_ehlitnoe_snarjazhenie.png', name: 'AWP Элитное снаряжение' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/awp_ledjanoj_ugol.png', name: 'AWP Ледяной угол' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/awp_mortis.png', name: 'AWP Мортис' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/awp_zeljonaja_ehnergija.png', name: 'AWP Зелёная энергия' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a1-s_chjornyj_lotos.png', name: 'M4A1-S Чёрный лотос' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a1-s_nochnoj_koshmar.png', name: 'M4A1-S Ночной кошмар' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a1-s_panel_upravlenija.png', name: 'M4A1-S Панель управления' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a1-s_stratosfera.png', name: 'M4A1-S Стратосфера' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a1-s_uedinenie.png', name: 'M4A1-S Уединение' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a4_adok.png', name: 'M4A4 Адок' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a4_grifon.png', name: 'M4A4 Грифон' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a4_zubnaja_feja.png', name: 'M4A4 Зубная фея' }
+    { url: 'png/ak-47_poljot_zhuravlja.png', name: 'AK-47 Полёт журавля' },
+    { url: 'png/m4a1-s_dikij_tusovshhik.png', name: 'M4A1-S Дикий тусовщик' },
+    { url: 'png/ak-47_diletanty.png', name: 'AK-47 Дилетанты' },
+    { url: 'png/ak-47_fantomnyj_vreditel.png', name: 'AK-47 Фантомный вредитель' },
+    { url: 'png/ak-47_ledjanoj_ugol.png', name: 'AK-47 Ледяной угол' },
+    { url: 'png/prizSkin/ak-47_nuvo_ruzh.png', name: 'AK-47 Нуво-руж' },
+    { url: 'png/prizSkin/ak-47_zhguchaja_jarost.png', name: 'AK-47 Жгучая ярость' },
+    { url: 'png/prizSkin/awp_dvojstvennost.png', name: 'AWP Двойственность' },
+    { url: 'png/awp_ehlitnoe_snarjazhenie.png', name: 'AWP Элитное снаряжение' },
+    { url: 'png/prizSkin/awp_ledjanoj_ugol.png', name: 'AWP Ледяной угол' },
+    { url: 'png/awp_mortis.png', name: 'AWP Мортис' },
+    { url: 'png/awp_zeljonaja_ehnergija.png', name: 'AWP Зелёная энергия' },
+    { url: 'png/m4a1-s_chjornyj_lotos.png', name: 'M4A1-S Чёрный лотос' },
+    { url: 'png/m4a1-s_nochnoj_koshmar.png', name: 'M4A1-S Ночной кошмар' },
+    { url: 'png/m4a1-s_panel_upravlenija.png', name: 'M4A1-S Панель управления' },
+    { url: 'png/m4a1-s_stratosfera.png', name: 'M4A1-S Стратосфера' },
+    { url: 'png/m4a1-s_uedinenie.png', name: 'M4A1-S Уединение' },
+    { url: 'png/m4a4_adok.png', name: 'M4A4 Адок' },
+    { url: 'png/m4a4_grifon.png', name: 'M4A4 Грифон' },
+    { url: 'png/prizSkin/m4a4_zubnaja_feja.png', name: 'M4A4 Зубная фея' }
   ];
 
 
-    var PRIZE_SKINS_FINALIST = [
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/ak-47_kolymaga.png', name: 'AK-47 Колымага' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_vzgljad_v_proshloe.png', name: 'M4A1-S Взгляд в прошлое' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/ak-47_izumrudnye_zavitki.png', name: 'AK-47 Изумрудные завитки' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/ak-47_polunochnyj_gljanec.png', name: 'AK-47 Полуночный глянец' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/ak-47_proryv.png', name: 'AK-47 Прорыв' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/ak-47_slanec.png', name: 'AK-47 Сланец' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_bog_chervej.png', name: 'AWP Бог червей' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_chjornyj_jashhik.png', name: 'AWP Чёрный ящик' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_drevesnaja_gadjuka.png', name: 'AWP Древесная гадюка' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_ehkzoskelet.png', name: 'AWP Экзоскелет' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_ehkzotermija.png', name: 'AWP Экзотермия' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_fobos.png', name: 'AWP Фобос' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_gadjuka.png', name: 'AWP Гадюка' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_lapki.png', name: 'AWP Лапки' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_ehlektrum.png', name: 'M4A1-S Электрум' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_ehmforozavr-s.png', name: 'M4A1-S Эмфорозавр-S' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_gljuk-kraska.png', name: 'M4A1-S Глюк-краска' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_likvidacija.png', name: 'M4A1-S Ликвидация' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_nitro.png', name: 'M4A1-S Нитро' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_nochnoj_uzhas.png', name: 'M4A1-S Ночной ужас' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a4_grifon.png', name: 'M4A4 Грифон' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a4_master_travli.png', name: 'M4A4 Мастер травли' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a4_turbina.png', name: 'M4A4 Турбина' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a4_zarnica.png', name: 'M4A4 Зарница' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a4_zlobnyj_dajmjo.png', name: 'M4A4 Злобный даймё' }
-  ];
+   var PRIZE_SKINS_FINALIST = [
+    { url: 'png/prizSkinFinalis/ak-47_kolymaga.png', name: 'AK-47 Колымага' },
+    { url: 'png/prizSkinFinalis/m4a1-s_vzgljad_v_proshloe.png', name: 'M4A1-S Взгляд в прошлое' },
+    { url: 'png/prizSkinFinalis/ak-47_izumrudnye_zavitki.png', name: 'AK-47 Изумрудные завитки' },
+    { url: 'png/prizSkinFinalis/ak-47_polunochnyj_gljanec.png', name: 'AK-47 Полуночный глянец' },
+    { url: 'png/prizSkinFinalis/ak-47_proryv.png', name: 'AK-47 Прорыв' },
+    { url: 'png/prizSkinFinalis/ak-47_slanec.png', name: 'AK-47 Сланец' },
+    { url: 'png/prizSkinFinalis/awp_bog_chervej.png', name: 'AWP Бог червей' },
+    { url: 'png/prizSkinFinalis/awp_chjornyj_jashhik.png', name: 'AWP Чёрный ящик' },
+    { url: 'png/prizSkinFinalis/awp_drevesnaja_gadjuka.png', name: 'AWP Древесная гадюка' },
+    { url: 'png/prizSkinFinalis/awp_ehkzoskelet.png', name: 'AWP Экзоскелет' },
+    { url: 'png/prizSkinFinalis/awp_ehkzotermija.png', name: 'AWP Экзотермия' },
+    { url: 'png/prizSkinFinalis/awp_fobos.png', name: 'AWP Фобос' },
+    { url: 'png/prizSkinFinalis/awp_gadjuka.png', name: 'AWP Гадюка' },
+    { url: 'png/prizSkinFinalis/awp_lapki.png', name: 'AWP Лапки' },
+    { url: 'png/prizSkinFinalis/m4a1-s_ehlektrum.png', name: 'M4A1-S Электрум' },
+    { url: 'png/prizSkinFinalis/m4a1-s_ehmforozavr-s.png', name: 'M4A1-S Эмфорозавр-S' },
+    { url: 'png/prizSkinFinalis/m4a1-s_gljuk-kraska.png', name: 'M4A1-S Глюк-краска' },
+    { url: 'png/prizSkinFinalis/m4a1-s_likvidacija.png', name: 'M4A1-S Ликвидация' },
+    { url: 'png/prizSkinFinalis/m4a1-s_nitro.png', name: 'M4A1-S Нитро' },
+    { url: 'png/prizSkinFinalis/m4a1-s_nochnoj_uzhas.png', name: 'M4A1-S Ночной ужас' },
+    { url: 'png/prizSkinFinalis/m4a4_grifon.png', name: 'M4A4 Грифон' },
+    { url: 'png/prizSkinFinalis/m4a4_master_travli.png', name: 'M4A4 Мастер травли' },
+    { url: 'png/prizSkinFinalis/m4a4_turbina.png', name: 'M4A4 Турбина' },
+    { url: 'png/prizSkinFinalis/m4a4_zarnica.png', name: 'M4A4 Зарница' },
+    { url: 'png/prizSkinFinalis/m4a4_zlobnyj_dajmjo.png', name: 'M4A4 Злобный даймё' }
+];
 
-
-  var maps = [
-    { url: 'https://4ak4ak.moy.su/dust2.png', name: 'Dust 2' },
-    { url: 'https://4ak4ak.moy.su/360fx360f.png', name: 'Nuke' },
-    { url: 'https://4ak4ak.moy.su/ancient.jpg', name: 'Ancient' },
-    { url: 'https://4ak4ak.moy.su/anubis.png', name: 'Anubis' },
-    { url: 'https://4ak4ak.moy.su/cache.png', name: 'Cache' },
-    { url: 'https://4ak4ak.moy.su/inferno.png', name: 'Inferno' },
-    { url: 'https://4ak4ak.moy.su/mirage.png', name: 'Mirage' },
-    { url: 'https://4ak4ak.moy.su/vertigo.png', name: 'Vertigo' }
-  ];
+var maps = [
+    { url: 'png/dust2.png', name: 'Dust 2' },
+    { url: 'png/360fx360f.png', name: 'Nuke' },
+    { url: 'png/ancient.jpg', name: 'Ancient' },
+    { url: 'png/anubis.png', name: 'Anubis' },
+    { url: 'png/cache.png', name: 'Cache' },
+    { url: 'png/inferno.png', name: 'Inferno' },
+    { url: 'png/mirage.png', name: 'Mirage' },
+    { url: 'png/vertigo.png', name: 'Vertigo' }
+];
 
   var matchOrder = ['qf_w1','qf_w2','sf_w','final','sf_e','qf_e1','qf_e2'];
 
@@ -571,13 +570,12 @@ body::-webkit-scrollbar { display: none; }
     playerIds = snap.val() || {};
   });
 
-  function profileLink(nick) {
-    if (!nick) return '#';
-    var uid = playerIds[encodeURIComponent(nick)] || playerIds[nick];
-    if (uid) return SITE_URL + '/index/8-' + uid;
-    return SITE_URL + '/index/8-0-' + encodeURIComponent(nick);
-  }
-
+ function profileLink(nick) {
+  if (!nick) return '#';
+  var uid = playerIds[encodeURIComponent(nick)] || playerIds[nick];
+  if (uid) return SITE_URL + '/profile.html?uid=' + uid;
+  return SITE_URL + '/profile.html?nick=' + encodeURIComponent(nick);
+}
   function escapeHtml(t) {
     if (!t) return '';
     return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
