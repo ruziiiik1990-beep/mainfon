@@ -12,17 +12,16 @@
       padding: 0;
       background: transparent;
       font-family: 'Inter', sans-serif;
-      overflow-y: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+      overflow-y: scroll; /* всегда показывать ползунок */
     }
-    body::-webkit-scrollbar { display: none; }
 
-    /* Фон страницы */
+    /* Фон страницы — начинается ниже шапки */
     .page-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      position: absolute;
+      top: 80px; /* высота шапки */
+      left: 0;
+      width: 100%;
+      height: calc(100% - 80px);
       background-image: url('pngg/9kolo.png');
       background-size: cover;
       background-position: center;
@@ -139,7 +138,7 @@
 </head>
 <body>
 
-  <!-- Фон -->
+  <!-- Фон (ниже шапки) -->
   <div class="page-bg"></div>
 
   <!-- Шапка -->
