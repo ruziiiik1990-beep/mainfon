@@ -1,0 +1,160 @@
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Файлы - 4ak4ak</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Фон страницы */
+    .page-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: url('pngg/3kolo.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .page-bg::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .files-container {
+      max-width: 900px;
+      margin: 100px auto 40px auto;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .files-title {
+      color: #4a9eff;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    .files-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10, 42, 107, 0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(74, 158, 255, 0.45);
+      border-radius: 12px;
+      padding: 16px 20px;
+      color: #fff;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .file-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(10, 42, 107, 0.6);
+    }
+
+    .file-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .file-icon {
+      font-size: 24px;
+    }
+
+    .file-name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .file-size {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+    }
+
+    .file-btn {
+      padding: 8px 20px;
+      background: linear-gradient(135deg, #0a2a6b, #1a4a8b);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+    .file-btn:hover {
+      background: linear-gradient(135deg, #1a4a8b, #2a6abb);
+      transform: translateY(-1px);
+    }
+
+    .files-empty {
+      text-align: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 16px;
+      font-style: italic;
+      padding: 60px 20px;
+      background: rgba(10, 42, 107, 0.3);
+      border-radius: 12px;
+      border: 1px dashed rgba(74, 158, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Фон -->
+  <div class="page-bg"></div>
+
+  <!-- Шапка -->
+  <div id="header-placeholder" class="header-wrapper"></div>
+
+  <div class="files-container">
+    <div class="files-title">Файлы</div>
+
+    <div class="files-grid" id="filesGrid">
+      <div class="files-empty">Пока файлов нет. Скоро здесь появятся материалы.</div>
+    </div>
+  </div>
+
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = 'auth.js';
+        document.body.appendChild(script);
+      })
+      .catch(error => console.error('Ошибка загрузки шапки:', error));
+  </script>
+
+</body>
+</html>
