@@ -38,19 +38,19 @@ body, html {
 .header-left { 
     display: flex; 
     align-items: center; 
-    gap: 40px; /* Расстояние между логотипом и меню */
+    gap: 40px;
 }
 
-/* Стили для логотипа (сделал больше) */
+/* Стили для логотипа */
 .logo-image { 
-    height: 65px; /* Увеличили размер */
+    height: 65px;
     width: auto; 
     display: block; 
-    transition: transform 0.3s ease; /* Плавный эффект при наведении */
+    transition: transform 0.3s ease;
 }
 
 .logo-image:hover {
-    transform: scale(1.05); /* Легкое увеличение при наведении */
+    transform: scale(1.05);
 }
 
 /* Стилизация меню */
