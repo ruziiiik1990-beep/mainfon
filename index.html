@@ -7,28 +7,15 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        /* Фон: фиксированный, чтобы не создавать лишнюю прокрутку */
-        .page-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('kolo11.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: -1;
-            pointer-events: none;
-        }
-        .page-bg::after {
-            content: '';
+        /* Фон: абсолютный, под слайдером, но страница прокручивается */
+        .bg-image {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
+            height: auto;
+            z-index: 0;
+            pointer-events: none;
         }
 
         /* Слайдер поверх фона */
@@ -144,8 +131,7 @@
 
     <div id="header-placeholder" class="header-wrapper"></div>
 
-    <!-- Фон (фиксированный) -->
-    <div class="page-bg"></div>
+    <img src="kolo11.png" class="bg-image" alt="Фон">
 
     <div class="slider-section">
         <div class="container slider-container">
