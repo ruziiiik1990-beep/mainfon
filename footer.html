@@ -1,0 +1,55 @@
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-left">
+      <div class="copy">Copyright ЧакЧак © 2026</div>
+      <span>|</span>
+      <a href="privacy.html">Политика конфиденциальности</a>
+      <span>|</span>
+      <a href="consent.html">Согласие на обработку персональных данных</a>
+      <span>|</span>
+      <a href="terms.html">Пользовательское соглашение</a>
+    </div>
+  </div>
+  <style>
+    .site-footer {
+      background: #1a1a2e;
+      color: #ccc;
+      padding: 20px 0;
+      margin-top: 40px;
+      font-size: 14px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-family: 'Inter', sans-serif;
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .footer-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    .footer-left a {
+      color: #66c0f4;
+      text-decoration: none;
+    }
+    .footer-left a:hover {
+      text-decoration: underline;
+    }
+    .footer-left span {
+      color: #555;
+    }
+    @media (max-width: 600px) {
+      .footer-left {
+        flex-direction: column;
+        gap: 6px;
+      }
+      .footer-left span {
+        display: none;
+      }
+    }
+  </style>
+</footer>
