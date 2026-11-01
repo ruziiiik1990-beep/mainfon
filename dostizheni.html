@@ -93,28 +93,56 @@
 
 <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
     import { getDatabase, ref, onValue, push, set, remove } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
-    const firebaseConfig = { databaseURL: 'https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app/' };
+    const firebaseConfig = {
+        apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
+        authDomain: "ak4ak-8be45.firebaseapp.com",
+        databaseURL: 'https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app/',
+        projectId: "ak4ak-8be45",
+        storageBucket: "ak4ak-8be45.appspot.com",
+        messagingSenderId: "408070680295",
+        appId: "1:408070680295:web:77b9656094e330b803bc42"
+    };
     const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
     const db = getDatabase(app);
 
     const params = new URLSearchParams(window.location.search);
     const uid = params.get('uid') || 'unknown';
-    const isAdmin = params.get('admin') === '1';
+    var isAdmin = false;
     var selectedImgUrl = '';
-
-    if (isAdmin) document.getElementById('achAdminBtns').style.display = 'flex';
 
     const achRef = ref(db, 'achievements/' + uid);
 
+    // Проверка прав администратора через Firebase Auth
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            const tokenResult = await user.getIdTokenResult();
+            isAdmin = tokenResult.claims.admin === true;
+            if (isAdmin) {
+                document.getElementById('achAdminBtns').style.display = 'flex';
+            }
+            // Перерисовываем сетку, чтобы показать/скрыть кнопки удаления
+            renderAchievements();
+        }
+    });
+
+    var lastData = null;
+
     onValue(achRef, function(snapshot) {
+        lastData = snapshot.val();
+        renderAchievements();
+    });
+
+    function renderAchievements() {
         var loading = document.getElementById('achLoading');
         if (loading) loading.style.display = 'none';
 
         var grid = document.getElementById('achGrid');
         var empty = document.getElementById('achEmpty');
-        var data = snapshot.val();
+        var data = lastData;
 
         grid.querySelectorAll('.ach-item').forEach(function(el) { el.remove(); });
 
@@ -140,7 +168,7 @@
                 '<div class="ach-tooltip"><span class="ach-title">' + (item.title || '') + '</span>' + (item.desc || '') + '</div>';
             grid.appendChild(div);
         });
-    });
+    }
 
     window.achToggleTooltip = function(el) {
         document.querySelectorAll('.ach-item').forEach(function(item) { if (item !== el) item.classList.remove('active'); });
