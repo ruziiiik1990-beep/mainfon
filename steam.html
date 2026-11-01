@@ -6,10 +6,6 @@
     <title>Steam ID</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Скрываем заголовки GitHub Pages */
-        #header, header, h1, .header, a[href*="openID"], a[href*="steamID"], .page-header, .project-name, .project-tagline {
-            display: none !important; opacity: 0 !important; visibility: hidden !important; height: 0 !important; margin: 0 !important; padding: 0 !important;
-        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: transparent; color: #e0e6f0; }
         .profile-table-wrapper { max-width: 900px; margin: 0 auto; background: #374151; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); overflow: hidden; }
@@ -56,16 +52,19 @@
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
     import { getDatabase, ref, onValue, update } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
-    // ИСПОЛЬЗУЕМ ТВОЮ ОСНОВНУЮ БАЗУ
     const firebaseConfig = { databaseURL: 'https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app/' };
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
     const params = new URLSearchParams(window.location.search);
     const uid = params.get('uid') || 'guest';
-    const BACKEND_URL = 'https://steam-verify-backend.onrender.com'; // Твой Render
+    const BACKEND_URL = ''; // Пока пусто, настроим позже с Render
 
     window.steamLogin = function() {
+        if (!BACKEND_URL) {
+            alert('Steam-верификация ещё не подключена. Скоро!');
+            return;
+        }
         const width = 600, height = 700;
         const left = (screen.width - width) / 2;
         const top = (screen.height - height) / 2;
