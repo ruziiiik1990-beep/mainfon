@@ -63,7 +63,7 @@
                         <div class="ach-empty" id="achEmpty" style="display:none;">Достижений пока нет</div>
                     </div>
                     <div class="profile-labels" id="achAdminBtns" style="display:none;">
-                        <a href="javascript:void(0)" class="profile-label" onclick="achToggleAdmin()">
+                        <a href="javascript:void(0)" class="profile-label" id="achAddBtn">
                             <span class="material-symbols-outlined">add_circle</span> Добавить достижение
                         </a>
                     </div>
@@ -81,8 +81,8 @@
                         <input type="text" class="ach-admin-input" id="achTitle" placeholder="Название достижения">
                         <input type="text" class="ach-admin-input" id="achDesc" placeholder="За что выдано">
                         <div class="profile-labels">
-                            <a href="javascript:void(0)" class="profile-label" onclick="achAdd()"><span class="material-symbols-outlined">check</span> Добавить</a>
-                            <a href="javascript:void(0)" class="profile-label" onclick="achToggleAdmin()"><span class="material-symbols-outlined">close</span> Отмена</a>
+                            <a href="javascript:void(0)" class="profile-label" id="achSubmitBtn"><span class="material-symbols-outlined">check</span> Добавить</a>
+                            <a href="javascript:void(0)" class="profile-label" id="achCancelBtn"><span class="material-symbols-outlined">close</span> Отмена</a>
                         </div>
                     </div>
                 </div>
@@ -112,10 +112,11 @@
     const params = new URLSearchParams(window.location.search);
     const uid = params.get('uid') || 'unknown';
     var isAdmin = false;
+    var selectedImgUrl = '';
 
     const achRef = ref(db, 'achievements/' + uid);
+    var lastData = null;
 
-    // Проверка прав администратора через запись users/{uid}/admin в базе
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             const adminSnap = await get(ref(db, 'users/' + user.uid + '/admin'));
@@ -126,8 +127,6 @@
             renderAchievements();
         }
     });
-
-    var lastData = null;
 
     onValue(achRef, function(snapshot) {
         lastData = snapshot.val();
@@ -159,30 +158,37 @@
 
             var deleteBtn = '';
             if (isAdmin) {
-                deleteBtn = '<button class="ach-delete-btn" onclick="achDelete(\'' + key + '\'); event.stopPropagation();" title="Удалить">&times;</button>';
+                deleteBtn = '<button class="ach-delete-btn" data-key="' + key + '" title="Удалить">&times;</button>';
             }
 
             div.innerHTML = '<img src="' + item.img + '" alt="">' + deleteBtn +
                 '<div class="ach-tooltip"><span class="ach-title">' + (item.title || '') + '</span>' + (item.desc || '') + '</div>';
+            
+            var del = div.querySelector('.ach-delete-btn');
+            if (del) {
+                del.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    achDelete(key);
+                });
+            }
+
             grid.appendChild(div);
         });
     }
 
-    window.achToggleTooltip = function(el) {
+    function achToggleTooltip(el) {
         document.querySelectorAll('.ach-item').forEach(function(item) { if (item !== el) item.classList.remove('active'); });
         el.classList.toggle('active');
-    };
+    }
 
-    window.achToggleAdmin = function() { document.getElementById('achAdminPanel').classList.toggle('visible'); };
-
-    window.achSelectImg = function(el, url) {
+    function achSelectImg(el, url) {
         selectedImgUrl = url;
         document.querySelectorAll('.ach-img-option').forEach(function(opt) { opt.classList.remove('selected'); });
         el.classList.add('selected');
         document.getElementById('achSelectedImg').value = url;
-    };
+    }
 
-    window.achAdd = function() {
+    function achAdd() {
         var img = document.getElementById('achSelectedImg').value;
         var title = document.getElementById('achTitle').value.trim();
         var desc = document.getElementById('achDesc').value.trim();
@@ -197,12 +203,27 @@
             document.querySelectorAll('.ach-img-option').forEach(function(opt) { opt.classList.remove('selected'); });
             document.getElementById('achAdminPanel').classList.remove('visible');
         });
-    };
+    }
 
-    window.achDelete = function(key) {
+    function achDelete(key) {
         if (!confirm('Удалить?')) return;
         remove(ref(db, 'achievements/' + uid + '/' + key));
-    };
+    }
+
+    // Привязка обработчиков к кнопкам и картинкам
+    document.getElementById('achAddBtn').addEventListener('click', function() {
+        document.getElementById('achAdminPanel').classList.toggle('visible');
+    });
+    document.getElementById('achSubmitBtn').addEventListener('click', achAdd);
+    document.getElementById('achCancelBtn').addEventListener('click', function() {
+        document.getElementById('achAdminPanel').classList.remove('visible');
+    });
+
+    document.querySelectorAll('.ach-img-option').forEach(function(img) {
+        img.addEventListener('click', function() {
+            achSelectImg(img, img.getAttribute('src'));
+        });
+    });
 
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.ach-item')) {
