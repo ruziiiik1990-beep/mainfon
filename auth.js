@@ -47,7 +47,13 @@ fetch('footer.html')
     footerDiv.style.position = 'relative';
     footerDiv.style.zIndex = '10';
     footerDiv.style.width = '100%';
-    footerDiv.style.marginTop = '40px';
+    footerDiv.style.marginTop = 'auto';
+
+    // Делаем body flex-колонкой на всю высоту экрана
+    document.body.style.display = 'flex';
+    document.body.style.flexDirection = 'column';
+    document.body.style.minHeight = '100vh';
+
     document.body.appendChild(footerDiv);
   })
   .catch(err => console.error('Ошибка загрузки футера:', err));
