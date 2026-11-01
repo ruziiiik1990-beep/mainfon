@@ -96,9 +96,9 @@
             </div>
         </div>
 
-        <!-- Iframe: OpenID (Steam ID) -->
+        <!-- Iframe: OpenID (Steam ID) — локальный файл, uid подставляется скриптом -->
         <iframe
-            src="https://ruziiiik1990-beep.github.io/openID1/"
+            src="steam.html"
             style="width:100%;border:none;overflow:hidden;display:block;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.4);margin-top:20px;"
             scrolling="no"
             class="seamless-iframe"
@@ -106,7 +106,7 @@
             allow="clipboard-write; popup">
         </iframe>
 
-        <!-- Iframe: Достижения (локальный файл, uid подставляется скриптом) -->
+        <!-- Iframe: Достижения — локальный файл, uid подставляется скриптом -->
         <div style="max-width:900px;margin:20px auto 0;">
             <iframe
                 src="dostizheni.html"
@@ -172,8 +172,9 @@
                 window.location.href = "login.html";
                 return;
             }
-            // Подставляем uid в iframe достижений
+            // Подставляем uid в iframe достижений и Steam
             document.getElementById('achievementsFrame').src = 'dostizheni.html?uid=' + user.uid;
+            document.getElementById('steamFrame').src = 'steam.html?uid=' + user.uid;
 
             get(ref(db, 'users/' + user.uid)).then((snapshot) => {
                 if (snapshot.exists()) {
