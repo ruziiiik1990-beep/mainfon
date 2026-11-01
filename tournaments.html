@@ -2,20 +2,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Турнир</title>
+<title>Турнир - 4ak4ak</title>
+<link rel="stylesheet" href="style.css">
 <style>
-  #header, header, h1, .header, a[href*="tournament"] {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 body { margin: 0; padding: 0; background: transparent; font-family: 'Inter', sans-serif; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
 body::-webkit-scrollbar { display: none; }
+
+/* Фон страницы турниров */
+.page-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: url('png/dust2B.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  pointer-events: none;
+}
+.page-bg::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+/* Отступ от шапки */
+.page-content { margin-top: 100px; }
 
 .tournament-selector-row {
   max-width: 850px; margin: 0 auto 16px; padding: 0 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
@@ -53,7 +69,7 @@ body::-webkit-scrollbar { display: none; }
 .btn-delete-tournament:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(192,57,43,0.5); }
 
 .tournament-wrapper {
-  background-image: url('https://4ak4ak.moy.su/Tchak.jpg');
+  background-image: url('png/Tchak.jpg');
   background-size: cover; background-position: center center; background-repeat: no-repeat;
   padding: 30px 0; border-radius: 12px; position: relative; overflow: hidden;
   max-width: 1100px; margin: 0 auto;
@@ -131,30 +147,15 @@ body::-webkit-scrollbar { display: none; }
 .team-modal-close { background: rgba(255,255,255,0.1); border: none; color: #fff; font-size: 22px; cursor: pointer; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s; line-height: 1; }
 .team-modal-close:hover { background: rgba(255,80,80,0.4); }
 
-.participants-grid { 
-  display: flex; 
-  gap: 16px; 
-  justify-content: space-between; 
-  align-items: flex-start; 
-}
-.participants-col { 
-  width: 260px; /* Задает строгую фиксированную ширину, чтобы левая колонка была один в один как правая */
-  flex: 0 0 260px; /* Запрещает колонкам растягиваться из-за длинных ников или кнопок */
-  display: flex; 
-  flex-direction: column; 
-  box-sizing: border-box;
-}
-
+.participants-grid { display: flex; gap: 16px; justify-content: space-between; align-items: flex-start; }
+.participants-col { width: 260px; flex: 0 0 260px; display: flex; flex-direction: column; box-sizing: border-box; }
 .participants-col.is-mine-col { border: 2px solid rgba(74,158,255,0.5); border-radius: 10px; padding: 12px; box-shadow: 0 0 14px rgba(74,158,255,0.3); animation: pulse-mine 2.5s ease-in-out infinite; }
 @keyframes pulse-mine { 0%,100% { box-shadow: 0 0 10px rgba(74,158,255,0.3); } 50% { box-shadow: 0 0 22px rgba(74,158,255,0.6); } }
 .participants-col-title { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; text-align: center; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.15); }
-.participants-col.left {
-  margin-right: auto; /* Автоматически сдвигает левую колонку влево, выравнивая боковые отступы */
-}
+.participants-col.left { margin-right: auto; }
 .participants-col.left .participants-col-title { color: #6fb3ff; }
 .participants-col.right .participants-col-title { color: #ff8a65; }
-
-.participant-list { list-style: none; padding: 0; margin: 0 0 10px; display: flex; flex-direction: column; gap: 8px; }
+  .participant-list { list-style: none; padding: 0; margin: 0 0 10px; display: flex; flex-direction: column; gap: 8px; }
 .participant-item { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 12px; color: #fff; font-size: 13px; font-weight: 500; position: relative; flex-wrap: wrap; }
 .participant-item.is-me { background: rgba(74,158,255,0.2); border: 1px solid rgba(74,158,255,0.5); }
 .participant-item.is-me .participant-avatar { box-shadow: 0 0 8px rgba(74,158,255,0.7); }
@@ -266,69 +267,37 @@ body::-webkit-scrollbar { display: none; }
 }
 
 /* === Connect & Start buttons === */
-.match-controls-bar {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: 12px;
-}
+.match-controls-bar { display: inline-flex; align-items: center; gap: 8px; margin-left: 12px; }
 .btn-connect {
-  padding: 5px 14px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-  background: linear-gradient(135deg, #1a73e8, #4285f4);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 6px;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: transform 0.2s, box-shadow 0.2s;
-  display: none;
-  text-decoration: none;
+  padding: 5px 14px; font-size: 12px; font-weight: 700; color: #fff;
+  background: linear-gradient(135deg, #1a73e8, #4285f4); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px; cursor: pointer; font-family: 'Inter', sans-serif; transition: transform 0.2s, box-shadow 0.2s; display: none; text-decoration: none;
 }
 .btn-connect.visible { display: inline-block; }
 .btn-connect:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(66,133,244,0.5); }
 .btn-start {
-  padding: 5px 14px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-  background: linear-gradient(135deg, #e67e22, #f39c12);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 6px;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: transform 0.2s, box-shadow 0.2s;
-  display: none;
+  padding: 5px 14px; font-size: 12px; font-weight: 700; color: #fff;
+  background: linear-gradient(135deg, #e67e22, #f39c12); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px; cursor: pointer; font-family: 'Inter', sans-serif; transition: transform 0.2s, box-shadow 0.2s; display: none;
 }
 .btn-start.visible { display: inline-block; }
 .btn-start:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(243,156,18,0.5); }
-.btn-start.started {
-  background: linear-gradient(135deg, #27ae60, #2ecc71);
-}
-.participant-link {
-  color: #fff;
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-.participant-link:hover {
-  color: #66c0f4;
-  text-decoration: underline;
-}
-.team-name-link {
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-.team-name-link:hover {
-  color: #66c0f4;
-  text-decoration: underline;
-}
+.btn-start.started { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+.participant-link { color: #fff; text-decoration: none; cursor: pointer; transition: color 0.2s; }
+.participant-link:hover { color: #66c0f4; text-decoration: underline; }
+.team-name-link { color: inherit; text-decoration: none; cursor: pointer; transition: color 0.2s; }
+.team-name-link:hover { color: #66c0f4; text-decoration: underline; }
 </style>
 </head>
 <body>
+
+<!-- Фон -->
+<div class="page-bg"></div>
+
+<!-- Шапка -->
+<div id="header-placeholder" class="header-wrapper"></div>
+
+<div class="page-content">
 
 <div class="tournament-selector-row">
   <label>Турнир:</label>
@@ -365,31 +334,7 @@ body::-webkit-scrollbar { display: none; }
 
 <div class="prize-popup" id="prizePopup">
   <button class="prize-popup-close" onclick="closePrizePopup()">&times;</button>
-  <div id="prizePopupContent">
-    <div class="prize-popup-title">Возможные призы победителю</div>
-    <div class="prize-popup-skins">
-      <div class="prize-skin-card">
-        <img src="https://4ak4ak.moy.su/prizSkin/ak-47_poljot_zhuravlja.png" alt="AK-47">
-        <div class="prize-skin-name">AK-47 Полёт журавля</div>
-      </div>
-      <div class="prize-skin-card">
-        <img src="https://4ak4ak.moy.su/prizSkin/m4a1-s_dikij_tusovshhik.png" alt="M4A1-S">
-        <div class="prize-skin-name">M4A1-S Дикий тусовщик</div>
-      </div>
-    </div>
-    <div class="prize-popup-divider"></div>
-    <div class="prize-popup-title">Возможные призы финалисту</div>
-    <div class="prize-popup-skins">
-      <div class="prize-skin-card">
-        <img src="https://4ak4ak.moy.su/prizSkinFinalis/ak-47_kolymaga.png" alt="AK-47">
-        <div class="prize-skin-name">AK-47 Колымага</div>
-      </div>
-      <div class="prize-skin-card">
-        <img src="https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_vzgljad_v_proshloe.png" alt="M4A1-S">
-        <div class="prize-skin-name">M4A1-S Взгляд в прошлое</div>
-      </div>
-    </div>
-  </div>
+  <div id="prizePopupContent"></div>
 </div>
 
 <div class="team-modal-overlay" id="teamModalOverlay">
@@ -433,30 +378,55 @@ body::-webkit-scrollbar { display: none; }
   </div>
 </div>
 
+<!-- Окно просмотра античит-логов -->
+<div id="screenshotModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center;">
+  <div style="background: #1a1a2e; border: 1px solid rgba(255,215,0,0.3); border-radius: 14px; padding: 25px; width: 900px; max-width: 95vw; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 12px 40px rgba(0,0,0,0.8);">
+    <button onclick="document.getElementById('screenshotModalOverlay').style.display='none'" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: #fff; font-size: 24px; cursor: pointer; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">&times;</button>
+    <h3 id="screenshotModalTitle" style="color: #fff; margin-top: 0; margin-bottom: 20px; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 1px;">Скриншоты античета</h3>
+    <div id="screenshotStatus" style="color: #ffd700; font-weight: bold; text-align: center; margin-bottom: 15px;"></div>
+    <input type="file" id="anticheatFileInput" accept=".dat" style="display: none;">
+    <div id="screenshotGallery" style="display: flex; flex-direction: column; gap: 20px; align-items: center; width: 100%;"></div>
+  </div>
+</div>
+
+</div><!-- /page-content -->
+
+<script>
+// Загрузка шапки
+fetch('header.html')
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = 'auth.js';
+    document.body.appendChild(script);
+  })
+  .catch(error => console.error('Ошибка загрузки шапки:', error));
+</script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script>
 (function() {
   var firebaseConfig = {
-    apiKey: "AIzaSyCNQ0WFAiQjnISQjXJnHoln-wI64G2BqWs",
-    authDomain: "ak4ak-d948e.firebaseapp.com",
-    databaseURL: "https://ak4ak-d948e-default-rtdb.firebaseio.com",
-    projectId: "ak4ak-d948e",
-    storageBucket: "ak4ak-d948e.firebasestorage.app",
-    messagingSenderId: "787151252619",
-    appId: "1:787151252619:web:05eff65dc74b01d6e8f88e",
-    measurementId: "G-DBB4YBNF2Q"
+    apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
+    authDomain: "ak4ak-8be45.firebaseapp.com",
+    databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "ak4ak-8be45",
+    storageBucket: "ak4ak-8be45.appspot.com",
+    messagingSenderId: "408070680295",
+    appId: "1:408070680295:web:77b9656094e330b803bc42"
   };
   firebase.initializeApp(firebaseConfig);
   var db = firebase.database();
 
-  var SITE_URL = 'https://4ak4ak.moy.su';
+  var SITE_URL = 'https://4ak4ak.pages.dev';
   var playerIds = {};
   var myUid = null;
 
   var ADMIN_PASSWORD = '12$sacreD';
   var MAX_PLAYERS = 5;
-  var WIN_LOGO = 'https://4ak4ak.moy.su/logo1.jpg';
+  var WIN_LOGO = 'logo1.jpg';
   var myNick = null;
   var isAdmin = false;
   var currentTournamentId = null;
@@ -467,68 +437,66 @@ body::-webkit-scrollbar { display: none; }
   var prizesEnabled = false;
   var qfMatchIds = ['qf_w1','qf_w2','qf_e1','qf_e2'];
 
-    var PRIZE_SKINS_WINNER = [
-    { url: 'https://4ak4ak.moy.su/prizSkin/ak-47_poljot_zhuravlja.png', name: 'AK-47 Полёт журавля' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a1-s_dikij_tusovshhik.png', name: 'M4A1-S Дикий тусовщик' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/ak-47_diletanty.png', name: 'AK-47 Дилетанты' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/ak-47_fantomnyj_vreditel.png', name: 'AK-47 Фантомный вредитель' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/ak-47_ledjanoj_ugol.png', name: 'AK-47 Ледяной угол' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/ak-47_nuvo_ruzh.png', name: 'AK-47 Нуво-руж' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/ak-47_zhguchaja_jarost.png', name: 'AK-47 Жгучая ярость' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/awp_dvojstvennost.png', name: 'AWP Двойственность' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/awp_ehlitnoe_snarjazhenie.png', name: 'AWP Элитное снаряжение' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/awp_ledjanoj_ugol.png', name: 'AWP Ледяной угол' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/awp_mortis.png', name: 'AWP Мортис' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/awp_zeljonaja_ehnergija.png', name: 'AWP Зелёная энергия' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a1-s_chjornyj_lotos.png', name: 'M4A1-S Чёрный лотос' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a1-s_nochnoj_koshmar.png', name: 'M4A1-S Ночной кошмар' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a1-s_panel_upravlenija.png', name: 'M4A1-S Панель управления' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a1-s_stratosfera.png', name: 'M4A1-S Стратосфера' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a1-s_uedinenie.png', name: 'M4A1-S Уединение' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a4_adok.png', name: 'M4A4 Адок' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a4_grifon.png', name: 'M4A4 Грифон' },
-    { url: 'https://4ak4ak.moy.su/prizSkin/m4a4_zubnaja_feja.png', name: 'M4A4 Зубная фея' }
+  var PRIZE_SKINS_WINNER = [
+    { url: 'png/prizSkin/ak-47_poljot_zhuravlja.png', name: 'AK-47 Полёт журавля' },
+    { url: 'png/prizSkin/m4a1-s_dikij_tusovshhik.png', name: 'M4A1-S Дикий тусовщик' },
+    { url: 'png/prizSkin/ak-47_diletanty.png', name: 'AK-47 Дилетанты' },
+    { url: 'png/prizSkin/ak-47_fantomnyj_vreditel.png', name: 'AK-47 Фантомный вредитель' },
+    { url: 'png/prizSkin/ak-47_ledjanoj_ugol.png', name: 'AK-47 Ледяной угол' },
+    { url: 'png/prizSkin/ak-47_nuvo_ruzh.png', name: 'AK-47 Нуво-руж' },
+    { url: 'png/prizSkin/ak-47_zhguchaja_jarost.png', name: 'AK-47 Жгучая ярость' },
+    { url: 'png/prizSkin/awp_dvojstvennost.png', name: 'AWP Двойственность' },
+    { url: 'png/prizSkin/awp_ehlitnoe_snarjazhenie.png', name: 'AWP Элитное снаряжение' },
+    { url: 'png/prizSkin/awp_ledjanoj_ugol.png', name: 'AWP Ледяной угол' },
+    { url: 'png/prizSkin/awp_mortis.png', name: 'AWP Мортис' },
+    { url: 'png/prizSkin/awp_zeljonaja_ehnergija.png', name: 'AWP Зелёная энергия' },
+    { url: 'png/prizSkin/m4a1-s_chjornyj_lotos.png', name: 'M4A1-S Чёрный лотос' },
+    { url: 'png/prizSkin/m4a1-s_nochnoj_koshmar.png', name: 'M4A1-S Ночной кошмар' },
+    { url: 'png/prizSkin/m4a1-s_panel_upravlenija.png', name: 'M4A1-S Панель управления' },
+    { url: 'png/prizSkin/m4a1-s_stratosfera.png', name: 'M4A1-S Стратосфера' },
+    { url: 'png/prizSkin/m4a1-s_uedinenie.png', name: 'M4A1-S Уединение' },
+    { url: 'png/prizSkin/m4a4_adok.png', name: 'M4A4 Адок' },
+    { url: 'png/prizSkin/m4a4_grifon.png', name: 'M4A4 Грифон' },
+    { url: 'png/prizSkin/m4a4_zubnaja_feja.png', name: 'M4A4 Зубная фея' }
   ];
 
-
-    var PRIZE_SKINS_FINALIST = [
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/ak-47_kolymaga.png', name: 'AK-47 Колымага' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_vzgljad_v_proshloe.png', name: 'M4A1-S Взгляд в прошлое' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/ak-47_izumrudnye_zavitki.png', name: 'AK-47 Изумрудные завитки' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/ak-47_polunochnyj_gljanec.png', name: 'AK-47 Полуночный глянец' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/ak-47_proryv.png', name: 'AK-47 Прорыв' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/ak-47_slanec.png', name: 'AK-47 Сланец' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_bog_chervej.png', name: 'AWP Бог червей' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_chjornyj_jashhik.png', name: 'AWP Чёрный ящик' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_drevesnaja_gadjuka.png', name: 'AWP Древесная гадюка' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_ehkzoskelet.png', name: 'AWP Экзоскелет' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_ehkzotermija.png', name: 'AWP Экзотермия' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_fobos.png', name: 'AWP Фобос' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_gadjuka.png', name: 'AWP Гадюка' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/awp_lapki.png', name: 'AWP Лапки' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_ehlektrum.png', name: 'M4A1-S Электрум' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_ehmforozavr-s.png', name: 'M4A1-S Эмфорозавр-S' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_gljuk-kraska.png', name: 'M4A1-S Глюк-краска' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_likvidacija.png', name: 'M4A1-S Ликвидация' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_nitro.png', name: 'M4A1-S Нитро' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a1-s_nochnoj_uzhas.png', name: 'M4A1-S Ночной ужас' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a4_grifon.png', name: 'M4A4 Грифон' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a4_master_travli.png', name: 'M4A4 Мастер травли' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a4_turbina.png', name: 'M4A4 Турбина' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a4_zarnica.png', name: 'M4A4 Зарница' },
-    { url: 'https://4ak4ak.moy.su/prizSkinFinalis/m4a4_zlobnyj_dajmjo.png', name: 'M4A4 Злобный даймё' }
+  var PRIZE_SKINS_FINALIST = [
+    { url: 'png/prizSkinFinalis/ak-47_kolymaga.png', name: 'AK-47 Колымага' },
+    { url: 'png/prizSkinFinalis/m4a1-s_vzgljad_v_proshloe.png', name: 'M4A1-S Взгляд в прошлое' },
+    { url: 'png/prizSkinFinalis/ak-47_izumrudnye_zavitki.png', name: 'AK-47 Изумрудные завитки' },
+    { url: 'png/prizSkinFinalis/ak-47_polunochnyj_gljanec.png', name: 'AK-47 Полуночный глянец' },
+    { url: 'png/prizSkinFinalis/ak-47_proryv.png', name: 'AK-47 Прорыв' },
+    { url: 'png/prizSkinFinalis/ak-47_slanec.png', name: 'AK-47 Сланец' },
+    { url: 'png/prizSkinFinalis/awp_bog_chervej.png', name: 'AWP Бог червей' },
+    { url: 'png/prizSkinFinalis/awp_chjornyj_jashhik.png', name: 'AWP Чёрный ящик' },
+    { url: 'png/prizSkinFinalis/awp_drevesnaja_gadjuka.png', name: 'AWP Древесная гадюка' },
+    { url: 'png/prizSkinFinalis/awp_ehkzoskelet.png', name: 'AWP Экзоскелет' },
+    { url: 'png/prizSkinFinalis/awp_ehkzotermija.png', name: 'AWP Экзотермия' },
+    { url: 'png/prizSkinFinalis/awp_fobos.png', name: 'AWP Фобос' },
+    { url: 'png/prizSkinFinalis/awp_gadjuka.png', name: 'AWP Гадюка' },
+    { url: 'png/prizSkinFinalis/awp_lapki.png', name: 'AWP Лапки' },
+    { url: 'png/prizSkinFinalis/m4a1-s_ehlektrum.png', name: 'M4A1-S Электрум' },
+    { url: 'png/prizSkinFinalis/m4a1-s_ehmforozavr-s.png', name: 'M4A1-S Эмфорозавр-S' },
+    { url: 'png/prizSkinFinalis/m4a1-s_gljuk-kraska.png', name: 'M4A1-S Глюк-краска' },
+    { url: 'png/prizSkinFinalis/m4a1-s_likvidacija.png', name: 'M4A1-S Ликвидация' },
+    { url: 'png/prizSkinFinalis/m4a1-s_nitro.png', name: 'M4A1-S Нитро' },
+    { url: 'png/prizSkinFinalis/m4a1-s_nochnoj_uzhas.png', name: 'M4A1-S Ночной ужас' },
+    { url: 'png/prizSkinFinalis/m4a4_grifon.png', name: 'M4A4 Грифон' },
+    { url: 'png/prizSkinFinalis/m4a4_master_travli.png', name: 'M4A4 Мастер травли' },
+    { url: 'png/prizSkinFinalis/m4a4_turbina.png', name: 'M4A4 Турбина' },
+    { url: 'png/prizSkinFinalis/m4a4_zarnica.png', name: 'M4A4 Зарница' },
+    { url: 'png/prizSkinFinalis/m4a4_zlobnyj_dajmjo.png', name: 'M4A4 Злобный даймё' }
   ];
-
 
   var maps = [
-    { url: 'https://4ak4ak.moy.su/dust2.png', name: 'Dust 2' },
-    { url: 'https://4ak4ak.moy.su/360fx360f.png', name: 'Nuke' },
-    { url: 'https://4ak4ak.moy.su/ancient.jpg', name: 'Ancient' },
-    { url: 'https://4ak4ak.moy.su/anubis.png', name: 'Anubis' },
-    { url: 'https://4ak4ak.moy.su/cache.png', name: 'Cache' },
-    { url: 'https://4ak4ak.moy.su/inferno.png', name: 'Inferno' },
-    { url: 'https://4ak4ak.moy.su/mirage.png', name: 'Mirage' },
-    { url: 'https://4ak4ak.moy.su/vertigo.png', name: 'Vertigo' }
+    { url: 'png/dust2.png', name: 'Dust 2' },
+    { url: 'png/360fx360f.png', name: 'Nuke' },
+    { url: 'png/ancient.jpg', name: 'Ancient' },
+    { url: 'png/anubis.png', name: 'Anubis' },
+    { url: 'png/cache.png', name: 'Cache' },
+    { url: 'png/inferno.png', name: 'Inferno' },
+    { url: 'png/mirage.png', name: 'Mirage' },
+    { url: 'png/vertigo.png', name: 'Vertigo' }
   ];
 
   var matchOrder = ['qf_w1','qf_w2','sf_w','final','sf_e','qf_e1','qf_e2'];
@@ -561,12 +529,10 @@ body::-webkit-scrollbar { display: none; }
   myNick = getUrlParam('user');
   myUid = getUrlParam('uid');
 
-  // Save player's uCoz ID to Firebase when available
   if (myNick && myUid) {
     db.ref('playoff/playerIds/' + encodeURIComponent(myNick)).set(myUid);
   }
 
-  // Load all player IDs from Firebase
   db.ref('playoff/playerIds').on('value', function(snap) {
     playerIds = snap.val() || {};
   });
@@ -574,8 +540,8 @@ body::-webkit-scrollbar { display: none; }
   function profileLink(nick) {
     if (!nick) return '#';
     var uid = playerIds[encodeURIComponent(nick)] || playerIds[nick];
-    if (uid) return SITE_URL + '/index/8-' + uid;
-    return SITE_URL + '/index/8-0-' + encodeURIComponent(nick);
+    if (uid) return SITE_URL + '/profile.html?uid=' + uid;
+    return SITE_URL + '/profile.html?user=' + encodeURIComponent(nick);
   }
 
   function escapeHtml(t) {
@@ -726,30 +692,30 @@ body::-webkit-scrollbar { display: none; }
   function buildBracketHtml() {
     var html = ''
       + '<div class="bracket-col">'
-      +   '<div class="conf-label west">\u0417\u0430\u043f\u0430\u0434</div>'
-      +   '<div class="round-label">\u0427\u0435\u0442\u0432\u0435\u0440\u0442\u044c\u0444\u0438\u043d\u0430\u043b\u044b</div>'
-      +   '<div class="match" data-match-id="qf_w1"><div class="match-row"><div class="match-team"><span class="team-seed">1</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 A</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">4</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 B</div><div class="match-score"></div></div></div>'
-      +   '<div class="match" data-match-id="qf_w2"><div class="match-row"><div class="match-team"><span class="team-seed">2</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 C</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">3</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 D</div><div class="match-score"></div></div></div>'
+      +   '<div class="conf-label west">Запад</div>'
+      +   '<div class="round-label">Четвертьфиналы</div>'
+      +   '<div class="match" data-match-id="qf_w1"><div class="match-row"><div class="match-team"><span class="team-seed">1</span> Команда A</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">4</span> Команда B</div><div class="match-score"></div></div></div>'
+      +   '<div class="match" data-match-id="qf_w2"><div class="match-row"><div class="match-team"><span class="team-seed">2</span> Команда C</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">3</span> Команда D</div><div class="match-score"></div></div></div>'
       + '</div>'
       + '<div class="bracket-col semifinal-col">'
-      +   '<div class="round-label">\u041f\u043e\u043b\u0443\u0444\u0438\u043d\u0430\u043b</div>'
-      +   '<div class="match" data-match-id="sf_w"><div class="match-row"><div class="match-team"><span class="team-seed">\u04171</span> <span class="sf-team-name">\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">\u04172</span> <span class="sf-team-name">\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...</span></div><div class="match-score"></div></div></div>'
+      +   '<div class="round-label">Полуфинал</div>'
+      +   '<div class="match" data-match-id="sf_w"><div class="match-row"><div class="match-team"><span class="team-seed">З1</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">З2</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div></div>'
       + '</div>'
       + '<div class="bracket-col final-col">'
       +   '<div class="final-box">'
-      +     '<div class="final-title">\u0424\u0438\u043d\u0430\u043b</div>'
-      +     '<div class="match final-match" data-match-id="final"><div class="match-row"><div class="match-team"><span class="team-seed">\u0417</span> <span class="sf-team-name">\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">\u0412</span> <span class="sf-team-name">\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...</span></div><div class="match-score"></div></div></div>'
+      +     '<div class="final-title">Финал</div>'
+      +     '<div class="match final-match" data-match-id="final"><div class="match-row"><div class="match-team"><span class="team-seed">З</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">В</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div></div>'
       +   '</div>'
       + '</div>'
       + '<div class="bracket-col semifinal-col">'
-      +   '<div class="round-label">\u041f\u043e\u043b\u0443\u0444\u0438\u043d\u0430\u043b</div>'
-      +   '<div class="match" data-match-id="sf_e"><div class="match-row"><div class="match-team"><span class="team-seed">\u04121</span> <span class="sf-team-name">\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">\u04122</span> <span class="sf-team-name">\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...</span></div><div class="match-score"></div></div></div>'
+      +   '<div class="round-label">Полуфинал</div>'
+      +   '<div class="match" data-match-id="sf_e"><div class="match-row"><div class="match-team"><span class="team-seed">В1</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">В2</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div></div>'
       + '</div>'
       + '<div class="bracket-col">'
-      +   '<div class="conf-label east">\u0412\u043e\u0441\u0442\u043e\u043a</div>'
-      +   '<div class="round-label">\u0427\u0435\u0442\u0432\u0435\u0440\u0442\u044c\u0444\u0438\u043d\u0430\u043b\u044b</div>'
-      +   '<div class="match" data-match-id="qf_e1"><div class="match-row"><div class="match-team"><span class="team-seed">1</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 E</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">4</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 F</div><div class="match-score"></div></div></div>'
-      +   '<div class="match" data-match-id="qf_e2"><div class="match-row"><div class="match-team"><span class="team-seed">2</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 G</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">3</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 H</div><div class="match-score"></div></div></div>'
+      +   '<div class="conf-label east">Восток</div>'
+      +   '<div class="round-label">Четвертьфиналы</div>'
+      +   '<div class="match" data-match-id="qf_e1"><div class="match-row"><div class="match-team"><span class="team-seed">1</span> Команда E</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">4</span> Команда F</div><div class="match-score"></div></div></div>'
+      +   '<div class="match" data-match-id="qf_e2"><div class="match-row"><div class="match-team"><span class="team-seed">2</span> Команда G</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">3</span> Команда H</div><div class="match-score"></div></div></div>'
       + '</div>';
     document.getElementById('bracketRow').innerHTML = html;
   }
@@ -770,7 +736,7 @@ body::-webkit-scrollbar { display: none; }
         document.getElementById('tournamentCreateRow').classList.add('visible');
         document.getElementById('btnDeleteTournament').classList.add('visible');
         renderBracket();
-      } else { alert('\u041d\u0435\u0432\u0435\u0440\u043d\u044b\u0439 \u043f\u0430\u0440\u043e\u043b\u044c!'); }
+      } else { alert('Неверный пароль!'); }
     } else {
       isAdmin = false;
       document.getElementById('adminPanel').style.display = 'none';
@@ -805,11 +771,8 @@ body::-webkit-scrollbar { display: none; }
     var m = allMatches[currentMatchId] || {};
     if (!m.started) return;
     var connectUrl = m.connectUrl || '';
-    if (connectUrl) {
-      window.open(connectUrl, '_blank');
-    } else {
-      alert('Ссылка для подключения появится soon!');
-    }
+    if (connectUrl) { window.open(connectUrl, '_blank'); }
+    else { alert('Ссылка для подключения появится soon!'); }
   };
 
   function loadAllMatches(cb) {
@@ -843,7 +806,7 @@ body::-webkit-scrollbar { display: none; }
     var container = document.getElementById('prizeToggleContainer');
     if (!container) return;
     if (!isAdmin || currentMatchId !== 'final') { container.innerHTML = ''; return; }
-    var label = prizesEnabled ? '\u0423\u0431\u0440\u0430\u0442\u044c \u043f\u0440\u0438\u0437\u044b' : '\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043f\u0440\u0438\u0437\u044b';
+    var label = prizesEnabled ? 'Убрать призы' : 'Добавить призы';
     var cls = prizesEnabled ? 'prize-toggle-btn active' : 'prize-toggle-btn';
     container.innerHTML = '<button class="' + cls + '" onclick="event.stopPropagation();togglePrizes()">' + label + '</button>';
   }
@@ -895,14 +858,14 @@ body::-webkit-scrollbar { display: none; }
   function updateJoinSection() {
     var s = document.getElementById('joinSection');
     if (!currentTournamentId) { s.innerHTML = ''; return; }
-    if (!isLoggedIn()) { s.innerHTML = '<p class="guest-warning"><span class="guest-warning-text">\u0412\u043e\u0439\u0434\u0438\u0442\u0435 \u043d\u0430 \u0441\u0430\u0439\u0442, \u0447\u0442\u043e\u0431\u044b \u0443\u0447\u0430\u0441\u0442\u0432\u043e\u0432\u0430\u0442\u044c \u0432 \u0442\u0443\u0440\u043d\u0438\u0440\u0435</span></p>'; return; }
-    if (isUserInAnyMatch(myNick)) { s.innerHTML = '<p class="joined-msg">\u0422\u044b \u0443\u0436\u0435 \u0432 \u0442\u0443\u0440\u043d\u0438\u0440\u0435! \u041d\u0430\u0439\u0434\u0438 \u0441\u0432\u043e\u044e \u043a\u043e\u043c\u0430\u043d\u0434\u0443 \u0432 \u0441\u0435\u0442\u043a\u0435.</p>'; return; }
-    if (!hasQfSpace()) { s.innerHTML = '<p class="tournament-full-msg">\u0422\u0443\u0440\u043d\u0438\u0440\u043d\u0430\u044f \u0442\u0430\u0431\u043b\u0438\u0446\u0430 \u043f\u043e\u043b\u043d\u043e\u0441\u0442\u044c\u044e \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u0430!</p>'; return; }
-    s.innerHTML = '<button class="btn-join" onclick="joinTournament()">\u0423\u0447\u0430\u0441\u0442\u0432\u043e\u0432\u0430\u0442\u044c</button>';
+    if (!isLoggedIn()) { s.innerHTML = '<p class="guest-warning"><span class="guest-warning-text">Войдите на сайт, чтобы участвовать в турнире</span></p>'; return; }
+    if (isUserInAnyMatch(myNick)) { s.innerHTML = '<p class="joined-msg">Ты уже в турнире! Найди свою команду в сетке.</p>'; return; }
+    if (!hasQfSpace()) { s.innerHTML = '<p class="tournament-full-msg">Турнирная таблица полностью заполнена!</p>'; return; }
+    s.innerHTML = '<button class="btn-join" onclick="joinTournament()">Участвовать</button>';
   }
 
   window.joinTournament = function() {
-    if (!isLoggedIn()) { alert('\u0412\u043e\u0439\u0434\u0438\u0442\u0435 \u043d\u0430 \u0441\u0430\u0439\u0442, \u0447\u0442\u043e\u0431\u044b \u0443\u0447\u0430\u0441\u0442\u0432\u043e\u0432\u0430\u0442\u044c \u0432 \u0442\u0443\u0440\u043d\u0438\u0440\u0435!'); return; }
+    if (!isLoggedIn()) { alert('Войдите на сайт, чтобы участвовать в турнире!'); return; }
     var candidates = []; var sides = ['left','right'];
     qfMatchIds.forEach(function(mid) {
       sides.forEach(function(side) {
@@ -910,7 +873,7 @@ body::-webkit-scrollbar { display: none; }
         if (arr.length < MAX_PLAYERS) candidates.push({ matchId: mid, side: side });
       });
     });
-    if (candidates.length === 0) { alert('\u0412\u0441\u0435 \u043a\u043e\u043c\u0430\u043d\u0434\u044b \u0447\u0435\u0442\u0432\u0435\u0440\u0442\u044c\u0444\u0438\u043d\u0430\u043b\u0430 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u044b!'); return; }
+    if (candidates.length === 0) { alert('Все команды четвертьфинала заполнены!'); return; }
     var pick = candidates[Math.floor(Math.random() * candidates.length)];
     var arr = (allMatches[pick.matchId] || {})[pick.side] || [];
     arr.push(myNick);
@@ -921,8 +884,7 @@ body::-webkit-scrollbar { display: none; }
       updateJoinSection(); renderBracket();
     });
   };
-
-  function renderBracket() {
+    function renderBracket() {
     matchOrder.forEach(function(mid) {
       var el = document.querySelector('[data-match-id="' + mid + '"]'); if (!el) return;
       var m = allMatches[mid] || {};
@@ -937,8 +899,8 @@ body::-webkit-scrollbar { display: none; }
       } else {
         var sl = lne.querySelector('.sf-team-name'), sr = rne.querySelector('.sf-team-name');
         if (sl && sr) {
-          if (mid === 'sf_w' || mid === 'sf_e') { var names = sfTeamNames[mid] || {left:'?',right:'?'}; sl.textContent = left.length>0?names.left:'\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...'; sr.textContent = right.length>0?names.right:'\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...'; }
-          else if (mid === 'final') { sl.textContent = left.length>0?finalTeamNames.left:'\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...'; sr.textContent = right.length>0?finalTeamNames.right:'\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...'; }
+          if (mid === 'sf_w' || mid === 'sf_e') { var names = sfTeamNames[mid] || {left:'?',right:'?'}; sl.textContent = left.length>0?names.left:'Ожидание...'; sr.textContent = right.length>0?names.right:'Ожидание...'; }
+          else if (mid === 'final') { sl.textContent = left.length>0?finalTeamNames.left:'Ожидание...'; sr.textContent = right.length>0?finalTeamNames.right:'Ожидание...'; }
         }
       }
       lse.textContent=''; rse.textContent='';
@@ -958,7 +920,7 @@ body::-webkit-scrollbar { display: none; }
     if (!bothFull && m.map) { db.ref(tPath('matches/' + mid + '/map')).remove(); }
   }
 
-    window.showPrizePopup = function() {
+  window.showPrizePopup = function() {
     var c = document.getElementById('prizePopupContent');
     var html = '<div class="prize-popup-title">Возможные призы победителю</div>';
     html += '<div class="prize-popup-skins" style="flex-wrap:wrap;max-width:600px;">';
@@ -994,32 +956,26 @@ body::-webkit-scrollbar { display: none; }
     var prizes = m.prizes || {};
     var html = '<div class="prize-winner-section">';
     var hasWin = false, hasFin = false;
-    winners.forEach(function(nick) {
-      var p = prizes['win_' + nick];
-      if (p) { hasWin = true; }
-    });
-    finalists.forEach(function(nick) {
-      var p = prizes['fin_' + nick];
-      if (p) { hasFin = true; }
-    });
+    winners.forEach(function(nick) { var p = prizes['win_' + nick]; if (p) { hasWin = true; } });
+    finalists.forEach(function(nick) { var p = prizes['fin_' + nick]; if (p) { hasFin = true; } });
     if (hasWin) {
-      html += '<div class="prize-winner-label">\u041f\u0440\u0438\u0437\u044b \u043f\u043e\u0431\u0435\u0434\u0438\u0442\u0435\u043b\u044f\u043c:</div>';
+      html += '<div class="prize-winner-label">Призы победителям:</div>';
       html += '<div class="prize-assigned-list">';
       winners.forEach(function(nick) {
         var p = prizes['win_' + nick];
         if (p) {
-          html += '<div class="prize-assigned-item"><img src="'+p.url+'" class="prize-winner-img" alt=""><span class="prize-assigned-nick">'+escapeHtml(nick)+'</span><span class="prize-assigned-skin">'+escapeHtml(p.name)+'</span><span class="prize-assigned-role winner">\u041f\u043e\u0431\u0435\u0434\u0438\u0442\u0435\u043b\u044c</span></div>';
+          html += '<div class="prize-assigned-item"><img src="'+p.url+'" class="prize-winner-img" alt=""><span class="prize-assigned-nick">'+escapeHtml(nick)+'</span><span class="prize-assigned-skin">'+escapeHtml(p.name)+'</span><span class="prize-assigned-role winner">Победитель</span></div>';
         }
       });
       html += '</div>';
     }
     if (hasFin) {
-      html += '<div class="prize-winner-label" style="margin-top:12px;">\u041f\u0440\u0438\u0437\u044b \u0444\u0438\u043d\u0430\u043b\u0438\u0441\u0442\u0430\u043c:</div>';
+      html += '<div class="prize-winner-label" style="margin-top:12px;">Призы финалистам:</div>';
       html += '<div class="prize-assigned-list">';
       finalists.forEach(function(nick) {
         var p = prizes['fin_' + nick];
         if (p) {
-          html += '<div class="prize-assigned-item"><img src="'+p.url+'" class="prize-winner-img" alt=""><span class="prize-assigned-nick">'+escapeHtml(nick)+'</span><span class="prize-assigned-skin">'+escapeHtml(p.name)+'</span><span class="prize-assigned-role finalist">\u0424\u0438\u043d\u0430\u043b\u0438\u0441\u0442</span></div>';
+          html += '<div class="prize-assigned-item"><img src="'+p.url+'" class="prize-winner-img" alt=""><span class="prize-assigned-nick">'+escapeHtml(nick)+'</span><span class="prize-assigned-skin">'+escapeHtml(p.name)+'</span><span class="prize-assigned-role finalist">Финалист</span></div>';
         }
       });
       html += '</div>';
@@ -1037,30 +993,26 @@ body::-webkit-scrollbar { display: none; }
       if (mid.startsWith('qf_')) teams = qfTeams[mid];
       else if (mid==='sf_w'||mid==='sf_e') teams = sfTeamNames[mid]||{left:'?',right:'?'};
       else if (mid==='final') teams = finalTeamNames;
-      else teams = {left:'\u041a\u043e\u043c\u0430\u043d\u0434\u0430 1',right:'\u041a\u043e\u043c\u0430\u043d\u0434\u0430 2'};
+      else teams = {left:'Команда 1',right:'Команда 2'};
       document.getElementById('teamModalMatchup').textContent = teams.left+' vs '+teams.right;
-            // === НАСТРОЙКА ВИДИМОСТИ КНОПОК CONNECT И START ===
+
       var btnStart = document.getElementById('btnStart');
       var btnConnect = document.getElementById('btnConnect');
       
       if (btnStart) { btnStart.classList.remove('visible','started'); }
       if (btnConnect) { btnConnect.classList.remove('visible'); }
       
-      // Кнопку Start (админскую) видит ТОЛЬКО админ
       if (btnStart && isAdmin) { btnStart.classList.add('visible'); }
       
-      // Кнопку Connect видит ТОЛЬКО участник этого матча ИЛИ админ, и только если матч запущен
       var isPlayerInThisMatch = myNick && (left.indexOf(myNick) !== -1 || right.indexOf(myNick) !== -1);
       
       if (m.started) {
         if (btnStart) { btnStart.classList.add('started'); btnStart.textContent = 'Started'; }
-        
-        // Условие: если матч пошёл, кнопку Connect показываем только админу или игроку этого матча
         if (btnConnect && (isAdmin || isPlayerInThisMatch)) { 
           btnConnect.classList.add('visible'); 
         }
       } else {
-        if (btnStart) { btnText = 'Start'; }
+        if (btnStart) { btnStart.textContent = 'Start'; }
       }
 
       document.getElementById('leftTeamName').innerHTML = '<a class="team-name-link" href="'+profileLink(teams.left)+'" target="_blank">'+escapeHtml(teams.left)+'</a>';
@@ -1076,7 +1028,7 @@ body::-webkit-scrollbar { display: none; }
         var wc = m.winner==='left'?lc:rc;
         var ws = document.createElement('div'); ws.className='winner-logo-section';
         if (isAdmin) ws.classList.add('admin-can-cancel');
-        ws.innerHTML = '<img src="'+WIN_LOGO+'" alt="\u041f\u043e\u0431\u0435\u0434\u0438\u0442\u0435\u043b\u044c"'+(isAdmin?' onclick="cancelWinner(\''+mid+'\')"':'')+'>';
+        ws.innerHTML = '<img src="'+WIN_LOGO+'" alt="Победитель"'+(isAdmin?' onclick="cancelWinner(\''+mid+'\')"':'')+'>';
         wc.appendChild(ws);
       }
       renderPrizeToggleBtn();
@@ -1087,7 +1039,7 @@ body::-webkit-scrollbar { display: none; }
       var mapName = (bothFull && m.map) ? m.map.name : null;
       var mi = document.getElementById('mapImage'), mp = document.getElementById('mapPlaceholder'), mn = document.getElementById('mapName');
       if (mapUrl) { mi.src=mapUrl; mi.alt=mapName; mi.style.display='block'; mp.style.display='none'; mn.textContent=mapName; mn.classList.remove('empty'); }
-      else { mi.style.display='none'; mp.style.display='flex'; mn.textContent = bothFull?'\u0412\u044b\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044f...':'\u041d\u0435 \u0432\u044b\u0431\u0440\u0430\u043d\u0430'; mn.classList.add('empty'); }
+      else { mi.style.display='none'; mp.style.display='flex'; mn.textContent = bothFull?'Выбирается...':'Не выбрана'; mn.classList.add('empty'); }
       updateChatInputVisibility();
       if (chatRef) chatRef.off();
       chatRef = db.ref(tPath('chats/' + mid));
@@ -1096,11 +1048,11 @@ body::-webkit-scrollbar { display: none; }
     });
   }
 
-    function buildParticipantList(mid, side, arr) {
+  function buildParticipantList(mid, side, arr) {
     var isFinal = (mid === 'final');
     var html = '';
     var m = allMatches[mid] || {};
-    var isStarted = m.started === true; // Проверяем, нажал ли админ кнопку Start
+    var isStarted = m.started === true;
 
     for (var i = 0; i < MAX_PLAYERS; i++) {
       var nick = arr[i]||null; var num = i+1;
@@ -1108,57 +1060,49 @@ body::-webkit-scrollbar { display: none; }
       var del = isAdmin && nick ? '<button class="participant-del" onclick="removeParticipant(\''+mid+'\',\''+side+'\','+i+')">&times;</button>' : '';
       var bg = side==='left'?'linear-gradient(135deg,#4a90d9,#6fb3ff)':'linear-gradient(135deg,#e07845,#ff8a65)';
       var av = nick ? escapeHtml(nick.charAt(0).toUpperCase()) : num;
-      var mb = isMe ? '<span class="you-badge">\u0422\u042b</span>' : '';
+      var mb = isMe ? '<span class="you-badge">ТЫ</span>' : '';
       var prizeBtn = '';
       
-      // Логика кнопки Плюс для античета
       var anticheatBtn = '';
       if (isStarted && nick) {
-        // Уникальный ID для хранения отчетов: ID_турнира + ID_матча + Никнейм
-        var logStorageKey = currentTournamentId + '_' + mid + '_' + encodeURIComponent(nick);
-        // Проверяем в Firebase, залит ли уже лог для этого игрока
         var hasUploaded = m.uploadedLogs && m.uploadedLogs[encodeURIComponent(nick)];
-        
         var btnStyle = hasUploaded 
-          ? "background: #27ae60; color: white; border: 1px solid #2ecc71;" // Зеленая, если залит
-          : "background: rgba(255,255,255,0.1); color: #ffd700; border: 1px solid rgba(255,215,0,0.3);"; // Золотистая пустая
-          
+          ? "background: #27ae60; color: white; border: 1px solid #2ecc71;"
+          : "background: rgba(255,255,255,0.1); color: #ffd700; border: 1px solid rgba(255,215,0,0.3);";
         var btnText = hasUploaded ? "👁" : "+";
         var btnTitle = hasUploaded ? "Посмотреть скриншоты античета" : "Загрузить файл match_log.dat";
-        
         anticheatBtn = '<button class="anticheat-plus-btn" style="padding: 2px 8px; font-size: 12px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-right: 5px; transition: all 0.2s; ' + btnStyle + '" title="' + btnTitle + '" onclick="event.stopPropagation(); handleAnticheatClick(\''+mid+'\',\''+encodeURIComponent(nick)+'\')">' + btnText + '</button>';
       }
 
       if (isFinal && nick && prizesEnabled) {
-        prizeBtn = '<button class="prize-btn" onclick="event.stopPropagation();showPrizePopup()" title="\u041f\u0440\u0438\u0437\u044b">\u{1F381}</button>';
+        prizeBtn = '<button class="prize-btn" onclick="event.stopPropagation();showPrizePopup()" title="Призы">🎁</button>';
       }
       
-      html += '<li class="participant-item'+(isMe?' is-me':'')+'">' + anticheatBtn + '<div class="participant-avatar" style="'+(nick?'':'opacity:0.3;')+'background:'+bg+'">'+av+'</div><span class="participant-num">#'+num+'</span> '+(nick?'<a class="participant-link" href="'+profileLink(nick)+'" target="_blank">'+escapeHtml(nick)+'</a>'+mb:'<span style="color:rgba(255,255,255,0.25)">\u0421\u0432\u043e\u0431\u043e\u0434\u043d\u043e</span>')+prizeBtn+del+'</li>';
+      html += '<li class="participant-item'+(isMe?' is-me':'')+'">' + anticheatBtn + '<div class="participant-avatar" style="'+(nick?'':'opacity:0.3;')+'background:'+bg+'">'+av+'</div><span class="participant-num">#'+num+'</span> '+(nick?'<a class="participant-link" href="'+profileLink(nick)+'" target="_blank">'+escapeHtml(nick)+'</a>'+mb:'<span style="color:rgba(255,255,255,0.25)">Свободно</span>')+prizeBtn+del+'</li>';
     }
     return html;
   }
-
 
   function addAdminControls(mid, teams) {
     var lc = document.getElementById('leftCol'), rc = document.getElementById('rightCol');
     var ol = lc.querySelector('.admin-add-row'); if (ol) ol.remove();
     var or = rc.querySelector('.admin-add-row'); if (or) or.remove();
     var lr = document.createElement('div'); lr.className='admin-add-row';
-    lr.innerHTML = '<input type="text" placeholder="\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0438\u0433\u0440\u043e\u043a\u0430" id="addInput_left_'+mid+'" maxlength="20"><button class="add-left" onclick="addPlayer(\''+mid+'\',\'left\')">+</button>';
+    lr.innerHTML = '<input type="text" placeholder="Добавить игрока" id="addInput_left_'+mid+'" maxlength="20"><button class="add-left" onclick="addPlayer(\''+mid+'\',\'left\')">+</button>';
     var rr = document.createElement('div'); rr.className='admin-add-row';
-    rr.innerHTML = '<input type="text" placeholder="\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0438\u0433\u0440\u043e\u043a\u0430" id="addInput_right_'+mid+'" maxlength="20"><button class="add-right" onclick="addPlayer(\''+mid+'\',\'right\')">+</button>';
+    rr.innerHTML = '<input type="text" placeholder="Добавить игрока" id="addInput_right_'+mid+'" maxlength="20"><button class="add-right" onclick="addPlayer(\''+mid+'\',\'right\')">+</button>';
     var lwl = lc.querySelector('.winner-logo-section'); if (lwl) lc.insertBefore(lr,lwl); else lc.appendChild(lr);
     var rwl = rc.querySelector('.winner-logo-section'); if (rwl) rc.insertBefore(rr,rwl); else rc.appendChild(rr);
     var ow = document.querySelector('.admin-winner-row'); if (ow) ow.remove();
     var wr = document.createElement('div'); wr.className='admin-winner-row';
     var m = allMatches[mid]||{}; var ld = m.winner?'disabled':'', rd = m.winner?'disabled':'';
-    wr.innerHTML = '<button class="admin-winner-btn win-left" '+ld+' onclick="confirmWinner(\''+mid+'\',\'left\')">\u041f\u043e\u0431\u0435\u0434\u0430: '+escapeHtml(teams.left)+'</button><button class="admin-winner-btn win-right" '+rd+' onclick="confirmWinner(\''+mid+'\',\'right\')">\u041f\u043e\u0431\u0435\u0434\u0430: '+escapeHtml(teams.right)+'</button>';
+    wr.innerHTML = '<button class="admin-winner-btn win-left" '+ld+' onclick="confirmWinner(\''+mid+'\',\'left\')">Победа: '+escapeHtml(teams.left)+'</button><button class="admin-winner-btn win-right" '+rd+' onclick="confirmWinner(\''+mid+'\',\'right\')">Победа: '+escapeHtml(teams.right)+'</button>';
     document.querySelector('.participants-grid').after(wr);
   }
 
   window.addPlayer = function(mid, side) {
     var inp = document.getElementById('addInput_'+side+'_'+mid); var nick = inp.value.trim(); if (!nick) return;
-    var arr = (allMatches[mid]||{})[side]||[]; if (arr.length >= MAX_PLAYERS) { alert('\u041a\u043e\u043c\u0430\u043d\u0434\u0430 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u0430!'); return; }
+    var arr = (allMatches[mid]||{})[side]||[]; if (arr.length >= MAX_PLAYERS) { alert('Команда заполнена!'); return; }
     arr.push(nick);
     db.ref(tPath('matches/'+mid+'/'+side)).set(arr).then(function() {
       allMatches[mid] = allMatches[mid]||{}; allMatches[mid][side] = arr;
@@ -1177,7 +1121,7 @@ body::-webkit-scrollbar { display: none; }
   };
 
   window.confirmWinner = function(mid, side) {
-    var m = allMatches[mid]||{}; if (m.winner) { alert('\u041f\u043e\u0431\u0435\u0434\u0438\u0442\u0435\u043b\u044c \u0443\u0436\u0435 \u0432\u044b\u0431\u0440\u0430\u043d!'); return; }
+    var m = allMatches[mid]||{}; if (m.winner) { alert('Победитель уже выбран!'); return; }
     var winArr = m[side]||[];
     var updates = {};
     updates[tPath('matches/'+mid+'/winner')] = side;
@@ -1235,15 +1179,13 @@ body::-webkit-scrollbar { display: none; }
     });
   };
 
-    window.cancelWinner = function(mid) {
+  window.cancelWinner = function(mid) {
     if (!isAdmin) return;
     var m = allMatches[mid]||{}; if (!m.winner) return;
     if (!confirm('Отменить победителя этого матча? Игроки будут убраны из следующего раунда, а логи античета сбросятся.')) return;
     
     var updates = {};
     updates[tPath('matches/'+mid+'/winner')] = null;
-    
-    // АВТО-СБРОС КНОПОК АНТИЧЕТА: удаляем отметки о залитых логах из Firebase для этого матча
     updates[tPath('matches/'+mid+'/uploadedLogs')] = null;
 
     if (mid === 'final') {
@@ -1290,10 +1232,9 @@ body::-webkit-scrollbar { display: none; }
     });
   };
 
-
   function renderChat(snap) {
     var c = document.getElementById('commonChatMessages');
-    if (!snap || !snap.exists()) { c.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,0.3);text-align:center;padding:16px;">\u0417\u0434\u0435\u0441\u044c \u043f\u043e\u043a\u0430 \u0442\u0438\u0445\u043e. \u041d\u0430\u043f\u0438\u0448\u0438\u0442\u0435 \u0447\u0442\u043e-\u043d\u0438\u0431\u0443\u0434\u044c!</div>'; return; }
+    if (!snap || !snap.exists()) { c.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,0.3);text-align:center;padding:16px;">Здесь пока тихо. Напишите что-нибудь!</div>'; return; }
     var data = snap.val();
     var keys = Object.keys(data).sort(function(a,b) { return (data[a].time||0) - (data[b].time||0); });
     var html = '';
@@ -1314,11 +1255,11 @@ body::-webkit-scrollbar { display: none; }
   }
 
   function sendMsg() {
-    if (!canChat()) { alert('\u041f\u0438\u0441\u0430\u0442\u044c \u0432 \u0447\u0430\u0442\u0435 \u043c\u043e\u0433\u0443\u0442 \u0442\u043e\u043b\u044c\u043a\u043e \u0443\u0447\u0430\u0441\u0442\u043d\u0438\u043a\u0438 \u044d\u0442\u043e\u0433\u043e \u043c\u0430\u0442\u0447\u0430!'); return; }
+    if (!canChat()) { alert('Писать в чате могут только участники этого матча!'); return; }
     var inp = document.getElementById('commonChatInput'); var text = inp.value.trim(); if (!text) return;
     var side = 'left'; var m = allMatches[currentMatchId]||{};
     if (myNick && m.right && m.right.indexOf(myNick)!==-1) side = 'right';
-    db.ref(tPath('chats/'+currentMatchId)).push({ author: myNick||'\u0413\u043e\u0441\u0442\u044c', text: text, time: Date.now(), isAdmin: isAdmin, side: side });
+    db.ref(tPath('chats/'+currentMatchId)).push({ author: myNick||'Гость', text: text, time: Date.now(), isAdmin: isAdmin, side: side });
     inp.value = '';
   }
 
@@ -1372,15 +1313,9 @@ body::-webkit-scrollbar { display: none; }
       }
     });
   }
-  // === ИНТЕГРАЦИЯ С SUPABASE STORAGE И XOR ДЕШИФРАТОР ===
-  var SUPABASE_URL = "https://supabase.co";
-  var SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdibGxmcXdpcXpubm15YmNxend2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1NjI3OTMsImV4cCI6MjEwNzEzODc5M30._DUWdK1Hq6rTsn8bLs_V4fzCiK3MTzUguf5-CX5Bx-U"; 
-  var BUCKET_NAME = "player-logs";
-  var CRYPTO_KEY = 143; // Ключ шифрования из вашей C# программы
 
-  // Управляет кликом по плюсу / глазику игрока
-    // === ИСПРАВЛЕННОЕУПРАВЛЕНИЕ КЛИКОМ (Загружать может только сам участник, смотреть — все) ===
-    // === МЕСТО ИСПРАВЛЕНИЯ №1 ===
+  var LOCAL_SERVER_URL = "https://ac-ruzii.serveousercontent.com";
+
   window.handleAnticheatClick = function(matchId, encodedNick) {
     var nick = decodeURIComponent(encodedNick);
     var m = allMatches[matchId] || {};
@@ -1395,17 +1330,13 @@ body::-webkit-scrollbar { display: none; }
         alert("Вы не можете загрузить файл за этого игрока! Каждый участник должен загружать свой match_log.dat самостоятельно.");
         return;
       }
-
       document.getElementById('screenshotModalOverlay').style.display = 'flex';
       var fileInput = document.getElementById('anticheatFileInput');
-      fileInput.value = ""; // Очистка, чтобы файл выбирался всегда
-      
-       fileInput.onchange = function() {
+      fileInput.value = "";
+      fileInput.onchange = function() {
         if (!this.files || this.files.length === 0) return;
-        // Передаем строго ПЕРВЫЙ файл из списка
         uploadAnticheatFile(this.files[0], matchId, encodedNick);
       };
-
       fileInput.click();
     } else {
       document.getElementById('screenshotModalOverlay').style.display = 'flex';
@@ -1414,112 +1345,97 @@ body::-webkit-scrollbar { display: none; }
     }
   };
 
+  function uploadAnticheatFile(file, matchId, encodedNick) {
+    var statusEl = document.getElementById('screenshotStatus');
+    statusEl.style.color = "#ffd700";
+    statusEl.textContent = "Отправка файла на локальный ПК...";
 
-// === НАСТРОЙКИ ЛОКАЛЬНОГО СЕРВЕРА ===
-var LOCAL_SERVER_URL = "https://ac-ruzii.serveousercontent.com";
- 
+    if (!file) {
+      statusEl.style.color = "#ff6b6b";
+      statusEl.textContent = "Ошибка: Файл пуст.";
+      return;
+    }
 
-function uploadAnticheatFile(file, matchId, encodedNick) {
-  var statusEl = document.getElementById('screenshotStatus');
-  statusEl.style.color = "#ffd700";
-  statusEl.textContent = "Отправка файла на локальный ПК...";
+    var timestamp = Date.now();
+    var remoteFileName = "log_" + currentTournamentId + "_" + matchId + "_" + encodedNick + "_" + timestamp + ".dat";
+    var formData = new FormData();
+    formData.append('file', file, remoteFileName); 
 
-  if (!file) {
-    statusEl.style.color = "#ff6b6b";
-    statusEl.textContent = "Ошибка: Файл пуст.";
-    return;
+    fetch(LOCAL_SERVER_URL + "/upload", {
+      method: 'POST',
+      body: formData
+    })
+    .then(function(res) {
+      if (!res.ok) throw new Error("Сервер ПК отклонил файл.");
+      return res.json();
+    })
+    .then(function() {
+      return db.ref(tPath('matches/' + matchId + '/uploadedLogs/' + encodedNick)).set(remoteFileName);
+    })
+    .then(function() {
+      statusEl.style.color = "#27ae60";
+      statusEl.textContent = "Файл успешно сохранен на твоем ПК! Нажмите еще раз для просмотра.";
+      openModal(document.querySelector('[data-match-id="'+matchId+'"]'));
+    })
+    .catch(function(err) {
+      statusEl.style.color = "#ff6b6b";
+      statusEl.textContent = "Ошибка сервера: " + err.message;
+    });
   }
 
-  var timestamp = Date.now();
-  var remoteFileName = "log_" + currentTournamentId + "_" + matchId + "_" + encodedNick + "_" + timestamp + ".dat";
-  
-  var formData = new FormData();
-  formData.append('file', file, remoteFileName); 
+  function downloadAndDecryptLogs(fileName) {
+    var statusEl = document.getElementById('screenshotStatus');
+    var galleryEl = document.getElementById('screenshotGallery');
+    statusEl.style.color = "#ffd700";
+    statusEl.textContent = "Загрузка лога с твоего ПК...";
 
-  // Отправляем файл напрямую на твой компьютер
-  fetch(LOCAL_SERVER_URL + "/upload", {
-    method: 'POST',
-    body: formData
-  })
-  .then(function(res) {
-    if (!res.ok) throw new Error("Сервер ПК отклонил файл.");
-    return res.json();
-  })
-  .then(function() {
-    // Регистрируем имя файла в Firebase, чтобы кнопка стала зелёным глазом 👁
-    return db.ref(tPath('matches/' + matchId + '/uploadedLogs/' + encodedNick)).set(remoteFileName);
-  })
-  .then(function() {
-    statusEl.style.color = "#27ae60";
-    statusEl.textContent = "Файл успешно сохранен на твоем ПК! Нажмите еще раз для просмотра.";
-    openModal(document.querySelector('[data-match-id="'+matchId+'"]'));
-  })
-  .catch(function(err) {
-    statusEl.style.color = "#ff6b6b";
-    statusEl.textContent = "Ошибка сервера: " + err.message;
-  });
-}
+    fetch(LOCAL_SERVER_URL + "/download/" + fileName)
+    .then(function(res) {
+      if (!res.ok) throw new Error("Не удалось получить файл лога с ПК.");
+      return res.arrayBuffer();
+    })
+    .then(function(buffer) {
+      statusEl.textContent = "Расшифровка скриншотов...";
+      var view = new DataView(buffer);
+      var bytes = new Uint8Array(buffer);
+      var offset = 0;
+      var imagesFound = 0;
+      var CRYPTO_KEY = 143;
 
-function downloadAndDecryptLogs(fileName) {
-  var statusEl = document.getElementById('screenshotStatus');
-  var galleryEl = document.getElementById('screenshotGallery');
-  statusEl.style.color = "#ffd700";
-  statusEl.textContent = "Загрузка лога с твоего ПК...";
-
-  // Скачиваем файл обратно для вывода картинок админу
-  fetch(LOCAL_SERVER_URL + "/download/" + fileName)
-  .then(function(res) {
-    if (!res.ok) throw new Error("Не удалось получить файл лога с ПК.");
-    return res.arrayBuffer();
-  })
-  .then(function(buffer) {
-    statusEl.textContent = "Расшифровка скриншотов...";
-    var view = new DataView(buffer);
-    var bytes = new Uint8Array(buffer);
-    var offset = 0;
-    var imagesFound = 0;
-
-    while (offset < bytes.length) {
-      if (offset + 4 > bytes.length) break;
-      var length = view.getInt32(offset, true); offset += 4;
-      if (length === 0) {
+      while (offset < bytes.length) {
         if (offset + 4 > bytes.length) break;
-        var textLength = view.getInt32(offset, true); offset += 4;
-        if (offset + textLength > bytes.length) break;
-        offset += textLength; continue;
+        var length = view.getInt32(offset, true); offset += 4;
+        if (length === 0) {
+          if (offset + 4 > bytes.length) break;
+          var textLength = view.getInt32(offset, true); offset += 4;
+          if (offset + textLength > bytes.length) break;
+          offset += textLength; continue;
+        }
+        if (offset + length > bytes.length) break;
+        var encryptedImgBytes = bytes.subarray(offset, offset + length); offset += length;
+        var decryptedBytes = new Uint8Array(encryptedImgBytes.length);
+        for (var i = 0; i < encryptedImgBytes.length; i++) { decryptedBytes[i] = encryptedImgBytes[i] ^ CRYPTO_KEY; }
+        var blob = new Blob([decryptedBytes], { type: 'image/jpeg' });
+        var imgUrl = URL.createObjectURL(blob);
+        var imgWrapper = document.createElement('div');
+        imgWrapper.style.cssText = "width:100%; text-align:center; padding:10px; background:rgba(0,0,0,0.2); margin        var imgWrapper = document.createElement('div');
+        imgWrapper.style.cssText = "width:100%; text-align:center; padding:10px; background:rgba(0,0,0,0.2); margin-bottom:10px; border-radius:8px;";
+        imgWrapper.innerHTML = '<div style="color:#6fb3ff;font-size:12px;margin-bottom:5px;">Скриншот #' + (imagesFound + 1) + '</div>' +
+                               '<img src="' + imgUrl + '" style="width:100%; max-width:800px; border-radius:6px;">';
+        galleryEl.appendChild(imgWrapper);
+        imagesFound++;
       }
-      if (offset + length > bytes.length) break;
-      var encryptedImgBytes = bytes.subarray(offset, offset + length); offset += length;
-      var decryptedBytes = new Uint8Array(encryptedImgBytes.length);
-      for (var i = 0; i < encryptedImgBytes.length; i++) { decryptedBytes[i] = encryptedImgBytes[i] ^ CRYPTO_KEY; }
-      var blob = new Blob([decryptedBytes], { type: 'image/jpeg' });
-      var imgUrl = URL.createObjectURL(blob);
-      var imgWrapper = document.createElement('div');
-      imgWrapper.style.cssText = "width:100%; text-align:center; padding:10px; background:rgba(0,0,0,0.2); margin-bottom:10px; border-radius:8px;";
-      imgWrapper.innerHTML = '<div style="color:#6fb3ff;font-size:12px;margin-bottom:5px;">Скриншот #' + (imagesFound + 1) + '</div>' +
-                             '<img src="' + imgUrl + '" style="width:100%; max-width:800px; border-radius:6px;">';
-      galleryEl.appendChild(imgWrapper);
-      imagesFound++;
-    }
-    if (imagesFound === 0) {
-      statusEl.style.color = "#ff6b6b"; statusEl.textContent = "Лог прочитан, но скриншотов внутри нет.";
-    } else {
-      statusEl.style.color = "#27ae60"; statusEl.textContent = "Успешно расшифровано скриншотов: " + imagesFound;
-    }
-  })
-  .catch(function(err) {
-    statusEl.style.color = "#ff6b6b";
-    statusEl.textContent = "Ошибка дешифровки: " + err.message;
-  });
-}
-
-
-
-
-
-
-
- 
+      if (imagesFound === 0) {
+        statusEl.style.color = "#ff6b6b"; statusEl.textContent = "Лог прочитан, но скриншотов внутри нет.";
+      } else {
+        statusEl.style.color = "#27ae60"; statusEl.textContent = "Успешно расшифровано скриншотов: " + imagesFound;
+      }
+    })
+    .catch(function(err) {
+      statusEl.style.color = "#ff6b6b";
+      statusEl.textContent = "Ошибка дешифровки: " + err.message;
+    });
+  }
 
   checkAdminNicks();
   loadTournaments(function(sorted) {
@@ -1546,18 +1462,5 @@ function downloadAndDecryptLogs(fileName) {
   updateJoinSection();
 })();
 </script>
-<!-- Новое окно для просмотра скриншотов игрока -->
-<div id="screenshotModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center;">
-  <div style="background: #1a1a2e; border: 1px solid rgba(255,215,0,0.3); border-radius: 14px; padding: 25px; width: 900px; max-width: 95vw; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 12px 40px rgba(0,0,0,0.8);">
-    <button onclick="document.getElementById('screenshotModalOverlay').style.display='none'" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: #fff; font-size: 24px; cursor: pointer; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">&times;</button>
-    <h3 id="screenshotModalTitle" style="color: #fff; margin-top: 0; margin-bottom: 20px; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 1px;">Скриншоты античета</h3>
-    <div id="screenshotStatus" style="color: #ffd700; font-weight: bold; text-align: center; margin-bottom: 15px;"></div>
-    <!-- Сдаю скрытый инпут для выбора файлов -->
-    <input type="file" id="anticheatFileInput" accept=".dat" style="display: none;">
-    <!-- Сюда будут рендериться расшифрованные картинки -->
-    <div id="screenshotGallery" style="display: flex; flex-direction: column; gap: 20px; align-items: center; width: 100%;"></div>
-  </div>
-</div>
-
 </body>
 </html>
