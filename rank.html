@@ -12,31 +12,30 @@
       padding: 0;
       background: transparent;
       font-family: 'Inter', sans-serif;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
-    /* Фон страницы — как в tournaments.html */
-    .page-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-image: url('pngg/9kolo.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      z-index: -1;
+    /* Фон — обычная картинка в потоке, как на главной */
+    .bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      z-index: 0;
       pointer-events: none;
     }
-    .page-bg::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
+
+    /* Шапка поверх фона */
+    .header-wrapper {
+      position: relative;
+      z-index: 10;
     }
 
     .rating-container {
       max-width: 650px;
-      margin: 100px auto 40px auto;
+      margin: 40px auto 40px auto;
       padding: 20px;
       background: rgba(10, 42, 107, 0.55);
       backdrop-filter: blur(10px);
@@ -45,7 +44,7 @@
       border-radius: 14px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       position: relative;
-      z-index: 1;
+      z-index: 5;
     }
 
     .rating-title {
@@ -135,8 +134,8 @@
 </head>
 <body>
 
-  <!-- Фон -->
-  <div class="page-bg"></div>
+  <!-- Фон (картинка в потоке) -->
+  <img src="pngg/9kolo.png" class="bg-image" alt="Фон">
 
   <!-- Шапка -->
   <div id="header-placeholder" class="header-wrapper"></div>
