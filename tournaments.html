@@ -142,6 +142,15 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 </script>
-
+<script>
+window.addEventListener('message', function(event) {
+  if (event.data && event.data.type === 'resize' && event.data.frame === 'tournament') {
+    var frame = document.getElementById('tournamentFrame');
+    if (frame && event.data.height) {
+      frame.style.height = event.data.height + 'px';
+    }
+  }
+});
+</script>
 </body>
 </html>
