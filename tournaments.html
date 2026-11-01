@@ -12,7 +12,7 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-/* Фон страницы */
+/* Фон страницы (картинка) */
 .page-bg {
   position: fixed;
   top: 0; left: 0;
@@ -21,7 +21,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  z-index: -1;
+  z-index: -2;
   pointer-events: none;
 }
 .page-bg::after {
@@ -29,11 +29,21 @@ body {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);
+}
+
+/* Canvas для Three.js поверх фона */
+#threeCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.9;
 }
 
 /* Отступ от шапки */
-.page-content { margin-top: 100px; }
+.page-content { margin-top: 100px; position: relative; z-index: 1; }
 
 /* Блок «правила [картинка] турнира» — прижат вправо */
 .archive-block {
@@ -77,6 +87,8 @@ body {
   border: none;
   margin: 20px auto;
   border-radius: 12px;
+  position: relative;
+  z-index: 1;
 }
 </style>
 </head>
@@ -85,12 +97,15 @@ body {
 <!-- Фон -->
 <div class="page-bg"></div>
 
+<!-- Three.js canvas -->
+<canvas id="threeCanvas"></canvas>
+
 <!-- Шапка -->
 <div id="header-placeholder" class="header-wrapper"></div>
 
 <div class="page-content">
 
-  <!-- Блок: «правила [картинка] турнира» — справа -->
+  <!-- Блок: «правила [картинка] турнира» -->
   <div class="archive-block">
     <span class="archive-title-part">правила</span>
     <div class="archive-icon-wrapper">
@@ -119,7 +134,7 @@ fetch('header.html')
   .catch(error => console.error('Ошибка загрузки шапки:', error));
 </script>
 
-<!-- Подставляем uid в iframe турнирной сетки -->
+<!-- Подставляем uid в iframe -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -142,15 +157,102 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 </script>
-<script>
-window.addEventListener('message', function(event) {
-  if (event.data && event.data.type === 'resize' && event.data.frame === 'tournament') {
-    var frame = document.getElementById('tournamentFrame');
-    if (frame && event.data.height) {
-      frame.style.height = event.data.height + 'px';
-    }
+
+<!-- Three.js 3D-сетка -->
+<script type="module">
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+
+const canvas = document.getElementById('threeCanvas');
+const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 30;
+
+// Создаём сетку из треугольников
+const geometry = new THREE.BufferGeometry();
+const vertices = [];
+const indices = [];
+const cols = 20;
+const rows = 15;
+const spacing = 4;
+
+for (let y = 0; y < rows; y++) {
+  for (let x = 0; x < cols; x++) {
+    const px = (x - cols / 2) * spacing + (Math.random() - 0.5) * 1.5;
+    const py = (y - rows / 2) * spacing + (Math.random() - 0.5) * 1.5;
+    const pz = (Math.random() - 0.5) * 3;
+    vertices.push(px, py, pz);
+  }
+}
+
+for (let y = 0; y < rows - 1; y++) {
+  for (let x = 0; x < cols - 1; x++) {
+    const i1 = y * cols + x;
+    const i2 = y * cols + x + 1;
+    const i3 = (y + 1) * cols + x;
+    const i4 = (y + 1) * cols + x + 1;
+
+    indices.push(i1, i2, i3);
+    indices.push(i2, i4, i3);
+  }
+}
+
+geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+geometry.setIndex(indices);
+geometry.computeVertexNormals();
+
+// Материал — полупрозрачные линии с подсветкой
+const material = new THREE.MeshBasicMaterial({
+  color: 0xffffff,
+  wireframe: true,
+  transparent: true,
+  opacity: 0.15
+});
+
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+
+// Подсветка под мышью (raycaster)
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+const highlightGeometry = new THREE.SphereGeometry(0.5, 8, 8);
+const highlightMaterial = new THREE.MeshBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.8 });
+const highlightSphere = new THREE.Mesh(highlightGeometry, highlightMaterial);
+highlightSphere.visible = false;
+scene.add(highlightSphere);
+
+window.addEventListener('mousemove', (e) => {
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObject(mesh);
+  if (intersects.length > 0) {
+    const point = intersects[0].point;
+    highlightSphere.position.copy(point);
+    highlightSphere.visible = true;
+  } else {
+    highlightSphere.visible = false;
   }
 });
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Анимация: вращение сетки
+function animate() {
+  requestAnimationFrame(animate);
+  mesh.rotation.y += 0.002;
+  mesh.rotation.x += 0.001;
+  renderer.render(scene, camera);
+}
+animate();
 </script>
+
 </body>
 </html>
