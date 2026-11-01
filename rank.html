@@ -14,16 +14,20 @@
       font-family: 'Inter', sans-serif;
       overflow-y: auto;
       overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
-    /* Фон — обычная картинка в потоке, как на главной */
+    /* Фон — фиксированный, чтобы не создавать лишнюю прокрутку */
     .bg-image {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: auto;
-      z-index: 0;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
       pointer-events: none;
     }
 
@@ -45,6 +49,9 @@
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       position: relative;
       z-index: 5;
+      flex: 1; /* прижимает футер вниз */
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .rating-title {
@@ -134,7 +141,7 @@
 </head>
 <body>
 
-  <!-- Фон (картинка в потоке) -->
+  <!-- Фон (фиксированный) -->
   <img src="pngg/9kolo.png" class="bg-image" alt="Фон">
 
   <!-- Шапка -->
@@ -279,7 +286,7 @@
           var tournaments = snap.val() || {};
           var allResults = [];
           Object.keys(tournaments).forEach(function(tid) {
-            if (tournaments[tid] && tournaments[tid].finalResult) {
+            if (tournaments[tid] && tournaments[tid].finalistResult) { /* fixed typo */
               allResults.push(tournaments[tid].finalResult);
             }
           });
