@@ -67,6 +67,17 @@ body {
 .archive-icon-wrapper img:hover {
   transform: scale(1.05);
 }
+
+/* Iframe с турнирной сеткой */
+.tournament-frame {
+  display: block;
+  width: 100%;
+  max-width: 1200px;
+  height: 1500px;
+  border: none;
+  margin: 20px auto;
+  border-radius: 12px;
+}
 </style>
 </head>
 <body>
@@ -89,6 +100,9 @@ body {
     </div>
     <span class="archive-title-part">турнира</span>
   </div>
+
+  <!-- Турнирная сетка в iframe -->
+  <iframe src="tournament-bracket.html" class="tournament-frame"></iframe>
 
 </div>
 
