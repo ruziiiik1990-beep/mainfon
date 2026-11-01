@@ -93,6 +93,24 @@ app.get('/auth/steam/authenticate', async (req, res) => {
   }
 });
 
+// ====== Выдача прав администратора ======
+app.post('/set-admin', async (req, res) => {
+  const { uid } = req.body;
+  
+  if (!uid) {
+    return res.status(400).send('Нужен uid пользователя');
+  }
+
+  try {
+    await admin.auth().setCustomUserClaims(uid, { admin: true });
+    console.log('Права админа выданы пользователю:', uid);
+    res.send(`Пользователь ${uid} теперь админ.`);
+  } catch (error) {
+    console.error('Ошибка выдачи прав:', error);
+    res.status(500).send('Не удалось выдать права');
+  }
+});
+
 app.get('/', (req, res) => {
   res.json({ status: 'ok', message: 'Steam OpenID Backend работает (с Firebase)' });
 });
