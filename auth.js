@@ -44,6 +44,10 @@ fetch('footer.html')
   .then(html => {
     const footerDiv = document.createElement('div');
     footerDiv.innerHTML = html;
+    footerDiv.style.position = 'relative';
+    footerDiv.style.zIndex = '10';
+    footerDiv.style.width = '100%';
+    footerDiv.style.marginTop = '40px';
     document.body.appendChild(footerDiv);
   })
   .catch(err => console.error('Ошибка загрузки футера:', err));
