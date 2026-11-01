@@ -1,0 +1,683 @@
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>PLAYOFF // GLITCH</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --glitch-c1:#00fff9;
+  --glitch-c2:#ff004c;
+  --glitch-c3:#ffb000;
+  --prize-winner:#ff6b9d;
+  --prize-finalist:#a855f7;
+}
+
+body{
+  background:#0a0a0f;
+  color:#e0e0e0;
+  font-family:'VT323',monospace;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+.scanlines{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  pointer-events:none;z-index:100;
+  background:repeating-linear-gradient(0deg,
+    rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px,
+    rgba(0,255,249,0.04) 2px, rgba(0,0,0,0) 3px);
+  background-size:100% 4px;
+}
+.vignette{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  pointer-events:none;z-index:99;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,0) 30%,rgba(0,0,0,0.8) 100%);
+}
+.noise{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  pointer-events:none;z-index:98;
+  opacity:0.06;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+  animation:noiseShift .2s steps(3) infinite;
+}
+@keyframes noiseShift{
+  0%{transform:translate(0,0)}
+  33%{transform:translate(-2px,1px)}
+  66%{transform:translate(1px,-2px)}
+  100%{transform:translate(0,0)}
+}
+
+.glitch-bar{
+  position:fixed;left:0;right:0;height:0;
+  pointer-events:none;z-index:97;
+  background:var(--glitch-c1);
+  opacity:0;
+  mix-blend-mode:screen;
+}
+
+#stage{position:relative;width:1000px;height:620px}
+
+.title{
+  text-align:center;font-size:32px;line-height:1.1;
+  margin-top:10px;position:relative;z-index:5;
+  color:#fff;
+  text-shadow:
+    2px 0 var(--glitch-c1),
+    -2px 0 var(--glitch-c2);
+  opacity:0;
+  animation:glitchTitle .15s infinite;
+}
+@keyframes glitchTitle{
+  0%,100%{text-shadow:2px 0 var(--glitch-c1),-2px 0 var(--glitch-c2)}
+  50%{text-shadow:-2px 0 var(--glitch-c1),2px 0 var(--glitch-c2)}
+  75%{text-shadow:1px 1px var(--glitch-c3),-1px -1px var(--glitch-c2)}
+}
+
+.label{
+  position:absolute;font-size:20px;opacity:0;z-index:5;
+  text-shadow:0 0 4px currentColor;
+  letter-spacing:2px;
+}
+.label-west{top:52px;left:65px;color:var(--glitch-c1)}
+.label-east{top:52px;left:865px;color:var(--glitch-c2)}
+
+.bracket{position:absolute;top:85px;left:0;width:1000px;height:500px}
+.bracket svg{position:absolute;top:0;left:0;pointer-events:none;z-index:1}
+
+.match-card{
+  position:absolute;width:140px;
+  background:#111118;
+  border:2px solid #333344;
+  padding:6px 8px;opacity:0;z-index:2;
+  will-change:transform,opacity,filter;
+  overflow:hidden;
+}
+.match-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--glitch-c1),var(--glitch-c2),var(--glitch-c3));
+  opacity:0.6;
+}
+.match-card.glitching{
+  animation:cardGlitch .3s steps(2) 2;
+}
+@keyframes cardGlitch{
+  0%{transform:translate(0,0);filter:none}
+  20%{transform:translate(-3px,1px);filter:hue-rotate(90deg) saturate(2)}
+  40%{transform:translate(2px,-2px);filter:hue-rotate(180deg)}
+  60%{transform:translate(-1px,2px);filter:none}
+  80%{transform:translate(1px,0);filter:hue-rotate(270deg)}
+  100%{transform:translate(0,0);filter:none}
+}
+.match-card.winner{
+  border-color:var(--glitch-c1);
+  box-shadow:0 0 8px rgba(0,255,249,0.4),inset 0 0 6px rgba(0,255,249,0.1);
+}
+.match-card.final{
+  border-color:var(--glitch-c3);
+  box-shadow:0 0 14px rgba(255,176,0,0.5),inset 0 0 8px rgba(255,176,0,0.1);
+}
+
+.team-row{font-size:14px;padding:2px 0;color:#aaa;position:relative}
+.team-row.win{color:var(--glitch-c1);text-shadow:0 0 4px var(--glitch-c1)}
+.team-row.win::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--glitch-c1);animation:scanLine .5s linear}
+@keyframes scanLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.team-row.lose{color:#444;text-decoration:line-through}
+
+.vs-text{text-align:center;font-size:12px;color:#555;padding:3px 0;letter-spacing:2px}
+.vs-text.flash{
+  color:var(--glitch-c3);
+  text-shadow:2px 0 var(--glitch-c1),-2px 0 var(--glitch-c2);
+  animation:vsGlitch .2s steps(4) 3;
+}
+@keyframes vsGlitch{
+  0%{clip-path:inset(0 0 0 0)}
+  25%{clip-path:inset(20% 0 60% 0);transform:translateX(-2px)}
+  50%{clip-path:inset(60% 0 20% 0);transform:translateX(2px)}
+  75%{clip-path:inset(40% 0 40% 0);transform:translateX(0)}
+  100%{clip-path:inset(0 0 0 0)}
+}
+
+.player-list{overflow:hidden;height:0}
+.player-row{font-size:11px;color:#555;padding:1px 0 1px 10px;opacity:0}
+.player-row.win{color:#0a9}
+.player-row.lose{color:#222}
+
+.ghost-badge{
+  position:absolute;background:#0a0a12;
+  border:2px solid var(--glitch-c1);color:var(--glitch-c1);
+  padding:5px 10px;font-size:14px;z-index:20;
+  box-shadow:0 0 10px rgba(0,255,249,0.5);
+  pointer-events:none;opacity:0;white-space:nowrap;
+  letter-spacing:1px;
+  text-shadow:1px 0 var(--glitch-c2),-1px 0 var(--glitch-c1);
+}
+
+.champion-banner{
+  position:absolute;top:180px;left:50%;transform:translateX(-50%);
+  font-size:28px;color:var(--glitch-c3);
+  text-shadow:2px 0 var(--glitch-c1),-2px 0 var(--glitch-c2),0 0 12px var(--glitch-c3);
+  opacity:0;z-index:10;text-align:center;white-space:nowrap;
+}
+.champion-banner.glitch{
+  animation:champGlitch .15s steps(3) infinite;
+}
+@keyframes champGlitch{
+  0%{text-shadow:2px 0 var(--glitch-c1),-2px 0 var(--glitch-c2),0 0 12px var(--glitch-c3)}
+  33%{text-shadow:-2px 0 var(--glitch-c1),2px 0 var(--glitch-c2),0 0 8px var(--glitch-c3)}
+  66%{text-shadow:1px 1px var(--glitch-c2),-1px -1px var(--glitch-c1),0 0 16px var(--glitch-c3)}
+  100%{text-shadow:2px 0 var(--glitch-c1),-2px 0 var(--glitch-c2),0 0 12px var(--glitch-c3)}
+}
+
+.prize-container{
+  position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+  display:flex;flex-wrap:wrap;justify-content:center;gap:8px;
+  z-index:5;width:700px;
+}
+.prize-card{
+  width:80px;height:80px;
+  border:2px solid #333;background:#0a0a12;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:10px;opacity:0;transform:scale(0.5) translateY(50px);
+  text-align:center;padding:4px;line-height:1.3;
+  position:relative;
+}
+.prize-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:currentColor;opacity:0.5;
+}
+.prize-winner{
+  border-color:var(--prize-winner);
+  color:var(--prize-winner);
+  box-shadow:0 0 15px rgba(255,107,157,0.7);
+  text-shadow:0 0 8px rgba(255,107,157,0.8);
+}
+.prize-finalist{
+  border-color:var(--prize-finalist);
+  color:var(--prize-finalist);
+  box-shadow:0 0 15px rgba(168,85,247,0.7);
+  text-shadow:0 0 8px rgba(168,85,247,0.8);
+}
+
+.progress-bg{
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  width:60%;height:6px;background:#111;border:1px solid #222;z-index:5;
+}
+.progress-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--glitch-c1),var(--glitch-c2),var(--glitch-c3));
+  box-shadow:0 0 6px var(--glitch-c1);
+}
+
+.glitch-slice{
+  position:absolute;left:0;right:0;
+  pointer-events:none;z-index:80;
+  opacity:0;
+  background-size:1000px 620px;
+  background-repeat:no-repeat;
+  mix-blend-mode:screen;
+}
+</style>
+</head>
+<body>
+<div class="vignette"></div>
+<div class="scanlines"></div>
+<div class="noise"></div>
+<div id="stage">
+  <div class="title" data-glitch>ПЛЕЙ-ОФФ РАНДОМ ТУРНИР</div>
+  <div class="label label-west">ЗАПАД</div>
+  <div class="label label-east">ВОСТОК</div>
+  <div class="bracket" id="bracket">
+    <svg width="1000" height="500" id="lines"></svg>
+  </div>
+  <div class="champion-banner" id="champion"></div>
+  <div class="prize-container" id="prizes"></div>
+  <div class="progress-bg"><div class="progress-fill" id="progress"></div></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script>
+const bracket = document.getElementById('bracket');
+const linesSvg = document.getElementById('lines');
+const progress = document.getElementById('progress');
+const championEl = document.getElementById('champion');
+const prizesEl = document.getElementById('prizes');
+const stage = document.getElementById('stage');
+
+// ── GLITCH UTILITIES ──
+function triggerGlitchSlice(){
+  for(let i=0;i<3;i++){
+    const bar=document.createElement('div');
+    bar.className='glitch-bar';
+    bar.style.top=Math.random()*600+'px';
+    bar.style.height=(2+Math.random()*8)+'px';
+    bar.style.background=i===0?'#00fff9':i===1?'#ff004c':'#ffb000';
+    bar.style.opacity=0.3+Math.random()*0.4;
+    bar.style.mixBlendMode='screen';
+    document.body.appendChild(bar);
+    anime({
+      targets:bar,
+      opacity:[0,0.6,0],
+      translateX:[{value:anime.random(-10,10),duration:50},{value:0,duration:100}],
+      duration:200,
+      easing:'steps(3)',
+      complete:()=>bar.remove()
+    });
+  }
+  anime({
+    targets:stage,
+    translateX:[{value:anime.random(-4,4),duration:30},{value:anime.random(-2,2),duration:30},{value:0,duration:40}],
+    duration:100,
+    easing:'linear'
+  });
+}
+
+function glitchElement(el){
+  el.classList.add('glitching');
+  setTimeout(()=>el.classList.remove('glitching'),600);
+}
+
+setInterval(()=>{ if(Math.random()>0.6) triggerGlitchSlice(); }, 800);
+
+// ── Data ──
+const westTeams = ['ALPHA','BRAVO','CHARLIE','DELTA'];
+const eastTeams = ['ECHO','FOXTROT','GOLF','HOTEL'];
+const namePool = ['neo','viper','frost','reaper','blaze','shade','echo','nova','onyx','raven','jolt','kira','zeno','nyx','axis','flux','surge','volt','hex','rune','kage','wisp','dusk','jade','pyre','glyph','rift','void','haze','bolt'];
+const prizeNames = ['AK-47 //BURN','AWP //PULSE','AK-47 //VOID','M4A1-S //GHOST','AK-47 //PHANTOM'];
+
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function rnd(a){return a[Math.floor(Math.random()*a.length)]}
+function genPlayers(){return Array.from({length:5},()=>rnd(namePool))}
+function pickWinner(a,b){return Math.random()>0.5?a:b}
+
+// ── Positions ──
+const POS = {
+  qf1:{x:30,y:30},   qf2:{x:30,y:230},
+  qf3:{x:830,y:30},  qf4:{x:830,y:230},
+  sf1:{x:230,y:130},sf2:{x:630,y:130},
+  final:{x:430,y:130}
+};
+
+// ── Glitch lines ──
+const linePaths = [
+  'M 100 55 H 200 V 155 H 300',
+  'M 100 255 H 200 V 155 H 300',
+  'M 900 55 H 800 V 155 H 700',
+  'M 900 255 H 800 V 155 H 700',
+  'M 300 155 H 500',
+  'M 700 155 H 500'
+];
+linePaths.forEach((d,i)=>{
+  const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+  p.setAttribute('d',d);
+  p.setAttribute('stroke','#00fff9');
+  p.setAttribute('stroke-width','1.5');
+  p.setAttribute('fill','none');
+  p.setAttribute('opacity','0');
+  p.setAttribute('stroke-dasharray','4 2');
+  p.id='line-'+i;
+  linesSvg.appendChild(p);
+});
+
+// ── Create card ──
+function createCard(id, tA, tB, pA, pB, x, y, isFinal){
+  const c=document.createElement('div');
+  c.className='match-card'+(isFinal?' final':'');
+  c.id=id;
+  c.style.left=x+'px';
+  c.style.top=y+'px';
+  c.innerHTML = `
+    <div class="team-row" data-t="A">${tA}</div>
+    <div class="player-list" data-pl="A">${pA.map(p=>`<div class="player-row">${p}</div>`).join('')}</div>
+    <div class="vs-text">VS</div>
+    <div class="team-row" data-t="B">${tB}</div>
+    <div class="player-list" data-pl="B">${pB.map(p=>`<div class="player-row">${p}</div>`).join('')}</div>
+  `;
+  return c;
+}
+
+// ── Setup tournament ──
+const wShuf = shuffle(westTeams);
+const eShuf = shuffle(eastTeams);
+const qf = [
+  [wShuf[0],wShuf[1]], [wShuf[2],wShuf[3]],
+  [eShuf[0],eShuf[1]], [eShuf[2],eShuf[3]]
+];
+const teamPlayers = {};
+[...westTeams,...eastTeams].forEach(t=>{teamPlayers[t]=genPlayers()});
+
+const qfCards = [];
+const qfWinners = [];
+for(let i=0;i<4;i++){
+  const pos = POS['qf'+(i+1)];
+  const card = createCard('qf'+(i+1), qf[i][0], qf[i][1], teamPlayers[qf[i][0]], teamPlayers[qf[i][1]], pos.x, pos.y, false);
+  bracket.appendChild(card);
+  qfCards.push(card);
+  qfWinners.push(pickWinner(qf[i][0], qf[i][1]));
+}
+
+const sfShuffle = shuffle(qfWinners);
+const sfTeams = [[sfShuffle[0],sfShuffle[1]], [sfShuffle[2],sfShuffle[3]]];
+const sfCards = [];
+const sfWinners = [];
+for(let i=0;i<2;i++){
+  const pos = POS['sf'+(i+1)];
+  const card = createCard('sf'+(i+1), sfTeams[i][0], sfTeams[i][1], teamPlayers[sfTeams[i][0]], teamPlayers[sfTeams[i][1]], pos.x, pos.y, false);
+  bracket.appendChild(card);
+  sfCards.push(card);
+  sfWinners.push(pickWinner(sfTeams[i][0], sfTeams[i][1]));
+}
+
+const finalCard = createCard('final', sfWinners[0], sfWinners[1], teamPlayers[sfWinners[0]], teamPlayers[sfWinners[1]], POS.final.x, POS.final.y, true);
+bracket.appendChild(finalCard);
+const champion = pickWinner(sfWinners[0], sfWinners[1]);
+const finalist = champion === sfWinners[0] ? sfWinners[1] : sfWinners[0];
+
+function highlightWinner(cardId, winner, teamA, teamB){
+  const card = document.getElementById(cardId);
+  const rows = card.querySelectorAll('.team-row');
+  const lists = card.querySelectorAll('.player-list');
+  if(teamA === winner){
+    rows[0].classList.add('win'); rows[1].classList.add('lose');
+    lists[0].querySelectorAll('.player-row').forEach(r=>r.classList.add('win'));
+    lists[1].querySelectorAll('.player-row').forEach(r=>r.classList.add('lose'));
+  } else {
+    rows[1].classList.add('win'); rows[0].classList.add('lose');
+    lists[1].querySelectorAll('.player-row').forEach(r=>r.classList.add('win'));
+    lists[0].querySelectorAll('.player-row').forEach(r=>r.classList.add('lose'));
+  }
+  glitchElement(card);
+}
+
+function makeGhost(teamName, fromX, fromY){
+  const g = document.createElement('div');
+  g.className = 'ghost-badge';
+  g.textContent = teamName;
+  g.style.left = fromX+'px';
+  g.style.top = fromY+'px';
+  bracket.appendChild(g);
+  return g;
+}
+
+// ── GLITCH ANIMATION TIMELINE ──
+const tl = anime.timeline({easing:'easeOutQuad',duration:500});
+
+// 0.0: Title glitch-in
+tl.add({
+  targets:'.title',
+  opacity:[{value:0,duration:0},{value:1,duration:200}],
+  scale:[0.5,1.2,1],
+  duration:500,
+  easing:'steps(5)',
+  begin:()=>triggerGlitchSlice()
+});
+
+// 0.3: Labels
+tl.add({
+  targets:['.label-west','.label-east'],
+  opacity:[0,1],
+  translateX:[{value:-10,duration:0},{value:10,duration:100},{value:0,duration:200}],
+  duration:300,
+  begin:()=>triggerGlitchSlice()
+},'-=200');
+
+// 0.6: QF cards appear with glitch
+tl.add({
+  targets:[qfCards[0],qfCards[1],qfCards[2],qfCards[3]],
+  opacity:[0,1],
+  translateY:[{value:20,duration:0},{value:-5,duration:150},{value:5,duration:100},{value:0,duration:150}],
+  scale:[0.8,1.1,1],
+  delay:anime.stagger(120),
+  duration:400,
+  begin:()=>triggerGlitchSlice()
+});
+
+// 1.2: Expand QF
+tl.add({
+  targets:[qfCards[0],qfCards[1],qfCards[2],qfCards[3]].flatMap(c=>[...c.querySelectorAll('.player-list')]),
+  height:['0px','58px'],
+  duration:300,
+  easing:'steps(4)'
+},'-=200')
+.add({
+  targets:[qfCards[0],qfCards[1],qfCards[2],qfCards[3]].flatMap(c=>[...c.querySelectorAll('.player-row')]),
+  opacity:[0,1],
+  delay:anime.stagger(30),
+  duration:250
+},'-=200');
+
+// 2.2: VS glitch flash + determine QF winners
+tl.add({
+  targets:[qfCards[0],qfCards[1],qfCards[2],qfCards[3]].map(c=>c.querySelector('.vs-text')),
+  opacity:[1,0.3,1,0.3,1],
+  scale:[1,1.8,0.8,1.5,1],
+  duration:400,
+  delay:anime.stagger(80),
+  begin:()=>{
+    qfCards.forEach(c=>c.querySelector('.vs-text').classList.add('flash'));
+    triggerGlitchSlice();
+  }
+},'-=100');
+
+tl.add({
+  begin:()=>{
+    for(let i=0;i<4;i++)highlightWinner('qf'+(i+1),qfWinners[i],qf[i][0],qf[i][1]);
+    triggerGlitchSlice();
+  },
+  duration:200
+});
+
+// 2.8: Ghosts fly to SF
+const sfAssignment = [];
+sfShuffle.forEach((w,i)=>{
+  const sfIdx = i<2?0:1;
+  const slot = i%2;
+  sfAssignment.push({team:w, sf:sfIdx, slot:slot});
+});
+
+const ghosts = [];
+qfWinners.forEach((w,qi)=>{
+  const qfPos = POS['qf'+(qi+1)];
+  const ghost = makeGhost(w, qfPos.x+20, qfPos.y+8);
+  ghosts.push({el:ghost, team:w, qfIdx:qi});
+});
+
+ghosts.forEach(g=>{
+  let target = null;
+  for(const a of sfAssignment){
+    if(a.team===g.team){target=a;break}
+  }
+  g.target = target;
+});
+
+tl.add({
+  targets:ghosts.map(g=>g.el),
+  opacity:[0,1,1,0],
+  translateX:ghosts.map(g=>POS['sf'+(g.target.sf+1)].x+20-(POS['qf'+(g.qfIdx+1)].x+20)),
+  translateY:ghosts.map(g=>POS['sf'+(g.target.sf+1)].y+(g.target.slot===0?8:95)-(POS['qf'+(g.qfIdx+1)].y+8)),
+  scale:[{value:0.5,duration:0},{value:1.3,duration:150},{value:0.8,duration:200},{value:1.2,duration:200},{value:0,duration:300}],
+  delay:anime.stagger(150,{from:'center'}),
+  duration:1200,
+  easing:'easeInOutCubic',
+  begin:()=>triggerGlitchSlice()
+});
+
+// 4.5: SF cards appear
+tl.add({
+  targets:[sfCards[0],sfCards[1]],
+  opacity:[0,1],
+  translateY:[{value:20,duration:0},{value:-5,duration:150},{value:0,duration:150}],
+  scale:[0.8,1.1,1],
+  delay:anime.stagger(120),
+  duration:350,
+  begin:()=>triggerGlitchSlice()
+});
+
+// 5.0: Expand SF
+tl.add({
+  targets:[sfCards[0],sfCards[1]].flatMap(c=>[...c.querySelectorAll('.player-list')]),
+  height:['0px','58px'],
+  duration:250,
+  easing:'steps(4)'
+},'-=100')
+.add({
+  targets:[sfCards[0],sfCards[1]].flatMap(c=>[...c.querySelectorAll('.player-row')]),
+  opacity:[0,1],
+  delay:anime.stagger(30),
+  duration:200
+},'-=150');
+
+// 5.5: VS glitch flash + SF winners
+tl.add({
+  targets:[sfCards[0],sfCards[1]].map(c=>c.querySelector('.vs-text')),
+  opacity:[1,0.3,1,0.3,1],
+  scale:[1,1.8,0.8,1.5,1],
+  duration:350,
+  delay:80,
+  begin:()=>{
+    sfCards.forEach(c=>c.querySelector('.vs-text').classList.add('flash'));
+    triggerGlitchSlice();
+  }
+},'-=50');
+tl.add({
+  begin:()=>{
+    for(let i=0;i<2;i++)highlightWinner('sf'+(i+1),sfWinners[i],sfTeams[i][0],sfTeams[i][1]);
+    triggerGlitchSlice();
+  },
+  duration:150
+});
+
+// 6.2: SF ghosts to Final
+const sfGhosts = [];
+sfWinners.forEach((w,si)=>{
+  const sfPos = POS['sf'+(si+1)];
+  const g = makeGhost(w, sfPos.x+20, sfPos.y+8);
+  sfGhosts.push({el:g, team:w, sfIdx:si});
+});
+
+tl.add({
+  targets:sfGhosts.map(g=>g.el),
+  opacity:[0,1,1,0],
+  translateX:sfGhosts.map(g=>POS.final.x+20-(POS['sf'+(g.sfIdx+1)].x+20)),
+  translateY:sfGhosts.map(g=>POS.final.y+(g.sfIdx===0?8:95)-(POS['sf'+(g.sfIdx+1)].y+8)),
+  scale:[{value:0.5,duration:0},{value:1.3,duration:100},{value:0.8,duration:150},{value:1.2,duration:200},{value:0,duration:250}],
+  delay:anime.stagger(150),
+  duration:1000,
+  easing:'easeInOutCubic',
+  begin:()=>triggerGlitchSlice()
+});
+
+// 7.5: Final card
+tl.add({
+  targets:finalCard,
+  opacity:[0,1],
+  translateY:[{value:20,duration:0},{value:-5,duration:150},{value:0,duration:150}],
+  scale:[0.8,1.15,1],
+  duration:350,
+  begin:()=>triggerGlitchSlice()
+});
+tl.add({
+  targets:[...finalCard.querySelectorAll('.player-list')],
+  height:['0px','58px'],
+  duration:250,
+  easing:'steps(4)'
+},'-=100')
+.add({
+  targets:[...finalCard.querySelectorAll('.player-row')],
+  opacity:[0,1],
+  delay:anime.stagger(30),
+  duration:200
+},'-=150');
+
+// 8.2: Final VS glitch + champion
+tl.add({
+  targets:finalCard.querySelector('.vs-text'),
+  opacity:[1,0.2,1,0.2,1],
+  scale:[1,2,0.7,1.6,1],
+  duration:400,
+  begin:()=>{
+    finalCard.querySelector('.vs-text').classList.add('flash');
+    triggerGlitchSlice();
+  }
+},'-=50');
+tl.add({
+  begin:()=>{
+    highlightWinner('final',champion,sfWinners[0],sfWinners[1]);
+    triggerGlitchSlice();
+  },
+  duration:150
+});
+
+// 8.7: Champion banner
+tl.add({
+  targets:championEl,
+  opacity:[0,1],
+  scale:[0.3,1.3,0.9,1.1,1],
+  duration:600,
+  easing:'easeOutBack',
+  begin:()=>{
+    championEl.innerHTML = '&#x1F451; ' + champion + ' &#x1F451;<br><span style="font-size:14px;color:#00fff9">ЧЕМПИОН // GLITCH</span>';
+    championEl.classList.add('glitch');
+    triggerGlitchSlice();
+  }
+});
+
+// 9.5: Prizes
+const champPlayers = teamPlayers[champion];
+const finalPlayers = teamPlayers[finalist];
+
+for(let i=0;i<5;i++){
+  const pc=document.createElement('div');
+  pc.className='prize-card prize-winner';
+  pc.innerHTML=`<div>${champPlayers[i]}</div><div style="margin-top:4px;font-size:8px;opacity:0.7">${rnd(shuffle(prizeNames))}</div>`;
+  prizesEl.appendChild(pc);
+}
+for(let i=0;i<5;i++){
+  const pc=document.createElement('div');
+  pc.className='prize-card prize-finalist';
+  pc.innerHTML=`<div>${finalPlayers[i]}</div><div style="margin-top:4px;font-size:8px;opacity:0.7">${rnd(shuffle(prizeNames))}</div>`;
+  prizesEl.appendChild(pc);
+}
+
+tl.add({
+  targets:[...prizesEl.children],
+  opacity:[0,1],
+  scale:[0.5,1.2,1],
+  translateY:[50,0],
+  delay:anime.stagger(100),
+  duration:400,
+  easing:'easeOutBack',
+  begin:()=>triggerGlitchSlice()
+},'-=300');
+
+// Progress bar
+anime({targets:progress,width:['0%','100%'],duration:15000,easing:'linear'});
+
+// Glitch lines
+setTimeout(()=>{
+  linePaths.forEach((_,i)=>{
+    anime({targets:'#line-'+i,opacity:[0,0.6],duration:300,delay:i*80,easing:'steps(3)'});
+  });
+  triggerGlitchSlice();
+},600);
+
+// Periodic title re-glitch
+setInterval(()=>{
+  const t=document.querySelector('.title');
+  if(t && Math.random()>0.5){
+    anime({
+      targets:t,
+      translateX:[{value:anime.random(-3,3),duration:30},{value:anime.random(-2,2),duration:30},{value:0,duration:50}],
+      duration:110,
+      easing:'linear'
+    });
+  }
+},1500);
+</script>
+</body>
+</html>
