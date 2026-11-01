@@ -7,34 +7,33 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-    body {
+    html, body {
       margin: 0;
       padding: 0;
-      background: transparent;
       font-family: 'Inter', sans-serif;
-      overflow-y: scroll; /* всегда показывать ползунок */
+      min-height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
-    /* Фон страницы — начинается ниже шапки */
-    .page-bg {
-      position: absolute;
-      top: 80px; /* высота шапки */
-      left: 0;
-      width: 100%;
-      height: calc(100% - 80px);
+    body {
       background-image: url('pngg/9kolo.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      z-index: -1;
-      pointer-events: none;
+      background-attachment: fixed;
+      background-color: #0a1a2e;
     }
-    .page-bg::after {
+
+    /* Затемнение поверх фона */
+    body::before {
       content: '';
-      position: absolute;
+      position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: rgba(0,0,0,0.5);
+      z-index: -1;
+      pointer-events: none;
     }
 
     .rating-container {
@@ -137,9 +136,6 @@
   </style>
 </head>
 <body>
-
-  <!-- Фон (ниже шапки) -->
-  <div class="page-bg"></div>
 
   <!-- Шапка -->
   <div id="header-placeholder" class="header-wrapper"></div>
