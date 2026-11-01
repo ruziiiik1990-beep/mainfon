@@ -34,6 +34,7 @@
             border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.4);
             overflow: hidden;
+            margin-bottom: 20px;
         }
         
         .profile-intro, .profile-body { padding: 0 24px; }
@@ -58,19 +59,48 @@
 
         .profile-full-name { font-size: 24px; font-weight: 700; display: block; margin-bottom: 5px; }
 
-        .seamless-iframe {
-            width: 100%;
-            border: none;
-            overflow: hidden;
-            display: block;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-            margin-top: 20px;
-            background: #374151;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        .seamless-iframe::-webkit-scrollbar { display: none; width: 0; height: 0; }
+        /* Стили для встроенных секций (Steam и Достижения) */
+        .profile-section { padding: 20px 0; }
+        .profile-section-name { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .profile-section-name .material-symbols-outlined { font-size: 22px; color: #66c0f4; }
+        .profile-section-content { color: #c7d0e0; font-size: 14px; line-height: 1.6; }
+
+        .profile-label { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(102,192,244,0.1); border: 1px solid rgba(102,192,244,0.3); color: #66c0f4; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; font-family: 'Inter', sans-serif; text-decoration: none; transition: all 0.2s; }
+        .profile-label:hover { background: rgba(102,192,244,0.2); }
+        .profile-label .material-symbols-outlined { font-size: 16px; }
+
+        /* Steam */
+        .steam-status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 500; }
+        .steam-status-badge.verified { background: rgba(76,175,80,0.15); color: #4caf50; border: 1px solid rgba(76,175,80,0.3); }
+        .steam-status-badge.unverified { background: rgba(255,152,0,0.15); color: #ff9800; border: 1px solid rgba(255,152,0,0.3); }
+        .steam-link-display { color: #66c0f4; text-decoration: none; font-size: 14px; }
+        .steam-link-display:hover { text-decoration: underline; }
+        .steam-hidden { display: none; }
+
+        /* Достижения */
+        .ach-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+        .ach-item { position: relative; cursor: pointer; transition: transform 0.2s ease; }
+        .ach-item:hover { transform: scale(1.08); }
+        .ach-item img { width: 70px; height: 70px; object-fit: cover; border-radius: 10px; border: 2px solid rgba(255,255,255,0.15); display: block; }
+        .ach-delete-btn { position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; border-radius: 50%; background: #dc2626; color: #fff; border: none; font-size: 12px; line-height: 18px; text-align: center; cursor: pointer; display: none; z-index: 10; padding: 0; }
+        .ach-item:hover .ach-delete-btn { display: block; }
+        
+        .ach-tooltip { position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(8px) scale(0.8); opacity: 0; background: #1a1a2e; color: #fff; padding: 12px 16px; border-radius: 12px; font-size: 13px; line-height: 1.5; max-width: 260px; min-width: 160px; box-shadow: 0 6px 20px rgba(0,0,0,0.6); pointer-events: none; z-index: 100; transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); white-space: normal; text-align: center; }
+        .ach-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 7px solid transparent; border-top-color: #1a1a2e; }
+        .ach-item.active .ach-tooltip { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+        .ach-tooltip .ach-title { display: block; font-weight: 700; color: #66c0f4; margin-bottom: 4px; font-size: 14px; }
+        .ach-empty { color: #6b7280; font-size: 13px; font-style: italic; }
+        .ach-loading { color: #6b7280; font-size: 13px; font-style: italic; text-align: center; padding: 20px; }
+
+        .ach-admin-panel { display: none; margin-top: 16px; padding: 16px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px dashed rgba(102,192,244,0.25); }
+        .ach-admin-panel.visible { display: block; }
+        .ach-admin-panel h4 { margin: 0 0 12px 0; color: #e0e6f0; font-size: 14px; font-weight: 600; }
+        .ach-img-picker { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+        .ach-img-option { width: 56px; height: 56px; border-radius: 8px; border: 3px solid transparent; cursor: pointer; object-fit: cover; transition: all 0.2s; }
+        .ach-img-option:hover { border-color: rgba(102,192,244,0.5); transform: scale(1.1); }
+        .ach-img-option.selected { border-color: #66c0f4; box-shadow: 0 0 12px rgba(102,192,244,0.4); }
+        .ach-admin-input { width: 100%; box-sizing: border-box; padding: 8px 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.3); color: #e0e6f0; font-size: 13px; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s; }
+        .ach-admin-input:focus { border-color: #66c0f4; }
 
         @media (max-width: 768px) {
             .profile-head { flex-direction: column; text-align: center; }
@@ -83,6 +113,7 @@
     <div id="header-placeholder" class="header-wrapper"></div>
 
     <div class="profile-container">
+        <!-- Основной блок профиля -->
         <div class="profile-table-wrapper">
             <div class="profile">
                 <div class="profile-intro">
@@ -96,25 +127,75 @@
             </div>
         </div>
 
-        <!-- Iframe: OpenID (Steam ID) — локальный файл, uid подставляется скриптом -->
-        <iframe
-            src="steam.html"
-            style="width:100%;border:none;overflow:hidden;display:block;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.4);margin-top:20px;"
-            scrolling="no"
-            class="seamless-iframe"
-            id="steamFrame"
-            allow="clipboard-write; popup">
-        </iframe>
+        <!-- Steam ID -->
+        <div class="profile-table-wrapper">
+            <div class="profile-body">
+                <div class="profile-section">
+                    <h3 class="profile-section-name"><span>🎮</span> Steam ID — Верификация профиля</h3>
+                    
+                    <div id="steamLoginBlock">
+                        <p style="font-size:13px;color:#8f9bb3;margin-bottom:12px;">Нажмите кнопку, чтобы войти через Steam и подтвердить владение аккаунтом.</p>
+                        <button class="profile-label" id="steamLoginBtn"><span>🔐</span> Войти через Steam</button>
+                    </div>
 
-        <!-- Iframe: Достижения — локальный файл, uid подставляется скриптом -->
-        <div style="max-width:900px;margin:20px auto 0;">
-            <iframe
-                src="dostizheni.html"
-                style="width:100%;border:none;overflow:hidden;display:block;"
-                scrolling="no"
-                class="seamless-iframe"
-                id="achievementsFrame">
-            </iframe>
+                    <div id="steamStatusRow" class="steam-hidden" style="margin-top:12px;">
+                        <span class="steam-status-badge unverified">⏳ Не подтверждён</span>
+                        <button class="profile-label" id="steamLoginBtn2" style="margin-left:10px;">Войти через Steam</button>
+                    </div>
+
+                    <div id="steamVerifiedRow" class="steam-hidden" style="margin-top:12px;">
+                        <span class="steam-status-badge verified">✅ Подтверждён</span>
+                        <a href="" id="steamProfileLink" class="steam-link-display" target="_blank" style="margin-left:10px;"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Достижения -->
+        <div class="profile-table-wrapper">
+            <div class="profile-body">
+                <div class="profile-section">
+                    <h3 class="profile-section-name">
+                        <span class="material-symbols-outlined">military_tech</span> Достижения
+                    </h3>
+                    <div class="profile-section-content">
+                        <div class="ach-grid" id="achGrid">
+                            <div class="ach-loading" id="achLoading">Загрузка...</div>
+                            <div class="ach-empty" id="achEmpty" style="display:none;">Достижений пока нет</div>
+                        </div>
+                        <div class="profile-labels" id="achAdminBtns" style="display:none;">
+                            <a href="javascript:void(0)" class="profile-label" id="achAddBtn">
+                                <span class="material-symbols-outlined">add_circle</span> Добавить достижение
+                            </a>
+                        </div>
+                        <div class="ach-admin-panel" id="achAdminPanel">
+                            <h4>Выберите картинку достижения:</h4>
+                            <div class="ach-img-picker" id="achImgPicker">
+                                <img class="ach-img-option" src="Screenshot_2-fotor-bg-remover-20260926224846.png">
+                                <img class="ach-img-option" src="Screenshot_8-fotor-bg-remover-20260926224924.png">
+                                <img class="ach-img-option" src="Screenshot_4-fotor-bg-remover-2026092622505.png">
+                                <img class="ach-img-option" src="2de846dbc4a11f1ac4d768cfd41a853_1.jpeg">
+                                <img class="ach-img-option" src="Screenshot_4-fotor-bg-remover-20260926223859.png">
+                                <img class="ach-img-option" src="Screenshot_9-fotor-bg-remover-2026092615118.png">
+                                <img class="ach-img-option" src="Screenshot_7-fotor-bg-remover-2026092615157.png">
+                                <img class="ach-img-option" src="Screenshot_15-fotor-bg-remover-202609304119.png">
+                                <img class="ach-img-option" src="osen-fotor-bg-remover-2026092603655.png">
+                                <img class="ach-img-option" src="Screenshot_3-fotor-bg-remover-2026092622425.png">
+                                <img class="ach-img-option" src="Screenshot_7-fotor-bg-remover-20260926224621.png">
+                                <img class="ach-img-option" src="1_kusok_chak_chak-fotor-bg-remover-20260929235845.png">
+                                <img class="ach-img-option" src="Screenshot_1.png">
+                            </div>
+                            <input type="hidden" id="achSelectedImg" value="">
+                            <input type="text" class="ach-admin-input" id="achTitle" placeholder="Название достижения">
+                            <input type="text" class="ach-admin-input" id="achDesc" placeholder="За что выдано">
+                            <div class="profile-labels">
+                                <a href="javascript:void(0)" class="profile-label" id="achSubmitBtn"><span class="material-symbols-outlined">check</span> Добавить</a>
+                                <a href="javascript:void(0)" class="profile-label" id="achCancelBtn"><span class="material-symbols-outlined">close</span> Отмена</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -129,29 +210,11 @@
         });
     </script>
 
-    <!-- Скрипт для авто-размера iframe -->
-    <script>
-        window.addEventListener('message', function(event) {
-            if (event.data && event.data.type === 'resize') {
-                var frameId = null;
-                if (event.data.frame === 'achievements') frameId = 'achievementsFrame';
-                else if (event.data.frame === 'steam') frameId = 'steamFrame';
-                
-                if (frameId) {
-                    var frame = document.getElementById(frameId);
-                    if (frame && event.data.height) {
-                        frame.style.height = event.data.height + 'px';
-                    }
-                }
-            }
-        });
-    </script>
-
-    <!-- Firebase: загрузка данных профиля и проверка прав админа -->
+    <!-- Единый модуль Firebase для профиля, Steam и Достижений -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, get, onValue, push, set, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
@@ -167,21 +230,22 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
+        var currentUid = null;
+        var isAdmin = false;
+
+        // ===== ПРОФИЛЬ =====
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = "login.html";
                 return;
             }
+            currentUid = user.uid;
 
-            // Обновляем токен, чтобы подхватить актуальные права (admin)
-            await user.getIdToken(true);
-            const tokenResult = await user.getIdTokenResult();
-            const isAdmin = tokenResult.claims.admin === true;
+            // Проверка админа через базу
+            const adminSnap = await get(ref(db, 'users/' + user.uid + '/admin'));
+            isAdmin = adminSnap.exists() && adminSnap.val() === true;
 
-            // Подставляем uid в iframe достижений и Steam
-            document.getElementById('achievementsFrame').src = 'dostizheni.html?uid=' + user.uid + (isAdmin ? '&admin=1' : '');
-            document.getElementById('steamFrame').src = 'steam.html?uid=' + user.uid;
-
+            // Имя профиля
             get(ref(db, 'users/' + user.uid)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
@@ -190,7 +254,170 @@
                     document.getElementById('profile-name').textContent = "Пользователь";
                 }
             });
+
+            // Запускаем Steam и Достижения с uid
+            initSteam(user.uid);
+            initAchievements(user.uid, isAdmin);
         });
+
+        // ===== STEAM =====
+        const BACKEND_URL = 'https://mainfon.onrender.com';
+
+        function initSteam(uid) {
+            document.getElementById('steamLoginBtn').addEventListener('click', function() { steamLogin(uid); });
+            document.getElementById('steamLoginBtn2').addEventListener('click', function() { steamLogin(uid); });
+
+            onValue(ref(db, 'steamVerification/' + uid), function(snapshot) {
+                const data = snapshot.val();
+                if (data && data.verified && data.steamId) {
+                    showSteamVerified(data.steamId);
+                } else if (data && data.steamId) {
+                    showSteamUnverified();
+                }
+            });
+        }
+
+        function steamLogin(uid) {
+            const width = 600, height = 700;
+            const left = (screen.width - width) / 2;
+            const top = (screen.height - height) / 2;
+            window.open(BACKEND_URL + '/auth/steam?uid=' + encodeURIComponent(uid), 'steam_login', `width=${width},height=${height},left=${left},top=${top}`);
+        }
+
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'steam_verified') {
+                showSteamVerified(event.data.steamid);
+            }
+        });
+
+        function showSteamVerified(steamId) {
+            document.getElementById('steamLoginBlock').classList.add('steam-hidden');
+            document.getElementById('steamStatusRow').classList.add('steam-hidden');
+            document.getElementById('steamVerifiedRow').classList.remove('steam-hidden');
+            const link = document.getElementById('steamProfileLink');
+            link.href = 'https://steamcommunity.com/profiles/' + steamId;
+            link.textContent = steamId;
+        }
+
+        function showSteamUnverified() {
+            document.getElementById('steamLoginBlock').classList.add('steam-hidden');
+            document.getElementById('steamStatusRow').classList.remove('steam-hidden');
+            document.getElementById('steamVerifiedRow').classList.add('steam-hidden');
+        }
+
+        // ===== ДОСТИЖЕНИЯ =====
+        var achRef = null;
+        var lastAchData = null;
+
+        function initAchievements(uid, admin) {
+            achRef = ref(db, 'achievements/' + uid);
+
+            if (admin) {
+                document.getElementById('achAdminBtns').style.display = 'flex';
+            }
+
+            onValue(achRef, function(snapshot) {
+                lastAchData = snapshot.val();
+                renderAchievements();
+            });
+
+            // Обработчики
+            document.getElementById('achAddBtn').addEventListener('click', function() {
+                document.getElementById('achAdminPanel').classList.toggle('visible');
+            });
+            document.getElementById('achSubmitBtn').addEventListener('click', achAdd);
+            document.getElementById('achCancelBtn').addEventListener('click', function() {
+                document.getElementById('achAdminPanel').classList.remove('visible');
+            });
+
+            document.querySelectorAll('.ach-img-option').forEach(function(img) {
+                img.addEventListener('click', function() {
+                    achSelectImg(img, img.getAttribute('src'));
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.ach-item')) {
+                    document.querySelectorAll('.ach-item').forEach(function(item) { item.classList.remove('active'); });
+                }
+            });
+        }
+
+        function renderAchievements() {
+            var loading = document.getElementById('achLoading');
+            if (loading) loading.style.display = 'none';
+
+            var grid = document.getElementById('achGrid');
+            var empty = document.getElementById('achEmpty');
+            var data = lastAchData;
+
+            grid.querySelectorAll('.ach-item').forEach(function(el) { el.remove(); });
+
+            if (!data) {
+                if (empty) empty.style.display = 'block';
+                return;
+            }
+
+            if (empty) empty.style.display = 'none';
+
+            Object.keys(data).forEach(function(key) {
+                var item = data[key];
+                var div = document.createElement('div');
+                div.className = 'ach-item';
+                div.addEventListener('click', function() { achToggleTooltip(div); });
+
+                var deleteBtn = '';
+                if (isAdmin) {
+                    deleteBtn = '<button class="ach-delete-btn" data-key="' + key + '" title="Удалить">&times;</button>';
+                }
+
+                div.innerHTML = '<img src="' + item.img + '" alt="">' + deleteBtn +
+                    '<div class="ach-tooltip"><span class="ach-title">' + (item.title || '') + '</span>' + (item.desc || '') + '</div>';
+                
+                var del = div.querySelector('.ach-delete-btn');
+                if (del) {
+                    del.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        achDelete(key);
+                    });
+                }
+
+                grid.appendChild(div);
+            });
+        }
+
+        function achToggleTooltip(el) {
+            document.querySelectorAll('.ach-item').forEach(function(item) { if (item !== el) item.classList.remove('active'); });
+            el.classList.toggle('active');
+        }
+
+        function achSelectImg(el, url) {
+            document.querySelectorAll('.ach-img-option').forEach(function(opt) { opt.classList.remove('selected'); });
+            el.classList.add('selected');
+            document.getElementById('achSelectedImg').value = url;
+        }
+
+        function achAdd() {
+            var img = document.getElementById('achSelectedImg').value;
+            var title = document.getElementById('achTitle').value.trim();
+            var desc = document.getElementById('achDesc').value.trim();
+            if (!img) { alert('Выберите картинку!'); return; }
+            if (!title) { alert('Введите название!'); return; }
+
+            var newItemRef = push(achRef);
+            set(newItemRef, { img: img, title: title, desc: desc }).then(function() {
+                document.getElementById('achTitle').value = '';
+                document.getElementById('achDesc').value = '';
+                document.getElementById('achSelectedImg').value = '';
+                document.querySelectorAll('.ach-img-option').forEach(function(opt) { opt.classList.remove('selected'); });
+                document.getElementById('achAdminPanel').classList.remove('visible');
+            });
+        }
+
+        function achDelete(key) {
+            if (!confirm('Удалить?')) return;
+            remove(ref(db, 'achievements/' + currentUid + '/' + key));
+        }
     </script>
 </body>
 </html>
