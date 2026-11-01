@@ -16,15 +16,28 @@
       overflow-x: hidden;
     }
 
-    /* Фон — обычная картинка в потоке, как на главной */
-    .bg-image {
+    /* Фон — фиксированный, чтобы не создавать лишнюю прокрутку */
+    .page-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('pngg/9kolo.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .page-bg::after {
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: auto;
-      z-index: 0;
-      pointer-events: none;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
     }
 
     /* Шапка поверх фона */
@@ -134,8 +147,8 @@
 </head>
 <body>
 
-  <!-- Фон (картинка в потоке) -->
-  <img src="pngg/9kolo.png" class="bg-image" alt="Фон">
+  <!-- Фон (фиксированный) -->
+  <div class="page-bg"></div>
 
   <!-- Шапка -->
   <div id="header-placeholder" class="header-wrapper"></div>
