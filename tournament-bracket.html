@@ -466,8 +466,6 @@ body::-webkit-scrollbar { display: none; }
   var SITE_URL = 'https://4ak4ak.pages.dev';
   var playerIds = {};
   var myUid = null;
-
-  var ADMIN_PASSWORD = '12$sacreD';
   var MAX_PLAYERS = 5;
   var WIN_LOGO = 'png/logo1.jpg';
   var myNick = null;
@@ -577,6 +575,7 @@ if (myUid) {
       var data = snap.val();
       myNick = data.nick || data.email.split('@')[0];
       console.log('NICK ЗАГРУЖЕН:', myNick);
+      checkAdminNicks();
     } else {
       console.log('ПОЛЬЗОВАТЕЛЬ НЕ НАЙДЕН:', myUid);
     }
@@ -626,9 +625,14 @@ if (myUid) {
           });
         }
       }
-      if (found) {
-        document.getElementById('adminLoginRow').classList.add('visible');
-      }
+          if (found) {
+      isAdmin = true;
+      document.getElementById('adminLoginRow').classList.remove('visible');
+      document.getElementById('adminPanel').style.display = 'block';
+      document.getElementById('tournamentCreateRow').classList.add('visible');
+      document.getElementById('btnDeleteTournament').classList.add('visible');
+      renderBracket();
+    }
     });
   }
 
@@ -787,24 +791,17 @@ if (myUid) {
   }
 
   window.toggleAdmin = function() {
-    var p = document.getElementById('adminPassInput').value;
-    if (!isAdmin) {
-      if (p === ADMIN_PASSWORD) {
-        isAdmin = true;
-        document.getElementById('adminPassInput').value = '';
-        document.getElementById('adminPanel').style.display = 'block';
-        document.getElementById('tournamentCreateRow').classList.add('visible');
-        document.getElementById('btnDeleteTournament').classList.add('visible');
-        renderBracket();
-      } else { alert('\u041d\u0435\u0432\u0435\u0440\u043d\u044b\u0439 \u043f\u0430\u0440\u043e\u043b\u044c!'); }
-    } else {
-      isAdmin = false;
-      document.getElementById('adminPanel').style.display = 'none';
-      document.getElementById('tournamentCreateRow').classList.remove('visible');
-      document.getElementById('btnDeleteTournament').classList.remove('visible');
-      renderBracket();
-    }
-  };
+  if (!isAdmin) {
+    alert('Вы не админ!');
+    return;
+  }
+  // Если уже админ — выход
+  isAdmin = false;
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('tournamentCreateRow').classList.remove('visible');
+  document.getElementById('btnDeleteTournament').classList.remove('visible');
+  renderBracket();
+};
 
   window.onStartClick = function() {
     if (!isAdmin) return;
