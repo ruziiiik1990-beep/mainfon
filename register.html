@@ -169,10 +169,11 @@
     const db = getDatabase(app);
 
     // --- НАСТРОЙКИ ТАБРИКИ ---
-    const TABRIKA_TOKEN = 'tab_Em7ulgR600FSJoBjeiqAKJ1aBwrVqvGAF_E-xi2BYWywLjWgBiAlFuLZPmyhqm6d'; // Твой токен
-    const TABRIKA_DB_ID = '241'; // Из твоей ссылки
-    const TABRIKA_TABLE_ID = '337'; // Из твоей ссылки
-    const TABRIKA_API_URL = `https://api.tabrica.ru/v1/databases/${TABRIKA_DB_ID}/tables/${TABRIKA_TABLE_ID}/records`;
+    const TABRIKA_TOKEN = 'tab_Em7ulgR600FSJoBjeiqAKJ1aBwrVqvGAF_E-xi2BYWywLjWgBiAlFuLZPmyhqm6d';
+    const TABRIKA_DB_ID = '241';
+    const TABRIKA_TABLE_ID = '337';
+    // ИСПРАВЛЕННЫЙ АДРЕС: добавлен /public
+    const TABRIKA_API_URL = `https://api.tabrica.ru/public/v1/databases/${TABRIKA_DB_ID}/tables/${TABRIKA_TABLE_ID}/records`;
 
     document.getElementById('register-form').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -214,16 +215,18 @@
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${TABRIKA_TOKEN}`
                 },
+                // ИСПРАВЛЕНО: данные обернуты в объект "data"
                 body: JSON.stringify({
-                    email: email,
-                    nick: nick,
-                    uid: user.uid,
-                    created_at: new Date().toISOString()
+                    data: {
+                        email: email,
+                        nick: nick,
+                        uid: user.uid,
+                        created_at: new Date().toISOString()
+                    }
                 })
             });
 
             if (!tabrikaResponse.ok) {
-                // Если Табрика вернула ошибку (например, неверный URL API или токен)
                 const errorText = await tabrikaResponse.text();
                 console.error('Ошибка Табрики:', tabrikaResponse.status, errorText);
                 throw new Error(`Ошибка сохранения на сервере РФ. Код: ${tabrikaResponse.status}`);
