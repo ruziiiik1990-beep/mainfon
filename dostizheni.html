@@ -70,12 +70,19 @@
                     <div class="ach-admin-panel" id="achAdminPanel">
                         <h4>Выберите картинку достижения:</h4>
                         <div class="ach-img-picker" id="achImgPicker">
-                            <img class="ach-img-option" src="Screenshot_11.png">
-                            <img class="ach-img-option" src="Screenshot_12.png">
-                            <img class="ach-img-option" src="Screenshot_7.png">
-                            <img class="ach-img-option" src="Screenshot_8.png">
-                            <img class="ach-img-option" src="kolo11.png">
-                            <img class="ach-img-option" src="logo1.jpg">
+                            <img class="ach-img-option" src="Screenshot_2-fotor-bg-remover-20260926224846.png">
+                            <img class="ach-img-option" src="Screenshot_8-fotor-bg-remover-20260926224924.png">
+                            <img class="ach-img-option" src="Screenshot_4-fotor-bg-remover-2026092622505.png">
+                            <img class="ach-img-option" src="2de846dbc4a11f1ac4d768cfd41a853_1.jpeg">
+                            <img class="ach-img-option" src="Screenshot_4-fotor-bg-remover-20260926223859.png">
+                            <img class="ach-img-option" src="Screenshot_9-fotor-bg-remover-2026092615118.png">
+                            <img class="ach-img-option" src="Screenshot_7-fotor-bg-remover-2026092615157.png">
+                            <img class="ach-img-option" src="Screenshot_15-fotor-bg-remover-202609304119.png">
+                            <img class="ach-img-option" src="osen-fotor-bg-remover-2026092603655.png">
+                            <img class="ach-img-option" src="Screenshot_3-fotor-bg-remover-2026092622425.png">
+                            <img class="ach-img-option" src="Screenshot_7-fotor-bg-remover-20260926224621.png">
+                            <img class="ach-img-option" src="1_kusok_chak_chak-fotor-bg-remover-20260929235845.png">
+                            <img class="ach-img-option" src="Screenshot_1.png">
                         </div>
                         <input type="hidden" id="achSelectedImg" value="">
                         <input type="text" class="ach-admin-input" id="achTitle" placeholder="Название достижения">
@@ -117,7 +124,6 @@
     const achRef = ref(db, 'achievements/' + uid);
     var lastData = null;
 
-    // Сообщаем родительскому окну о высоте
     function sendHeight() {
         const height = document.body.scrollHeight;
         window.parent.postMessage({ type: 'resize', frame: 'achievements', height: height }, '*');
