@@ -147,7 +147,7 @@
         });
     </script>
 
-    <!-- Firebase: загрузка данных профиля (только имя, без email) -->
+    <!-- Firebase: загрузка данных профиля и проверка прав админа -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -167,13 +167,19 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = "login.html";
                 return;
             }
+
+            // Обновляем токен, чтобы подхватить актуальные права (admin)
+            await user.getIdToken(true);
+            const tokenResult = await user.getIdTokenResult();
+            const isAdmin = tokenResult.claims.admin === true;
+
             // Подставляем uid в iframe достижений и Steam
-            document.getElementById('achievementsFrame').src = 'dostizheni.html?uid=' + user.uid;
+            document.getElementById('achievementsFrame').src = 'dostizheni.html?uid=' + user.uid + (isAdmin ? '&admin=1' : '');
             document.getElementById('steamFrame').src = 'steam.html?uid=' + user.uid;
 
             get(ref(db, 'users/' + user.uid)).then((snapshot) => {
