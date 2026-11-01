@@ -1418,7 +1418,8 @@ fetch('header.html')
         var blob = new Blob([decryptedBytes], { type: 'image/jpeg' });
         var imgUrl = URL.createObjectURL(blob);
         var imgWrapper = document.createElement('div');
-        imgWrapper.style.cssText = "width:100%; text-align:center; padding:10px; background:rgba(0,0,0,0.2); margin        var imgWrapper = document.createElement('div');
+          imgWrapper.style.cssText = "width:100%; text-align:center; padding:10px; background:rgba(0,0,0,0.2); margin-bottom:10px; border-radius:8px;";
+        imgWrapper.innerHTML = '<div style="color:#6fb3ff;font-size:12px;margin-bottom:5px;">Скриншот #' + (imagesFound + 1) + '</div>' +
         imgWrapper.style.cssText = "width:100%; text-align:center; padding:10px; background:rgba(0,0,0,0.2); margin-bottom:10px; border-radius:8px;";
         imgWrapper.innerHTML = '<div style="color:#6fb3ff;font-size:12px;margin-bottom:5px;">Скриншот #' + (imagesFound + 1) + '</div>' +
                                '<img src="' + imgUrl + '" style="width:100%; max-width:800px; border-radius:6px;">';
