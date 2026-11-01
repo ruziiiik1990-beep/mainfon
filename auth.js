@@ -44,15 +44,16 @@ fetch('footer.html')
   .then(html => {
     const footerDiv = document.createElement('div');
     footerDiv.innerHTML = html;
-    footerDiv.style.position = 'relative';
-    footerDiv.style.zIndex = '10';
-    footerDiv.style.width = '100%';
-    footerDiv.style.marginTop = 'auto';
 
-    // Делаем body flex-колонкой на всю высоту экрана
-    document.body.style.display = 'flex';
-    document.body.style.flexDirection = 'column';
-    document.body.style.minHeight = '100vh';
+    // ФИКСИРУЕМ ФУТЕР В САМОМ НИЗУ ЭКРАНА
+    footerDiv.style.position = 'fixed';
+    footerDiv.style.bottom = '0';
+    footerDiv.style.left = '0';
+    footerDiv.style.width = '100%';
+    footerDiv.style.zIndex = '1000';
+
+    // Добавляем отступ body снизу, чтобы футер не перекрывал контент
+    document.body.style.paddingBottom = '60px';
 
     document.body.appendChild(footerDiv);
   })
