@@ -1536,7 +1536,14 @@ function downloadAndDecryptLogs(fileName) {
     }
   });
 
-  updateJoinSection();
+  updateJoinSection();   // Сообщаем родителю о высоте
+  function sendHeight() {
+    var height = document.body.scrollHeight;
+    window.parent.postMessage({ type: 'resize', frame: 'tournament', height: height }, '*');
+  }
+  window.addEventListener('load', sendHeight);
+  window.addEventListener('resize', sendHeight);
+  setInterval(sendHeight, 1000);
 })();
 </script>
 <!-- Новое окно для просмотра скриншотов игрока -->
