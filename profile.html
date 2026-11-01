@@ -106,10 +106,10 @@
             allow="clipboard-write; popup">
         </iframe>
 
-        <!-- Iframe: Достижения -->
+        <!-- Iframe: Достижения (локальный файл, uid подставляется скриптом) -->
         <div style="max-width:900px;margin:20px auto 0;">
             <iframe
-                src="https://ruziiiik1990-beep.github.io/dostizheni/"
+                src="dostizheni.html"
                 style="width:100%;border:none;overflow:hidden;display:block;"
                 scrolling="no"
                 class="seamless-iframe"
@@ -172,6 +172,9 @@
                 window.location.href = "login.html";
                 return;
             }
+            // Подставляем uid в iframe достижений
+            document.getElementById('achievementsFrame').src = 'dostizheni.html?uid=' + user.uid;
+
             get(ref(db, 'users/' + user.uid)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
