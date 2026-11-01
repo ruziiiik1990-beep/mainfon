@@ -50,7 +50,7 @@
 
 <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-    import { getDatabase, ref, onValue, update } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+    import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
     const firebaseConfig = { databaseURL: 'https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app/' };
     const app = initializeApp(firebaseConfig);
@@ -58,13 +58,9 @@
 
     const params = new URLSearchParams(window.location.search);
     const uid = params.get('uid') || 'guest';
-    const BACKEND_URL = ''; // Пока пусто, настроим позже с Render
+    const BACKEND_URL = 'https://mainfon.onrender.com';
 
     window.steamLogin = function() {
-        if (!BACKEND_URL) {
-            alert('Steam-верификация ещё не подключена. Скоро!');
-            return;
-        }
         const width = 600, height = 700;
         const left = (screen.width - width) / 2;
         const top = (screen.height - height) / 2;
@@ -74,9 +70,7 @@
     window.addEventListener('message', function(event) {
         if (event.data && event.data.type === 'steam_verified') {
             const steamId = event.data.steamid;
-            update(ref(db, 'steamVerification/' + uid), { steamId: steamId, verified: true }).then(function() {
-                showVerifiedState(steamId);
-            });
+            showVerifiedState(steamId);
         }
     });
 
