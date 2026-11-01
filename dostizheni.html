@@ -70,12 +70,12 @@
                     <div class="ach-admin-panel" id="achAdminPanel">
                         <h4>Выберите картинку достижения:</h4>
                         <div class="ach-img-picker" id="achImgPicker">
-                            <img class="ach-img-option" src="Screenshot_11.png" onclick="achSelectImg(this, 'Screenshot_11.png')">
-                            <img class="ach-img-option" src="Screenshot_12.png" onclick="achSelectImg(this, 'Screenshot_12.png')">
-                            <img class="ach-img-option" src="Screenshot_7.png" onclick="achSelectImg(this, 'Screenshot_7.png')">
-                            <img class="ach-img-option" src="Screenshot_8.png" onclick="achSelectImg(this, 'Screenshot_8.png')">
-                            <img class="ach-img-option" src="kolo11.png" onclick="achSelectImg(this, 'kolo11.png')">
-                            <img class="ach-img-option" src="logo1.jpg" onclick="achSelectImg(this, 'logo1.jpg')">
+                            <img class="ach-img-option" src="Screenshot_11.png">
+                            <img class="ach-img-option" src="Screenshot_12.png">
+                            <img class="ach-img-option" src="Screenshot_7.png">
+                            <img class="ach-img-option" src="Screenshot_8.png">
+                            <img class="ach-img-option" src="kolo11.png">
+                            <img class="ach-img-option" src="logo1.jpg">
                         </div>
                         <input type="hidden" id="achSelectedImg" value="">
                         <input type="text" class="ach-admin-input" id="achTitle" placeholder="Название достижения">
@@ -117,6 +117,12 @@
     const achRef = ref(db, 'achievements/' + uid);
     var lastData = null;
 
+    // Сообщаем родительскому окну о высоте
+    function sendHeight() {
+        const height = document.body.scrollHeight;
+        window.parent.postMessage({ type: 'resize', frame: 'achievements', height: height }, '*');
+    }
+
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             const adminSnap = await get(ref(db, 'users/' + user.uid + '/admin'));
@@ -125,12 +131,14 @@
                 document.getElementById('achAdminBtns').style.display = 'flex';
             }
             renderAchievements();
+            setTimeout(sendHeight, 100);
         }
     });
 
     onValue(achRef, function(snapshot) {
         lastData = snapshot.val();
         renderAchievements();
+        setTimeout(sendHeight, 100);
     });
 
     function renderAchievements() {
@@ -154,7 +162,7 @@
             var item = data[key];
             var div = document.createElement('div');
             div.className = 'ach-item';
-            div.onclick = function() { achToggleTooltip(this); };
+            div.addEventListener('click', function() { achToggleTooltip(div); });
 
             var deleteBtn = '';
             if (isAdmin) {
@@ -202,6 +210,7 @@
             document.getElementById('achSelectedImg').value = '';
             document.querySelectorAll('.ach-img-option').forEach(function(opt) { opt.classList.remove('selected'); });
             document.getElementById('achAdminPanel').classList.remove('visible');
+            setTimeout(sendHeight, 100);
         });
     }
 
@@ -210,13 +219,14 @@
         remove(ref(db, 'achievements/' + uid + '/' + key));
     }
 
-    // Привязка обработчиков к кнопкам и картинкам
     document.getElementById('achAddBtn').addEventListener('click', function() {
         document.getElementById('achAdminPanel').classList.toggle('visible');
+        setTimeout(sendHeight, 100);
     });
     document.getElementById('achSubmitBtn').addEventListener('click', achAdd);
     document.getElementById('achCancelBtn').addEventListener('click', function() {
         document.getElementById('achAdminPanel').classList.remove('visible');
+        setTimeout(sendHeight, 100);
     });
 
     document.querySelectorAll('.ach-img-option').forEach(function(img) {
@@ -230,6 +240,9 @@
             document.querySelectorAll('.ach-item').forEach(function(item) { item.classList.remove('active'); });
         }
     });
+
+    window.addEventListener('load', sendHeight);
+    window.addEventListener('resize', sendHeight);
 </script>
 </body>
 </html>
