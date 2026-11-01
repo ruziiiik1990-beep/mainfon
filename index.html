@@ -7,18 +7,15 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
+        /* Фон — обычная картинка в потоке */
         .bg-image {
-            position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            pointer-events: none;
+            height: auto;
+            display: block;
         }
+
         .slider-section {
-            margin-top: 100px;
+            margin-top: 0;
             padding: 20px 0;
             position: relative;
             z-index: 5;
@@ -129,6 +126,8 @@
 
     <div id="header-placeholder" class="header-wrapper"></div>
 
+    <img src="kolo11.png" class="bg-image" alt="Фон">
+
     <div class="slider-section">
         <div class="container slider-container">
             <div class="swiper promo-slider">
@@ -181,8 +180,6 @@
             </div>
         </div>
     </div>
-
-    <img src="kolo11.png" class="bg-image" alt="Фон">
 
     <script>
         fetch('header.html')
