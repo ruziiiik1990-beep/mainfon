@@ -1,39 +1,251 @@
-
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>4ak4ak</title>
-    <!-- Подключаем наши стили из отдельного файла -->
     <link rel="stylesheet" href="style.css">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        /* Стили для слайдера */
+        .slider-section {
+            margin-top: 100px;
+            padding: 20px 0;
+            position: relative;
+            z-index: 5;
+        }
+        .slider-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+        .promo-slider {
+            width: 100%;
+            border-radius: 16px;
+        }
+        .promo-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .promo-card-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            pointer-events: auto;
+        }
+        .promo-card-content h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        .promo-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #e3769c;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: background 0.3s;
+            pointer-events: auto;
+        }
+        .promo-btn:hover {
+            background: #d05c83;
+        }
+        .promo-slider-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 10;
+        }
+        .swiper-btn {
+            background: #374151;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: background 0.3s;
+        }
+        .swiper-btn:hover {
+            background: #e3769c;
+        }
+        .swiper-btn .svg-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+        .promo-slider-fraction {
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+        .slide-inner-frame-bg iframe {
+            border-radius: 16px;
+        }
+        .promo-slider .swiper-button-prev,
+        .promo-slider .swiper-button-next {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- 1. Место, куда скрипт вставит шапку из header.html -->
+    <!-- 1. Место для шапки -->
     <div id="header-placeholder" class="header-wrapper"></div>
 
-    <!-- 2. ФОН (картинка) -->
+    <!-- 2. ФОН -->
     <img src="kolo11.png" class="bg-image" alt="Фон">
 
-    <!-- 3. Скрипт, который автоматически загружает шапку -->
+    <!-- 3. Слайдер -->
+    <div class="slider-section">
+        <div class="container slider-container">
+            <div class="swiper promo-slider">
+                <div class="swiper-wrapper">
+                    <!-- ПЕРВЫЙ СЛАЙД -->
+                    <div class="swiper-slide promo-card" style="position: relative; overflow: hidden; background: #374151; min-height: 520px; border-radius: 16px;">
+                        <div class="slide-inner-frame-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;">
+                            <iframe 
+                                src="https://ruziiiik1990-beep.github.io/akkolimaga/" 
+                                style="width: 100%; height: 100%; border: 0; display: block;">
+                            </iframe>
+                        </div>
+                        <div class="promo-card-inner" style="position: relative; z-index: 2; height: 100%; pointer-events: auto; background: transparent !important; box-shadow: none !important;">
+                            <div class="promo-card-content">
+                                <div class="heading-frame-row">
+                                    <h2 style="font-family: 'Comic Sans MS', cursive, sans-serif !important;">Возможность получить скины играя в турнире</h2>
+                                </div>
+                                <a href="https://4ak4ak.moy.su/index/arkhivnye_turniry_archival_tournaments/0-9" class="button-link promo-btn">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ВТОРОЙ СЛАЙД -->
+                    <div class="swiper-slide promo-card" style="position: relative; overflow: hidden; min-height: 520px; border-radius: 16px; background: #374151;">
+                        <img class="promo-card-img" src="/.s/t/2301/images/slide2.webp" srcset="/.s/t/2301/images/slide2@2x.webp 2x" alt="slide-image 2" loading="lazy">
+                        <div class="slide-inner-frame-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;">
+                            <iframe 
+                                src="https://ruziiiik1990-beep.github.io/glavna9/" 
+                                style="width: 100%; height: 100%; border: 0; display: block;">
+                            </iframe>
+                        </div>
+                        <div class="promo-card-inner" style="position: relative; z-index: 2; height: 100%; pointer-events: auto; background: transparent !important; box-shadow: none !important;">
+                            <div class="promo-card-content">
+                                <div class="heading-frame-row">
+                                    <h2 style="font-family: 'Comic Sans MS', cursive, sans-serif !important;">участвуй в турнире</h2>
+                                </div>
+                                <a href="https://4ak4ak.moy.su/index/turnir_tournament/0-4" class="button-link promo-btn">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ТРЕТИЙ СЛАЙД -->
+                    <div class="swiper-slide promo-card" style="position: relative; overflow: hidden; background: #374151; min-height: 520px; border-radius: 16px;">
+                        <div class="slide-inner-frame-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;">
+                            <iframe 
+                                src="https://ruziiiik1990-beep.github.io/tablica1/" 
+                                style="width: 100%; height: 100%; border: 0; display: block;">
+                            </iframe>
+                        </div>
+                        <div class="promo-card-inner" style="position: relative; z-index: 2; height: 100%; pointer-events: auto; background: transparent !important; box-shadow: none !important;">
+                            <div class="promo-card-content">
+                                <div class="heading-frame-row">
+                                    <h2 style="font-family: 'Comic Sans MS', cursive, sans-serif !important;">за участие получай чак-чак</h2>
+                                </div>
+                                <a href="https://4ak4ak.moy.su/index/rejting_rating/0-12" class="button-link promo-btn">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Элементы навигации (оригинальные SVG из старого кода) -->
+            <div class="promo-slider-controls">
+                <button class="swiper-btn swiper-btn-prev swiper-btn-dark">
+                    <svg class="svg-icon">
+                        <use xlink:href="/.s/t/2301/icons/icons.svg#chevron_left"></use>
+                    </svg>
+                </button>
+                <div class="promo-slider-fraction"></div>
+                <button class="swiper-btn swiper-btn-next swiper-btn-dark">
+                    <svg class="svg-icon">
+                        <use xlink:href="/.s/t/2301/icons/icons.svg#chevron_right"></use>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Загрузка шапки -->
     <script>
         fetch('header.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('header-placeholder').innerHTML = data;
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.src = 'auth.js';
+                document.body.appendChild(script);
             })
             .catch(error => console.error('Ошибка загрузки шапки:', error));
     </script>
-<!-- Загружаем шапку -->
-<script>
-    fetch('header.html').then(r => r.text()).then(data => {
-        document.getElementById('header-placeholder').innerHTML = data;
-        // После загрузки шапки подключаем скрипт авторизации
-        const script = document.createElement('script');
-        script.type = 'module';
-        script.src = 'auth.js';
-        document.body.appendChild(script);
-    });
-</script>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Swiper('.promo-slider', {
+                loop: true,
+                spaceBetween: 24,
+                autoHeight: true,
+                pagination: {
+                    el: ".promo-slider-fraction",
+                    type: "fraction",
+                    renderFraction: (currentClass, totalClass) => `<span class="${currentClass}"></span>/<span class="${totalClass}"></span>`,
+                },
+                navigation: {
+                    nextEl: '.promo-slider .swiper-btn-next',
+                    prevEl: '.promo-slider .swiper-btn-prev',
+                },
+            });
+        });
+    </script>
+
+    <!-- Твои оригинальные стили для заголовков -->
+    <style>
+        .heading-frame-row {
+            display: flex;
+            flex-direction: row;
+            gap: 0.25rem;
+            align-items: flex-start;
+            width: 100%;
+        }
+        .heading-frame-row h2 {
+            flex: 1;
+            margin: 0;
+        }
+        @media (max-width: 768px) {
+            .heading-frame-row {
+                flex-direction: column;
+            }
+        }
+    </style>
 </body>
 </html>
