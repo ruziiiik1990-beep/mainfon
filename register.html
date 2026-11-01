@@ -62,7 +62,6 @@
 </head>
 <body>
 
-    <!-- 1. Загрузка шапки -->
     <div id="header-placeholder"></div>
     <script>
         fetch('header.html').then(r => r.text()).then(data => {
@@ -70,7 +69,6 @@
         });
     </script>
 
-    <!-- 2. Форма регистрации -->
     <div class="auth-wrapper">
         <div class="auth-box">
             <div class="auth-form-side">
@@ -85,6 +83,9 @@
                     <div id="error-message" class="error-msg"></div>
                     
                     <form id="register-form">
+                        <div class="input-group">
+                            <input type="text" id="reg-nick" placeholder="Ник" required maxlength="20">
+                        </div>
                         <div class="input-group">
                             <input type="email" id="reg-email" placeholder="Email" required>
                         </div>
@@ -105,7 +106,6 @@
         </div>
     </div>
 
-    <!-- 3. Firebase скрипт -->
    <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -127,6 +127,7 @@
 
     document.getElementById('register-form').addEventListener('submit', (e) => {
         e.preventDefault();
+        const nick = document.getElementById('reg-nick').value.trim();
         const email = document.getElementById('reg-email').value;
         const password = document.getElementById('reg-password').value;
         const errorDiv = document.getElementById('error-message');
@@ -141,6 +142,7 @@
                 const user = userCredential.user;
                 return set(ref(db, 'users/' + user.uid), {
                     email: email,
+                    nick: nick,
                     createdAt: Date.now()
                 });
             })
