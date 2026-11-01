@@ -7,18 +7,23 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        /* Фон — обычная картинка в потоке */
+        /* Фон: абсолютный, под слайдером, но страница прокручивается */
         .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: auto;
-            display: block;
+            z-index: 0;
+            pointer-events: none;
         }
 
+        /* Слайдер поверх фона */
         .slider-section {
-            margin-top: 0;
-            padding: 20px 0;
             position: relative;
             z-index: 5;
+            margin-top: 100px; /* отступ от шапки */
+            padding: 20px 0;
         }
         .slider-container {
             max-width: 1200px;
