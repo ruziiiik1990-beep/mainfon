@@ -37,3 +37,13 @@ document.addEventListener('click', function(e) {
         signOut(auth).then(() => window.location.reload());
     }
 });
+
+// Загрузка футера на всех страницах
+fetch('footer.html')
+  .then(response => response.text())
+  .then(html => {
+    const footerDiv = document.createElement('div');
+    footerDiv.innerHTML = html;
+    document.body.appendChild(footerDiv);
+  })
+  .catch(err => console.error('Ошибка загрузки футера:', err));
