@@ -94,7 +94,7 @@
 <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
     import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-    import { getDatabase, ref, onValue, push, set, remove } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+    import { getDatabase, ref, onValue, push, set, remove, get } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
     const firebaseConfig = {
         apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
@@ -112,19 +112,17 @@
     const params = new URLSearchParams(window.location.search);
     const uid = params.get('uid') || 'unknown';
     var isAdmin = false;
-    var selectedImgUrl = '';
 
     const achRef = ref(db, 'achievements/' + uid);
 
-    // Проверка прав администратора через Firebase Auth
+    // Проверка прав администратора через запись users/{uid}/admin в базе
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            const tokenResult = await user.getIdTokenResult();
-            isAdmin = tokenResult.claims.admin === true;
+            const adminSnap = await get(ref(db, 'users/' + user.uid + '/admin'));
+            isAdmin = adminSnap.exists() && adminSnap.val() === true;
             if (isAdmin) {
                 document.getElementById('achAdminBtns').style.display = 'flex';
             }
-            // Перерисовываем сетку, чтобы показать/скрыть кнопки удаления
             renderAchievements();
         }
     });
