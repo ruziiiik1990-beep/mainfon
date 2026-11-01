@@ -31,7 +31,7 @@
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.55);
     }
 
     .files-container {
@@ -44,86 +44,84 @@
 
     .files-title {
       color: #4a9eff;
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      text-shadow: 0 2px 10px rgba(74, 158, 255, 0.5);
+    }
+
+    /* Блок с кнопкой */
+    .download-block {
+      background: rgba(10, 42, 107, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(74, 158, 255, 0.5);
+      border-radius: 20px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .download-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .download-title {
+      color: #fff;
       font-size: 24px;
       font-weight: 700;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-align: center;
+      margin-bottom: 12px;
       text-shadow: 0 2px 8px rgba(0,0,0,0.6);
     }
 
-    .files-grid {
-      display: flex;
-      flex-direction: column;
+    .download-desc {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto 30px auto;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
       gap: 12px;
-    }
-
-    .file-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(10, 42, 107, 0.55);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(74, 158, 255, 0.45);
-      border-radius: 12px;
-      padding: 16px 20px;
-      color: #fff;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .file-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(10, 42, 107, 0.6);
-    }
-
-    .file-info {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .file-icon {
-      font-size: 24px;
-    }
-
-    .file-name {
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .file-size {
-      font-size: 12px;
-      color: rgba(255,255,255,0.5);
-      margin-top: 4px;
-    }
-
-    .file-btn {
-      padding: 8px 20px;
-      background: linear-gradient(135deg, #0a2a6b, #1a4a8b);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 50px;
+      padding: 18px 50px;
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
       color: #fff;
       text-decoration: none;
-      font-size: 13px;
+      border-radius: 50px;
+      font-size: 18px;
       font-weight: 700;
-      transition: background 0.2s, transform 0.2s;
-      white-space: nowrap;
+      letter-spacing: 1px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 25px rgba(39, 174, 96, 0.5);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+      cursor: pointer;
     }
-    .file-btn:hover {
-      background: linear-gradient(135deg, #1a4a8b, #2a6abb);
+    .download-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(39, 174, 96, 0.7);
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+    }
+    .download-btn:active {
       transform: translateY(-1px);
     }
 
-    .files-empty {
-      text-align: center;
-      color: rgba(255,255,255,0.4);
-      font-size: 16px;
+    .download-note {
+      margin-top: 25px;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 13px;
       font-style: italic;
-      padding: 60px 20px;
-      background: rgba(10, 42, 107, 0.3);
-      border-radius: 12px;
-      border: 1px dashed rgba(74, 158, 255, 0.3);
+    }
+
+    .download-arrow {
+      font-size: 22px;
     }
   </style>
 </head>
@@ -138,8 +136,21 @@
   <div class="files-container">
     <div class="files-title">Файлы</div>
 
-    <div class="files-grid" id="filesGrid">
-      <div class="files-empty">Пока файлов нет. Скоро здесь появятся материалы.</div>
+    <div class="download-block">
+      <span class="download-icon">🛡️</span>
+      <div class="download-title">Античит для турниров</div>
+      <div class="download-desc">
+        Скачайте античит <b>ruzikTastyAC</b> для участия в турнирах. 
+        Установите его перед началом игры, чтобы подтвердить честность матча.
+      </div>
+
+      <a href="https://disk.yandex.ru/d/MFkr5h8s93ZMaA" target="_blank" class="download-btn">
+        <span class="download-arrow">⬇️</span> Скачать Анти-чит
+      </a>
+
+      <div class="download-note">
+        Файл размещён на Яндекс.Диске. После перехода нажмите «Скачать».
+      </div>
     </div>
   </div>
 
