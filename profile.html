@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой профиль - 4ak4ak</title>
+    <title>Профиль - 4ak4ak</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,7 +59,6 @@
 
         .profile-full-name { font-size: 24px; font-weight: 700; display: block; margin-bottom: 5px; }
 
-        /* Стили для встроенных секций (Steam и Достижения) */
         .profile-section { padding: 20px 0; }
         .profile-section-name { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
         .profile-section-name .material-symbols-outlined { font-size: 22px; color: #66c0f4; }
@@ -69,7 +68,6 @@
         .profile-label:hover { background: rgba(102,192,244,0.2); }
         .profile-label .material-symbols-outlined { font-size: 16px; }
 
-        /* Steam */
         .steam-status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 500; }
         .steam-status-badge.verified { background: rgba(76,175,80,0.15); color: #4caf50; border: 1px solid rgba(76,175,80,0.3); }
         .steam-status-badge.unverified { background: rgba(255,152,0,0.15); color: #ff9800; border: 1px solid rgba(255,152,0,0.3); }
@@ -77,7 +75,6 @@
         .steam-link-display:hover { text-decoration: underline; }
         .steam-hidden { display: none; }
 
-        /* Достижения */
         .ach-grid { display: flex; flex-wrap: wrap; gap: 12px; }
         .ach-item { position: relative; cursor: pointer; transition: transform 0.2s ease; }
         .ach-item:hover { transform: scale(1.08); }
@@ -113,7 +110,6 @@
     <div id="header-placeholder" class="header-wrapper"></div>
 
     <div class="profile-container">
-        <!-- Основной блок профиля -->
         <div class="profile-table-wrapper">
             <div class="profile">
                 <div class="profile-intro">
@@ -127,7 +123,6 @@
             </div>
         </div>
 
-        <!-- Steam ID -->
         <div class="profile-table-wrapper">
             <div class="profile-body">
                 <div class="profile-section">
@@ -151,7 +146,6 @@
             </div>
         </div>
 
-        <!-- Достижения -->
         <div class="profile-table-wrapper">
             <div class="profile-body">
                 <div class="profile-section">
@@ -199,7 +193,6 @@
         </div>
     </div>
 
-    <!-- Загрузка шапки и auth.js -->
     <script>
         fetch('header.html').then(r => r.text()).then(data => {
             document.getElementById('header-placeholder').innerHTML = data;
@@ -210,7 +203,6 @@
         });
     </script>
 
-    <!-- Единый модуль Firebase для профиля, Steam и Достижений -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -233,7 +225,10 @@
         var currentUid = null;
         var isAdmin = false;
 
-        // ===== ПРОФИЛЬ =====
+        // ===== ПРОФИЛЬ (с поддержкой чужого профиля через ?uid=) =====
+        const urlParams = new URLSearchParams(window.location.search);
+        const viewUid = urlParams.get('uid');
+
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = "login.html";
@@ -241,12 +236,15 @@
             }
             currentUid = user.uid;
 
-            // Проверка админа через базу
+            // Если в URL есть uid — показываем чужой профиль, иначе свой
+            const targetUid = viewUid || user.uid;
+
+            // Проверка админа через базу (для кнопки добавления достижений)
             const adminSnap = await get(ref(db, 'users/' + user.uid + '/admin'));
             isAdmin = adminSnap.exists() && adminSnap.val() === true;
 
             // Имя профиля
-            get(ref(db, 'users/' + user.uid)).then((snapshot) => {
+            get(ref(db, 'users/' + targetUid)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     document.getElementById('profile-name').textContent = data.email.split('@')[0];
@@ -255,17 +253,26 @@
                 }
             });
 
-            // Запускаем Steam и Достижения с uid
-            initSteam(user.uid);
-            initAchievements(user.uid, isAdmin);
+            // Запускаем Steam и Достижения с uid целевого профиля
+            initSteam(targetUid, user.uid);
+            initAchievements(targetUid, isAdmin);
         });
 
         // ===== STEAM =====
         const BACKEND_URL = 'https://mainfon.onrender.com';
+        var targetSteamUid = null;
 
-        function initSteam(uid) {
-            document.getElementById('steamLoginBtn').addEventListener('click', function() { steamLogin(uid); });
-            document.getElementById('steamLoginBtn2').addEventListener('click', function() { steamLogin(uid); });
+        function initSteam(uid, myUid) {
+            targetSteamUid = uid;
+
+            // Кнопку "Войти через Steam" показываем только если смотрим свой профиль
+            if (uid === myUid) {
+                document.getElementById('steamLoginBtn').addEventListener('click', function() { steamLogin(uid); });
+                document.getElementById('steamLoginBtn2').addEventListener('click', function() { steamLogin(uid); });
+            } else {
+                document.getElementById('steamLoginBtn').style.display = 'none';
+                document.getElementById('steamLoginBtn2').style.display = 'none';
+            }
 
             onValue(ref(db, 'steamVerification/' + uid), function(snapshot) {
                 const data = snapshot.val();
@@ -308,8 +315,10 @@
         // ===== ДОСТИЖЕНИЯ =====
         var achRef = null;
         var lastAchData = null;
+        var targetAchievementsUid = null;
 
         function initAchievements(uid, admin) {
+            targetAchievementsUid = uid;
             achRef = ref(db, 'achievements/' + uid);
 
             if (admin) {
@@ -321,7 +330,6 @@
                 renderAchievements();
             });
 
-            // Обработчики
             document.getElementById('achAddBtn').addEventListener('click', function() {
                 document.getElementById('achAdminPanel').classList.toggle('visible');
             });
@@ -416,7 +424,7 @@
 
         function achDelete(key) {
             if (!confirm('Удалить?')) return;
-            remove(ref(db, 'achievements/' + currentUid + '/' + key));
+            remove(ref(db, 'achievements/' + targetAchievementsUid + '/' + key));
         }
     </script>
 </body>
