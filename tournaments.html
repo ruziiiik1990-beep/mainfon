@@ -12,6 +12,7 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+/* Фон страницы */
 .page-bg {
   position: fixed;
   top: 0; left: 0;
@@ -20,7 +21,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  z-index: -2;
+  z-index: -1;
   pointer-events: none;
 }
 .page-bg::after {
@@ -28,20 +29,13 @@ body {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0,0,0,0.5);
 }
 
-/* Canvas с треугольниками */
-#triangleCanvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: -1;
-  pointer-events: none;
-}
+/* Отступ от шапки */
+.page-content { margin-top: 100px; }
 
-.page-content { margin-top: 100px; position: relative; z-index: 1; }
-
+/* Блок «правила [картинка] турнира» — прижат вправо */
 .archive-block {
   display: flex;
   align-items: center;
@@ -60,7 +54,9 @@ body {
   text-shadow: 0 2px 4px rgba(0,0,0,0.6);
   font-weight: 700;
 }
-.archive-icon-wrapper a { display: block; }
+.archive-icon-wrapper a {
+  display: block;
+}
 .archive-icon-wrapper img {
   height: 168px;
   width: auto;
@@ -68,8 +64,11 @@ body {
   cursor: pointer;
   transition: transform 0.3s ease;
 }
-.archive-icon-wrapper img:hover { transform: scale(1.05); }
+.archive-icon-wrapper img:hover {
+  transform: scale(1.05);
+}
 
+/* Iframe с турнирной сеткой */
 .tournament-frame {
   display: block;
   width: 100%;
@@ -78,18 +77,20 @@ body {
   border: none;
   margin: 20px auto;
   border-radius: 12px;
-  position: relative;
-  z-index: 1;
 }
 </style>
 </head>
 <body>
 
+<!-- Фон -->
 <div class="page-bg"></div>
-<canvas id="triangleCanvas"></canvas>
+
+<!-- Шапка -->
 <div id="header-placeholder" class="header-wrapper"></div>
 
 <div class="page-content">
+
+  <!-- Блок: «правила [картинка] турнира» — справа -->
   <div class="archive-block">
     <span class="archive-title-part">правила</span>
     <div class="archive-icon-wrapper">
@@ -100,7 +101,9 @@ body {
     <span class="archive-title-part">турнира</span>
   </div>
 
+  <!-- Турнирная сетка в iframe -->
   <iframe src="tournament-bracket.html" class="tournament-frame" id="tournamentFrame"></iframe>
+
 </div>
 
 <script>
@@ -116,6 +119,7 @@ fetch('header.html')
   .catch(error => console.error('Ошибка загрузки шапки:', error));
 </script>
 
+<!-- Подставляем uid в iframe турнирной сетки -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -128,108 +132,25 @@ const firebaseConfig = {
   messagingSenderId: "408070680295",
   appId: "1:408070680295:web:77b9656094e330b803bc42"
 };
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
     document.getElementById('tournamentFrame').src = 'tournament-bracket.html?uid=' + user.uid;
   }
 });
 </script>
-
-<!-- Треугольное «одеяло» с подсветкой мыши -->
 <script>
-(function() {
-  const canvas = document.getElementById('triangleCanvas');
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let triangles = [];
-  let mouseX = -1000, mouseY = -1000;
-
-  function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    generateTriangles();
-  }
-
-  function generateTriangles() {
-    triangles = [];
-    const spacing = 110;
-    const cols = Math.ceil(width / spacing) + 1;
-    const rows = Math.ceil(height / spacing) + 1;
-    const points = [];
-
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        const offsetX = (y % 2) * (spacing / 2);
-        const px = x * spacing + offsetX + (Math.random() - 0.5) * 18;
-        const py = y * spacing + (Math.random() - 0.5) * 18;
-        points.push({ x: px, y: py });
-      }
-    }
-
-    for (let y = 0; y < rows - 1; y++) {
-      for (let x = 0; x < cols - 1; x++) {
-        const i1 = y * cols + x;
-        const i2 = y * cols + x + 1;
-        const i3 = (y + 1) * cols + x;
-        const i4 = (y + 1) * cols + x + 1;
-        if (points[i1] && points[i2] && points[i3]) triangles.push([points[i1], points[i2], points[i3]]);
-        if (points[i2] && points[i3] && points[i4]) triangles.push([points[i2], points[i3], points[i4]]);
-      }
+window.addEventListener('message', function(event) {
+  if (event.data && event.data.type === 'resize' && event.data.frame === 'tournament') {
+    var frame = document.getElementById('tournamentFrame');
+    if (frame && event.data.height) {
+      frame.style.height = event.data.height + 'px';
     }
   }
-
-  function pointInTriangle(px, py, t) {
-    const [a, b, c] = t;
-    const d1 = (px - b.x) * (a.y - b.y) - (a.x - b.x) * (py - b.y);
-    const d2 = (px - c.x) * (b.y - c.y) - (b.x - c.x) * (py - c.y);
-    const d3 = (px - a.x) * (c.y - a.y) - (c.x - a.x) * (py - a.y);
-    const hasNeg = (d1 < 0) || (d2 < 0) || (d3 < 0);
-    const hasPos = (d1 > 0) || (d2 > 0) || (d3 > 0);
-    return !(hasNeg && hasPos);
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-
-    triangles.forEach(t => {
-      const isHovered = pointInTriangle(mouseX, mouseY, t);
-
-      ctx.beginPath();
-      ctx.moveTo(t[0].x, t[0].y);
-      ctx.lineTo(t[1].x, t[1].y);
-      ctx.lineTo(t[2].x, t[2].y);
-      ctx.closePath();
-
-      if (isHovered) {
-        ctx.fillStyle = 'rgba(255, 215, 0, 0.35)';
-        ctx.strokeStyle = 'rgba(255, 215, 0, 0.9)';
-        ctx.lineWidth = 2;
-      } else {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-        ctx.lineWidth = 1;
-      }
-
-      ctx.fill();
-      ctx.stroke();
-    });
-
-    requestAnimationFrame(draw);
-  }
-
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-  window.addEventListener('resize', resize);
-  window.addEventListener('mouseleave', () => { mouseX = -1000; mouseY = -1000; });
-
-  resize();
-  draw();
-})();
+});
 </script>
-
 </body>
 </html>
