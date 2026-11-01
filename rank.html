@@ -2,7 +2,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Рейтинг турнира</title>
+  <title>Рейтинг турнира - 4ak4ak</title>
+  <link rel="stylesheet" href="style.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
@@ -17,6 +18,26 @@
     }
     body::-webkit-scrollbar { display: none; }
 
+    /* Фон страницы */
+    .page-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: url('pngg/9kolo.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .page-bg::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+
     .rating-container {
       max-width: 650px;
       margin: 100px auto 40px auto;
@@ -27,6 +48,8 @@
       border: 1px solid rgba(74, 158, 255, 0.45);
       border-radius: 14px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      position: relative;
+      z-index: 1;
     }
 
     .rating-title {
@@ -116,6 +139,12 @@
 </head>
 <body>
 
+  <!-- Фон -->
+  <div class="page-bg"></div>
+
+  <!-- Шапка -->
+  <div id="header-placeholder" class="header-wrapper"></div>
+
   <div class="rating-container">
     <div class="rating-title">Турнирная таблица</div>
 
@@ -142,6 +171,19 @@
 
     <div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
   </div>
+
+  <script>
+    fetch('header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-placeholder').innerHTML = data;
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = 'auth.js';
+        document.body.appendChild(script);
+      })
+      .catch(error => console.error('Ошибка загрузки шапки:', error));
+  </script>
 
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
