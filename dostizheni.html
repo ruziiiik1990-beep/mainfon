@@ -70,20 +70,12 @@
                     <div class="ach-admin-panel" id="achAdminPanel">
                         <h4>Выберите картинку достижения:</h4>
                         <div class="ach-img-picker" id="achImgPicker">
-                            <!-- Картинки оставил как были, если у тебя они на uCoz, они будут грузиться оттуда -->
-                            <img class="ach-img-option" src="https://4ak4ak.moy.su/dostizhenia/Screenshot_2-fotor-bg-remover-20260926224846.png" onclick="achSelectImg(this, 'https://4ak4ak.moy.su/dostizhenia/Screenshot_2-fotor-bg-remover-20260926224846.png')">
-                            <img class="ach-img-option" src="https://4ak4ak.moy.su/dostizhenia/Screenshot_8-fotor-bg-remover-20260926224924.png" onclick="achSelectImg(this, 'https://4ak4ak.moy.su/dostizhenia/Screenshot_8-fotor-bg-remover-20260926224924.png')">
-                            <img class="ach-img-option" src="https://4ak4ak.moy.su/dostizhenia/Screenshot_4-fotor-bg-remover-2026092622505.png" onclick="achSelectImg(this, 'https://4ak4ak.moy.su/dostizhenia/Screenshot_4-fotor-bg-remover-2026092622505.png')">
-                            <img class="ach-img-option" src="https://4ak4ak.moy.su/dostizhenia/2de846dbc4a11f1ac4d768cfd41a853_1.jpeg" onclick="achSelectImg(this, 'https://4ak4ak.moy.su/dostizhenia/2de846dbc4a11f1ac4d768cfd41a853_1.jpeg')">
-                            <img class="ach-img-option" src="https://4ak4ak.moy.su/dostizhenia/Screenshot_4-fotor-bg-remover-20260926223859.png" onclick="achSelectImg(this, 'https://4ak4ak.moy.su/dostizhenia/Screenshot_4-fotor-bg-remover-20260926223859.png')">
-                            <img class="ach-img-option" src="https://4ak4ak.moy.su/dostizhenia/Screenshot_9-fotor-bg-remover-2026092615118.png" onclick="achSelectImg(this, 'https://4ak4ak.moy.su/dostizhenia/Screenshot_9-fotor-bg-remover-2026092615118.png')">
-                            <img class="ach-img-option" src="https://4ak4ak.moy.su/dostizhenia/Screenshot_7-fotor-bg-remover-2026092615157.png" onclick="achSelectImg(this, 'https://4ak4ak.moy.su/dostizhenia/Screenshot_7-fotor-bg-remover-2026092615157.png')">
-                            <img class="ach-img-option" src="https://4ak4ak.moy.su/dostizhenia/Screenshot_15-fotor-bg-remover-202609304119.png" onclick="achSelectImg(this, 'https://4ak4ak.moy.su/dostizhenia/Screenshot_15-fotor-bg-remover-202609304119.png')">
-                            <img class="ach-img-option" src="https://4ak4ak.moy.su/dostizhenia/osen-fotor-bg-remover-2026092603655.png" onclick="achSelectImg(this, 'https://4ak4ak.moy.su/dostizhenia/osen-fotor-bg-remover-2026092603655.png')">
-                            <img class="ach-img-option" src="https://4ak4ak.moy.su/dostizhenia/Screenshot_3-fotor-bg-remover-2026092622425.png" onclick="achSelectImg(this, 'https://4ak4ak.moy.su/dostizhenia/Screenshot_3-fotor-bg-remover-2026092622425.png')">
-                            <img class="ach-img-option" src="https://4ak4ak.moy.su/dostizhenia/Screenshot_7-fotor-bg-remover-20260926224621.png" onclick="achSelectImg(this, 'https://4ak4ak.moy.su/dostizhenia/Screenshot_7-fotor-bg-remover-20260926224621.png')">
-                            <img class="ach-img-option" src="https://4ak4ak.moy.su/dostizhenia/1_kusok_chak_chak-fotor-bg-remover-20260929235845.png" onclick="achSelectImg(this, 'https://4ak4ak.moy.su/dostizhenia/1_kusok_chak_chak-fotor-bg-remover-20260929235845.png')">
-                            <img class="ach-img-option" src="https://4ak4ak.moy.su/dostizhenia/Screenshot_1.png" onclick="achSelectImg(this, 'https://4ak4ak.moy.su/dostizhenia/Screenshot_1.png')">
+                            <img class="ach-img-option" src="Screenshot_11.png" onclick="achSelectImg(this, 'Screenshot_11.png')">
+                            <img class="ach-img-option" src="Screenshot_12.png" onclick="achSelectImg(this, 'Screenshot_12.png')">
+                            <img class="ach-img-option" src="Screenshot_7.png" onclick="achSelectImg(this, 'Screenshot_7.png')">
+                            <img class="ach-img-option" src="Screenshot_8.png" onclick="achSelectImg(this, 'Screenshot_8.png')">
+                            <img class="ach-img-option" src="kolo11.png" onclick="achSelectImg(this, 'kolo11.png')">
+                            <img class="ach-img-option" src="logo1.jpg" onclick="achSelectImg(this, 'logo1.jpg')">
                         </div>
                         <input type="hidden" id="achSelectedImg" value="">
                         <input type="text" class="ach-admin-input" id="achTitle" placeholder="Название достижения">
@@ -103,7 +95,6 @@
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
     import { getDatabase, ref, onValue, push, set, remove } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
-    // ИСПОЛЬЗУЕМ ТВОЮ ОСНОВНУЮ БАЗУ
     const firebaseConfig = { databaseURL: 'https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app/' };
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
