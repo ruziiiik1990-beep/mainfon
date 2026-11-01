@@ -109,7 +109,7 @@
    <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
@@ -125,7 +125,7 @@
     const auth = getAuth(app);
     const db = getDatabase(app);
 
-    document.getElementById('register-form').addEventListener('submit', (e) => {
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const nick = document.getElementById('reg-nick').value.trim();
         const email = document.getElementById('reg-email').value;
@@ -134,9 +134,22 @@
         const btn = document.getElementById('reg-btn');
 
         btn.disabled = true;
-        btn.textContent = 'Создание...';
+        btn.textContent = 'Проверка...';
         errorDiv.style.display = 'none';
 
+        // 1. Проверяем, свободен ли ник
+        const nickSnap = await get(ref(db, 'usernames/' + nick));
+        if (nickSnap.exists()) {
+            errorDiv.textContent = "Этот ник уже занят!";
+            errorDiv.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = 'Создать';
+            return;
+        }
+
+        btn.textContent = 'Создание...';
+
+        // 2. Создаём пользователя и записываем всё в базу
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
@@ -144,6 +157,8 @@
                     email: email,
                     nick: nick,
                     createdAt: Date.now()
+                }).then(() => {
+                    return set(ref(db, 'usernames/' + nick), user.uid);
                 });
             })
             .then(() => {
