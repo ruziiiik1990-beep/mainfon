@@ -12,7 +12,7 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-/* Фон страницы */
+/* Фон страницы (картинка) */
 .page-bg {
   position: fixed;
   top: 0; left: 0;
@@ -21,7 +21,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  z-index: -1;
+  z-index: -2;
   pointer-events: none;
 }
 .page-bg::after {
@@ -29,11 +29,21 @@ body {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);
+}
+
+/* Контейнер для TrigonsLite (поверх фона) */
+#bg-trigons {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.9;
 }
 
 /* Отступ от шапки */
-.page-content { margin-top: 100px; }
+.page-content { margin-top: 100px; position: relative; z-index: 1; }
 
 /* Блок «правила [картинка] турнира» — прижат вправо */
 .archive-block {
@@ -77,6 +87,8 @@ body {
   border: none;
   margin: 20px auto;
   border-radius: 12px;
+  position: relative;
+  z-index: 1;
 }
 </style>
 </head>
@@ -85,12 +97,15 @@ body {
 <!-- Фон -->
 <div class="page-bg"></div>
 
+<!-- TrigonsLite -->
+<div id="bg-trigons"></div>
+
 <!-- Шапка -->
 <div id="header-placeholder" class="header-wrapper"></div>
 
 <div class="page-content">
 
-  <!-- Блок: «правила [картинка] турнира» — справа -->
+  <!-- Блок: «правила [картинка] турнира» -->
   <div class="archive-block">
     <span class="archive-title-part">правила</span>
     <div class="archive-icon-wrapper">
@@ -119,7 +134,7 @@ fetch('header.html')
   .catch(error => console.error('Ошибка загрузки шапки:', error));
 </script>
 
-<!-- Подставляем uid в iframe турнирной сетки -->
+<!-- Подставляем uid в iframe -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -142,15 +157,19 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 </script>
+
+<!-- TrigonsLite -->
+<script src="https://cdn.jsdelivr.net/npm/trigons-lite@1/trigons-lite.min.js"></script>
 <script>
-window.addEventListener('message', function(event) {
-  if (event.data && event.data.type === 'resize' && event.data.frame === 'tournament') {
-    var frame = document.getElementById('tournamentFrame');
-    if (frame && event.data.height) {
-      frame.style.height = event.data.height + 'px';
-    }
-  }
-});
+  TrigonsLite.init('#bg-trigons', {
+    mode: 'lines',
+    colors: ['#33417c', '#6478da', '#b3bfff'],
+    hot: '#e4e9ff',
+    sweep: 1,
+    weight: 1,
+    glow: true
+  });
 </script>
+
 </body>
 </html>
