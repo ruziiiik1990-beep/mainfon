@@ -149,7 +149,7 @@
         </div>
     </div>
 
-   <script type="module">
+<script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -167,6 +167,12 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getDatabase(app);
+
+    // --- НАСТРОЙКИ ТАБРИКИ ---
+    const TABRIKA_TOKEN = 'tab_Em7ulgR600FSJoBjeiqAKJ1aBwrVqvGAF_E-xi2BYWywLjWgBiAlFuLZPmyhqm6d'; // Твой токен
+    const TABRIKA_DB_ID = '241'; // Из твоей ссылки
+    const TABRIKA_TABLE_ID = '337'; // Из твоей ссылки
+    const TABRIKA_API_URL = `https://api.tabrica.ru/v1/databases/${TABRIKA_DB_ID}/tables/${TABRIKA_TABLE_ID}/records`;
 
     document.getElementById('register-form').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -187,39 +193,63 @@
         btn.textContent = 'Проверка...';
         errorDiv.style.display = 'none';
 
-        // 1. Проверяем, свободен ли ник
-        const nickSnap = await get(ref(db, 'usernames/' + nick));
-        if (nickSnap.exists()) {
-            errorDiv.textContent = "Этот ник уже занят!";
+        try {
+            // 1. Проверяем, свободен ли ник в Firebase
+            const nickSnap = await get(ref(db, 'usernames/' + nick));
+            if (nickSnap.exists()) {
+                throw new Error("Этот ник уже занят!");
+            }
+
+            btn.textContent = 'Создание...';
+
+            // 2. Создаем пользователя в Firebase Auth (получаем UID)
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // 3. Отправляем данные в Табрику (Буфер в РФ)
+            console.log('Отправка данных в Табрику...');
+            const tabrikaResponse = await fetch(TABRIKA_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${TABRIKA_TOKEN}`
+                },
+                body: JSON.stringify({
+                    email: email,
+                    nick: nick,
+                    uid: user.uid,
+                    created_at: new Date().toISOString()
+                })
+            });
+
+            if (!tabrikaResponse.ok) {
+                // Если Табрика вернула ошибку (например, неверный URL API или токен)
+                const errorText = await tabrikaResponse.text();
+                console.error('Ошибка Табрики:', tabrikaResponse.status, errorText);
+                throw new Error(`Ошибка сохранения на сервере РФ. Код: ${tabrikaResponse.status}`);
+            }
+
+            console.log('Табрика успешно сохранила данные!');
+
+            // 4. Только после успешной записи в Табрику — пишем в Firebase
+            await set(ref(db, 'users/' + user.uid), {
+                email: email,
+                nick: nick,
+                createdAt: Date.now()
+            });
+            
+            await set(ref(db, 'usernames/' + nick), user.uid);
+
+            // 5. Перенаправляем в профиль
+            window.location.href = "profile.html";
+
+        } catch (error) {
+            console.error(error);
+            errorDiv.textContent = error.message;
             errorDiv.style.display = 'block';
             btn.disabled = false;
             btn.textContent = 'Создать';
-            return;
         }
-
-        btn.textContent = 'Создание...';
-
-        // 2. Создаём пользователя и записываем всё в базу
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                return set(ref(db, 'users/' + user.uid), {
-                    email: email,
-                    nick: nick,
-                    createdAt: Date.now()
-                }).then(() => {
-                    return set(ref(db, 'usernames/' + nick), user.uid);
-                });
-            })
-            .then(() => {
-                window.location.href = "profile.html";
-            })
-            .catch((error) => {
-                errorDiv.textContent = "Ошибка: " + error.message;
-                errorDiv.style.display = 'block';
-                btn.disabled = false;
-                btn.textContent = 'Создать';
-            });
     });
 </script>
 </body>
