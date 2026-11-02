@@ -116,10 +116,7 @@
                     
                     <form id="register-form">
                         <div class="input-group">
-                            <input type="text" id="reg-nick" placeholder="Ник" required maxlength="20">
-                        </div>
-                        <div class="input-group">
-                            <input type="email" id="reg-email" placeholder="Email" required>
+                            <input type="text" id="reg-nick" placeholder="Ник (латиница, без пробелов)" required maxlength="20" pattern="[A-Za-z0-9_]+" title="Только латинские буквы, цифры и подчёркивание">
                         </div>
                         <div class="input-group">
                             <input type="password" id="reg-password" placeholder="Пароль (мин. 6 символов)" required>
@@ -172,13 +169,11 @@
     const TABRIKA_TOKEN = 'tab_Em7ulgR600FSJoBjeiqAKJ1aBwrVqvGAF_E-xi2BYWywLjWgBiAlFuLZPmyhqm6d';
     const TABRIKA_DB_ID = '241';
     const TABRIKA_TABLE_ID = '337';
-    // ИСПРАВЛЕННЫЙ АДРЕС: добавлен /public
     const TABRIKA_API_URL = `https://api.tabrica.ru/public/v1/databases/${TABRIKA_DB_ID}/tables/${TABRIKA_TABLE_ID}/records`;
 
     document.getElementById('register-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const nick = document.getElementById('reg-nick').value.trim();
-        const email = document.getElementById('reg-email').value;
         const password = document.getElementById('reg-password').value;
         const consent = document.getElementById('reg-consent').checked;
         const errorDiv = document.getElementById('error-message');
@@ -190,12 +185,19 @@
             return;
         }
 
+        // Проверка, что ник соответствует допустимым символам (латиница, цифры, _)
+        if (!/^[A-Za-z0-9_]+$/.test(nick)) {
+            errorDiv.textContent = "Ник может содержать только латинские буквы, цифры и подчёркивание.";
+            errorDiv.style.display = 'block';
+            return;
+        }
+
         btn.disabled = true;
         btn.textContent = 'Проверка...';
         errorDiv.style.display = 'none';
 
         try {
-            // 1. Проверяем, свободен ли ник в Firebase
+            // 1. Проверяем, свободен ли ник в Firebase (по узлу usernames)
             const nickSnap = await get(ref(db, 'usernames/' + nick));
             if (nickSnap.exists()) {
                 throw new Error("Этот ник уже занят!");
@@ -203,11 +205,14 @@
 
             btn.textContent = 'Создание...';
 
-            // 2. Создаем пользователя в Firebase Auth (получаем UID)
+            // 2. Формируем email из ника
+            const email = nick + '@gmail.com';
+
+            // 3. Создаем пользователя в Firebase Auth
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            // 3. Отправляем данные в Табрику (Буфер в РФ)
+            // 4. Отправляем данные в Табрику (буфер в РФ)
             console.log('Отправка данных в Табрику...');
             const tabrikaResponse = await fetch(TABRIKA_API_URL, {
                 method: 'POST',
@@ -215,7 +220,6 @@
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${TABRIKA_TOKEN}`
                 },
-                // ИСПРАВЛЕНО: данные обернуты в объект "data"
                 body: JSON.stringify({
                     data: {
                         email: email,
@@ -234,7 +238,7 @@
 
             console.log('Табрика успешно сохранила данные!');
 
-            // 4. Только после успешной записи в Табрику — пишем в Firebase
+            // 5. Только после успешной записи в Табрику — пишем в Firebase
             await set(ref(db, 'users/' + user.uid), {
                 email: email,
                 nick: nick,
@@ -243,7 +247,7 @@
             
             await set(ref(db, 'usernames/' + nick), user.uid);
 
-            // 5. Перенаправляем в профиль
+            // 6. Перенаправляем в профиль
             window.location.href = "profile.html";
 
         } catch (error) {
