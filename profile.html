@@ -237,8 +237,17 @@
 
             const targetUid = viewUid || user.uid;
 
-            const adminSnap = await get(ref(db, 'users/' + user.uid + '/admin'));
-            isAdmin = adminSnap.exists() && adminSnap.val() === true;
+            // === ПРОВЕРКА АДМИНА ЧЕРЕЗ playoff/adminNicks (как в турнирной таблице) ===
+            const userSnap = await get(ref(db, 'users/' + user.uid));
+            let myNick = null;
+            if (userSnap.exists()) {
+                const ud = userSnap.val();
+                myNick = ud.nick || ud.email.split('@')[0];
+            }
+            if (myNick) {
+                const adminSnap = await get(ref(db, 'playoff/adminNicks/' + myNick));
+                isAdmin = adminSnap.exists() && adminSnap.val() === true;
+            }
 
             get(ref(db, 'users/' + targetUid)).then((snapshot) => {
                 if (snapshot.exists()) {
