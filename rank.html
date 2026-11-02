@@ -130,6 +130,27 @@
     .rating-empty { text-align: center; color: rgba(255, 255, 255, 0.35); font-size: 14px; padding: 24px; font-style: italic; }
 
     .rating-note { text-align: center; color: rgba(255, 255, 255, 0.45); font-size: 12px; margin-top: 12px; }
+
+    /* Кнопка сброса — только для админа */
+    .btn-reset {
+      display: none;
+      margin: 20px auto 0 auto;
+      padding: 12px 30px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, #c0392b, #e74c3c);
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-reset:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(192,57,43,0.5);
+    }
+    .btn-reset.visible { display: block; }
   </style>
 </head>
 <body>
@@ -165,6 +186,9 @@
     </div>
 
     <div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
+
+    <!-- Кнопка сброса (видна только админу) -->
+    <button class="btn-reset" id="btnReset">Сбросить чак-чаки</button>
   </div>
 
   <script>
@@ -182,6 +206,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
   <script>
     (function() {
@@ -196,8 +221,10 @@
       };
       firebase.initializeApp(firebaseConfig);
       var db = firebase.database();
+      var auth = firebase.auth();
 
       var LOGO_URL = 'png/logo1.jpg';
+      var isAdmin = false;
 
       function escapeHtml(t) {
         if (!t) return '';
@@ -208,6 +235,23 @@
           .replace(/"/g, "&quot;")
           .replace(/'/g, "&#039;");
       }
+
+      // === Проверка админа через playoff/adminNicks (по нику из users) ===
+      auth.onAuthStateChanged(function(user) {
+        if (!user) return;
+        db.ref('users/' + user.uid).once('value').then(function(snap) {
+          if (!snap.exists()) return;
+          var ud = snap.val();
+          var myNick = ud.nick || (ud.email ? ud.email.split('@')[0] : null);
+          if (!myNick) return;
+          db.ref('playoff/adminNicks/' + myNick).once('value').then(function(adminSnap) {
+            isAdmin = adminSnap.exists() && adminSnap.val() === true;
+            if (isAdmin) {
+              document.getElementById('btnReset').classList.add('visible');
+            }
+          });
+        });
+      });
 
       function renderRating(allResults) {
         var body = document.getElementById('ratingBody');
@@ -286,6 +330,28 @@
           renderRating(allResults);
         });
       }
+
+      // === Сброс чак-чаков (только админ) ===
+      document.getElementById('btnReset').addEventListener('click', function() {
+        if (!isAdmin) return;
+        if (!confirm('Сбросить чак-чаки? Результаты всех финалов будут удалены.')) return;
+        db.ref('playoff/tournaments').once('value').then(function(snap) {
+          var tournaments = snap.val() || {};
+          var updates = {};
+          Object.keys(tournaments).forEach(function(tid) {
+            if (tournaments[tid] && tournaments[tid].finalResult) {
+              updates['playoff/tournaments/' + tid + '/finalResult'] = null;
+            }
+          });
+          if (Object.keys(updates).length > 0) {
+            db.ref().update(updates).then(function() {
+              alert('Чак-чаки сброшены!');
+            });
+          } else {
+            alert('Нет результатов для сброса.');
+          }
+        });
+      });
 
       loadAndRender();
     })();
