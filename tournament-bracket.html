@@ -1600,3 +1600,39 @@ body::-webkit-scrollbar { display: none; }
 
     // Первичная инициализация (если слайды уже есть)
     setTimeout(initBracketSwiper, 200);
+              // ===== ИНИЦИАЛИЗАЦИЯ SWIPER =====
+    var bracketSwiper = null;
+
+    function initBracketSwiper() {
+        if (bracketSwiper) {
+            try { bracketSwiper.destroy(true, true); } catch (e) {}
+            bracketSwiper = null;
+        }
+        var sliderEl = document.querySelector('.bracket-slider');
+        if (!sliderEl) return;
+        if (!sliderEl.querySelector('.swiper-slide')) return;
+        bracketSwiper = new Swiper(sliderEl, {
+            loop: false,
+            spaceBetween: 24,
+            autoHeight: false,
+            watchOverflow: true,
+            navigation: {
+                nextEl: '#slideNext',
+                prevEl: '#slidePrev',
+                disabledClass: 'swiper-button-disabled'
+            }
+        });
+    }
+
+    var _renderAllSlidesOrig = renderAllSlides;
+    renderAllSlides = function() {
+        _renderAllSlidesOrig();
+        initBracketSwiper();
+    };
+
+    setTimeout(initBracketSwiper, 200);
+})();
+</script>
+
+</body>
+</html>
