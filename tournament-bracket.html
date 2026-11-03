@@ -49,8 +49,8 @@ body::-webkit-scrollbar { display: none; }
   background-image: url('png/Tchak.jpg');
   background-size: cover; background-position: center center; background-repeat: no-repeat;
   padding: 30px 0; border-radius: 12px; position: relative; overflow: hidden;
-  max-width: 1450px; /* Ограничивает растягивание всей сетки */
-
+  max-width: 1600px; margin: 0 auto;
+}
 .tournament-wrapper::before {
   content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.5); z-index: 0;
@@ -69,14 +69,7 @@ body::-webkit-scrollbar { display: none; }
 }
 
 .bracket-row { display: flex; gap: 16px; justify-content: center; align-items: stretch; flex-wrap: wrap; }
-.bracket-col { 
-  flex: 1; 
-  min-width: 120px;   /* Уменьшено со 180px: позволяет карточкам сильно сжиматься, если команд очень много */
-  max-width: 260px;   /* Потолок: карточка никогда не станет шире финальной (260px) */
-  display: flex; 
-  flex-direction: column; 
-}
-
+.bracket-col { flex: 1; min-width: 180px; max-width: 22%; display: flex; flex-direction: column; }
 .bracket-col.final-col { max-width: 260px; }
 /* Теперь абсолютно все колонки (1/8, 1/4, полуфинал и финал) центрируются по вертикали */
 .bracket-col { justify-content: center; }
@@ -88,31 +81,7 @@ body::-webkit-scrollbar { display: none; }
 
 .round-label { text-align: center; color: rgba(255,255,255,0.55); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
 
-.match { 
-  display: flex; 
-  flex-direction: column; 
-  background: rgba(255,255,255,0.06);     /* Возвращаем оригинальный полупрозрачный фон */
-  border-radius: 8px; 
-  overflow: hidden; 
-  margin: 0 auto 12px; 
-  width: 100%; 
-  padding: 14px 20px;                     /* Внутренние отступы ТОЧНО КАК У ФИНАЛА для размера */
-  border: 1px solid rgba(255,255,255,0.08); /* Возвращаем оригинальную тонкую рамку */
-  box-sizing: border-box; 
-  cursor: pointer; 
-  transition: border-color 0.2s, background 0.2s, transform 0.15s; 
-}
-.match:hover { 
-  border-color: rgba(255,215,0,0.4);      /* Оригинальная подсветка при наведении */
-  background: rgba(255,255,255,0.1); 
-  transform: translateY(-2px); 
-}
-.match.is-mine { 
-  border-color: rgba(74,158,255,0.6); 
-  box-shadow: 0 0 12px rgba(74,158,255,0.4); 
-}
-
- cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.15s; }
+.match { display: flex; flex-direction: column; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; margin: 0 auto 8px; width: 100%; border: 1px solid rgba(255,255,255,0.08); box-sizing: border-box; cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.15s; }
 .match:hover { border-color: rgba(255,215,0,0.4); background: rgba(255,255,255,0.1); transform: translateY(-2px); }
 .match.is-mine { border-color: rgba(74,158,255,0.6); box-shadow: 0 0 12px rgba(74,158,255,0.4); }
 
@@ -299,16 +268,7 @@ body::-webkit-scrollbar { display: none; }
 .you-badge { display: inline-block; background: rgba(74,158,255,0.3); color: #4a9eff; font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; margin-left: 4px; vertical-align: middle; }
 
 @media (max-width: 900px) {
-  .bracket-row { 
-  display: flex; 
-  gap: 16px; 
-  justify-content: center; 
-  align-items: stretch; 
-  flex-wrap: nowrap;  /* Запрещает карточкам падать друг под друга */
-  width: 100%;
-  overflow-x: auto;   /* Если команд будет слишком много, появится аккуратная горизонтальная прокрутка */
-}
-
+  .bracket-row { flex-direction: column; align-items: center; }
   .bracket-col { max-width: 100%; width: 100%; }
   .tournament-title { font-size: 22px; }
   .match { max-width: 100%; }
