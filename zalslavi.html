@@ -469,9 +469,6 @@
     .hall-card:hover .card-delete.admin-visible { display: flex; }
     .card-delete:hover { background: #dc2626; transform: scale(1.1); }
 
-    /* ===== ФУТЕР ===== */
-    #footer-placeholder { position: relative; z-index: 5; }
-
     @media (max-width: 640px) {
       .hall-stand { padding: 32px 16px; }
       .hall-trophy { font-size: 64px; }
@@ -547,9 +544,6 @@
 
   </main>
 
-  <!-- Футер -->
-  <div id="footer-placeholder"></div>
-
   <!-- Загрузка шапки -->
   <script>
     fetch('header.html')
@@ -562,14 +556,6 @@
         document.body.appendChild(script);
       })
       .catch(e => console.error('Ошибка загрузки шапки:', e));
-
-    // Загрузка футера (если файл footer.html есть — подставится; если нет — ничего не сломается)
-    fetch('footer.html')
-      .then(r => r.ok ? r.text() : '')
-      .then(data => {
-        if (data) document.getElementById('footer-placeholder').innerHTML = data;
-      })
-      .catch(() => { /* нет футера — ок */ });
   </script>
 
   <!-- Firebase (compat) -->
@@ -606,7 +592,6 @@
           .replace(/'/g, "&#039;");
       }
 
-      // Пытаемся вытащить ID видео из YouTube-ссылки для превью
       function extractYouTubeId(url) {
         if (!url) return null;
         var m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
@@ -637,7 +622,7 @@
             isAdmin = s.exists() && s.val() === true;
             if (isAdmin) {
               document.getElementById('adminToggleWrap').style.display = 'block';
-              renderCards(); // перерисовать — появятся кнопки удаления
+              renderCards();
             }
           });
         });
@@ -712,7 +697,6 @@
             descHtml +
             '<span class="card-btn"><span class="material-symbols-outlined">play_circle</span> Смотреть</span>';
 
-          // Клик по крестику — не открывать ссылку
           var del = card.querySelector('.card-delete');
           if (del) {
             del.addEventListener('click', function(ev) {
@@ -726,7 +710,6 @@
         });
       }
 
-      // Слушаем данные
       db.ref(HOF_REF).on('value', function(snap) {
         lastData = snap.val();
         renderCards();
