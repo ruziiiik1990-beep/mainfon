@@ -70,20 +70,22 @@ body::-webkit-scrollbar { display: none; }
 
 .bracket-row { 
   display: flex; 
-  gap: 20px; 
+  gap: 20px;                  /* Расстояние между колонками (этапами) */
   justify-content: center; 
   align-items: stretch; 
-  flex-wrap: nowrap;          /* Запрещает перенос колонок на новую строку, заставляя их зумиться/уменьшаться */
-  width: 100%;
+  flex-wrap: nowrap;          /* Запрещаем перенос колонок на новую строку, чтобы работал зум при 200+ командах */
 }
 
+
 .bracket-col { 
-  flex: 0 0 auto;             /* Запрещаем flex-растяжение сетки */
-  width: max-content;         /* Ширина колонки подстраивается под ширину самой длинной карточки в ней */
+  flex: 0 0 auto;             /* Запрещаем колонкам насильно растягивать карточки по ширине экрана */
+  width: max-content;         /* Колонка раунда сожмется под размер своих карточек */
   display: flex; 
   flex-direction: column; 
+  justify-content: center; 
 }
-.bracket-col.final-col { width: max-content; }
+.bracket-col.final-col { width: max-content; max-width: none; }
+
 
 /* Теперь абсолютно все колонки (1/8, 1/4, полуфинал и финал) центрируются по вертикали */
 .bracket-col { justify-content: center; }
@@ -102,14 +104,15 @@ body::-webkit-scrollbar { display: none; }
   border-radius: 6px; 
   overflow: hidden; 
   margin: 0 auto 8px; 
-  /* Изменения здесь: */
-  width: max-content;         /* Карточка схлопывается строго по длине самой длинной строки текста */
-  min-width: 140px;           /* Чтобы пустые карточки «Ожидание...» не сжимались в точку */
+  /* ИСПРАВЛЕНИЕ: Карточка будет строго шириной с самый длинный текст внутри */
+  width: max-content;         
+  min-width: 130px;           
   border: 1px solid rgba(255,255,255,0.08); 
   box-sizing: border-box; 
   cursor: pointer; 
   transition: border-color 0.2s, background 0.2s, transform 0.15s; 
 }
+
 
 .match:hover { border-color: rgba(255,215,0,0.4); background: rgba(255,255,255,0.1); transform: translateY(-2px); }
 .match.is-mine { border-color: rgba(74,158,255,0.6); box-shadow: 0 0 12px rgba(74,158,255,0.4); }
@@ -118,14 +121,16 @@ body::-webkit-scrollbar { display: none; }
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
-  /* Изменения здесь: */
-  padding: 8px 14px;          /* Задаем абсолютно одинаковый фиксированный отступ: 14px слева и 14px справа */
-  gap: 24px;                  /* Фиксированное расстояние между концом названия команды и цифрой счета */
+  /* ИСПРАВЛЕНИЕ: Устанавливаем точные отступы от краев до текста */
+  padding: 6px 14px;          /* 14px от рамки слева до семени и 14px от счета справа до рамки */
+  gap: 16px;                  /* Фиксированный зазор между концом названия команды и цифрой счета */
+  width: auto;                /* Убираем 100% растяжение */
   color: #fff; 
   font-size: 13px; 
   font-weight: 500; 
   transition: background 0.2s; 
 }
+
 
 .match-row.winner { background: rgba(76,175,80,0.3); font-weight: 700; }
 .match-row.winner::after { content: '\2713'; color: #66bb6a; margin-left: 6px; }
@@ -135,7 +140,8 @@ body::-webkit-scrollbar { display: none; }
 .match-score { font-weight: 700; font-size: 14px; min-width: 22px; text-align: center; }
 .match-divider { height: 1px; background: rgba(255,255,255,0.08); }
 
-.final-box { background: rgba(0,0,0,0.55); border-radius: 12px; padding: 20px; border: 2px solid rgba(255,215,0,0.4); text-align: center; width: 100%; box-sizing: border-box; }
+.final-box { background: rgba(0,0,0,0.55); border-radius: 12px; padding: 20px; border: 2px solid rgba(255,215,0,0.4); text-align: center; width: max-content; box-sizing: border-box; }
+
 .final-title { color: #ffd700; font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
 .final-match { background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.2); }
 .final-match:hover { border-color: rgba(255,215,0,0.6); }
