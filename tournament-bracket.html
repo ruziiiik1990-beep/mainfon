@@ -843,73 +843,73 @@ if (myUid) {
   };
 
     function buildBracketHtml() {
-    var currentT = tournaments[currentTournamentId] || {};
-    var is18 = currentT.format === '1/8';
-    
-    var html = '';
+  var currentT = tournaments[currentTournamentId] || {};
+  var is18 = currentT.format === '1/8';
 
-    // 1. КОЛОНКА: 1/8 Запада (если применимо)
-    if (is18) {
-      html += '<div class="bracket-col">'
-        +   '<div class="conf-label west">Запад</div>'
-        +   '<div class="round-label">1/8 финала</div>'
-        +   '<div class="match" data-match-id="ef_w1"><div class="match-row"><div class="match-team"><span class="team-seed">1</span> Команда 1</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">8</span> Команда 2</div><div class="match-score"></div></div></div>'
-        +   '<div class="match" data-match-id="ef_w2"><div class="match-row"><div class="match-team"><span class="team-seed">4</span> Команда 3</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">5</span> Команда 4</div><div class="match-score"></div></div></div>'
-        +   '<div class="match" data-match-id="ef_w3"><div class="match-row"><div class="match-team"><span class="team-seed">2</span> Команда 5</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">7</span> Команда 6</div><div class="match-score"></div></div></div>'
-        +   '<div class="match" data-match-id="ef_w4"><div class="match-row"><div class="match-team"><span class="team-seed">3</span> Команда 7</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">6</span> Команда 8</div><div class="match-score"></div></div></div>'
-        + '</div>';
-    }
+  var html = '';
 
-    // 2. КОЛОНКА: Четвертьфиналы Запада
+  // 1. КОЛОНКА: 1/8 Запада — метка 1/8
+  if (is18) {
     html += '<div class="bracket-col">'
-      +   (!is18 ? '<div class="conf-label west">Запад</div>' : '')
-      +   '<div class="round-label">Четвертьфиналы</div>'
-      +   '<div class="match" data-match-id="qf_w1"><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '1') + '</span> <span class="qf-team-name">Команда A</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '4') + '</span> <span class="qf-team-name">Команда B</span></div><div class="match-score"></div></div></div>'
-      +   '<div class="match" data-match-id="qf_w2"><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '2') + '</span> <span class="qf-team-name">Команда C</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '3') + '</span> <span class="qf-team-name">Команда D</span></div><div class="match-score"></div></div></div>'
+      +   '<div class="conf-label west">Запад</div>'
+      +   '<div class="round-label">1/8 финала</div>'
+      +   '<div class="match" data-match-id="ef_w1"><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 1</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 2</div><div class="match-score"></div></div></div>'
+      +   '<div class="match" data-match-id="ef_w2"><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 3</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 4</div><div class="match-score"></div></div></div>'
+      +   '<div class="match" data-match-id="ef_w3"><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 5</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 6</div><div class="match-score"></div></div></div>'
+      +   '<div class="match" data-match-id="ef_w4"><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 7</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 8</div><div class="match-score"></div></div></div>'
       + '</div>';
-
-    // 3. КОЛОНКА: Полуфинал Запада
-    html += '<div class="bracket-col semifinal-col">'
-      +   '<div class="round-label">Полуфинал</div>'
-      +   '<div class="match" data-match-id="sf_w"><div class="match-row"><div class="match-team"><span class="team-seed">½</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">½</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div></div>'
-      + '</div>';
-
-    // 4. КОЛОНКА: Финал
-    html += '<div class="bracket-col final-col">'
-      +   '<div class="final-box">'
-      +     '<div class="final-title">Финал</div>'
-      +     '<div class="match final-match" data-match-id="final"><div class="match-row"><div class="match-team"><span class="team-seed">F</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">F</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div></div>'
-      +   '</div>'
-      + '</div>';
-
-    // 5. КОЛОНКА: Полуфинал Востока
-    html += '<div class="bracket-col semifinal-col">'
-      +   '<div class="round-label">Полуфинал</div>'
-      +   '<div class="match" data-match-id="sf_e"><div class="match-row"><div class="match-team"><span class="team-seed">½</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">½</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div></div>'
-      + '</div>';
-
-    // 6. КОЛОНКА: Четвертьфиналы Востока
-    html += '<div class="bracket-col">'
-      +   (!is18 ? '<div class="conf-label east">Восток</div>' : '')
-      +   '<div class="round-label">Четвертьфиналы</div>'
-      +   '<div class="match" data-match-id="qf_e1"><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '1') + '</span> <span class="qf-team-name">Команда E</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '4') + '</span> <span class="qf-team-name">Команда F</span></div><div class="match-score"></div></div></div>'
-      +   '<div class="match" data-match-id="qf_e2"><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '2') + '</span> <span class="qf-team-name">Команда G</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '3') + '</span> <span class="qf-team-name">Команда H</span></div><div class="match-score"></div></div></div>'
-      + '</div>';
-
-    // 7. КОЛОНКА: 1/8 Востока (если применимо)
-    if (is18) {
-      html += '<div class="bracket-col">'
-        +   '<div class="conf-label east">Восток</div>'
-        +   '<div class="round-label">1/8 финала</div>'
-        +   '<div class="match" data-match-id="ef_e1"><div class="match-row"><div class="match-team"><span class="team-seed">1</span> Команда 9</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">8</span> Команда 10</div><div class="match-score"></div></div></div>'
-        +   '<div class="match" data-match-id="ef_e2"><div class="match-row"><div class="match-team"><span class="team-seed">4</span> Команда 11</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">5</span> Команда 12</div><div class="match-score"></div></div></div>'
-        +   '<div class="match" data-match-id="ef_e3"><div class="match-row"><div class="match-team"><span class="team-seed">2</span> Команда 13</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">7</span> Команда 14</div><div class="match-score"></div></div></div>'
-        +   '<div class="match" data-match-id="ef_e4"><div class="match-row"><div class="match-team"><span class="team-seed">3</span> Команда 15</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">6</span> Команда 16</div><div class="match-score"></div></div></div>'
-        + '</div>';
-    }
-
-    document.getElementById('bracketRow').innerHTML = html;
   }
+
+  // 2. КОЛОНКА: Четвертьфиналы Запада — метка ¼
+  html += '<div class="bracket-col">'
+    +   (!is18 ? '<div class="conf-label west">Запад</div>' : '')
+    +   '<div class="round-label">Четвертьфиналы</div>'
+    +   '<div class="match" data-match-id="qf_w1"><div class="match-row"><div class="match-team"><span class="team-seed">¼</span> <span class="qf-team-name">Команда A</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">¼</span> <span class="qf-team-name">Команда B</span></div><div class="match-score"></div></div></div>'
+    +   '<div class="match" data-match-id="qf_w2"><div class="match-row"><div class="match-team"><span class="team-seed">¼</span> <span class="qf-team-name">Команда C</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">¼</span> <span class="qf-team-name">Команда D</span></div><div class="match-score"></div></div></div>'
+    + '</div>';
+
+  // 3. КОЛОНКА: Полуфинал Запада — метка ½
+  html += '<div class="bracket-col semifinal-col">'
+    +   '<div class="round-label">Полуфинал</div>'
+    +   '<div class="match" data-match-id="sf_w"><div class="match-row"><div class="match-team"><span class="team-seed">½</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">½</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div></div>'
+    + '</div>';
+
+  // 4. КОЛОНКА: Финал — метка F
+  html += '<div class="bracket-col final-col">'
+    +   '<div class="final-box">'
+    +     '<div class="final-title">Финал</div>'
+    +     '<div class="match final-match" data-match-id="final"><div class="match-row"><div class="match-team"><span class="team-seed">F</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">F</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div></div>'
+    +   '</div>'
+    + '</div>';
+
+  // 5. КОЛОНКА: Полуфинал Востока — метка ½
+  html += '<div class="bracket-col semifinal-col">'
+    +   '<div class="round-label">Полуфинал</div>'
+    +   '<div class="match" data-match-id="sf_e"><div class="match-row"><div class="match-team"><span class="team-seed">½</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">½</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div></div>'
+    + '</div>';
+
+  // 6. КОЛОНКА: Четвертьфиналы Востока — метка ¼
+  html += '<div class="bracket-col">'
+    +   (!is18 ? '<div class="conf-label east">Восток</div>' : '')
+    +   '<div class="round-label">Четвертьфиналы</div>'
+    +   '<div class="match" data-match-id="qf_e1"><div class="match-row"><div class="match-team"><span class="team-seed">¼</span> <span class="qf-team-name">Команда E</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">¼</span> <span class="qf-team-name">Команда F</span></div><div class="match-score"></div></div></div>'
+    +   '<div class="match" data-match-id="qf_e2"><div class="match-row"><div class="match-team"><span class="team-seed">¼</span> <span class="qf-team-name">Команда G</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">¼</span> <span class="qf-team-name">Команда H</span></div><div class="match-score"></div></div></div>'
+    + '</div>';
+
+  // 7. КОЛОНКА: 1/8 Востока — метка 1/8
+  if (is18) {
+    html += '<div class="bracket-col">'
+      +   '<div class="conf-label east">Восток</div>'
+      +   '<div class="round-label">1/8 финала</div>'
+      +   '<div class="match" data-match-id="ef_e1"><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 9</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 10</div><div class="match-score"></div></div></div>'
+      +   '<div class="match" data-match-id="ef_e2"><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 11</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 12</div><div class="match-score"></div></div></div>'
+      +   '<div class="match" data-match-id="ef_e3"><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 13</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 14</div><div class="match-score"></div></div></div>'
+      +   '<div class="match" data-match-id="ef_e4"><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 15</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">1/8</span> Команда 16</div><div class="match-score"></div></div></div>'
+      + '</div>';
+  }
+
+  document.getElementById('bracketRow').innerHTML = html;
+}
 
 
   function attachMatchListeners() {
