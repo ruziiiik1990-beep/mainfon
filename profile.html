@@ -60,9 +60,79 @@
             background-color: #555;
             border: 3px solid #e3769c;
             margin-right: 20px;
+            flex-shrink: 0;
         }
 
-        .profile-full-name { font-size: 24px; font-weight: 700; display: block; margin-bottom: 5px; }
+        .profile-name {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .profile-full-name { font-size: 24px; font-weight: 700; display: block; }
+
+        /* === Ранг рядом с ником === */
+        .profile-rank-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #c7d0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .profile-rank-badge .material-symbols-outlined {
+            font-size: 18px;
+            color: #66c0f4;
+        }
+        .profile-rank-points {
+            color: rgba(255,255,255,0.55);
+            font-weight: 500;
+            font-size: 12px;
+            padding-left: 8px;
+            border-left: 1px solid rgba(255,255,255,0.15);
+        }
+        /* Золото — 1 место */
+        .profile-rank-badge.rank-1 {
+            background: linear-gradient(135deg, rgba(255,215,0,0.22), rgba(255,215,0,0.05));
+            border-color: rgba(255,215,0,0.55);
+            color: #ffd700;
+            box-shadow: 0 0 16px rgba(255,215,0,0.25);
+        }
+        .profile-rank-badge.rank-1 .material-symbols-outlined { color: #ffd700; }
+        .profile-rank-badge.rank-1 .profile-rank-points {
+            color: rgba(255,215,0,0.8);
+            border-left-color: rgba(255,215,0,0.3);
+        }
+        /* Серебро — 2 место */
+        .profile-rank-badge.rank-2 {
+            background: linear-gradient(135deg, rgba(192,192,192,0.22), rgba(192,192,192,0.05));
+            border-color: rgba(192,192,192,0.55);
+            color: #d8d8d8;
+            box-shadow: 0 0 14px rgba(192,192,192,0.2);
+        }
+        .profile-rank-badge.rank-2 .material-symbols-outlined { color: #C0C0C0; }
+        .profile-rank-badge.rank-2 .profile-rank-points {
+            color: rgba(192,192,192,0.85);
+            border-left-color: rgba(192,192,192,0.3);
+        }
+        /* Бронза — 3 место */
+        .profile-rank-badge.rank-3 {
+            background: linear-gradient(135deg, rgba(205,127,50,0.22), rgba(205,127,50,0.05));
+            border-color: rgba(205,127,50,0.55);
+            color: #e0a060;
+            box-shadow: 0 0 14px rgba(205,127,50,0.2);
+        }
+        .profile-rank-badge.rank-3 .material-symbols-outlined { color: #CD7F32; }
+        .profile-rank-badge.rank-3 .profile-rank-points {
+            color: rgba(205,127,50,0.85);
+            border-left-color: rgba(205,127,50,0.3);
+        }
 
         .profile-section { padding: 20px 0; }
         .profile-section-name { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
@@ -99,19 +169,13 @@
         .ach-admin-input:focus { border-color: #66c0f4; }
 
         /* === Статистика турниров === */
-        .profile-stats {
-            padding: 0 0 26px;
-        }
+        .profile-stats { padding: 0 0 26px; }
         .profile-stats .profile-section-name {
             margin: 22px 0 14px;
             padding-top: 20px;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
-        .stats-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        .stats-list { display: flex; flex-direction: column; gap: 12px; }
         .stat-card {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
@@ -140,18 +204,13 @@
             background: rgba(255,255,255,0.06);
             border-radius: 20px;
         }
-        .stat-stage .material-symbols-outlined {
-            font-size: 18px;
-            color: #ffd700;
-        }
+        .stat-stage .material-symbols-outlined { font-size: 18px; color: #ffd700; }
         .stat-stage.winner {
             color: #66bb6a;
             background: rgba(76,175,80,0.15);
             border: 1px solid rgba(76,175,80,0.35);
         }
-        .stat-stage.winner .material-symbols-outlined {
-            color: #66bb6a;
-        }
+        .stat-stage.winner .material-symbols-outlined { color: #66bb6a; }
         .stat-stage.finalist {
             color: #ffd700;
             background: rgba(255,215,0,0.12);
@@ -181,20 +240,12 @@
             letter-spacing: 0.8px;
             margin-bottom: 2px;
         }
-        .stat-prize-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: #ffd700;
-        }
-        .stat-empty {
-            color: #6b7280;
-            font-size: 13px;
-            font-style: italic;
-        }
+        .stat-prize-name { font-size: 13px; font-weight: 600; color: #ffd700; }
 
         @media (max-width: 768px) {
             .profile-head { flex-direction: column; text-align: center; }
             .profile-photo { margin-right: 0; margin-bottom: 15px; }
+            .profile-name { justify-content: center; }
         }
     </style>
 </head>
@@ -210,6 +261,12 @@
                         <div class="profile-photo" style="background-image: url('logo1.jpg');"></div>
                         <div class="profile-name">
                             <div class="profile-full-name" id="profile-name">Загрузка...</div>
+                            <!-- Ранг рядом с ником -->
+                            <div class="profile-rank-badge" id="profileRank" style="display:none;">
+                                <span class="material-symbols-outlined">emoji_events</span>
+                                <span id="profileRankText">#0</span>
+                                <span class="profile-rank-points" id="profileRankPoints"></span>
+                            </div>
                         </div>
                     </div>
 
@@ -307,6 +364,7 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const viewUid = urlParams.get('uid');
+        const viewNick = urlParams.get('nick');
 
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
@@ -334,14 +392,96 @@
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     nick = data.nick || data.email.split('@')[0];
+                } else if (viewNick) {
+                    nick = viewNick;
                 }
                 document.getElementById('profile-name').textContent = nick;
-                // Загружаем статистику турниров для этого ника
                 loadPlayerStats(nick);
+                loadPlayerRank(nick);
             });
 
             initAchievements(targetUid, isAdmin);
         });
+
+        /* ======================== РАНГ (турнирная таблица) ======================== */
+        // Склонение "чак-чак"
+        function chakChakWord(n) {
+            var mod10 = n % 10;
+            var mod100 = n % 100;
+            if (mod100 >= 11 && mod100 <= 14) return 'чак-чаков';
+            if (mod10 === 1) return 'чак-чак';
+            if (mod10 >= 2 && mod10 <= 4) return 'чак-чака';
+            return 'чак-чаков';
+        }
+
+        async function loadPlayerRank(nick) {
+            if (!nick) return;
+            try {
+                const tournamentsSnap = await get(ref(db, 'playoff/tournaments'));
+                const tournaments = tournamentsSnap.val() || {};
+
+                // Считаем очки — точно так же, как в rank.html
+                const stats = {};
+                for (const tid in tournaments) {
+                    const t = tournaments[tid];
+                    if (!t || !t.finalResult) continue;
+                    const fr = t.finalResult;
+                    const winners = fr.winners || [];
+                    const runnersUp = fr.runnersUp || [];
+
+                    winners.forEach(function(n) {
+                        if (!n) return;
+                        if (!stats[n]) stats[n] = { champ: 0, finalist: 0, points: 0 };
+                        stats[n].champ++;
+                        stats[n].points += 2;
+                    });
+                    runnersUp.forEach(function(n) {
+                        if (!n) return;
+                        if (!stats[n]) stats[n] = { champ: 0, finalist: 0, points: 0 };
+                        stats[n].finalist++;
+                        stats[n].points += 1;
+                    });
+                }
+
+                // Если у игрока нет очков — ранг не показываем
+                if (!stats[nick] || stats[nick].points === 0) {
+                    return;
+                }
+
+                // Сортируем как в rank.html
+                const arr = Object.keys(stats).map(function(n) {
+                    return { nick: n, champ: stats[n].champ, finalist: stats[n].finalist, points: stats[n].points };
+                });
+                arr.sort(function(a, b) {
+                    if (b.points !== a.points) return b.points - a.points;
+                    if (b.champ !== a.champ) return b.champ - a.champ;
+                    return b.finalist - a.finalist;
+                });
+
+                const pos = arr.findIndex(function(r) { return r.nick === nick; }) + 1;
+                if (pos <= 0) return;
+
+                const my = stats[nick];
+
+                const rankEl = document.getElementById('profileRank');
+                const textEl = document.getElementById('profileRankText');
+                const pointsEl = document.getElementById('profileRankPoints');
+
+                textEl.textContent = '#' + pos;
+                pointsEl.textContent = my.points + ' ' + chakChakWord(my.points);
+
+                rankEl.classList.remove('rank-1', 'rank-2', 'rank-3');
+                if (pos === 1) rankEl.classList.add('rank-1');
+                else if (pos === 2) rankEl.classList.add('rank-2');
+                else if (pos === 3) rankEl.classList.add('rank-3');
+
+                rankEl.style.display = 'inline-flex';
+
+            } catch (e) {
+                console.error('Ошибка загрузки ранга:', e);
+            }
+        }
+        /* ====================== /РАНГ ====================== */
 
         /* ======================== СТАТИСТИКА ТУРНИРОВ ======================== */
         async function loadPlayerStats(nick) {
@@ -369,28 +509,24 @@
 
                     // 1/8 финала
                     for (const mid in matches) {
-                        if (!mid.startsWith('ef_')) continue;
+                        if (mid.indexOf('ef_') !== 0) continue;
                         const m = matches[mid];
                         const left = m.left || [];
                         const right = m.right || [];
                         if (left.indexOf(nick) !== -1 || right.indexOf(nick) !== -1) {
-                            maxStage = 'ef';
-                            stageLabel = '1/8 финала';
+                            maxStage = 'ef'; stageLabel = '1/8 финала';
                         }
                     }
-
                     // Четвертьфинал
                     for (const mid in matches) {
-                        if (!mid.startsWith('qf_')) continue;
+                        if (mid.indexOf('qf_') !== 0) continue;
                         const m = matches[mid];
                         const left = m.left || [];
                         const right = m.right || [];
                         if (left.indexOf(nick) !== -1 || right.indexOf(nick) !== -1) {
-                            maxStage = 'qf';
-                            stageLabel = 'Четвертьфинал';
+                            maxStage = 'qf'; stageLabel = 'Четвертьфинал';
                         }
                     }
-
                     // Полуфинал
                     for (const mid of ['sf_w', 'sf_e']) {
                         const m = matches[mid];
@@ -398,11 +534,9 @@
                         const left = m.left || [];
                         const right = m.right || [];
                         if (left.indexOf(nick) !== -1 || right.indexOf(nick) !== -1) {
-                            maxStage = 'sf';
-                            stageLabel = 'Полуфинал';
+                            maxStage = 'sf'; stageLabel = 'Полуфинал';
                         }
                     }
-
                     // Финал
                     const finalM = matches['final'];
                     if (finalM) {
@@ -416,13 +550,8 @@
                                 const loseSide = winSide === 'left' ? 'right' : 'left';
                                 const winners = finalM[winSide] || [];
                                 const finalists = finalM[loseSide] || [];
-                                if (winners.indexOf(nick) !== -1) {
-                                    isWinner = true;
-                                    stageLabel = 'Победитель';
-                                } else if (finalists.indexOf(nick) !== -1) {
-                                    isFinalist = true;
-                                    stageLabel = 'Финалист';
-                                }
+                                if (winners.indexOf(nick) !== -1) { isWinner = true; stageLabel = 'Победитель'; }
+                                else if (finalists.indexOf(nick) !== -1) { isFinalist = true; stageLabel = 'Финалист'; }
                             }
                         }
                     }
