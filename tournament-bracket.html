@@ -1303,6 +1303,7 @@ if (myUid) {
     var updates = {};
     updates[tPath('matches/'+mid+'/winner')] = side;
        // Новая логика ветвления продвижения игроков по сетке:
+        // 1. Продвижение из 1/8 в четвертьфинал
     if (mid.startsWith('ef_')) {
       var distribution = {};
       winArr.forEach(function(p) {
@@ -1316,6 +1317,8 @@ if (myUid) {
       });
       updates[tPath('distribution/'+mid)] = distribution;
     }
+    
+    // 2. Продвижение из четвертьфинала в полуфинал
     if (mid.startsWith('qf_')) {
       var distribution = {};
       winArr.forEach(function(p) {
@@ -1329,6 +1332,22 @@ if (myUid) {
       });
       updates[tPath('distribution/'+mid)] = distribution;
     }
+
+    // 3. ДОБАВИТЬ СЮДА: Продвижение из полуфинала в ФИНАЛ
+    if (mid === 'sf_w' || mid === 'sf_e') {
+      var finDist = {};
+      winArr.forEach(function(p) {
+        var avail = finalSlots.filter(function(s) { var a = (allMatches['final']||{})[s.finalSide]||[]; return a.length < MAX_PLAYERS; });
+        if (avail.length===0) return;
+        var slot = avail[Math.floor(Math.random()*avail.length)];
+        var finArr = (allMatches['final']||{})[slot.finalSide]||[]; finArr.push(p);
+        updates[tPath('matches/final/'+slot.finalSide)] = finArr;
+        allMatches['final'] = allMatches['final']||{}; allMatches['final'][slot.finalSide] = finArr;
+        finDist[p] = { finalSide: slot.finalSide };
+      });
+      updates[tPath('distribution/'+mid)] = finDist;
+    }
+
 
     if (mid === 'final' && prizesEnabled) {
       var loseSide = side === 'left' ? 'right' : 'left';
