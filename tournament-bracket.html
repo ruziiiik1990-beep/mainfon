@@ -49,8 +49,8 @@ body::-webkit-scrollbar { display: none; }
   background-image: url('png/Tchak.jpg');
   background-size: cover; background-position: center center; background-repeat: no-repeat;
   padding: 30px 0; border-radius: 12px; position: relative; overflow: hidden;
-  max-width: 1600px; margin: 0 auto;
-}
+  max-width: 1450px; /* Ограничивает растягивание всей сетки */
+
 .tournament-wrapper::before {
   content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.5); z-index: 0;
@@ -69,7 +69,13 @@ body::-webkit-scrollbar { display: none; }
 }
 
 .bracket-row { display: flex; gap: 16px; justify-content: center; align-items: stretch; flex-wrap: wrap; }
-.bracket-col { flex: 1; min-width: 180px; max-width: 22%; display: flex; flex-direction: column; }
+.bracket-col { 
+  flex: 1; 
+  min-width: 180px;   /* Позволяет карточкам уменьшаться/сжиматься в зуме */
+  max-width: 260px;   /* СТРОГИЙ ЛИМИТ: карточки не станут шире финальной (260px) */
+  display: flex; 
+  flex-direction: column; 
+}
 .bracket-col.final-col { max-width: 260px; }
 /* Теперь абсолютно все колонки (1/8, 1/4, полуфинал и финал) центрируются по вертикали */
 .bracket-col { justify-content: center; }
@@ -81,7 +87,21 @@ body::-webkit-scrollbar { display: none; }
 
 .round-label { text-align: center; color: rgba(255,255,255,0.55); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
 
-.match { display: flex; flex-direction: column; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; margin: 0 auto 8px; width: 100%; border: 1px solid rgba(255,255,255,0.08); box-sizing: border-box; cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.15s; }
+.match { 
+  display: flex; 
+  flex-direction: column; 
+  background: rgba(0,0,0,0.55);          /* Темный фон как в финале */
+  border-radius: 12px;                   /* Округление углов финала */
+  overflow: hidden; 
+  margin: 0 auto 12px; 
+  width: 100%;                           /* Занимает максимум 260px из-за лимита колонки */
+  padding: 14px 20px;                    /* Внутренние отступы как в финале */
+  border: 2px solid rgba(255,215,0,0.4);  /* Золотая рамка финала */
+  box-sizing: border-box; 
+  cursor: pointer; 
+  transition: border-color 0.2s, background 0.2s, transform 0.15s; 
+}
+ cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.15s; }
 .match:hover { border-color: rgba(255,215,0,0.4); background: rgba(255,255,255,0.1); transform: translateY(-2px); }
 .match.is-mine { border-color: rgba(74,158,255,0.6); box-shadow: 0 0 12px rgba(74,158,255,0.4); }
 
