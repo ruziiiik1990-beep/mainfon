@@ -71,11 +71,12 @@ body::-webkit-scrollbar { display: none; }
 .bracket-row { display: flex; gap: 16px; justify-content: center; align-items: stretch; flex-wrap: wrap; }
 .bracket-col { 
   flex: 1; 
-  min-width: 180px;   /* Позволяет карточкам уменьшаться/сжиматься в зуме */
-  max-width: 260px;   /* СТРОГИЙ ЛИМИТ: карточки не станут шире финальной (260px) */
+  min-width: 120px;   /* Уменьшено со 180px: позволяет карточкам сильно сжиматься, если команд очень много */
+  max-width: 260px;   /* Потолок: карточка никогда не станет шире финальной (260px) */
   display: flex; 
   flex-direction: column; 
 }
+
 .bracket-col.final-col { max-width: 260px; }
 /* Теперь абсолютно все колонки (1/8, 1/4, полуфинал и финал) центрируются по вертикали */
 .bracket-col { justify-content: center; }
@@ -90,17 +91,27 @@ body::-webkit-scrollbar { display: none; }
 .match { 
   display: flex; 
   flex-direction: column; 
-  background: rgba(0,0,0,0.55);          /* Темный фон как в финале */
-  border-radius: 12px;                   /* Округление углов финала */
+  background: rgba(255,255,255,0.06);     /* Возвращаем оригинальный полупрозрачный фон */
+  border-radius: 8px; 
   overflow: hidden; 
   margin: 0 auto 12px; 
-  width: 100%;                           /* Занимает максимум 260px из-за лимита колонки */
-  padding: 14px 20px;                    /* Внутренние отступы как в финале */
-  border: 2px solid rgba(255,215,0,0.4);  /* Золотая рамка финала */
+  width: 100%; 
+  padding: 14px 20px;                     /* Внутренние отступы ТОЧНО КАК У ФИНАЛА для размера */
+  border: 1px solid rgba(255,255,255,0.08); /* Возвращаем оригинальную тонкую рамку */
   box-sizing: border-box; 
   cursor: pointer; 
   transition: border-color 0.2s, background 0.2s, transform 0.15s; 
 }
+.match:hover { 
+  border-color: rgba(255,215,0,0.4);      /* Оригинальная подсветка при наведении */
+  background: rgba(255,255,255,0.1); 
+  transform: translateY(-2px); 
+}
+.match.is-mine { 
+  border-color: rgba(74,158,255,0.6); 
+  box-shadow: 0 0 12px rgba(74,158,255,0.4); 
+}
+
  cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.15s; }
 .match:hover { border-color: rgba(255,215,0,0.4); background: rgba(255,255,255,0.1); transform: translateY(-2px); }
 .match.is-mine { border-color: rgba(74,158,255,0.6); box-shadow: 0 0 12px rgba(74,158,255,0.4); }
@@ -288,7 +299,16 @@ body::-webkit-scrollbar { display: none; }
 .you-badge { display: inline-block; background: rgba(74,158,255,0.3); color: #4a9eff; font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; margin-left: 4px; vertical-align: middle; }
 
 @media (max-width: 900px) {
-  .bracket-row { flex-direction: column; align-items: center; }
+  .bracket-row { 
+  display: flex; 
+  gap: 16px; 
+  justify-content: center; 
+  align-items: stretch; 
+  flex-wrap: nowrap;  /* Запрещает карточкам падать друг под друга */
+  width: 100%;
+  overflow-x: auto;   /* Если команд будет слишком много, появится аккуратная горизонтальная прокрутка */
+}
+
   .bracket-col { max-width: 100%; width: 100%; }
   .tournament-title { font-size: 22px; }
   .match { max-width: 100%; }
