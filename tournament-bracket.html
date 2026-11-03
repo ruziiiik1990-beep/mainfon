@@ -48,9 +48,11 @@ body::-webkit-scrollbar { display: none; }
 .tournament-wrapper {
   background-image: url('png/Tchak.jpg');
   background-size: cover; background-position: center center; background-repeat: no-repeat;
-  padding: 30px 0; border-radius: 12px; position: relative; overflow: hidden;
+  padding: 30px 0; border-radius: 12px; position: relative; 
+  overflow: hidden; /* Скрываем полосы прокрутки, так как сетка будет зумиться внутрь экрана */
   max-width: 1600px; margin: 0 auto;
 }
+
 .tournament-wrapper::before {
   content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.5); z-index: 0;
@@ -70,11 +72,16 @@ body::-webkit-scrollbar { display: none; }
 
 .bracket-row { 
   display: flex; 
-  gap: 20px;                  /* Расстояние между колонками (этапами) */
+  gap: 30px; 
   justify-content: center; 
   align-items: stretch; 
-  flex-wrap: nowrap;          /* Запрещаем перенос колонок на новую строку, чтобы работал зум при 200+ командах */
+  flex-wrap: nowrap; 
+  transform-origin: top center; /* Точка, от которой будет происходить уменьшение (зум) */
+  transition: transform 0.2s ease; 
+  width: max-content; /* Чтобы контейнер не сжимал колонки раньше времени */
+  margin: 0 auto;
 }
+
 
 
 .bracket-col { 
@@ -121,14 +128,12 @@ body::-webkit-scrollbar { display: none; }
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
-  /* ИСПРАВЛЕНИЕ: Устанавливаем точные отступы от краев до текста */
-  padding: 6px 14px;          /* 14px от рамки слева до семени и 14px от счета справа до рамки */
-  gap: 16px;                  /* Фиксированный зазор между концом названия команды и цифрой счета */
-  width: auto;                /* Убираем 100% растяжение */
+  padding: 8px 12px; 
   color: #fff; 
   font-size: 13px; 
   font-weight: 500; 
   transition: background 0.2s; 
+  white-space: nowrap; /* СТРОГИЙ ЗАПРЕТ: слова никогда не перенесутся вниз! */
 }
 
 
@@ -1742,6 +1747,43 @@ function downloadAndDecryptLogs(fileName) {
   window.addEventListener('resize', sendHeight);
   setInterval(sendHeight, 1000);
 })();
+   // Функция автоматического зума (масштабирования) всей сетки
+  function autoZoomTournament() {
+    var wrapper = document.getElementById('tournamentWrapper');
+    var row = document.getElementById('bracketRow');
+    if (!wrapper || !row) return;
+
+    // Сбрасываем масштаб для честного расчета
+    row.style.transform = 'scale(1)';
+    
+    var wrapperWidth = wrapper.clientWidth - 40; // Доступная ширина контейнера с учетом отступов
+    var rowWidth = row.scrollWidth; // Реальная ширина всей таблицы со всеми раундами
+
+    // Если таблица шире экрана, рассчитываем коэффициент уменьшения (зума)
+    if (rowWidth > wrapperWidth) {
+      var scale = wrapperWidth / rowWidth;
+      row.style.transform = 'scale(' + scale + ')';
+    } else {
+      row.style.transform = 'scale(1)'; // Если все помещается, оставляем оригинальный размер финала
+    }
+  }
+
+  // Запуск зума при загрузке, смене турнира и изменении размера окна
+  window.addEventListener('resize', autoZoomTournament);
+  
+  // Добавляем вызов автозума в существующие обработчики
+  var originalRenderBracket = renderBracket;
+  renderBracket = function() {
+    originalRenderBracket();
+    setTimeout(autoZoomTournament, 100); // Небольшая задержка, чтобы HTML успел построиться
+  };
+
+  var originalSwitchTournament = window.switchTournament;
+  window.switchTournament = function() {
+    originalSwitchTournament();
+    setTimeout(autoZoomTournament, 150);
+  };
+
 </script>
 <!-- Новое окно для просмотра скриншотов игрока -->
 <div id="screenshotModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center;">
