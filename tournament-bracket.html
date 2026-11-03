@@ -71,7 +71,9 @@ body::-webkit-scrollbar { display: none; }
 .bracket-row { display: flex; gap: 16px; justify-content: center; align-items: stretch; flex-wrap: wrap; }
 .bracket-col { flex: 1; min-width: 180px; max-width: 22%; display: flex; flex-direction: column; }
 .bracket-col.final-col { max-width: 260px; }
-.bracket-col.semifinal-col, .bracket-col.final-col { justify-content: center; }
+/* Теперь абсолютно все колонки (1/8, 1/4, полуфинал и финал) центрируются по вертикали */
+.bracket-col { justify-content: center; }
+
 
 .conf-label { text-align: center; font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.2); }
 .conf-label.west { color: #6fb3ff; }
