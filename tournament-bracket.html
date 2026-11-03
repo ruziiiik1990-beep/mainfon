@@ -350,8 +350,13 @@ body::-webkit-scrollbar { display: none; }
 
 <div class="tournament-create-row" id="tournamentCreateRow">
   <input type="text" id="newTournamentName" placeholder="Название нового турнира" maxlength="40">
+  <select id="newTournamentFormat" style="padding: 10px; border-radius: 8px; background: rgba(10,42,107,0.55); color: #fff; border: 1px solid rgba(255,255,255,0.2); font-family: 'Inter', sans-serif;">
+    <option value="1/4">1/4 Финала (8 команд)</option>
+    <option value="1/8">1/8 Финала (16 команд)</option>
+  </select>
   <button class="btn-create" onclick="createTournament()">Создать</button>
 </div>
+
 
 <div style="text-align:center; max-width:850px; margin:0 auto 10px; padding:0 20px;">
   <button class="btn-delete-tournament" id="btnDeleteTournament" onclick="deleteCurrentTournament()">Удалить турнир</button>
@@ -476,7 +481,7 @@ body::-webkit-scrollbar { display: none; }
   var allMatches = {};
   var tournaments = {};
   var prizesEnabled = false;
-  var qfMatchIds = ['qf_w1','qf_w2','qf_e1','qf_e2'];
+  var efMatchIds = ['ef_w1','ef_w2','ef_w3','ef_w4','ef_e1','ef_e2','ef_e3','ef_e4'];
 
    var PRIZE_SKINS_WINNER = [
     { url: 'pngwin/ak-47_poljot_zhuravlja.png', name: 'AK-47 Полёт журавля' },
@@ -539,7 +544,21 @@ var maps = [
     { url: 'png/vertigo.png', name: 'Vertigo' }
 ];
 
-  var matchOrder = ['qf_w1','qf_w2','sf_w','final','sf_e','qf_e1','qf_e2'];
+   var matchOrder = ['ef_w1','ef_w2','ef_w3','ef_w4','qf_w1','qf_w2','sf_w','final','sf_e','qf_e1','qf_e2','ef_e1','ef_e2','ef_e3','ef_e4'];
+
+  var efMatchIds = ['ef_w1','ef_w2','ef_w3','ef_w4','ef_e1','ef_e2','ef_e3','ef_e4'];
+  var qfMatchIds = ['qf_w1','qf_w2','qf_e1','qf_e2'];
+
+    var efTeams = {
+    'ef_w1': { left: 'Команда 1', right: 'Команда 2' },
+    'ef_w2': { left: 'Команда 3', right: 'Команда 4' },
+    'ef_w3': { left: 'Команда 5', right: 'Команда 6' },
+    'ef_w4': { left: 'Команда 7', right: 'Команда 8' },
+    'ef_e1': { left: 'Команда 9', right: 'Команда 10' },
+    'ef_e2': { left: 'Команда 11', right: 'Команда 12' },
+    'ef_e3': { left: 'Команда 13', right: 'Команда 14' },
+    'ef_e4': { left: 'Команда 15', right: 'Команда 16' }
+  };
 
   var qfTeams = {
     'qf_w1': { left: 'Команда A', right: 'Команда B' },
@@ -553,7 +572,12 @@ var maps = [
     'sf_e': { left: 'Команда K', right: 'Команда L' }
   };
   var finalTeamNames = { left: 'Команда M', right: 'Команда N' };
-
+var qfSlots = [
+    { qfId: 'qf_w1', qfSide: 'left' },  { qfId: 'qf_w1', qfSide: 'right' },
+    { qfId: 'qf_w2', qfSide: 'left' },  { qfId: 'qf_w2', qfSide: 'right' },
+    { qfId: 'qf_e1', qfSide: 'left' },  { qfId: 'qf_e1', qfSide: 'right' },
+    { qfId: 'qf_e2', qfSide: 'left' },  { qfId: 'qf_e2', qfSide: 'right' }
+  ];
   var sfSlots = [
     { sfId: 'sf_w', sfSide: 'left' },
     { sfId: 'sf_w', sfSide: 'right' },
@@ -689,24 +713,34 @@ if (myUid) {
     loadPrizesEnabled();
   };
 
-   window.createTournament = function() {
+     window.createTournament = function() {
     if (!isAdmin) { alert('Только админ может создавать турниры!'); return; }
     var name = document.getElementById('newTournamentName').value.trim();
+    var format = document.getElementById('newTournamentFormat').value;
     if (!name) { alert('Введите название турнира!'); return; }
     var newId = db.ref('playoff/tournaments').push().key;
+    
+    var baseMatches = {
+      qf_w1: { left: [], right: [] }, qf_w2: { left: [], right: [] },
+      qf_e1: { left: [], right: [] }, qf_e2: { left: [], right: [] },
+      sf_w:  { left: [], right: [] }, sf_e:  { left: [], right: [] },
+      final: { left: [], right: [] }
+    };
+
+    if (format === '1/8') {
+      baseMatches.ef_w1 = { left: [], right: [] }; baseMatches.ef_w2 = { left: [], right: [] };
+      baseMatches.ef_w3 = { left: [], right: [] }; baseMatches.ef_w4 = { left: [], right: [] };
+      baseMatches.ef_e1 = { left: [], right: [] }; baseMatches.ef_e2 = { left: [], right: [] };
+      baseMatches.ef_e3 = { left: [], right: [] }; baseMatches.ef_e4 = { left: [], right: [] };
+    }
+
     var data = {
       name: name,
+      format: format,
       createdAt: Date.now(),
-      matches: {
-        qf_w1: { left: [], right: [] },
-        qf_w2: { left: [], right: [] },
-        qf_e1: { left: [], right: [] },
-        qf_e2: { left: [], right: [] },
-        sf_w:  { left: [], right: [] },
-        sf_e:  { left: [], right: [] },
-        final: { left: [], right: [] }
-      }
+      matches: baseMatches
     };
+    
     db.ref('playoff/tournaments/' + newId).set(data).then(function() {
       currentTournamentId = newId;
       document.getElementById('newTournamentName').value = '';
@@ -722,6 +756,7 @@ if (myUid) {
       prizesEnabled = false;
     });
   };
+
 
   window.deleteCurrentTournament = function() {
     if (!isAdmin) return;
@@ -753,36 +788,75 @@ if (myUid) {
     });
   };
 
-  function buildBracketHtml() {
-    var html = ''
-      + '<div class="bracket-col">'
-      +   '<div class="conf-label west">\u0417\u0430\u043f\u0430\u0434</div>'
-      +   '<div class="round-label">\u0427\u0435\u0442\u0432\u0435\u0440\u0442\u044c\u0444\u0438\u043d\u0430\u043b\u044b</div>'
-      +   '<div class="match" data-match-id="qf_w1"><div class="match-row"><div class="match-team"><span class="team-seed">1</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 A</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">4</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 B</div><div class="match-score"></div></div></div>'
-      +   '<div class="match" data-match-id="qf_w2"><div class="match-row"><div class="match-team"><span class="team-seed">2</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 C</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">3</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 D</div><div class="match-score"></div></div></div>'
-      + '</div>'
-      + '<div class="bracket-col semifinal-col">'
-      +   '<div class="round-label">\u041f\u043e\u043b\u0443\u0444\u0438\u043d\u0430\u043b</div>'
-      +   '<div class="match" data-match-id="sf_w"><div class="match-row"><div class="match-team"><span class="team-seed">\u04171</span> <span class="sf-team-name">\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">\u04172</span> <span class="sf-team-name">\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...</span></div><div class="match-score"></div></div></div>'
-      + '</div>'
-      + '<div class="bracket-col final-col">'
-      +   '<div class="final-box">'
-      +     '<div class="final-title">\u0424\u0438\u043d\u0430\u043b</div>'
-      +     '<div class="match final-match" data-match-id="final"><div class="match-row"><div class="match-team"><span class="team-seed">\u0417</span> <span class="sf-team-name">\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">\u0412</span> <span class="sf-team-name">\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...</span></div><div class="match-score"></div></div></div>'
-      +   '</div>'
-      + '</div>'
-      + '<div class="bracket-col semifinal-col">'
-      +   '<div class="round-label">\u041f\u043e\u043b\u0443\u0444\u0438\u043d\u0430\u043b</div>'
-      +   '<div class="match" data-match-id="sf_e"><div class="match-row"><div class="match-team"><span class="team-seed">\u04121</span> <span class="sf-team-name">\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">\u04122</span> <span class="sf-team-name">\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...</span></div><div class="match-score"></div></div></div>'
-      + '</div>'
-      + '<div class="bracket-col">'
-      +   '<div class="conf-label east">\u0412\u043e\u0441\u0442\u043e\u043a</div>'
-      +   '<div class="round-label">\u0427\u0435\u0442\u0432\u0435\u0440\u0442\u044c\u0444\u0438\u043d\u0430\u043b\u044b</div>'
-      +   '<div class="match" data-match-id="qf_e1"><div class="match-row"><div class="match-team"><span class="team-seed">1</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 E</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">4</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 F</div><div class="match-score"></div></div></div>'
-      +   '<div class="match" data-match-id="qf_e2"><div class="match-row"><div class="match-team"><span class="team-seed">2</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 G</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">3</span> \u041a\u043e\u043c\u0430\u043d\u0434\u0430 H</div><div class="match-score"></div></div></div>'
+    function buildBracketHtml() {
+    var currentT = tournaments[currentTournamentId] || {};
+    var is18 = currentT.format === '1/8';
+    
+    var html = '';
+
+    // 1. КОЛОНКА: 1/8 Запада (если применимо)
+    if (is18) {
+      html += '<div class="bracket-col">'
+        +   '<div class="conf-label west">Запад</div>'
+        +   '<div class="round-label">1/8 финала</div>'
+        +   '<div class="match" data-match-id="ef_w1"><div class="match-row"><div class="match-team"><span class="team-seed">1</span> Команда 1</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">8</span> Команда 2</div><div class="match-score"></div></div></div>'
+        +   '<div class="match" data-match-id="ef_w2"><div class="match-row"><div class="match-team"><span class="team-seed">4</span> Команда 3</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">5</span> Команда 4</div><div class="match-score"></div></div></div>'
+        +   '<div class="match" data-match-id="ef_w3"><div class="match-row"><div class="match-team"><span class="team-seed">2</span> Команда 5</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">7</span> Команда 6</div><div class="match-score"></div></div></div>'
+        +   '<div class="match" data-match-id="ef_w4"><div class="match-row"><div class="match-team"><span class="team-seed">3</span> Команда 7</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">6</span> Команда 8</div><div class="match-score"></div></div></div>'
+        + '</div>';
+    }
+
+    // 2. КОЛОНКА: Четвертьфиналы Запада
+    html += '<div class="bracket-col">'
+      +   (!is18 ? '<div class="conf-label west">Запад</div>' : '')
+      +   '<div class="round-label">Четвертьфиналы</div>'
+      +   '<div class="match" data-match-id="qf_w1"><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '1') + '</span> <span class="qf-team-name">Команда A</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '4') + '</span> <span class="qf-team-name">Команда B</span></div><div class="match-score"></div></div></div>'
+      +   '<div class="match" data-match-id="qf_w2"><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '2') + '</span> <span class="qf-team-name">Команда C</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '3') + '</span> <span class="qf-team-name">Команда D</span></div><div class="match-score"></div></div></div>'
       + '</div>';
+
+    // 3. КОЛОНКА: Полуфинал Запада
+    html += '<div class="bracket-col semifinal-col">'
+      +   '<div class="round-label">Полуфинал</div>'
+      +   '<div class="match" data-match-id="sf_w"><div class="match-row"><div class="match-team"><span class="team-seed">З1</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">З2</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div></div>'
+      + '</div>';
+
+    // 4. КОЛОНКА: Финал
+    html += '<div class="bracket-col final-col">'
+      +   '<div class="final-box">'
+      +     '<div class="final-title">Финал</div>'
+      +     '<div class="match final-match" data-match-id="final"><div class="match-row"><div class="match-team"><span class="team-seed">З</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">В</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div></div>'
+      +   '</div>'
+      + '</div>';
+
+    // 5. КОЛОНКА: Полуфинал Востока
+    html += '<div class="bracket-col semifinal-col">'
+      +   '<div class="round-label">Полуфинал</div>'
+      +   '<div class="match" data-match-id="sf_e"><div class="match-row"><div class="match-team"><span class="team-seed">В1</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">В2</span> <span class="sf-team-name">Ожидание...</span></div><div class="match-score"></div></div></div>'
+      + '</div>';
+
+    // 6. КОЛОНКА: Четвертьфиналы Востока
+    html += '<div class="bracket-col">'
+      +   (!is18 ? '<div class="conf-label east">Восток</div>' : '')
+      +   '<div class="round-label">Четвертьфиналы</div>'
+      +   '<div class="match" data-match-id="qf_e1"><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '1') + '</span> <span class="qf-team-name">Команда E</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '4') + '</span> <span class="qf-team-name">Команда F</span></div><div class="match-score"></div></div></div>'
+      +   '<div class="match" data-match-id="qf_e2"><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '2') + '</span> <span class="qf-team-name">Команда G</span></div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">' + (is18 ? '¼' : '3') + '</span> <span class="qf-team-name">Команда H</span></div><div class="match-score"></div></div></div>'
+      + '</div>';
+
+    // 7. КОЛОНКА: 1/8 Востока (если применимо)
+    if (is18) {
+      html += '<div class="bracket-col">'
+        +   '<div class="conf-label east">Восток</div>'
+        +   '<div class="round-label">1/8 финала</div>'
+        +   '<div class="match" data-match-id="ef_e1"><div class="match-row"><div class="match-team"><span class="team-seed">1</span> Команда 9</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">8</span> Команда 10</div><div class="match-score"></div></div></div>'
+        +   '<div class="match" data-match-id="ef_e2"><div class="match-row"><div class="match-team"><span class="team-seed">4</span> Команда 11</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">5</span> Команда 12</div><div class="match-score"></div></div></div>'
+        +   '<div class="match" data-match-id="ef_e3"><div class="match-row"><div class="match-team"><span class="team-seed">2</span> Команда 13</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">7</span> Команда 14</div><div class="match-score"></div></div></div>'
+        +   '<div class="match" data-match-id="ef_e4"><div class="match-row"><div class="match-team"><span class="team-seed">3</span> Команда 15</div><div class="match-score"></div></div><div class="match-divider"></div><div class="match-row"><div class="match-team"><span class="team-seed">6</span> Команда 16</div><div class="match-score"></div></div></div>'
+        + '</div>';
+    }
+
     document.getElementById('bracketRow').innerHTML = html;
   }
+
 
   function attachMatchListeners() {
     document.querySelectorAll('.match').forEach(function(m) {
@@ -905,9 +979,11 @@ if (myUid) {
     else { inputArea.style.display = 'none'; guestBlock.style.display = ''; }
   }
 
-  function hasQfSpace() {
-    for (var i = 0; i < qfMatchIds.length; i++) {
-      var mid = qfMatchIds[i];
+   function hasQfSpace() {
+    var currentT = tournaments[currentTournamentId] || {};
+    var targetMatchIds = currentT.format === '1/8' ? efMatchIds : qfMatchIds;
+    for (var i = 0; i < targetMatchIds.length; i++) {
+      var mid = targetMatchIds[i];
       var m = allMatches[mid] || {};
       var l = m.left || [], r = m.right || [];
       if (l.length < MAX_PLAYERS || r.length < MAX_PLAYERS) return true;
@@ -924,16 +1000,19 @@ if (myUid) {
     s.innerHTML = '<button class="btn-join" onclick="joinTournament()">\u0423\u0447\u0430\u0441\u0442\u0432\u043e\u0432\u0430\u0442\u044c</button>';
   }
 
-  window.joinTournament = function() {
-    if (!isLoggedIn()) { alert('\u0412\u043e\u0439\u0434\u0438\u0442\u0435 \u043d\u0430 \u0441\u0430\u0439\u0442, \u0447\u0442\u043e\u0431\u044b \u0443\u0447\u0430\u0441\u0442\u0432\u043e\u0432\u0430\u0442\u044c \u0432 \u0442\u0443\u0440\u043d\u0438\u0440\u0435!'); return; }
+   window.joinTournament = function() {
+    if (!isLoggedIn()) { alert('Войдите на сайт, чтобы участвовать в турнире!'); return; }
+    var currentT = tournaments[currentTournamentId] || {};
+    var targetMatchIds = currentT.format === '1/8' ? efMatchIds : qfMatchIds;
+    
     var candidates = []; var sides = ['left','right'];
-    qfMatchIds.forEach(function(mid) {
+    targetMatchIds.forEach(function(mid) {
       sides.forEach(function(side) {
         var m = allMatches[mid] || {}; var arr = m[side] || [];
         if (arr.length < MAX_PLAYERS) candidates.push({ matchId: mid, side: side });
       });
     });
-    if (candidates.length === 0) { alert('\u0412\u0441\u0435 \u043a\u043e\u043c\u0430\u043d\u0434\u044b \u0447\u0435\u0442\u0432\u0435\u0440\u0442\u044c\u0444\u0438\u043d\u0430\u043b\u0430 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u044b!'); return; }
+    if (candidates.length === 0) { alert('Все команды начального раунда заполнены!'); return; }
     var pick = candidates[Math.floor(Math.random() * candidates.length)];
     var arr = (allMatches[pick.matchId] || {})[pick.side] || [];
     arr.push(myNick);
@@ -945,7 +1024,10 @@ if (myUid) {
     });
   };
 
-  function renderBracket() {
+    function renderBracket() {
+    var currentT = tournaments[currentTournamentId] || {};
+    var is18 = currentT.format === '1/8';
+
     matchOrder.forEach(function(mid) {
       var el = document.querySelector('[data-match-id="' + mid + '"]'); if (!el) return;
       var m = allMatches[mid] || {};
@@ -953,15 +1035,28 @@ if (myUid) {
       var rows = el.querySelectorAll('.match-row');
       var lne = rows[0].querySelector('.match-team'), rne = rows[1].querySelector('.match-team');
       var lse = rows[0].querySelector('.match-score'), rse = rows[1].querySelector('.match-score');
-      if (mid.startsWith('qf_')) {
-        var teams = qfTeams[mid];
+      
+      if (mid.startsWith('ef_')) {
+        var teams = efTeams[mid];
         lne.innerHTML = '<span class="team-seed">' + (rows[0].querySelector('.team-seed') ? rows[0].querySelector('.team-seed').textContent : '') + '</span> ' + teams.left;
         rne.innerHTML = '<span class="team-seed">' + (rows[1].querySelector('.team-seed') ? rows[1].querySelector('.team-seed').textContent : '') + '</span> ' + teams.right;
+      } else if (mid.startsWith('qf_')) {
+        var teams = qfTeams[mid];
+        if (is18) {
+          var sqfL = lne.querySelector('.qf-team-name'), sqfR = rne.querySelector('.qf-team-name');
+          if (sqfL && sqfR) {
+            sqfL.textContent = left.length > 0 ? teams.left : 'Ожидание...';
+            sqfR.textContent = right.length > 0 ? teams.right : 'Ожидание...';
+          }
+        } else {
+          lne.innerHTML = '<span class="team-seed">¼</span> ' + teams.left;
+          rne.innerHTML = '<span class="team-seed">¼</span> ' + teams.right;
+        }
       } else {
         var sl = lne.querySelector('.sf-team-name'), sr = rne.querySelector('.sf-team-name');
         if (sl && sr) {
-          if (mid === 'sf_w' || mid === 'sf_e') { var names = sfTeamNames[mid] || {left:'?',right:'?'}; sl.textContent = left.length>0?names.left:'\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...'; sr.textContent = right.length>0?names.right:'\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...'; }
-          else if (mid === 'final') { sl.textContent = left.length>0?finalTeamNames.left:'\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...'; sr.textContent = right.length>0?finalTeamNames.right:'\u041e\u0436\u0438\u0434\u0430\u043d\u0438\u0435...'; }
+          if (mid === 'sf_w' || mid === 'sf_e') { var names = sfTeamNames[mid] || {left:'?',right:'?'}; sl.textContent = left.length>0?names.left:'Ожидание...'; sr.textContent = right.length>0?names.right:'Ожидание...'; }
+          else if (mid === 'final') { sl.textContent = left.length>0?finalTeamNames.left:'Ожидание...'; sr.textContent = right.length>0?finalTeamNames.right:'Ожидание...'; }
         }
       }
       lse.textContent=''; rse.textContent='';
@@ -974,6 +1069,7 @@ if (myUid) {
       if (myNick && (left.indexOf(myNick)!==-1 || right.indexOf(myNick)!==-1)) el.classList.add('is-mine');
     });
   }
+
 
   function syncMap(mid, m) {
     var bothFull = isTeamFull(m.left) && isTeamFull(m.right);
@@ -1204,6 +1300,20 @@ if (myUid) {
     var winArr = m[side]||[];
     var updates = {};
     updates[tPath('matches/'+mid+'/winner')] = side;
+       // Новая логика ветвления продвижения игроков по сетке:
+    if (mid.startsWith('ef_')) {
+      var distribution = {};
+      winArr.forEach(function(p) {
+        var avail = qfSlots.filter(function(s) { var a = (allMatches[s.qfId]||{})[s.qfSide]||[]; return a.length < MAX_PLAYERS; });
+        if (avail.length===0) return;
+        var slot = avail[Math.floor(Math.random()*avail.length)];
+        var qfArr = (allMatches[slot.qfId]||{})[slot.qfSide]||[]; qfArr.push(p);
+        updates[tPath('matches/'+slot.qfId+'/'+slot.qfSide)] = qfArr;
+        allMatches[slot.qfId] = allMatches[slot.qfId]||{}; allMatches[slot.qfId][slot.qfSide] = qfArr;
+        distribution[p] = { qfId: slot.qfId, qfSide: slot.qfSide };
+      });
+      updates[tPath('distribution/'+mid)] = distribution;
+    }
     if (mid.startsWith('qf_')) {
       var distribution = {};
       winArr.forEach(function(p) {
@@ -1217,19 +1327,7 @@ if (myUid) {
       });
       updates[tPath('distribution/'+mid)] = distribution;
     }
-    if (mid==='sf_w'||mid==='sf_e') {
-      var finDist = {};
-      winArr.forEach(function(p) {
-        var avail = finalSlots.filter(function(s) { var a = (allMatches['final']||{})[s.finalSide]||[]; return a.length < MAX_PLAYERS; });
-        if (avail.length===0) return;
-        var slot = avail[Math.floor(Math.random()*avail.length)];
-        var finArr = (allMatches['final']||{})[slot.finalSide]||[]; finArr.push(p);
-        updates[tPath('matches/final/'+slot.finalSide)] = finArr;
-        allMatches['final'] = allMatches['final']||{}; allMatches['final'][slot.finalSide] = finArr;
-        finDist[p] = { finalSide: slot.finalSide };
-      });
-      updates[tPath('distribution/'+mid)] = finDist;
-    }
+
     if (mid === 'final' && prizesEnabled) {
       var loseSide = side === 'left' ? 'right' : 'left';
       var winners = m[side] || [];
@@ -1273,16 +1371,16 @@ if (myUid) {
       db.ref(tPath('finalResult')).remove();
       updates[tPath('matches/final/prizes')] = null;
     }
-    if (mid.startsWith('qf_')) {
+        if (mid.startsWith('ef_')) {
       db.ref(tPath('distribution/'+mid)).once('value').then(function(snap) {
-        var dist = snap.val()||{}; var sfToRemove = {};
-        Object.keys(dist).forEach(function(p) { var d = dist[p]; var key = d.sfId+'/'+d.sfSide; if (!sfToRemove[key]) sfToRemove[key]=[]; sfToRemove[key].push(p); });
-        Object.keys(sfToRemove).forEach(function(key) {
-          var parts = key.split('/'); var sfId=parts[0], sfSide=parts[1];
-          var arr = (allMatches[sfId]||{})[sfSide]||[];
-          sfToRemove[key].forEach(function(p) { var idx = arr.indexOf(p); if (idx!==-1) arr.splice(idx,1); });
+        var dist = snap.val()||{}; var qfToRemove = {};
+        Object.keys(dist).forEach(function(p) { var d = dist[p]; var key = d.qfId+'/'+d.qfSide; if (!qfToRemove[key]) qfToRemove[key]=[]; qfToRemove[key].push(p); });
+        Object.keys(qfToRemove).forEach(function(key) {
+          var parts = key.split('/'); var qfId=parts[0], qfSide=parts[1];
+          var arr = (allMatches[qfId]||{})[qfSide]||[];
+          qfToRemove[key].forEach(function(p) { var idx = arr.indexOf(p); if (idx!==-1) arr.splice(idx,1); });
           updates[tPath('matches/'+key)] = arr;
-          allMatches[sfId] = allMatches[sfId]||{}; allMatches[sfId][sfSide] = arr;
+          allMatches[qfId] = allMatches[qfId]||{}; allMatches[qfId][qfSide] = arr;
         });
         updates[tPath('distribution/'+mid)] = null;
         db.ref().update(updates).then(function() {
@@ -1291,6 +1389,7 @@ if (myUid) {
       });
       return;
     }
+
     if (mid==='sf_w'||mid==='sf_e') {
       db.ref(tPath('distribution/'+mid)).once('value').then(function(snap) {
         var dist = snap.val()||{}; var finToRemove = {};
