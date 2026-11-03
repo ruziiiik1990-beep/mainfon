@@ -68,11 +68,25 @@ body::-webkit-scrollbar { display: none; }
   padding: 60px 20px; max-width: 600px; margin: 0 auto;
 }
 
-.bracket-row { display: flex; gap: 16px; justify-content: center; align-items: stretch; flex-wrap: wrap; }
-.bracket-col { flex: 1; min-width: 180px; max-width: 22%; display: flex; flex-direction: column; }
-.bracket-col.final-col { max-width: 260px; }
-/* Теперь абсолютно все колонки (1/8, 1/4, полуфинал и финал) центрируются по вертикали */
-.bracket-col { justify-content: center; }
+.bracket-row { 
+  display: flex; 
+  gap: 24px;                  /* Красивый отступ между этапами турнира */
+  justify-content: center; 
+  align-items: stretch; 
+  flex-wrap: nowrap;          /* Запрещаем перенос колонок вниз при любом масштабе */
+}
+
+.bracket-col { 
+  flex: 0 0 auto;             /* Колонка не растягивается насильно */
+  width: max-content;         /* Ширина раунда зависит от ширины самой длинной карточки в нем */
+  min-width: 160px; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center;    /* Центрирование по вертикали */
+}
+/* final-col больше не должна принудительно ограничивать ширину финала */
+.bracket-col.final-col { width: max-content; } 
+
 
 
 .conf-label { text-align: center; font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.2); }
@@ -81,11 +95,38 @@ body::-webkit-scrollbar { display: none; }
 
 .round-label { text-align: center; color: rgba(255,255,255,0.55); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
 
-.match { display: flex; flex-direction: column; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; margin: 0 auto 8px; width: 100%; border: 1px solid rgba(255,255,255,0.08); box-sizing: border-box; cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.15s; }
+.match { 
+  display: flex; 
+  flex-direction: column; 
+  background: rgba(255,255,255,0.06); 
+  border-radius: 6px; 
+  overflow: hidden; 
+  margin: 0 auto 8px; 
+  /* Изменения тут: */
+  width: max-content;         /* Карточка сжимается ровно по длине текста */
+  min-width: 160px;           /* Минимальный размер, чтобы пустая карточка не была слишком узкой */
+  max-width: 100%;            /* Защита от выхода за пределы экрана */
+  border: 1px solid rgba(255,255,255,0.08); 
+  box-sizing: border-box; 
+  cursor: pointer; 
+  transition: border-color 0.2s, background 0.2s, transform 0.15s; 
+}
 .match:hover { border-color: rgba(255,215,0,0.4); background: rgba(255,255,255,0.1); transform: translateY(-2px); }
 .match.is-mine { border-color: rgba(74,158,255,0.6); box-shadow: 0 0 12px rgba(74,158,255,0.4); }
 
-.match-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; color: #fff; font-size: 13px; font-weight: 500; transition: background 0.2s; }
+.match-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  /* Изменения тут: */
+  padding: 8px 16px;          /* Одинаковый фиксированный отступ слева и справа (16px) до текста */
+  gap: 20px;                  /* Свободное пространство между текстом и цифрами счета */
+  color: #fff; 
+  font-size: 13px; 
+  font-weight: 500; 
+  transition: background 0.2s; 
+}
+
 .match-row.winner { background: rgba(76,175,80,0.3); font-weight: 700; }
 .match-row.winner::after { content: '\2713'; color: #66bb6a; margin-left: 6px; }
 .match-row.is-mine-row { background: rgba(74,158,255,0.2); }
