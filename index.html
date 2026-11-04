@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* ============================================================
+           ПЕРЕМЕННЫЕ — дословно из CodePen
+           ============================================================ */
         :root {
             --pointer-x: 50%;
             --pointer-y: 50%;
@@ -45,7 +48,7 @@
             --card-radius: 6.55% / 4.75%;
         }
 
-        /* ==== базовые стили страницы ==== */
+        /* ==== страница (не из CodePen) ==== */
         .bg-image {
             position: absolute;
             top: 0;
@@ -79,7 +82,7 @@
             border-radius: 16px;
         }
         .promo-card.slide-3 {
-            perspective: 1000px;
+            perspective: 1000px;   /* как main { perspective: 1000px } в CodePen */
         }
         .slide-inner-frame-bg {
             position: absolute;
@@ -158,13 +161,16 @@
         .slide-arrow-next { right: 20px; }
 
         /* ============================================================
-           КАРТОЧКА (оригинальная структура, но фон .inside прозрачный)
+           КАРТОЧКА — дословно из CodePen, кроме двух правок:
+           1) .inside background-color: transparent (было чёрное)
+           2) .card__shine без mask-image (внешний URL не грузится)
            ============================================================ */
         .card-wrapper {
             perspective: 500px;
             transform: translate3d( 0, 0, 0.1px);
             position: relative;
             touch-action: none;
+            /* адаптация размеров под таблицу */
             width: 100%;
             max-width: 900px;
             height: 340px;
@@ -204,6 +210,7 @@
         }
 
         #card {
+            /* убрал height: 80svh / aspect-ratio — адаптировал под горизонтальную таблицу */
             height: 100%;
             display: grid;
             border-radius: var(--card-radius);
@@ -232,15 +239,20 @@
             transition: none;
             transform: translate3d(0,0,0.1px) rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
         }
+
+        /* ВАЖНО: оригинальный #card * заменён на прямых потомков .inside,
+           чтобы grid-area не ломал структуру таблицы */
         #card > .inside > .card__shine,
         #card > .inside > .card__glare,
         #card > .inside > .card__content {
+            display: grid;
+            grid-area: 1 / -1;
             border-radius: var(--card-radius);
             transform: translate3d(0px, 0px, 0.1px);
             pointer-events: none;
         }
 
-        /* ==== ВАЖНО: фон .inside теперь ПРОЗРАЧНЫЙ (было rgb(0 0 0 / 90%)) ==== */
+        /* Правка 1: фон ПРОЗРАЧНЫЙ (было rgb(0 0 0 / 90%)) */
         #card .inside {
             inset: 1px;
             position: absolute;
@@ -251,7 +263,7 @@
             overflow: hidden;
         }
 
-        /* ==== shine: убрана mask-image (внешний URL с CodePen), усилен filter ==== */
+        /* Правка 2: убран mask-image, поднята видимость (было filter brightness(.66) opacity(.5)) */
         .card__shine {
             transition: filter .6s ease;
             filter: brightness(1) contrast(1.33) saturate(1) opacity(0.9);
@@ -370,8 +382,9 @@
                 background-position, background-blend-mode, filter, box-shadow;
         }
 
+        /* card__content — адаптирован под таблицу (был grid 2fr/1fr для аватара+details) */
         .card__content {
-            padding: 16px 20px;
+            padding: 14px 18px;
             max-height: 100%;
             overflow: hidden;
             text-align: center;
@@ -389,41 +402,38 @@
             0% { --bgrotate: 0deg; }
             100% { --bgrotate: 360deg; }
         }
-
         @keyframes holo-bg {
             0% { background-position: 0% var(--background-y), 0% 0%, center center; }
             100% { background-position: 0% var(--background-y), 90% 90%, center center; }
         }
 
         /* ============================================================
-           ТАБЛИЦА (фон ячеек полупрозрачный, чтобы shine просвечивал)
+           ТАБЛИЦА (как в rank.html, но статичная)
            ============================================================ */
         .rating-title {
             color: #d6e7ff;
             font-size: 14px;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            text-align: center;
             text-shadow:
                 0 1px 3px rgba(0, 0, 0, 1),
                 0 0 14px rgba(74, 158, 255, 0.6);
         }
         .rating-scroll {
-            max-height: 200px;
-            overflow-y: auto;
-            border-radius: 8px;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(74, 158, 255, 0.6) rgba(10, 42, 107, 0.2);
+            overflow: visible;
         }
-        .rating-scroll::-webkit-scrollbar { width: 8px; }
-        .rating-scroll::-webkit-scrollbar-track { background: rgba(10, 42, 107, 0.2); border-radius: 4px; }
-        .rating-scroll::-webkit-scrollbar-thumb { background: rgba(74, 158, 255, 0.6); border-radius: 4px; }
 
-        .rating-table { width: 100%; border-collapse: collapse; color: #fff; table-layout: fixed; }
-        /* ==== ЯЧЕЙКИ: фон с 0.35 → 0.15, чтобы shine просвечивал ==== */
-        .rating-table th, .rating-table td {
+        .rating-table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #fff;
+            table-layout: fixed;
+        }
+        /* ячейки полупрозрачные — чтобы shine просвечивал */
+        .rating-table th,
+        .rating-table td {
             padding: 0;
             border-bottom: 1px solid rgba(140, 190, 255, 0.22);
             text-align: center;
@@ -432,21 +442,23 @@
             white-space: nowrap;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 0.8);
         }
-        .cell-content { display: block; padding: 4px 12px; text-align: center; }
+        .cell-content {
+            display: block;
+            padding: 5px 12px;
+        }
         .rating-table th {
             font-weight: 700;
             color: rgba(255, 255, 255, 0.98);
             text-transform: uppercase;
             font-size: 11px;
             letter-spacing: 0.5px;
-            position: sticky;
-            top: 0;
-            z-index: 2;
             background: rgba(10, 42, 107, 0.35);
         }
-        .rating-table tbody tr:last-child td { border-bottom: none; }
+        .rating-table tbody tr:last-child td {
+            border-bottom: none;
+        }
 
-        .pos-cell { width: 36px; font-weight: 800; font-size: 13px; color: rgba(255, 255, 255, 0.7); }
+        .pos-cell { width: 40px; font-weight: 800; font-size: 13px; color: rgba(255, 255, 255, 0.7); }
         .pos-cell.first { color: #ffd700; font-size: 14px; text-shadow: 0 0 10px rgba(255,215,0,0.55), 0 1px 3px #000; }
         .pos-cell.second { color: #e0e0e0; font-size: 13px; text-shadow: 0 0 8px rgba(220,220,220,0.4), 0 1px 3px #000; }
         .pos-cell.third { color: #e0a060; font-size: 13px; text-shadow: 0 0 8px rgba(205,127,50,0.4), 0 1px 3px #000; }
@@ -456,17 +468,17 @@
         .name-cell.second { color: #e5e5e5; font-weight: 800; text-shadow: 0 0 8px rgba(220,220,220,0.4), 0 1px 3px #000; }
         .name-cell.third { color: #e0a060; font-weight: 800; text-shadow: 0 0 8px rgba(205,127,50,0.4), 0 1px 3px #000; }
 
-        .champ-cell { width: 70px; font-weight: 700; font-size: 12px; }
+        .champ-cell { width: 90px; font-weight: 700; font-size: 12px; }
         .champ-cell.first { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5), 0 1px 3px #000; }
         .champ-cell.second { color: #e0e0e0; text-shadow: 0 0 8px rgba(220,220,220,0.4), 0 1px 3px #000; }
         .champ-cell.third { color: #e0a060; text-shadow: 0 0 8px rgba(205,127,50,0.4), 0 1px 3px #000; }
 
-        .finalist-cell { width: 70px; font-weight: 700; font-size: 12px; }
+        .finalist-cell { width: 90px; font-weight: 700; font-size: 12px; }
         .finalist-cell.first { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5), 0 1px 3px #000; }
         .finalist-cell.second { color: #e0e0e0; text-shadow: 0 0 8px rgba(220,220,220,0.4), 0 1px 3px #000; }
         .finalist-cell.third { color: #e0a060; text-shadow: 0 0 8px rgba(205,127,50,0.4), 0 1px 3px #000; }
 
-        .points-cell { width: 80px; font-weight: 700; color: #ffd700; font-size: 14px; text-shadow: 0 0 10px rgba(255,215,0,0.55), 0 1px 3px #000; }
+        .points-cell { width: 100px; font-weight: 700; color: #ffd700; font-size: 14px; text-shadow: 0 0 10px rgba(255,215,0,0.55), 0 1px 3px #000; }
         .points-cell.zero { color: rgba(255, 215, 0, 0.35); font-size: 12px; text-shadow: 0 1px 3px #000; }
 
         .rating-note {
@@ -525,7 +537,7 @@
                         <button class="slide-arrow slide-arrow-next swiper-btn-next">&#8250;</button>
                     </div>
                     
-                    <!-- СЛАЙД 3 -->
+                    <!-- СЛАЙД 3: структура CodePen + наша таблица -->
                     <div class="swiper-slide promo-card slide-3">
                         <div class="promo-card-inner">
                             <div class="promo-card-content">
@@ -534,6 +546,7 @@
                             </div>
                         </div>
 
+                        <!-- Оригинальная структура CodePen -->
                         <div class="card-wrapper active">
                             <section id="card" class="active">
                                 <div class="inside">
@@ -633,6 +646,9 @@
         });
     </script>
 
+    <!-- ============================================================
+         JS — дословно из CodePen
+         ============================================================ -->
     <script>
     (function() {
         const $wrap = document.querySelector(".card-wrapper");
