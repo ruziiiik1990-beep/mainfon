@@ -12,9 +12,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ============================================================
-           ОРИГИНАЛЬНЫЕ ПЕРЕМЕННЫЕ ИЗ CODEPEN (файл 2)
-           ============================================================ */
         :root {
             --pointer-x: 50%;
             --pointer-y: 50%;
@@ -48,7 +45,7 @@
             --card-radius: 6.55% / 4.75%;
         }
 
-        /* ==== базовые стили страницы (не из CodePen) ==== */
+        /* ==== базовые стили страницы ==== */
         .bg-image {
             position: absolute;
             top: 0;
@@ -81,7 +78,6 @@
             min-height: 520px;
             border-radius: 16px;
         }
-        /* как main { perspective: 1000px; } в оригинале */
         .promo-card.slide-3 {
             perspective: 1000px;
         }
@@ -162,15 +158,13 @@
         .slide-arrow-next { right: 20px; }
 
         /* ============================================================
-           ОРИГИНАЛЬНЫЕ СТИЛИ КАРТОЧКИ (файл 2, дословно)
+           КАРТОЧКА (оригинальная структура, но фон .inside прозрачный)
            ============================================================ */
         .card-wrapper {
             perspective: 500px;
             transform: translate3d( 0, 0, 0.1px);
             position: relative;
             touch-action: none;
-
-            /* ==== адаптация размеров под таблицу ==== */
             width: 100%;
             max-width: 900px;
             height: 340px;
@@ -210,10 +204,8 @@
         }
 
         #card {
-            /* убрал height: 80svh и max-height — заменил на 100% под адаптацию */
             height: 100%;
             display: grid;
-            /* убрал aspect-ratio: 0.718 — таблица горизонтальная */
             border-radius: var(--card-radius);
             position: relative;
             background-blend-mode: color-dodge, normal, normal, normal, normal;
@@ -240,7 +232,6 @@
             transition: none;
             transform: translate3d(0,0,0.1px) rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
         }
-        /* ограничил селектор только прямыми слоями карточки, чтобы содержимое таблицы не ломалось */
         #card > .inside > .card__shine,
         #card > .inside > .card__glare,
         #card > .inside > .card__content {
@@ -249,25 +240,21 @@
             pointer-events: none;
         }
 
+        /* ==== ВАЖНО: фон .inside теперь ПРОЗРАЧНЫЙ (было rgb(0 0 0 / 90%)) ==== */
         #card .inside {
             inset: 1px;
             position: absolute;
             background-image: linear-gradient(145deg, #60496e8c 0%, #71C4FF44 100%);
-            background-color: rgb(0 0 0 / 90%);
+            background-color: transparent;
             transform: translate3d(0px, 0px, 0.01px);
             border-radius: var(--card-radius);
             overflow: hidden;
         }
 
-        /* ==== shine + ::after — дословно из файла 2 ==== */
+        /* ==== shine: убрана mask-image (внешний URL с CodePen), усилен filter ==== */
         .card__shine {
-            mask-image: var(--metafy);
-            mask-mode: luminance;
-            mask-repeat: repeat;
-            mask-size: 150%;
-            mask-position: top calc(200% - (var(--background-y) * 5)) left calc((100% - var(--background-x)));
             transition: filter .6s ease;
-            filter: brightness(.66) contrast(1.33) saturate(.33) opacity(0.5);
+            filter: brightness(1) contrast(1.33) saturate(1) opacity(0.9);
             animation: holo-bg 18s linear infinite;
             mix-blend-mode: color-dodge;
         }
@@ -327,7 +314,7 @@
 
         #card:hover .card__shine,
         #card.active .card__shine {
-            filter: brightness(.85) contrast(1.5) saturate(.5);
+            filter: brightness(1) contrast(1.5) saturate(1);
             animation: none;
         }
         #card:hover .card__shine::before,
@@ -378,13 +365,11 @@
         }
 
         .card__shine,
-        .card__glare,
-        .avatar {
+        .card__glare {
             will-change: transform, opacity, background-image, background-size,
                 background-position, background-blend-mode, filter, box-shadow;
         }
 
-        /* ==== card__content: адаптирован под таблицу (был для аватара и details) ==== */
         .card__content {
             padding: 16px 20px;
             max-height: 100%;
@@ -411,7 +396,7 @@
         }
 
         /* ============================================================
-           ТАБЛИЦА — только оформление, без изменения анимации
+           ТАБЛИЦА (фон ячеек полупрозрачный, чтобы shine просвечивал)
            ============================================================ */
         .rating-title {
             color: #d6e7ff;
@@ -437,12 +422,13 @@
         .rating-scroll::-webkit-scrollbar-thumb { background: rgba(74, 158, 255, 0.6); border-radius: 4px; }
 
         .rating-table { width: 100%; border-collapse: collapse; color: #fff; table-layout: fixed; }
+        /* ==== ЯЧЕЙКИ: фон с 0.35 → 0.15, чтобы shine просвечивал ==== */
         .rating-table th, .rating-table td {
             padding: 0;
             border-bottom: 1px solid rgba(140, 190, 255, 0.22);
             text-align: center;
             vertical-align: middle;
-            background: rgba(10, 42, 107, 0.35);
+            background: rgba(10, 42, 107, 0.15);
             white-space: nowrap;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 0.8);
         }
@@ -456,7 +442,7 @@
             position: sticky;
             top: 0;
             z-index: 2;
-            background: rgba(10, 42, 107, 0.75);
+            background: rgba(10, 42, 107, 0.35);
         }
         .rating-table tbody tr:last-child td { border-bottom: none; }
 
@@ -539,7 +525,7 @@
                         <button class="slide-arrow slide-arrow-next swiper-btn-next">&#8250;</button>
                     </div>
                     
-                    <!-- СЛАЙД 3: оригинальная карточка CodePen + наша таблица -->
+                    <!-- СЛАЙД 3 -->
                     <div class="swiper-slide promo-card slide-3">
                         <div class="promo-card-inner">
                             <div class="promo-card-content">
@@ -548,7 +534,6 @@
                             </div>
                         </div>
 
-                        <!-- Оригинальная структура из CodePen: card-wrapper > #card > inside > shine + glare + card__content -->
                         <div class="card-wrapper active">
                             <section id="card" class="active">
                                 <div class="inside">
@@ -648,9 +633,6 @@
         });
     </script>
 
-    <!-- ============================================================
-         ОРИГИНАЛЬНЫЙ JS ИЗ CODEPEN (файл 3, дословно)
-         ============================================================ -->
     <script>
     (function() {
         const $wrap = document.querySelector(".card-wrapper");
