@@ -44,14 +44,18 @@
         
         .profile-intro, .profile-body { padding: 0 24px; }
 
+        /* Профиль-шапка: карточка по центру, ник и ранг ВНУТРИ неё */
         .profile-head {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            padding: 30px 0;
+            text-align: center;
+            padding: 40px 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            gap: 0;
         }
 
-        /* ====== ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА (прямоугольная, как в оригинале) ====== */
+        /* ====== ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА (прямоугольная, +40%, по центру) ====== */
         :root {
             --pointer-x: 50%;
             --pointer-y: 50%;
@@ -79,15 +83,13 @@
             --sunpillar-clr-6: var(--sunpillar-6);
         }
 
-        /* Обёртка: прямоугольник с оригинальными пропорциями и скруглением */
         .profile-photo {
-            width: 130px;
-            aspect-ratio: 0.718;               /* как в оригинале */
-            border-radius: 6.55% / 4.75%;      /* как в оригинале (--card-radius) */
-            margin-right: 22px;
-            flex-shrink: 0;
+            width: 182px;                       /* +40% от 130 */
+            aspect-ratio: 0.718;                /* пропорции оригинала => высота ~254px */
+            border-radius: 6.55% / 4.75%;       /* --card-radius, как в оригинале */
             position: relative;
-            overflow: visible;
+            margin: 0 auto;                     /* центр в профиле */
+            flex-shrink: 0;
             box-sizing: border-box;
             --card-radius: 6.55% / 4.75%;
         }
@@ -166,22 +168,31 @@
             --card-opacity: 1;
         }
         .profile-photo #card * {
-            display: grid;
-            grid-area: 1 / -1;
             border-radius: var(--card-radius);
-            transform: translate3d(0px, 0px, 0.1px);
             pointer-events: none;
         }
 
+        /* Внутренняя раскладка: логотип сверху, ник+ранг снизу */
         .profile-photo #card .inside {
             inset: 1px;
             position: absolute;
             background-image: linear-gradient(145deg, #60496e8c 0%, #71C4FF44 100%);
             background-color: rgb(0 0 0 / 90%);
-            transform: translate3d(0px, 0px, 0.01px);
+            border-radius: var(--card-radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 9% 0 7%;
+            gap: 6px;
+            z-index: 5;
+            box-sizing: border-box;
         }
 
         .profile-photo .card__shine {
+            position: absolute;
+            inset: 0;
+            border-radius: var(--card-radius);
             mask-image: var(--metafy);
             mask-mode: luminance;
             mask-repeat: repeat;
@@ -191,30 +202,18 @@
             filter: brightness(0.66) contrast(1.33) saturate(0.33) opacity(0.5);
             animation: holo-bg 18s linear infinite;
             mix-blend-mode: color-dodge;
-        }
-
-        .profile-photo .card__shine,
-        .profile-photo .card__shine::after {
-            --space: 5%;
-            --angle: -45deg;
-            display: grid;
-            transform: translate3d(0, 0, 1px);
-            overflow: hidden;
             z-index: 3;
-            background: transparent;
-            background-size: cover;
-            background-position: center;
             background-image:
                 repeating-linear-gradient(0deg,
-                    var(--sunpillar-clr-1) calc(var(--space) * 1),
-                    var(--sunpillar-clr-2) calc(var(--space) * 2),
-                    var(--sunpillar-clr-3) calc(var(--space) * 3),
-                    var(--sunpillar-clr-4) calc(var(--space) * 4),
-                    var(--sunpillar-clr-5) calc(var(--space) * 5),
-                    var(--sunpillar-clr-6) calc(var(--space) * 6),
-                    var(--sunpillar-clr-1) calc(var(--space) * 7)
+                    var(--sunpillar-clr-1) calc(5% * 1),
+                    var(--sunpillar-clr-2) calc(5% * 2),
+                    var(--sunpillar-clr-3) calc(5% * 3),
+                    var(--sunpillar-clr-4) calc(5% * 4),
+                    var(--sunpillar-clr-5) calc(5% * 5),
+                    var(--sunpillar-clr-6) calc(5% * 6),
+                    var(--sunpillar-clr-1) calc(5% * 7)
                 ),
-                repeating-linear-gradient(var(--angle),
+                repeating-linear-gradient(-45deg,
                     #0e152e 0%,
                     hsl(180, 10%, 60%) 3.8%,
                     hsl(180, 29%, 66%) 4.5%,
@@ -237,11 +236,11 @@
         .profile-photo .card__shine::before,
         .profile-photo .card__shine::after {
             content: "";
-            background-position: center;
-            background-size: cover;
-            grid-area: 1 / 1;
+            position: absolute;
+            inset: 0;
             opacity: 0;
             pointer-events: none;
+            border-radius: var(--card-radius);
         }
 
         .profile-photo #card:hover .card__shine,
@@ -249,7 +248,6 @@
             filter: brightness(0.85) contrast(1.5) saturate(0.5);
             animation: none;
         }
-
         .profile-photo #card:hover .card__shine::before,
         .profile-photo #card:hover .card__shine::after,
         .profile-photo #card.active .card__shine::before,
@@ -277,15 +275,34 @@
         }
 
         .profile-photo .card__shine::after {
-            background-position: 0% var(--background-y), calc((var(--background-x)) * 0.4) calc(var(--background-y) * 0.5), center center;
-            background-size: 200% 300%, 700% 700%, 100% 100%;
+            background-image:
+                repeating-linear-gradient(0deg,
+                    var(--sunpillar-clr-1) calc(5% * 1),
+                    var(--sunpillar-clr-2) calc(5% * 2),
+                    var(--sunpillar-clr-3) calc(5% * 3),
+                    var(--sunpillar-clr-4) calc(5% * 4),
+                    var(--sunpillar-clr-5) calc(5% * 5),
+                    var(--sunpillar-clr-6) calc(5% * 6),
+                    var(--sunpillar-clr-1) calc(5% * 7)
+                ),
+                repeating-linear-gradient(-45deg,
+                    #0e152e 0%,
+                    hsl(180, 10%, 60%) 3.8%,
+                    hsl(180, 29%, 66%) 4.5%,
+                    hsl(180, 10%, 60%) 5.2%,
+                    #0e152e 10%,
+                    #0e152e 12%
+                );
+            background-position: 0% var(--background-y), calc((var(--background-x)) * 0.4) calc(var(--background-y) * 0.5);
+            background-size: 200% 300%, 700% 700%;
             mix-blend-mode: difference;
             filter: brightness(0.8) contrast(1.5);
         }
 
-        .profile-photo #card .card__glare {
-            transform: translate3d(0, 0, 1.1px);
-            overflow: hidden;
+        .profile-photo .card__glare {
+            position: absolute;
+            inset: 0;
+            border-radius: var(--card-radius);
             background-image:
                 radial-gradient(
                     farthest-corner circle at var(--pointer-x) var(--pointer-y),
@@ -297,42 +314,51 @@
             z-index: 4;
         }
 
-        .profile-photo .card__shine,
-        .profile-photo .card__glare,
-        .profile-photo .avatar {
-            will-change: transform, opacity, background-image, background-size,
-                background-position, background-blend-mode, filter, box-shadow;
-        }
-
-        /* Аватар: круглый, как в оригинале, поверх голограммы */
-        .profile-photo #card .avatar__content {
-            mix-blend-mode: normal;
-            z-index: 6;
-            place-items: center;
-        }
-
-        .profile-photo #card .avatar__content .avatar {
-            border-radius: 200px;              /* круглый, как в оригинале */
-            max-width: 80%;                    /* как в оригинале */
-            margin: 10% auto;                  /* как в оригинале */
+        /* Логотип: 80% ширины карточки => 145px (было 104px, +40%) */
+        .profile-photo .avatar-wrap {
+            width: 80%;
+            margin: 0 auto;
             position: relative;
-            object-fit: cover;
+            z-index: 6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-photo .avatar {
+            width: 100%;
             aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 50%;
             opacity: calc((1.9 - var(--pointer-from-center) * 0.6));
             box-shadow: rgba(0, 0, 0, 0.6) calc((var(--pointer-from-left) * 6px) - 2px) calc((var(--pointer-from-top) * 14px) - 4px) 20px -3px;
-            z-index: 6;
+            display: block;
         }
 
-        .profile-photo .card__content {
-            padding: 1em;
-            grid-template-rows: 2fr 1fr;
-            max-height: 100%;
-            overflow: hidden;
-            text-align: center;
-            pointer-events: none;
+        /* Ник и ранг внутри карточки */
+        .profile-photo .details-wrap {
             position: relative;
-            transform: translate3d(calc(var(--pointer-from-left) * -6px + 3px), calc(var(--pointer-from-top) * -6px + 3px), 0.1px) !important;
-            z-index: 5;
+            z-index: 6;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 0 4px;
+            box-sizing: border-box;
+        }
+
+        .profile-photo .profile-full-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.85), 0 0 10px rgba(102,192,244,0.35);
+            letter-spacing: 0.4px;
+            margin: 0;
+            text-align: center;
+            word-break: break-word;
+            max-width: 100%;
+            line-height: 1.2;
         }
 
         @keyframes glow-bg {
@@ -346,72 +372,64 @@
         }
         /* ====== /ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА ====== */
 
-        .profile-name {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-
-        .profile-full-name { font-size: 24px; font-weight: 700; display: block; }
-
-        /* === Ранг рядом с ником === */
+        /* === Ранг (уменьшенный под карточку) === */
         .profile-rank-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
+            gap: 4px;
+            padding: 4px 10px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 700;
             color: #c7d0e0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+            backdrop-filter: blur(4px);
         }
         .profile-rank-badge .material-symbols-outlined {
-            font-size: 18px;
+            font-size: 14px;
             color: #66c0f4;
         }
         .profile-rank-points {
-            color: rgba(255,255,255,0.55);
+            color: rgba(255,255,255,0.65);
             font-weight: 500;
-            font-size: 12px;
-            padding-left: 8px;
-            border-left: 1px solid rgba(255,255,255,0.15);
+            font-size: 10px;
+            padding-left: 6px;
+            border-left: 1px solid rgba(255,255,255,0.2);
         }
         .profile-rank-badge.rank-1 {
-            background: linear-gradient(135deg, rgba(255,215,0,0.22), rgba(255,215,0,0.05));
-            border-color: rgba(255,215,0,0.55);
+            background: linear-gradient(135deg, rgba(255,215,0,0.25), rgba(255,215,0,0.08));
+            border-color: rgba(255,215,0,0.65);
             color: #ffd700;
-            box-shadow: 0 0 16px rgba(255,215,0,0.25);
+            box-shadow: 0 0 16px rgba(255,215,0,0.3);
         }
         .profile-rank-badge.rank-1 .material-symbols-outlined { color: #ffd700; }
         .profile-rank-badge.rank-1 .profile-rank-points {
-            color: rgba(255,215,0,0.8);
-            border-left-color: rgba(255,215,0,0.3);
+            color: rgba(255,215,0,0.85);
+            border-left-color: rgba(255,215,0,0.35);
         }
         .profile-rank-badge.rank-2 {
-            background: linear-gradient(135deg, rgba(192,192,192,0.22), rgba(192,192,192,0.05));
-            border-color: rgba(192,192,192,0.55);
+            background: linear-gradient(135deg, rgba(192,192,192,0.25), rgba(192,192,192,0.08));
+            border-color: rgba(192,192,192,0.65);
             color: #d8d8d8;
-            box-shadow: 0 0 14px rgba(192,192,192,0.2);
+            box-shadow: 0 0 14px rgba(192,192,192,0.25);
         }
         .profile-rank-badge.rank-2 .material-symbols-outlined { color: #C0C0C0; }
         .profile-rank-badge.rank-2 .profile-rank-points {
-            color: rgba(192,192,192,0.85);
-            border-left-color: rgba(192,192,192,0.3);
+            color: rgba(192,192,192,0.9);
+            border-left-color: rgba(192,192,192,0.35);
         }
         .profile-rank-badge.rank-3 {
-            background: linear-gradient(135deg, rgba(205,127,50,0.22), rgba(205,127,50,0.05));
-            border-color: rgba(205,127,50,0.55);
+            background: linear-gradient(135deg, rgba(205,127,50,0.25), rgba(205,127,50,0.08));
+            border-color: rgba(205,127,50,0.65);
             color: #e0a060;
-            box-shadow: 0 0 14px rgba(205,127,50,0.2);
+            box-shadow: 0 0 14px rgba(205,127,50,0.25);
         }
         .profile-rank-badge.rank-3 .material-symbols-outlined { color: #CD7F32; }
         .profile-rank-badge.rank-3 .profile-rank-points {
-            color: rgba(205,127,50,0.85);
-            border-left-color: rgba(205,127,50,0.3);
+            color: rgba(205,127,50,0.9);
+            border-left-color: rgba(205,127,50,0.35);
         }
 
         .profile-section { padding: 20px 0; }
@@ -448,7 +466,7 @@
         .ach-admin-input { width: 100%; box-sizing: border-box; padding: 8px 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.3); color: #e0e6f0; font-size: 13px; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s; }
         .ach-admin-input:focus { border-color: #66c0f4; }
 
-        .profile-stats { padding: 0 0 26px; }
+        .profile-stats { padding: 0 0 26px; text-align: left; }
         .profile-stats .profile-section-name {
             margin: 22px 0 14px;
             padding-top: 20px;
@@ -522,9 +540,7 @@
         .stat-prize-name { font-size: 13px; font-weight: 600; color: #ffd700; }
 
         @media (max-width: 768px) {
-            .profile-head { flex-direction: column; text-align: center; }
-            .profile-photo { margin-right: 0; margin-bottom: 18px; }
-            .profile-name { justify-content: center; }
+            .profile-head { padding: 30px 0; }
         }
     </style>
 </head>
@@ -537,26 +553,26 @@
             <div class="profile">
                 <div class="profile-intro">
                     <div class="profile-head">
-                        <!-- Прямоугольная голографическая карточка, внутри — круглый logo1.jpg -->
+                        <!-- Карточка по центру, ник и ранг ВНУТРИ, снизу под логотипом -->
                         <div class="profile-photo">
                             <div class="card-wrapper active">
                                 <section id="card" class="active">
                                     <div class="inside">
                                         <div class="card__shine"></div>
                                         <div class="card__glare"></div>
-                                        <div class="card__content avatar__content">
+                                        <div class="avatar-wrap">
                                             <img class="avatar" src="logo1.jpg" alt="Логотип" />
+                                        </div>
+                                        <div class="details-wrap">
+                                            <div class="profile-full-name" id="profile-name">Загрузка...</div>
+                                            <div class="profile-rank-badge" id="profileRank" style="display:none;">
+                                                <span class="material-symbols-outlined">emoji_events</span>
+                                                <span id="profileRankText">#0</span>
+                                                <span class="profile-rank-points" id="profileRankPoints"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </section>
-                            </div>
-                        </div>
-                        <div class="profile-name">
-                            <div class="profile-full-name" id="profile-name">Загрузка...</div>
-                            <div class="profile-rank-badge" id="profileRank" style="display:none;">
-                                <span class="material-symbols-outlined">emoji_events</span>
-                                <span id="profileRankText">#0</span>
-                                <span class="profile-rank-points" id="profileRankPoints"></span>
                             </div>
                         </div>
                     </div>
