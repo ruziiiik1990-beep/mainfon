@@ -10,6 +10,7 @@
     <title>4ak4ak</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         .bg-image {
             position: absolute;
@@ -43,8 +44,6 @@
             min-height: 520px;
             border-radius: 16px;
         }
-
-        /* === Обёртка iframe + голограмма — наклоняется вместе === */
         .slide-inner-frame-bg {
             position: absolute;
             top: 0;
@@ -53,10 +52,6 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
-            transform-style: preserve-3d;
-            transition: transform 0.15s ease-out;
-            transform: rotateX(0deg) rotateY(0deg);
-            will-change: transform;
         }
         .slide-inner-frame-bg iframe {
             width: 100%;
@@ -64,19 +59,12 @@
             border: 0;
             display: block;
             border-radius: 16px;
-            pointer-events: none;   /* мышь проходит сквозь iframe к родителю */
         }
-
-        /* Плавный возврат к центру */
-        .holo-card.is-resetting .slide-inner-frame-bg {
-            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.3, 1);
-        }
-
         .promo-card-inner {
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 3;
+            z-index: 20;
             padding: 25px;
             pointer-events: none;
         }
@@ -111,7 +99,7 @@
         .slide-arrow {
             position: absolute;
             bottom: 20px;
-            z-index: 20;
+            z-index: 30;
             background: rgba(55, 65, 81, 0.9);
             border: 2px solid rgba(255,255,255,0.3);
             width: 50px;
@@ -135,71 +123,74 @@
         .slide-arrow-prev { left: 20px; }
         .slide-arrow-next { right: 20px; }
 
-        /* ====== ГОЛОГРАФИЧЕСКИЙ ФОН + ПЕРЕМЕННЫЕ КУРСОРА ====== */
-        :root {
-            --metafy: url(https://assets.codepen.io/13471/metafy-repeat.png);
-            --grain: url(https://assets.codepen.io/13471/grain.webp);
-            --sunpillar-1: hsl(2, 100%, 73%);
-            --sunpillar-2: hsl(53, 100%, 69%);
-            --sunpillar-3: hsl(93, 100%, 69%);
-            --sunpillar-4: hsl(176, 100%, 76%);
-            --sunpillar-5: hsl(228, 100%, 74%);
-            --sunpillar-6: hsl(283, 100%, 73%);
-            --sunpillar-clr-1: var(--sunpillar-1);
-            --sunpillar-clr-2: var(--sunpillar-2);
-            --sunpillar-clr-3: var(--sunpillar-3);
-            --sunpillar-clr-4: var(--sunpillar-4);
-            --sunpillar-clr-5: var(--sunpillar-5);
-            --sunpillar-clr-6: var(--sunpillar-6);
+        /* ====== РЕЙТИНГОВАЯ ТАБЛИЦА (встроена в слайд) ====== */
+        .rating-container {
+            max-width: 900px;
+            margin: 90px auto 20px;
+            padding: 20px;
+            background: rgba(10, 42, 107, 0.55);
+            border: 1px solid rgba(74, 158, 255, 0.45);
+            border-radius: 14px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
         }
 
-        .holo-card {
-            perspective: 1000px;
-            --pointer-x: 50%;
-            --pointer-y: 50%;
-            --pointer-from-center: 0;
-            --pointer-from-top: 0.5;
-            --pointer-from-left: 0.5;
-            --rotate-x: 0deg;
-            --rotate-y: 0deg;
-            --background-x: 50%;
-            --background-y: 50%;
+        /* Обёртка для наклона */
+        .holo-inner {
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.15s ease-out;
+            transform: rotateX(0deg) rotateY(0deg);
+            will-change: transform;
+        }
+        .holo-card.is-resetting .holo-inner {
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.3, 1);
         }
 
-        .slide-holo {
+        /* Голографический слой — ПОД содержимым, ПОВЕРХ фона контейнера */
+        .rating-holo {
             position: absolute;
             inset: 0;
-            border-radius: 16px;
+            border-radius: 14px;
             overflow: hidden;
             pointer-events: none;
-            z-index: 2;
+            z-index: 0;
             background-color: #000;
             mix-blend-mode: screen;
         }
 
-        /* shine — переливающиеся полосы, следуют за курсором */
-        .slide-holo::before {
+        /* shine — переливающиеся полосы, анимированные + следят за курсором */
+        .rating-holo::before {
             content: "";
             position: absolute;
             inset: 0;
             border-radius: inherit;
-            mask-image: var(--metafy);
-            mask-mode: luminance;
-            mask-repeat: repeat;
-            mask-size: 150%;
-            mask-position: top calc(200% - (var(--background-y) * 5)) left calc((100% - var(--background-x)));
-            filter: brightness(0.95) contrast(1.6) saturate(0.7);
-            animation: holo-bg 18s linear infinite;
-            mix-blend-mode: color-dodge;
             background-image:
                 repeating-linear-gradient(0deg,
-                    var(--sunpillar-clr-1) calc(5% * 1),
-                    var(--sunpillar-clr-2) calc(5% * 2),
-                    var(--sunpillar-clr-3) calc(5% * 3),
-                    var(--sunpillar-clr-4) calc(5% * 4),
-                    var(--sunpillar-clr-5) calc(5% * 5),
-                    var(--sunpillar-clr-6) calc(5% * 6),
-                    var(--sunpillar-clr-1) calc(5% * 7)
+                    var(--sunpillar-1) 0%,
+                    var(--sunpillar-2) 5%,
+                    var(--sunpillar-3) 10%,
+                    var(--sunpillar-4) 15%,
+                    var(--sunpillar-5) 20%,
+                    var(--sunpillar-6) 25%,
+                    var(--sunpillar-1) 30%,
+                    var(--sunpillar-2) 35%,
+                    var(--sunpillar-3) 40%,
+                    var(--sunpillar-4) 45%,
+                    var(--sunpillar-5) 50%,
+                    var(--sunpillar-6) 55%,
+                    var(--sunpillar-1) 60%,
+                    var(--sunpillar-2) 65%,
+                    var(--sunpillar-3) 70%,
+                    var(--sunpillar-4) 75%,
+                    var(--sunpillar-5) 80%,
+                    var(--sunpillar-6) 85%,
+                    var(--sunpillar-1) 90%,
+                    var(--sunpillar-2) 95%,
+                    var(--sunpillar-3) 100%
                 ),
                 repeating-linear-gradient(-45deg,
                     #0e152e 0%,
@@ -208,47 +199,142 @@
                     hsl(180, 10%, 60%) 5.2%,
                     #0e152e 10%,
                     #0e152e 12%
-                ),
-                radial-gradient(
-                    farthest-corner circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
-                    hsla(0, 0%, 0%, 0.1) 12%,
-                    hsla(0, 0%, 0%, 0.15) 20%,
-                    hsla(0, 0%, 0%, 0.25) 120%
                 );
-            background-position: 0% var(--background-y), calc(var(--background-x)) var(--background-y), center center;
+            background-size: 500% 500%, 300% 300%;
+            background-position: 0% 50%, calc(var(--background-x, 50%)) calc(var(--background-y, 50%));
             background-blend-mode: color, hard-light;
-            background-size: 500% 500%, 300% 300%, 200% 200%;
-            background-repeat: repeat;
+            filter: brightness(0.95) contrast(1.5) saturate(0.65);
+            animation: holo-bg 8s linear infinite;
+            mix-blend-mode: color-dodge;
+            mask-image: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0.4) 100%);
+            opacity: 0.85;
         }
 
-        /* glare — блик следует за курсором */
-        .slide-holo::after {
+        /* glare — блик, следует за курсором */
+        .rating-holo::after {
             content: "";
             position: absolute;
             inset: 0;
             border-radius: inherit;
             background-image: radial-gradient(
                 farthest-corner circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
-                hsl(248, 25%, 80%) 8%,
-                hsla(207, 40%, 30%, 0.8) 90%
+                hsl(248, 25%, 85%) 10%,
+                hsla(207, 40%, 30%, 0.7) 90%
             );
             mix-blend-mode: overlay;
-            filter: brightness(0.75) contrast(1.25);
-            opacity: calc(0.25 + var(--pointer-from-center) * 0.7);
+            filter: brightness(0.8) contrast(1.25);
+            opacity: calc(0.3 + var(--pointer-from-center, 0) * 0.6);
         }
 
         @keyframes holo-bg {
-            0%   { background-position: 0% var(--background-y), 0% 0%, center center; }
-            100% { background-position: 0% var(--background-y), 90% 90%, center center; }
+            0%   { background-position: 0% 50%, 0% 0%; }
+            100% { background-position: 0% 50%, 90% 90%; }
         }
-        /* ====== /ГОЛОГРАФИЧЕСКИЙ ФОН ====== */
+
+        /* Содержимое таблицы — ПОВЕРХ голограммы */
+        .rating-title,
+        .rating-scroll,
+        .rating-note {
+            position: relative;
+            z-index: 1;
+        }
+
+        .rating-title {
+            color: #d6e7ff;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            text-shadow:
+                0 1px 3px rgba(0, 0, 0, 1),
+                0 0 14px rgba(74, 158, 255, 0.6);
+        }
+
+        .rating-scroll {
+            max-height: 340px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(74, 158, 255, 0.6) rgba(10, 42, 107, 0.2);
+            border-radius: 8px;
+        }
+        .rating-scroll::-webkit-scrollbar { width: 8px; }
+        .rating-scroll::-webkit-scrollbar-track { background: rgba(10, 42, 107, 0.2); border-radius: 4px; }
+        .rating-scroll::-webkit-scrollbar-thumb { background: rgba(74, 158, 255, 0.6); border-radius: 4px; }
+
+        .rating-table { width: 100%; border-collapse: collapse; color: #fff; table-layout: fixed; }
+        .rating-table th, .rating-table td {
+            padding: 0;
+            border-bottom: 1px solid rgba(140, 190, 255, 0.22);
+            text-align: center;
+            vertical-align: middle;
+            background: rgba(10, 42, 107, 0.35);
+            white-space: nowrap;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 0.8);
+        }
+        .cell-content { display: block; padding: 6px 16px; text-align: center; }
+        .rating-table th {
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.98);
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background: rgba(10, 42, 107, 0.7);
+        }
+        .rating-table tbody tr:last-child td { border-bottom: none; }
+
+        .pos-cell { width: 40px; font-weight: 800; font-size: 16px; color: rgba(255, 255, 255, 0.7); }
+        .pos-cell.first { color: #ffd700; font-size: 18px; text-shadow: 0 0 12px rgba(255,215,0,0.6), 0 1px 3px #000; }
+        .pos-cell.second { color: #e0e0e0; font-size: 17px; text-shadow: 0 0 10px rgba(220,220,220,0.5), 0 1px 3px #000; }
+        .pos-cell.third { color: #e0a060; font-size: 16px; text-shadow: 0 0 10px rgba(205,127,50,0.5), 0 1px 3px #000; }
+
+        .name-cell { font-weight: 600; font-size: 15px; }
+        .name-cell.first { color: #ffd700; font-weight: 800; text-shadow: 0 0 12px rgba(255,215,0,0.55), 0 1px 3px #000; }
+        .name-cell.second { color: #e5e5e5; font-weight: 800; text-shadow: 0 0 10px rgba(220,220,220,0.45), 0 1px 3px #000; }
+        .name-cell.third { color: #e0a060; font-weight: 800; text-shadow: 0 0 10px rgba(205,127,50,0.45), 0 1px 3px #000; }
+        .name-cell a { color: inherit; text-decoration: none; }
+        .name-cell a:hover { text-decoration: underline; text-shadow: 0 0 16px currentColor, 0 1px 3px #000; }
+
+        .champ-cell { width: 90px; font-weight: 700; font-size: 15px; }
+        .champ-cell.first { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5), 0 1px 3px #000; }
+        .champ-cell.second { color: #e0e0e0; text-shadow: 0 0 10px rgba(220,220,220,0.4), 0 1px 3px #000; }
+        .champ-cell.third { color: #e0a060; text-shadow: 0 0 10px rgba(205,127,50,0.4), 0 1px 3px #000; }
+
+        .finalist-cell { width: 90px; font-weight: 700; font-size: 15px; }
+        .finalist-cell.first { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5), 0 1px 3px #000; }
+        .finalist-cell.second { color: #e0e0e0; text-shadow: 0 0 10px rgba(220,220,220,0.4), 0 1px 3px #000; }
+        .finalist-cell.third { color: #e0a060; text-shadow: 0 0 10px rgba(205,127,50,0.4), 0 1px 3px #000; }
+
+        .points-cell { width: 110px; font-weight: 700; color: #ffd700; font-size: 18px; text-shadow: 0 0 12px rgba(255,215,0,0.55), 0 1px 3px #000; }
+        .points-cell.zero { color: rgba(255, 215, 0, 0.35); font-size: 14px; }
+
+        .rating-empty {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 14px;
+            padding: 24px;
+            font-style: italic;
+        }
+
+        .rating-note {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            margin-top: 12px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 1);
+        }
 
         @media (max-width: 768px) {
             .promo-card-content { max-width: 100%; }
             .promo-card-content h2 { font-size: 18px; }
             .slide-arrow { width: 40px; height: 40px; font-size: 26px; }
-            .holo-card { perspective: none; }   /* на мобиле без наклона */
-            .slide-inner-frame-bg { transform: none !important; }
+            .rating-container { margin-top: 80px; }
+            .holo-card { perspective: none; }
+            .holo-inner { transform: none !important; }
         }
     </style>
 </head>
@@ -292,18 +378,41 @@
                         <button class="slide-arrow slide-arrow-next swiper-btn-next">&#8250;</button>
                     </div>
                     
-                    <!-- СЛАЙД 3: Таблица + голограмма + наклон + курсор -->
-                    <div class="swiper-slide promo-card holo-card" id="holoCard">
-                        <div class="slide-inner-frame-bg" id="holoInner">
-                            <iframe src="table.html"></iframe>
-                            <div class="slide-holo"></div>
-                        </div>
+                    <!-- СЛАЙД 3: Рейтинговая таблица + голограмма + наклон + курсор -->
+                    <div class="swiper-slide promo-card">
                         <div class="promo-card-inner">
                             <div class="promo-card-content">
                                 <h2>за участие получай чак-чак</h2>
                                 <a href="https://4ak4ak.pages.dev/rank.html" class="promo-btn">Read More</a>
                             </div>
                         </div>
+
+                        <div class="rating-container holo-card" id="holoCard">
+                            <div class="holo-inner">
+                                <div class="rating-holo"></div>
+                                <div class="rating-title">Турнирная таблица</div>
+                                <div class="rating-scroll">
+                                    <table class="rating-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="pos-cell"><span class="cell-content">#</span></th>
+                                                <th><span class="cell-content">Игрок</span></th>
+                                                <th class="champ-cell"><span class="cell-content">Чемпион</span></th>
+                                                <th class="finalist-cell"><span class="cell-content">Финалист</span></th>
+                                                <th class="points-cell"><span class="cell-content">Чак-чак</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ratingBody">
+                                            <tr>
+                                                <td colspan="5" class="rating-empty">Итоги появятся после финала</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
+                            </div>
+                        </div>
+
                         <button class="slide-arrow slide-arrow-prev swiper-btn-prev">&#8249;</button>
                         <button class="slide-arrow slide-arrow-next swiper-btn-next">&#8250;</button>
                     </div>
@@ -311,6 +420,18 @@
             </div>
         </div>
     </div>
+
+    <!-- Объявления CSS-переменных sunpillar (глобально) -->
+    <style>
+        :root {
+            --sunpillar-1: hsl(2, 100%, 73%);
+            --sunpillar-2: hsl(53, 100%, 69%);
+            --sunpillar-3: hsl(93, 100%, 69%);
+            --sunpillar-4: hsl(176, 100%, 76%);
+            --sunpillar-5: hsl(228, 100%, 74%);
+            --sunpillar-6: hsl(283, 100%, 73%);
+        }
+    </style>
 
     <script>
         fetch('header.html')
@@ -338,48 +459,138 @@
                 },
             });
 
-            // ===== Голографическая карточка: наклон + курсор =====
+            // ===== Наклон таблицы + курсор =====
             const holoCard = document.getElementById('holoCard');
-            const holoInner = document.getElementById('holoInner');
-            if (!holoCard || !holoInner) return;
+            const holoInner = holoCard ? holoCard.querySelector('.holo-inner') : null;
+            if (holoCard && holoInner) {
+                const clamp = (v, min = 0, max = 100) => Math.min(Math.max(v, min), max);
+                const round = (v, p = 2) => parseFloat(v.toFixed(p));
+                const adjust = (v, fMin, fMax, tMin, tMax) =>
+                    round(tMin + ((tMax - tMin) * (v - fMin)) / (fMax - fMin));
 
-            const clamp = (v, min = 0, max = 100) => Math.min(Math.max(v, min), max);
-            const round = (v, p = 3) => parseFloat(v.toFixed(p));
-            const adjust = (v, fMin, fMax, tMin, tMax) =>
-                round(tMin + ((tMax - tMin) * (v - fMin)) / (fMax - fMin));
+                holoCard.addEventListener('pointermove', (e) => {
+                    const rect = holoCard.getBoundingClientRect();
+                    const px = clamp(((e.clientX - rect.left) / rect.width) * 100);
+                    const py = clamp(((e.clientY - rect.top) / rect.height) * 100);
+                    const cx = px - 50;
+                    const cy = py - 50;
+                    const fromCenter = clamp(Math.sqrt(cx * cx + cy * cy) / 50, 0, 1);
 
-            holoCard.addEventListener('pointermove', (e) => {
-                const rect = holoCard.getBoundingClientRect();
-                const px = clamp(((e.clientX - rect.left) / rect.width) * 100);
-                const py = clamp(((e.clientY - rect.top) / rect.height) * 100);
-                const cx = px - 50;
-                const cy = py - 50;
-                const fromCenter = clamp(Math.sqrt(cx * cx + cy * cy) / 50, 0, 1);
+                    holoCard.style.setProperty('--pointer-x', px + '%');
+                    holoCard.style.setProperty('--pointer-y', py + '%');
+                    holoCard.style.setProperty('--background-x', adjust(px, 0, 100, 35, 65) + '%');
+                    holoCard.style.setProperty('--background-y', adjust(py, 0, 100, 35, 65) + '%');
+                    holoCard.style.setProperty('--pointer-from-center', fromCenter);
 
-                holoCard.style.setProperty('--pointer-x', px + '%');
-                holoCard.style.setProperty('--pointer-y', py + '%');
-                holoCard.style.setProperty('--background-x', adjust(px, 0, 100, 35, 65) + '%');
-                holoCard.style.setProperty('--background-y', adjust(py, 0, 100, 35, 65) + '%');
-                holoCard.style.setProperty('--pointer-from-center', fromCenter);
-                holoCard.style.setProperty('--pointer-from-top', py / 100);
-                holoCard.style.setProperty('--pointer-from-left', px / 100);
+                    const rotX = round(-(cx / 5));
+                    const rotY = round(cy / 4);
+                    holoInner.style.transform = `rotateX(${rotY}deg) rotateY(${rotX}deg)`;
+                });
 
-                const rotX = round(-(cx / 5));
-                const rotY = round(cy / 4);
-                holoInner.style.transform = `rotateX(${rotY}deg) rotateY(${rotX}deg)`;
-            });
-
-            holoCard.addEventListener('pointerleave', () => {
-                holoCard.classList.add('is-resetting');
-                holoInner.style.transform = 'rotateX(0deg) rotateY(0deg)';
-                holoCard.style.setProperty('--pointer-x', '50%');
-                holoCard.style.setProperty('--pointer-y', '50%');
-                holoCard.style.setProperty('--pointer-from-center', '0');
-                holoCard.style.setProperty('--rotate-x', '0deg');
-                holoCard.style.setProperty('--rotate-y', '0deg');
-                setTimeout(() => holoCard.classList.remove('is-resetting'), 800);
-            });
+                holoCard.addEventListener('pointerleave', () => {
+                    holoCard.classList.add('is-resetting');
+                    holoInner.style.transform = 'rotateX(0deg) rotateY(0deg)';
+                    holoCard.style.setProperty('--pointer-x', '50%');
+                    holoCard.style.setProperty('--pointer-y', '50%');
+                    holoCard.style.setProperty('--pointer-from-center', '0');
+                    setTimeout(() => holoCard.classList.remove('is-resetting'), 800);
+                });
+            }
         });
+    </script>
+
+    <!-- Firebase + логика рейтинга -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script>
+        (function() {
+            var firebaseConfig = {
+                apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
+                authDomain: "ak4ak-8be45.firebaseapp.com",
+                databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
+                projectId: "ak4ak-8be45",
+                storageBucket: "ak4ak-8be45.appspot.com",
+                messagingSenderId: "408070680295",
+                appId: "1:408070680295:web:77b9656094e330b803bc42"
+            };
+            firebase.initializeApp(firebaseConfig);
+            var db = firebase.database();
+
+            function escapeHtml(t) {
+                if (!t) return '';
+                return String(t)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+
+            function renderRating(allResults) {
+                var body = document.getElementById('ratingBody');
+                if (!body) return;
+
+                var stats = {};
+                allResults.forEach(function(finalResult) {
+                    if (!finalResult) return;
+                    (finalResult.winners || []).forEach(function(nick) {
+                        if (!nick) return;
+                        if (!stats[nick]) stats[nick] = { champ: 0, finalist: 0, points: 0 };
+                        stats[nick].champ++;
+                        stats[nick].points += 2;
+                    });
+                    (finalResult.runnersUp || []).forEach(function(nick) {
+                        if (!nick) return;
+                        if (!stats[nick]) stats[nick] = { champ: 0, finalist: 0, points: 0 };
+                        stats[nick].finalist++;
+                        stats[nick].points += 1;
+                    });
+                });
+
+                if (Object.keys(stats).length === 0) {
+                    body.innerHTML = '<tr><td colspan="5" class="rating-empty">Итоги появятся после финала</td></tr>';
+                    return;
+                }
+
+                var arr = Object.keys(stats).map(function(nick) {
+                    return { nick: nick, champ: stats[nick].champ, finalist: stats[nick].finalist, points: stats[nick].points };
+                });
+
+                arr.sort(function(a, b) {
+                    if (b.points !== a.points) return b.points - a.points;
+                    if (b.champ !== a.champ) return b.champ - a.champ;
+                    return b.finalist - a.finalist;
+                });
+
+                var html = '';
+                arr.forEach(function(row, i) {
+                    var pos = i + 1;
+                    var cls = (pos === 1) ? ' first' : (pos === 2) ? ' second' : (pos === 3) ? ' third' : '';
+                    var pointsClass = (row.points === 0) ? ' zero' : '';
+
+                    html += '<tr>'
+                        + '<td class="pos-cell' + cls + '"><span class="cell-content">' + pos + '</span></td>'
+                        + '<td><span class="cell-content"><span class="name-cell' + cls + '"><a href="profile.html?nick=' + encodeURIComponent(row.nick) + '" target="_top">' + escapeHtml(row.nick) + '</a></span></span></td>'
+                        + '<td class="champ-cell"><span class="cell-content"><span class="champ-cell' + cls + '">' + row.champ + '</span></span></td>'
+                        + '<td class="finalist-cell"><span class="cell-content"><span class="finalist-cell' + cls + '">' + row.finalist + '</span></span></td>'
+                        + '<td class="points-cell"><span class="cell-content"><span class="points-cell' + pointsClass + '">' + row.points + '</span></span></td>'
+                        + '</tr>';
+                });
+                body.innerHTML = html;
+            }
+
+            db.ref('playoff/tournaments').on('value', function(snap) {
+                var tournaments = snap.val() || {};
+                var allResults = [];
+                Object.keys(tournaments).forEach(function(tid) {
+                    if (tournaments[tid] && tournaments[tid].finalResult) {
+                        allResults.push(tournaments[tid].finalResult);
+                    }
+                });
+                renderRating(allResults);
+            });
+        })();
     </script>
 </body>
 </html>
