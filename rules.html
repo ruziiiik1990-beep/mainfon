@@ -18,7 +18,7 @@
       overflow-x: hidden;
     }
 
-    /* Канвас с трубками: ПОВЕРХ книги, ПОД шапкой, фон прозрачный */
+    /* Канвас с трубками: ПОВЕРХ книги, ПОД шапкой */
     #tubes-canvas {
       position: fixed;
       top: 0;
@@ -27,7 +27,12 @@
       height: 100%;
       z-index: 5;                 /* выше книги (1-7 внутри .book-viewport), ниже шапки (10) */
       pointer-events: none;       /* клики проходят к кнопкам книги/шапки */
-      background: transparent !important;
+      
+      /* Возвращаем чёрный фон для корректной работы аддитивного смешивания */
+      background-color: #000000 !important;
+      
+      /* Делаем чёрный цвет полностью прозрачным, сохраняя цветные трубки */
+      mix-blend-mode: screen;
     }
 
     /* Фон страницы правил */
@@ -524,24 +529,11 @@
   }
   </script>
 
-  <!-- Трубки-радуга за курсором. Прозрачный фон (без чёрного экрана) -->
+  <!-- Трубки-радуга за курсором -->
   <script type="module">
     import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
 
     const canvas = document.getElementById('tubes-canvas');
-
-    // Патч WebGL контекста: форсируем альфу 0 при очистке,
-    // чтобы чёрный фон канваса стал полностью прозрачным
-    const _getContext = canvas.getContext.bind(canvas);
-    canvas.getContext = (type, attrs = {}) => {
-      const gl = _getContext(type, { ...attrs, alpha: true });
-      if (gl && !gl._clearPatched) {
-        gl._clearPatched = true;
-        const _clearColor = gl.clearColor.bind(gl);
-        gl.clearColor = (r, g, b, a) => _clearColor(r, g, b, 0); // всегда alpha=0
-      }
-      return gl;
-    };
 
     const app = TubesCursor(canvas, {
       tubes: {
