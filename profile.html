@@ -51,17 +51,261 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
+        /* ====== ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА В ПРОФИЛЕ ====== */
+        :root {
+            --pointer-x: 50%;
+            --pointer-y: 50%;
+            --pointer-from-center: 0;
+            --pointer-from-top: 0.5;
+            --pointer-from-left: 0.5;
+            --card-opacity: 0;
+            --rotate-x: 0deg;
+            --rotate-y: 0deg;
+            --background-x: 50%;
+            --background-y: 50%;
+            --grain: url(https://assets.codepen.io/13471/grain.webp);
+            --metafy: url(https://assets.codepen.io/13471/metafy-repeat.png);
+            --sunpillar-1: hsl(2, 100%, 73%);
+            --sunpillar-2: hsl(53, 100%, 69%);
+            --sunpillar-3: hsl(93, 100%, 69%);
+            --sunpillar-4: hsl(176, 100%, 76%);
+            --sunpillar-5: hsl(228, 100%, 74%);
+            --sunpillar-6: hsl(283, 100%, 73%);
+            --sunpillar-clr-1: var(--sunpillar-1);
+            --sunpillar-clr-2: var(--sunpillar-2);
+            --sunpillar-clr-3: var(--sunpillar-3);
+            --sunpillar-clr-4: var(--sunpillar-4);
+            --sunpillar-clr-5: var(--sunpillar-5);
+            --sunpillar-clr-6: var(--sunpillar-6);
+        }
+
         .profile-photo {
-            width: 100px;
-            height: 100px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            background-size: cover;
-            background-position: center;
-            background-color: #555;
             border: 3px solid #e3769c;
             margin-right: 20px;
             flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+            --card-radius: 50%;
         }
+
+        .profile-photo .card-wrapper {
+            width: 100%;
+            height: 100%;
+            perspective: 500px;
+            transform: translate3d(0, 0, 0.1px);
+            position: relative;
+            touch-action: none;
+        }
+
+        .profile-photo #card {
+            width: 100%;
+            height: 100%;
+            max-height: none;
+            aspect-ratio: auto;
+            display: grid;
+            border-radius: 50%;
+            position: relative;
+            background-blend-mode: color-dodge, normal, normal, normal, normal;
+            box-shadow: rgba(0, 0, 0, 0.8) calc((var(--pointer-from-left) * 6px) - 2px) calc((var(--pointer-from-top) * 12px) - 4px) 12px -3px;
+            transition: transform 1s ease;
+            transform: translate3d(0, 0, 0.1px) rotateX(0deg) rotateY(0deg);
+            background-size: 100% 100%;
+            background-position: 0px 0px, 0px 0px, 50% 50%, 0px 0px;
+            background-image:
+                radial-gradient(
+                    farthest-side circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+                    hsla(266, 100%, 90%, var(--card-opacity)) 4%,
+                    hsla(266, 50%, 80%, calc(var(--card-opacity) * 0.75)) 10%,
+                    hsla(266, 25%, 70%, calc(var(--card-opacity) * 0.5)) 50%,
+                    hsla(266, 0%, 60%, 0) 100%
+                ),
+                radial-gradient(35% 52% at 55% 20%, #00FFAAC4 0%, #073AFF00 100%),
+                radial-gradient(100% 100% at 50% 50%, #00C1FFFF 1%, #073AFF00 76%),
+                conic-gradient(from 124deg at 50% 50%, #C137FFFF 0%, #07C6FFFF 40%, #07C6FFFF 60%, #C137FFFF 100%);
+            overflow: hidden;
+        }
+
+        .profile-photo .card-wrapper:hover,
+        .profile-photo .card-wrapper.active {
+            --card-opacity: 1;
+        }
+
+        .profile-photo #card:hover,
+        .profile-photo #card.active {
+            transition: none;
+            transform: translate3d(0, 0, 0.1px) rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
+        }
+
+        .profile-photo #card * {
+            display: grid;
+            grid-area: 1 / -1;
+            border-radius: var(--card-radius);
+            transform: translate3d(0px, 0px, 0.1px);
+            pointer-events: none;
+        }
+
+        .profile-photo #card .inside {
+            inset: 1px;
+            position: absolute;
+            background-image: linear-gradient(145deg, #60496e8c 0%, #71C4FF44 100%);
+            background-color: rgb(0 0 0 / 90%);
+            transform: translate3d(0px, 0px, 0.01px);
+        }
+
+        .profile-photo .card__shine {
+            mask-image: var(--metafy);
+            mask-mode: luminance;
+            mask-repeat: repeat;
+            mask-size: 100%;
+            mask-position: top calc(200% - (var(--background-y) * 5)) left calc((100% - var(--background-x)));
+            transition: filter 0.6s ease;
+            filter: brightness(0.66) contrast(1.33) saturate(0.33) opacity(0.5);
+            animation: holo-bg 18s linear infinite;
+            mix-blend-mode: color-dodge;
+        }
+
+        .profile-photo .card__shine,
+        .profile-photo .card__shine::after {
+            --space: 5%;
+            --angle: -45deg;
+            display: grid;
+            transform: translate3d(0, 0, 1px);
+            overflow: hidden;
+            z-index: 3;
+            background: transparent;
+            background-size: cover;
+            background-position: center;
+            background-image:
+                repeating-linear-gradient(0deg,
+                    var(--sunpillar-clr-1) calc(var(--space) * 1),
+                    var(--sunpillar-clr-2) calc(var(--space) * 2),
+                    var(--sunpillar-clr-3) calc(var(--space) * 3),
+                    var(--sunpillar-clr-4) calc(var(--space) * 4),
+                    var(--sunpillar-clr-5) calc(var(--space) * 5),
+                    var(--sunpillar-clr-6) calc(var(--space) * 6),
+                    var(--sunpillar-clr-1) calc(var(--space) * 7)
+                ),
+                repeating-linear-gradient(var(--angle),
+                    #0e152e 0%,
+                    hsl(180, 10%, 60%) 3.8%,
+                    hsl(180, 29%, 66%) 4.5%,
+                    hsl(180, 10%, 60%) 5.2%,
+                    #0e152e 10%,
+                    #0e152e 12%
+                ),
+                radial-gradient(
+                    farthest-corner circle at var(--pointer-x) var(--pointer-y),
+                    hsla(0, 0%, 0%, 0.1) 12%,
+                    hsla(0, 0%, 0%, 0.15) 20%,
+                    hsla(0, 0%, 0%, 0.25) 120%
+                );
+            background-position: 0% var(--background-y), calc(var(--background-x)) var(--background-y), center center;
+            background-blend-mode: color, hard-light;
+            background-size: 500% 500%, 300% 300%, 200% 200%;
+            background-repeat: repeat;
+        }
+
+        .profile-photo .card__shine::before,
+        .profile-photo .card__shine::after {
+            content: "";
+            background-position: center;
+            background-size: cover;
+            grid-area: 1 / 1;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .profile-photo #card:hover .card__shine,
+        .profile-photo #card.active .card__shine {
+            filter: brightness(0.85) contrast(1.5) saturate(0.5);
+            animation: none;
+        }
+
+        .profile-photo #card:hover .card__shine::before,
+        .profile-photo #card:hover .card__shine::after,
+        .profile-photo #card.active .card__shine::before,
+        .profile-photo #card.active .card__shine::after {
+            opacity: 1;
+        }
+
+        .profile-photo .card__shine::before {
+            background-image:
+                linear-gradient(45deg,
+                    var(--sunpillar-4),
+                    var(--sunpillar-5),
+                    var(--sunpillar-6),
+                    var(--sunpillar-1),
+                    var(--sunpillar-2),
+                    var(--sunpillar-3)
+                ),
+                radial-gradient(circle at var(--pointer-x) var(--pointer-y), hsl(0, 0%, 70%) 0%, hsla(0, 0%, 30%, 20%) 90%),
+                var(--grain);
+            background-size: 250% 250%, 100% 100%, 120px 120px;
+            background-position: var(--pointer-x) var(--pointer-y), center center, calc(var(--pointer-x) * 0.01) calc(var(--pointer-y) * 0.01);
+            background-blend-mode: color-dodge;
+            filter: brightness(calc(2 - var(--pointer-from-center))) contrast(calc(var(--pointer-from-center) + 2)) saturate(calc(0.5 + var(--pointer-from-center)));
+            mix-blend-mode: luminosity;
+        }
+
+        .profile-photo .card__shine::after {
+            background-position: 0% var(--background-y), calc((var(--background-x)) * 0.4) calc(var(--background-y) * 0.5), center center;
+            background-size: 200% 300%, 700% 700%, 100% 100%;
+            mix-blend-mode: difference;
+            filter: brightness(0.8) contrast(1.5);
+        }
+
+        .profile-photo #card .card__glare {
+            transform: translate3d(0, 0, 1.1px);
+            overflow: hidden;
+            background-image:
+                radial-gradient(
+                    farthest-corner circle at var(--pointer-x) var(--pointer-y),
+                    hsl(248, 25%, 80%) 12%,
+                    hsla(207, 40%, 30%, 0.8) 90%
+                );
+            mix-blend-mode: overlay;
+            filter: brightness(0.8) contrast(1.2);
+            z-index: 4;
+        }
+
+        .profile-photo .card__shine,
+        .profile-photo .card__glare,
+        .profile-photo .avatar {
+            will-change: transform, opacity, background-image, background-size,
+                background-position, background-blend-mode, filter, box-shadow;
+        }
+
+        .profile-photo #card .avatar__content {
+            mix-blend-mode: color-dodge;
+        }
+
+        .profile-photo #card .avatar__content .avatar {
+            border-radius: 200px;
+            max-width: 80%;
+            margin: 10% auto;
+            position: relative;
+            opacity: calc((1.75 - var(--pointer-from-center)));
+            box-shadow: rgba(0, 0, 0, 0.6) calc((var(--pointer-from-left) * 4px) - 1px) calc((var(--pointer-from-top) * 10px) - 3px) 12px -2px;
+        }
+
+        .profile-photo .card__content {
+            padding: 0;
+            max-height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            position: relative;
+            z-index: 5;
+        }
+
+        @keyframes holo-bg {
+            0%   { background-position: 0% var(--background-y), 0% 0%, center center; }
+            100% { background-position: 0% var(--background-y), 90% 90%, center center; }
+        }
+        /* ====== /ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА ====== */
 
         .profile-name {
             display: flex;
@@ -97,7 +341,6 @@
             padding-left: 8px;
             border-left: 1px solid rgba(255,255,255,0.15);
         }
-        /* Золото — 1 место */
         .profile-rank-badge.rank-1 {
             background: linear-gradient(135deg, rgba(255,215,0,0.22), rgba(255,215,0,0.05));
             border-color: rgba(255,215,0,0.55);
@@ -109,7 +352,6 @@
             color: rgba(255,215,0,0.8);
             border-left-color: rgba(255,215,0,0.3);
         }
-        /* Серебро — 2 место */
         .profile-rank-badge.rank-2 {
             background: linear-gradient(135deg, rgba(192,192,192,0.22), rgba(192,192,192,0.05));
             border-color: rgba(192,192,192,0.55);
@@ -121,7 +363,6 @@
             color: rgba(192,192,192,0.85);
             border-left-color: rgba(192,192,192,0.3);
         }
-        /* Бронза — 3 место */
         .profile-rank-badge.rank-3 {
             background: linear-gradient(135deg, rgba(205,127,50,0.22), rgba(205,127,50,0.05));
             border-color: rgba(205,127,50,0.55);
@@ -168,7 +409,6 @@
         .ach-admin-input { width: 100%; box-sizing: border-box; padding: 8px 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.3); color: #e0e6f0; font-size: 13px; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s; }
         .ach-admin-input:focus { border-color: #66c0f4; }
 
-        /* === Статистика турниров === */
         .profile-stats { padding: 0 0 26px; }
         .profile-stats .profile-section-name {
             margin: 22px 0 14px;
@@ -258,10 +498,22 @@
             <div class="profile">
                 <div class="profile-intro">
                     <div class="profile-head">
-                        <div class="profile-photo" style="background-image: url('logo1.jpg');"></div>
+                        <!-- Голографическая карточка вместо фото -->
+                        <div class="profile-photo">
+                            <div class="card-wrapper active">
+                                <section id="card" class="active">
+                                    <div class="inside">
+                                        <div class="card__shine"></div>
+                                        <div class="card__glare"></div>
+                                        <div class="card__content avatar__content">
+                                            <img class="avatar" src="logo1.png" alt="" />
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
                         <div class="profile-name">
                             <div class="profile-full-name" id="profile-name">Загрузка...</div>
-                            <!-- Ранг рядом с ником -->
                             <div class="profile-rank-badge" id="profileRank" style="display:none;">
                                 <span class="material-symbols-outlined">emoji_events</span>
                                 <span id="profileRankText">#0</span>
@@ -270,15 +522,12 @@
                         </div>
                     </div>
 
-                    <!-- === СТАТИСТИКА ТУРНИРОВ === -->
                     <div class="profile-stats" id="profileStats" style="display:none;">
                         <h3 class="profile-section-name">
                             <span class="material-symbols-outlined">leaderboard</span> Статистика турниров
                         </h3>
                         <div class="stats-list" id="statsList"></div>
                     </div>
-                    <!-- === /СТАТИСТИКА ТУРНИРОВ === -->
-
                 </div>
             </div>
         </div>
@@ -375,7 +624,6 @@
 
             const targetUid = viewUid || user.uid;
 
-            // === ПРОВЕРКА АДМИНА ЧЕРЕЗ playoff/adminNicks ===
             const userSnap = await get(ref(db, 'users/' + user.uid));
             let myNick = null;
             if (userSnap.exists()) {
@@ -403,8 +651,7 @@
             initAchievements(targetUid, isAdmin);
         });
 
-        /* ======================== РАНГ (турнирная таблица) ======================== */
-        // Склонение "чак-чак"
+        /* ======================== РАНГ ======================== */
         function chakChakWord(n) {
             var mod10 = n % 10;
             var mod100 = n % 100;
@@ -420,7 +667,6 @@
                 const tournamentsSnap = await get(ref(db, 'playoff/tournaments'));
                 const tournaments = tournamentsSnap.val() || {};
 
-                // Считаем очки — точно так же, как в rank.html
                 const stats = {};
                 for (const tid in tournaments) {
                     const t = tournaments[tid];
@@ -443,12 +689,8 @@
                     });
                 }
 
-                // Если у игрока нет очков — ранг не показываем
-                if (!stats[nick] || stats[nick].points === 0) {
-                    return;
-                }
+                if (!stats[nick] || stats[nick].points === 0) return;
 
-                // Сортируем как в rank.html
                 const arr = Object.keys(stats).map(function(n) {
                     return { nick: n, champ: stats[n].champ, finalist: stats[n].finalist, points: stats[n].points };
                 });
@@ -476,14 +718,12 @@
                 else if (pos === 3) rankEl.classList.add('rank-3');
 
                 rankEl.style.display = 'inline-flex';
-
             } catch (e) {
                 console.error('Ошибка загрузки ранга:', e);
             }
         }
-        /* ====================== /РАНГ ====================== */
 
-        /* ======================== СТАТИСТИКА ТУРНИРОВ ======================== */
+        /* ======================== СТАТИСТИКА ======================== */
         async function loadPlayerStats(nick) {
             const statsBlock = document.getElementById('profileStats');
             const statsList = document.getElementById('statsList');
@@ -507,42 +747,30 @@
                     let isFinalist = false;
                     let prize = null;
 
-                    // 1/8 финала
                     for (const mid in matches) {
                         if (mid.indexOf('ef_') !== 0) continue;
                         const m = matches[mid];
-                        const left = m.left || [];
-                        const right = m.right || [];
-                        if (left.indexOf(nick) !== -1 || right.indexOf(nick) !== -1) {
+                        if ((m.left || []).indexOf(nick) !== -1 || (m.right || []).indexOf(nick) !== -1) {
                             maxStage = 'ef'; stageLabel = '1/8 финала';
                         }
                     }
-                    // Четвертьфинал
                     for (const mid in matches) {
                         if (mid.indexOf('qf_') !== 0) continue;
                         const m = matches[mid];
-                        const left = m.left || [];
-                        const right = m.right || [];
-                        if (left.indexOf(nick) !== -1 || right.indexOf(nick) !== -1) {
+                        if ((m.left || []).indexOf(nick) !== -1 || (m.right || []).indexOf(nick) !== -1) {
                             maxStage = 'qf'; stageLabel = 'Четвертьфинал';
                         }
                     }
-                    // Полуфинал
                     for (const mid of ['sf_w', 'sf_e']) {
                         const m = matches[mid];
                         if (!m) continue;
-                        const left = m.left || [];
-                        const right = m.right || [];
-                        if (left.indexOf(nick) !== -1 || right.indexOf(nick) !== -1) {
+                        if ((m.left || []).indexOf(nick) !== -1 || (m.right || []).indexOf(nick) !== -1) {
                             maxStage = 'sf'; stageLabel = 'Полуфинал';
                         }
                     }
-                    // Финал
                     const finalM = matches['final'];
                     if (finalM) {
-                        const left = finalM.left || [];
-                        const right = finalM.right || [];
-                        if (left.indexOf(nick) !== -1 || right.indexOf(nick) !== -1) {
+                        if ((finalM.left || []).indexOf(nick) !== -1 || (finalM.right || []).indexOf(nick) !== -1) {
                             maxStage = 'final';
                             stageLabel = 'Финал';
                             if (finalM.winner) {
@@ -556,7 +784,6 @@
                         }
                     }
 
-                    // Приз
                     if (finalM && finalM.prizes) {
                         const p = finalM.prizes['win_' + nick] || finalM.prizes['fin_' + nick];
                         if (p && p.name) prize = p;
@@ -619,8 +846,8 @@
                 statsBlock.style.display = 'none';
             }
         }
-        /* ====================== /СТАТИСТИКА ТУРНИРОВ ====================== */
 
+        /* ======================== ДОСТИЖЕНИЯ ======================== */
         var achRef = null;
         var lastAchData = null;
         var targetAchievementsUid = null;
@@ -734,6 +961,108 @@
             if (!confirm('Удалить?')) return;
             remove(ref(db, 'achievements/' + targetAchievementsUid + '/' + key));
         }
+    </script>
+
+    <!-- Голографическая карточка: взаимодействие с курсором -->
+    <script>
+    (function() {
+        const $wrap = document.querySelector(".profile-photo .card-wrapper");
+        const $card = document.querySelector("#card");
+        if (!$wrap || !$card) return;
+
+        const cardUpdate = (e) => {
+            if (e.pointerType === "touch" && e.preventDefault) e.preventDefault();
+
+            const dimensions = $card.getBoundingClientRect();
+            const l = e.offsetX;
+            const t = e.offsetY;
+            const h = dimensions.height;
+            const w = dimensions.width;
+            const px = clamp(Math.abs((100 / w) * l), 0, 100);
+            const py = clamp(Math.abs((100 / h) * t), 0, 100);
+            const cx = px - 50;
+            const cy = py - 50;
+
+            $wrap.setAttribute(
+                "style",
+                `
+                  --pointer-x: ${px}%;
+                  --pointer-y: ${py}%;
+                  --background-x: ${adjust(px, 0, 100, 35, 65)}%;
+                  --background-y: ${adjust(py, 0, 100, 35, 65)}%;
+                  --pointer-from-center: ${clamp(
+                    Math.sqrt((py - 50) * (py - 50) + (px - 50) * (px - 50)) / 50,
+                    0,
+                    1
+                  )};
+                  --pointer-from-top: ${py / 100};
+                  --pointer-from-left: ${px / 100};
+                  --rotate-x: ${round(-(cx / 5))}deg;
+                  --rotate-y: ${round(cy / 4)}deg;
+                `
+            );
+        };
+
+        function ease(x) {
+            return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+        }
+
+        function easedFunc(durationMs, onProgress, onComplete) {
+            let startTime = performance.now();
+            let canceled = false;
+
+            function loop() {
+                if (canceled) return;
+                const currentTime = performance.now();
+                const progress = (currentTime - startTime) / durationMs;
+                const easedProgress = ease(progress);
+                onProgress(easedProgress);
+                if (progress < 1) requestAnimationFrame(loop);
+                else if (onComplete) onComplete();
+            }
+            loop();
+
+            return { cancel: () => { canceled = true; } };
+        }
+
+        const round = (value, precision = 3) => parseFloat(value.toFixed(precision));
+        const clamp = (value, min = 0, max = 100) => Math.min(Math.max(value, min), max);
+        const adjust = (value, fromMin, fromMax, toMin, toMax) =>
+            round(toMin + ((toMax - toMin) * (value - fromMin)) / (fromMax - fromMin));
+
+        const halfW = $wrap.clientWidth / 2;
+        const halfH = $wrap.clientHeight / 2;
+
+        let easer;
+        $card.addEventListener("pointerenter", () => { if (easer) easer.cancel(); });
+        $card.addEventListener("pointermove", cardUpdate);
+        $card.addEventListener("pointerout", (e) => {
+            easer = easedFunc(
+                1000,
+                (p) => {
+                    const x = adjust(p, 0, 1, e.offsetX, halfW);
+                    const y = adjust(p, 0, 1, e.offsetY, halfH);
+                    cardUpdate({ offsetX: x, offsetY: y });
+                }
+            );
+        });
+
+        // Стартовое положение — у правого верхнего края
+        cardUpdate({ offsetX: $wrap.clientWidth - 10, offsetY: 10 });
+
+        // Интро-анимация к центру
+        setTimeout(() => {
+            easer = easedFunc(
+                2500,
+                (p) => {
+                    const x = adjust(p, 0, 1, $wrap.clientWidth - 10, halfW);
+                    const y = adjust(p, 0, 1, 10, halfH);
+                    cardUpdate({ offsetX: x, offsetY: y });
+                }
+                // ВАЖНО: не снимаем .active — свечение остаётся всегда
+            );
+        }, 800);
+    })();
     </script>
 </body>
 </html>
