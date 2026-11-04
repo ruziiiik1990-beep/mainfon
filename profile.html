@@ -44,7 +44,7 @@
         
         .profile-intro, .profile-body { padding: 0 24px; }
 
-        /* Профиль-шапка: карточка по центру, ник и ранг ВНУТРИ неё */
+        /* Профиль-шапка: карточка по центру */
         .profile-head {
             display: flex;
             flex-direction: column;
@@ -55,7 +55,7 @@
             gap: 0;
         }
 
-        /* ====== ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА (прямоугольная, +40%, по центру) ====== */
+        /* ====== ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА ====== */
         :root {
             --pointer-x: 50%;
             --pointer-y: 50%;
@@ -84,11 +84,11 @@
         }
 
         .profile-photo {
-            width: 182px;                       /* +40% от 130 */
-            aspect-ratio: 0.718;                /* пропорции оригинала => высота ~254px */
-            border-radius: 6.55% / 4.75%;       /* --card-radius, как в оригинале */
+            width: 182px;
+            aspect-ratio: 0.718;
+            border-radius: 6.55% / 4.75%;
             position: relative;
-            margin: 0 auto;                     /* центр в профиле */
+            margin: 0 auto;
             flex-shrink: 0;
             box-sizing: border-box;
             --card-radius: 6.55% / 4.75%;
@@ -314,7 +314,7 @@
             z-index: 4;
         }
 
-        /* Логотип: 80% ширины карточки => 145px (было 104px, +40%) */
+        /* Логотип */
         .profile-photo .avatar-wrap {
             width: 80%;
             margin: 0 auto;
@@ -335,20 +335,22 @@
             display: block;
         }
 
-        /* Ник и ранг внутри карточки */
+        /* Ник и ранг — двумя строками */
         .profile-photo .details-wrap {
             position: relative;
             z-index: 6;
-            width: 90%;
+            width: 92%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
             padding: 0 4px;
             box-sizing: border-box;
         }
 
         .profile-photo .profile-full-name {
+            display: block;
+            width: 100%;
             font-size: 15px;
             font-weight: 700;
             color: #ffffff;
@@ -357,7 +359,6 @@
             margin: 0;
             text-align: center;
             word-break: break-word;
-            max-width: 100%;
             line-height: 1.2;
         }
 
@@ -372,9 +373,11 @@
         }
         /* ====== /ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА ====== */
 
-        /* === Ранг (уменьшенный под карточку) === */
+        /* === Ранг (отдельной строкой под ником) === */
         .profile-rank-badge {
-            display: inline-flex;
+            display: flex;
+            width: fit-content;
+            margin: 0 auto;
             align-items: center;
             gap: 4px;
             padding: 4px 10px;
@@ -553,7 +556,6 @@
             <div class="profile">
                 <div class="profile-intro">
                     <div class="profile-head">
-                        <!-- Карточка по центру, ник и ранг ВНУТРИ, снизу под логотипом -->
                         <div class="profile-photo">
                             <div class="card-wrapper active">
                                 <section id="card" class="active">
@@ -772,7 +774,9 @@
                 else if (pos === 2) rankEl.classList.add('rank-2');
                 else if (pos === 3) rankEl.classList.add('rank-3');
 
-                rankEl.style.display = 'inline-flex';
+                rankEl.style.display = 'flex';
+                rankEl.style.margin = '0 auto';
+                rankEl.style.width = 'fit-content';
             } catch (e) {
                 console.error('Ошибка загрузки ранга:', e);
             }
