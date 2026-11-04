@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        /* Фон: абсолютный, под слайдером, но страница прокручивается */
         .bg-image {
             position: absolute;
             top: 0;
@@ -21,12 +20,10 @@
             z-index: 0;
             pointer-events: none;
         }
-
-        /* Слайдер поверх фона */
         .slider-section {
             position: relative;
             z-index: 5;
-            margin-top: 100px; /* отступ от шапки */
+            margin-top: 100px;
             padding: 20px 0;
         }
         .slider-container {
@@ -46,6 +43,8 @@
             min-height: 520px;
             border-radius: 16px;
         }
+
+        /* === Обёртка iframe + голограмма — наклоняется вместе === */
         .slide-inner-frame-bg {
             position: absolute;
             top: 0;
@@ -54,6 +53,10 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
+            transform-style: preserve-3d;
+            transition: transform 0.15s ease-out;
+            transform: rotateX(0deg) rotateY(0deg);
+            will-change: transform;
         }
         .slide-inner-frame-bg iframe {
             width: 100%;
@@ -61,12 +64,19 @@
             border: 0;
             display: block;
             border-radius: 16px;
+            pointer-events: none;   /* мышь проходит сквозь iframe к родителю */
         }
+
+        /* Плавный возврат к центру */
+        .holo-card.is-resetting .slide-inner-frame-bg {
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+
         .promo-card-inner {
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 3;   /* подняли с 2 до 3 — чтобы текст был над голограммой */
+            z-index: 3;
             padding: 25px;
             pointer-events: none;
         }
@@ -125,7 +135,7 @@
         .slide-arrow-prev { left: 20px; }
         .slide-arrow-next { right: 20px; }
 
-        /* ====== ГОЛОГРАФИЧЕСКИЙ ФОН (только 3-й слайд) ====== */
+        /* ====== ГОЛОГРАФИЧЕСКИЙ ФОН + ПЕРЕМЕННЫЕ КУРСОРА ====== */
         :root {
             --metafy: url(https://assets.codepen.io/13471/metafy-repeat.png);
             --grain: url(https://assets.codepen.io/13471/grain.webp);
@@ -141,6 +151,18 @@
             --sunpillar-clr-4: var(--sunpillar-4);
             --sunpillar-clr-5: var(--sunpillar-5);
             --sunpillar-clr-6: var(--sunpillar-6);
+        }
+
+        .holo-card {
+            perspective: 1000px;
+            --pointer-x: 50%;
+            --pointer-y: 50%;
+            --pointer-from-center: 0;
+            --pointer-from-top: 0.5;
+            --pointer-from-left: 0.5;
+            --rotate-x: 0deg;
+            --rotate-y: 0deg;
+            --background-x: 50%;
             --background-y: 50%;
         }
 
@@ -150,12 +172,12 @@
             border-radius: 16px;
             overflow: hidden;
             pointer-events: none;
-            z-index: 2;                 /* выше iframe (1), ниже текста (3) и стрелок (20) */
-            background-color: #000;     /* чёрный — исчезнет через screen */
+            z-index: 2;
+            background-color: #000;
             mix-blend-mode: screen;
         }
 
-        /* shine — переливающиеся полосы (анимированные) */
+        /* shine — переливающиеся полосы, следуют за курсором */
         .slide-holo::before {
             content: "";
             position: absolute;
@@ -165,8 +187,8 @@
             mask-mode: luminance;
             mask-repeat: repeat;
             mask-size: 150%;
-            mask-position: top calc(200% - (var(--background-y) * 5)) left 50%;
-            filter: brightness(0.9) contrast(1.6) saturate(0.65);
+            mask-position: top calc(200% - (var(--background-y) * 5)) left calc((100% - var(--background-x)));
+            filter: brightness(0.95) contrast(1.6) saturate(0.7);
             animation: holo-bg 18s linear infinite;
             mix-blend-mode: color-dodge;
             background-image:
@@ -188,31 +210,31 @@
                     #0e152e 12%
                 ),
                 radial-gradient(
-                    farthest-corner circle at 50% 50%,
+                    farthest-corner circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
                     hsla(0, 0%, 0%, 0.1) 12%,
                     hsla(0, 0%, 0%, 0.15) 20%,
                     hsla(0, 0%, 0%, 0.25) 120%
                 );
-            background-position: 0% var(--background-y), 50% var(--background-y), center center;
+            background-position: 0% var(--background-y), calc(var(--background-x)) var(--background-y), center center;
             background-blend-mode: color, hard-light;
             background-size: 500% 500%, 300% 300%, 200% 200%;
             background-repeat: repeat;
         }
 
-        /* glare — мягкий статичный блик */
+        /* glare — блик следует за курсором */
         .slide-holo::after {
             content: "";
             position: absolute;
             inset: 0;
             border-radius: inherit;
             background-image: radial-gradient(
-                farthest-corner circle at 50% 30%,
-                hsl(248, 25%, 80%) 5%,
+                farthest-corner circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+                hsl(248, 25%, 80%) 8%,
                 hsla(207, 40%, 30%, 0.8) 90%
             );
             mix-blend-mode: overlay;
-            filter: brightness(0.7) contrast(1.2);
-            opacity: 0.5;
+            filter: brightness(0.75) contrast(1.25);
+            opacity: calc(0.25 + var(--pointer-from-center) * 0.7);
         }
 
         @keyframes holo-bg {
@@ -225,6 +247,8 @@
             .promo-card-content { max-width: 100%; }
             .promo-card-content h2 { font-size: 18px; }
             .slide-arrow { width: 40px; height: 40px; font-size: 26px; }
+            .holo-card { perspective: none; }   /* на мобиле без наклона */
+            .slide-inner-frame-bg { transform: none !important; }
         }
     </style>
 </head>
@@ -268,12 +292,12 @@
                         <button class="slide-arrow slide-arrow-next swiper-btn-next">&#8250;</button>
                     </div>
                     
-                    <!-- СЛАЙД 3: Таблица → Rank + голографический фон -->
-                    <div class="swiper-slide promo-card">
-                        <div class="slide-inner-frame-bg">
+                    <!-- СЛАЙД 3: Таблица + голограмма + наклон + курсор -->
+                    <div class="swiper-slide promo-card holo-card" id="holoCard">
+                        <div class="slide-inner-frame-bg" id="holoInner">
                             <iframe src="table.html"></iframe>
+                            <div class="slide-holo"></div>
                         </div>
-                        <div class="slide-holo"></div>
                         <div class="promo-card-inner">
                             <div class="promo-card-content">
                                 <h2>за участие получай чак-чак</h2>
@@ -312,6 +336,48 @@
                     nextEl: '.swiper-btn-next',
                     prevEl: '.swiper-btn-prev',
                 },
+            });
+
+            // ===== Голографическая карточка: наклон + курсор =====
+            const holoCard = document.getElementById('holoCard');
+            const holoInner = document.getElementById('holoInner');
+            if (!holoCard || !holoInner) return;
+
+            const clamp = (v, min = 0, max = 100) => Math.min(Math.max(v, min), max);
+            const round = (v, p = 3) => parseFloat(v.toFixed(p));
+            const adjust = (v, fMin, fMax, tMin, tMax) =>
+                round(tMin + ((tMax - tMin) * (v - fMin)) / (fMax - fMin));
+
+            holoCard.addEventListener('pointermove', (e) => {
+                const rect = holoCard.getBoundingClientRect();
+                const px = clamp(((e.clientX - rect.left) / rect.width) * 100);
+                const py = clamp(((e.clientY - rect.top) / rect.height) * 100);
+                const cx = px - 50;
+                const cy = py - 50;
+                const fromCenter = clamp(Math.sqrt(cx * cx + cy * cy) / 50, 0, 1);
+
+                holoCard.style.setProperty('--pointer-x', px + '%');
+                holoCard.style.setProperty('--pointer-y', py + '%');
+                holoCard.style.setProperty('--background-x', adjust(px, 0, 100, 35, 65) + '%');
+                holoCard.style.setProperty('--background-y', adjust(py, 0, 100, 35, 65) + '%');
+                holoCard.style.setProperty('--pointer-from-center', fromCenter);
+                holoCard.style.setProperty('--pointer-from-top', py / 100);
+                holoCard.style.setProperty('--pointer-from-left', px / 100);
+
+                const rotX = round(-(cx / 5));
+                const rotY = round(cy / 4);
+                holoInner.style.transform = `rotateX(${rotY}deg) rotateY(${rotX}deg)`;
+            });
+
+            holoCard.addEventListener('pointerleave', () => {
+                holoCard.classList.add('is-resetting');
+                holoInner.style.transform = 'rotateX(0deg) rotateY(0deg)';
+                holoCard.style.setProperty('--pointer-x', '50%');
+                holoCard.style.setProperty('--pointer-y', '50%');
+                holoCard.style.setProperty('--pointer-from-center', '0');
+                holoCard.style.setProperty('--rotate-x', '0deg');
+                holoCard.style.setProperty('--rotate-y', '0deg');
+                setTimeout(() => holoCard.classList.remove('is-resetting'), 800);
             });
         });
     </script>
