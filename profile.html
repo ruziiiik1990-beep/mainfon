@@ -51,7 +51,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* ====== ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА В ПРОФИЛЕ ====== */
+        /* ====== ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА ====== */
         :root {
             --pointer-x: 50%;
             --pointer-y: 50%;
@@ -279,17 +279,23 @@
                 background-position, background-blend-mode, filter, box-shadow;
         }
 
+        /* Аватар: без бленда, всегда виден, поверх shine/glare */
         .profile-photo #card .avatar__content {
-            mix-blend-mode: color-dodge;
+            mix-blend-mode: normal;
+            z-index: 6;
         }
 
         .profile-photo #card .avatar__content .avatar {
-            border-radius: 200px;
-            max-width: 80%;
-            margin: 10% auto;
+            border-radius: 50%;
+            width: 88%;
+            height: 88%;
+            max-width: none;
+            margin: 6% auto;
             position: relative;
-            opacity: calc((1.75 - var(--pointer-from-center)));
+            object-fit: cover;
+            opacity: calc((1.9 - var(--pointer-from-center) * 0.6));
             box-shadow: rgba(0, 0, 0, 0.6) calc((var(--pointer-from-left) * 4px) - 1px) calc((var(--pointer-from-top) * 10px) - 3px) 12px -2px;
+            z-index: 6;
         }
 
         .profile-photo .card__content {
@@ -498,7 +504,7 @@
             <div class="profile">
                 <div class="profile-intro">
                     <div class="profile-head">
-                        <!-- Голографическая карточка вместо фото -->
+                        <!-- Голографическая карточка с логотипом -->
                         <div class="profile-photo">
                             <div class="card-wrapper active">
                                 <section id="card" class="active">
@@ -506,7 +512,7 @@
                                         <div class="card__shine"></div>
                                         <div class="card__glare"></div>
                                         <div class="card__content avatar__content">
-                                            <img class="avatar" src="logo1.jpg" alt="" />
+                                            <img class="avatar" src="logo1.jpg" alt="Логотип" />
                                         </div>
                                     </div>
                                 </section>
@@ -1047,10 +1053,8 @@
             );
         });
 
-        // Стартовое положение — у правого верхнего края
         cardUpdate({ offsetX: $wrap.clientWidth - 10, offsetY: 10 });
 
-        // Интро-анимация к центру
         setTimeout(() => {
             easer = easedFunc(
                 2500,
@@ -1059,7 +1063,6 @@
                     const y = adjust(p, 0, 1, 10, halfH);
                     cardUpdate({ offsetX: x, offsetY: y });
                 }
-                // ВАЖНО: не снимаем .active — свечение остаётся всегда
             );
         }, 800);
     })();
