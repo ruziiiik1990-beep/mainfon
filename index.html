@@ -12,16 +12,43 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* === Глобальные переменные эффекта === */
+        /* ============================================================
+           ОРИГИНАЛЬНЫЕ ПЕРЕМЕННЫЕ ИЗ CODEPEN (файл 2)
+           ============================================================ */
         :root {
+            --pointer-x: 50%;
+            --pointer-y: 50%;
+            --pointer-from-center: 0;
+            --pointer-from-top: 0.5;
+            --pointer-from-left: 0.5;
+            --card-opacity: 0;
+            --rotate-x: 0deg;
+            --rotate-y: 0deg;
+            --background-x: 50%;
+            --background-y: 50%;
+            --card-scale: 1;
+            --translate-x: 0px;
+            --translate-y: 0px;
+
+            --grain: url(https://assets.codepen.io/13471/grain.webp);
+            --metafy: url(https://assets.codepen.io/13471/metafy-repeat.png);
             --sunpillar-1: hsl(2, 100%, 73%);
             --sunpillar-2: hsl(53, 100%, 69%);
             --sunpillar-3: hsl(93, 100%, 69%);
             --sunpillar-4: hsl(176, 100%, 76%);
             --sunpillar-5: hsl(228, 100%, 74%);
             --sunpillar-6: hsl(283, 100%, 73%);
+            --sunpillar-clr-1: var(--sunpillar-1);
+            --sunpillar-clr-2: var(--sunpillar-2);
+            --sunpillar-clr-3: var(--sunpillar-3);
+            --sunpillar-clr-4: var(--sunpillar-4);
+            --sunpillar-clr-5: var(--sunpillar-5);
+            --sunpillar-clr-6: var(--sunpillar-6);
+
+            --card-radius: 6.55% / 4.75%;
         }
 
+        /* ==== базовые стили страницы (не из CodePen) ==== */
         .bg-image {
             position: absolute;
             top: 0;
@@ -31,7 +58,6 @@
             z-index: 0;
             pointer-events: none;
         }
-
         .slider-section {
             position: relative;
             z-index: 5;
@@ -55,9 +81,9 @@
             min-height: 520px;
             border-radius: 16px;
         }
-        /* Только 3-й слайд получает 3D-перспективу */
+        /* как main { perspective: 1000px; } в оригинале */
         .promo-card.slide-3 {
-            perspective: 1200px;
+            perspective: 1000px;
         }
         .slide-inner-frame-bg {
             position: absolute;
@@ -131,129 +157,267 @@
             transition: background 0.3s, border-color 0.3s;
             padding: 0;
         }
-        .slide-arrow:hover { 
-            background: #e3769c; 
-            border-color: #e3769c;
-        }
+        .slide-arrow:hover { background: #e3769c; border-color: #e3769c; }
         .slide-arrow-prev { left: 20px; }
         .slide-arrow-next { right: 20px; }
 
-        /* ====== РЕЙТИНГОВАЯ ТАБЛИЦА С ГОЛОГРАММОЙ И НАКЛОНОМ ====== */
-        .rating-container {
+        /* ============================================================
+           ОРИГИНАЛЬНЫЕ СТИЛИ КАРТОЧКИ (файл 2, дословно)
+           ============================================================ */
+        .card-wrapper {
+            perspective: 500px;
+            transform: translate3d( 0, 0, 0.1px);
             position: relative;
+            touch-action: none;
+
+            /* ==== адаптация размеров под таблицу ==== */
+            width: 100%;
             max-width: 900px;
-            margin: 145px auto 80px;
-            padding: 15px;
-            background: rgba(10, 42, 107, 0.55);
-            border: 1px solid rgba(74, 158, 255, 0.45);
-            border-radius: 14px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            font-family: 'Inter', sans-serif;
-            overflow: hidden;
-            isolation: isolate;
-            transform-style: preserve-3d;
-            transform: rotateX(0deg) rotateY(0deg);
-            transition: transform 0.15s ease-out;
-            will-change: transform;
-            --pointer-x: 50%;
-            --pointer-y: 50%;
-            --pointer-from-center: 0;
-            --background-x: 50%;
-            --background-y: 50%;
-            cursor: pointer;
+            height: 340px;
+            margin: 100px auto 0;
         }
-        .rating-container.is-resetting {
-            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.3, 1);
-        }
-
-        /* Голографический слой — под содержимым */
-        .rating-holo {
-            position: absolute;
-            inset: 0;
-            border-radius: 14px;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 0;
-            mix-blend-mode: screen;
-        }
-
-        /* shine — мелкие переливы sunpillar, фиксированный размер тайла (как в профиле) */
-        .rating-holo::before {
+        .card-wrapper::before {
             content: "";
             position: absolute;
-            inset: 0;
+            inset: -10px;
+            background: inherit;
+            background-position: inherit;
+            border-radius: inherit;
+            transition: all 0.5s ease;
+            filter: contrast(2) saturate(2) blur(36px);
+            transform: scale(0.8) translate3d(0,0,0.1px);
+            background-size: 100% 100%;
+            background-position: 0px 0px,0px 0px,50% 50%,0px 0px;
+            background-image: radial-gradient(
+                farthest-side circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+                hsla(266, 100%, 90%, var(--card-opacity)) 4%,
+                hsla(266, 50%, 80%, calc(var(--card-opacity) * 0.75)) 10%,
+                hsla(266, 25%, 70%, calc(var(--card-opacity) * 0.5)) 50%,
+                hsla(266, 0%, 60%, 0) 100%
+            ),
+            radial-gradient(35% 52% at 55% 20%, #00FFAAC4 0%, #073AFF00 100%),
+            radial-gradient(100% 100% at 50% 50%, #00C1FFFF 1%, #073AFF00 76%),
+            conic-gradient(from 124deg at 50% 50%, #C137FFFF 0%, #07C6FFFF 40%, #07C6FFFF 60%, #C137FFFF 100%);
+        }
+        .card-wrapper:hover,
+        .card-wrapper.active {
+            --card-opacity: 1;
+        }
+        .card-wrapper:hover::before,
+        .card-wrapper.active::before {
+            filter: contrast(1) saturate(2) blur(40px) opacity(1);
+            transform: scale(0.9) translate3d(0,0,0.1px);
+        }
+
+        #card {
+            /* убрал height: 80svh и max-height — заменил на 100% под адаптацию */
+            height: 100%;
+            display: grid;
+            /* убрал aspect-ratio: 0.718 — таблица горизонтальная */
+            border-radius: var(--card-radius);
+            position: relative;
+            background-blend-mode: color-dodge, normal, normal, normal, normal;
+            animation: glow-bg 12s linear infinite;
+            box-shadow: rgba(0, 0, 0, 0.8) calc( (var(--pointer-from-left) * 10px) - 3px) calc( (var(--pointer-from-top) * 20px) - 6px) 20px -5px;
+            transition: transform 1s ease;
+            transform: translate3d( 0, 0, 0.1px) rotateX(0deg) rotateY(0deg);
+            background-size: 100% 100%;
+            background-position: 0px 0px,0px 0px,50% 50%,0px 0px;
+            background-image: radial-gradient(
+                farthest-side circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+                hsla(266, 100%, 90%, var(--card-opacity)) 4%,
+                hsla(266, 50%, 80%, calc(var(--card-opacity) * 0.75)) 10%,
+                hsla(266, 25%, 70%, calc(var(--card-opacity) * 0.5)) 50%,
+                hsla(266, 0%, 60%, 0) 100%
+            ),
+            radial-gradient(35% 52% at 55% 20%, #00FFAAC4 0%, #073AFF00 100%),
+            radial-gradient(100% 100% at 50% 50%, #00C1FFFF 1%, #073AFF00 76%),
+            conic-gradient(from 124deg at 50% 50%, #C137FFFF 0%, #07C6FFFF 40%, #07C6FFFF 60%, #C137FFFF 100%);
+            overflow: hidden;
+        }
+        #card:hover,
+        #card.active {
+            transition: none;
+            transform: translate3d(0,0,0.1px) rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
+        }
+        /* ограничил селектор только прямыми слоями карточки, чтобы содержимое таблицы не ломалось */
+        #card > .inside > .card__shine,
+        #card > .inside > .card__glare,
+        #card > .inside > .card__content {
+            border-radius: var(--card-radius);
+            transform: translate3d(0px, 0px, 0.1px);
+            pointer-events: none;
+        }
+
+        #card .inside {
+            inset: 1px;
+            position: absolute;
+            background-image: linear-gradient(145deg, #60496e8c 0%, #71C4FF44 100%);
+            background-color: rgb(0 0 0 / 90%);
+            transform: translate3d(0px, 0px, 0.01px);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+        }
+
+        /* ==== shine + ::after — дословно из файла 2 ==== */
+        .card__shine {
+            mask-image: var(--metafy);
+            mask-mode: luminance;
+            mask-repeat: repeat;
+            mask-size: 150%;
+            mask-position: top calc(200% - (var(--background-y) * 5)) left calc((100% - var(--background-x)));
+            transition: filter .6s ease;
+            filter: brightness(.66) contrast(1.33) saturate(.33) opacity(0.5);
+            animation: holo-bg 18s linear infinite;
+            mix-blend-mode: color-dodge;
+        }
+
+        .card__shine,
+        .card__shine::after {
+            --space: 5%;
+            --angle: -45deg;
+            display: grid;
+            transform: translate3d( 0, 0, 1px);
+            overflow: hidden;
+            z-index: 3;
+            background: transparent;
+            background-size: cover;
+            background-position: center;
             background-image:
-                repeating-linear-gradient(0deg,
-                    var(--sunpillar-1) 0%,
-                    var(--sunpillar-2) 5%,
-                    var(--sunpillar-3) 10%,
-                    var(--sunpillar-4) 15%,
-                    var(--sunpillar-5) 20%,
-                    var(--sunpillar-6) 25%,
-                    var(--sunpillar-1) 30%,
-                    var(--sunpillar-2) 35%,
-                    var(--sunpillar-3) 40%,
-                    var(--sunpillar-4) 45%,
-                    var(--sunpillar-5) 50%,
-                    var(--sunpillar-6) 55%,
-                    var(--sunpillar-1) 60%,
-                    var(--sunpillar-2) 65%,
-                    var(--sunpillar-3) 70%,
-                    var(--sunpillar-4) 75%,
-                    var(--sunpillar-5) 80%,
-                    var(--sunpillar-6) 85%,
-                    var(--sunpillar-1) 90%,
-                    var(--sunpillar-2) 95%,
-                    var(--sunpillar-3) 100%
+                repeating-linear-gradient( 0deg,
+                    var(--sunpillar-clr-1) calc(var(--space)*1),
+                    var(--sunpillar-clr-2) calc(var(--space)*2),
+                    var(--sunpillar-clr-3) calc(var(--space)*3),
+                    var(--sunpillar-clr-4) calc(var(--space)*4),
+                    var(--sunpillar-clr-5) calc(var(--space)*5),
+                    var(--sunpillar-clr-6) calc(var(--space)*6),
+                    var(--sunpillar-clr-1) calc(var(--space)*7)
                 ),
-                repeating-linear-gradient(-45deg,
+                repeating-linear-gradient(
+                    var(--angle),
                     #0e152e 0%,
                     hsl(180, 10%, 60%) 3.8%,
                     hsl(180, 29%, 66%) 4.5%,
                     hsl(180, 10%, 60%) 5.2%,
                     #0e152e 10%,
                     #0e152e 12%
+                ),
+                radial-gradient(
+                    farthest-corner circle
+                    at var(--pointer-x) var(--pointer-y),
+                    hsla(0, 0%, 0%, 0.1) 12%,
+                    hsla(0, 0%, 0%, 0.15) 20%,
+                    hsla(0, 0%, 0%, 0.25) 120%
                 );
-            background-size: 80px 80px, 200px 200px;   /* ← фиксированный размер, как в профиле */
-            background-position: calc(var(--background-x)) var(--background-y), center center;
+            background-position: 0% var(--background-y), calc( var(--background-x) ) var(--background-y), center center;
             background-blend-mode: color, hard-light;
-            filter: brightness(0.9) contrast(1.5) saturate(0.65);
-            animation: holo-bg 8s linear infinite;
+            background-size: 500% 500%, 300% 300%, 200% 200%;
+            background-repeat: repeat;
         }
 
-        /* glare — блик за курсором */
-        .rating-holo::after {
+        .card__shine::before,
+        .card__shine::after {
             content: "";
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(
-                farthest-corner circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
-                hsl(248, 25%, 90%) 8%,
-                hsla(207, 40%, 30%, 0.6) 90%
-            );
+            background-position: center;
+            background-size: cover;
+            grid-area: 1/1;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #card:hover .card__shine,
+        #card.active .card__shine {
+            filter: brightness(.85) contrast(1.5) saturate(.5);
+            animation: none;
+        }
+        #card:hover .card__shine::before,
+        #card:hover .card__shine::after,
+        #card.active .card__shine::before,
+        #card.active .card__shine::after {
+            opacity: 1;
+        }
+
+        .card__shine::before {
+            background-image:
+                linear-gradient( 45deg,
+                    var(--sunpillar-4),
+                    var(--sunpillar-5),
+                    var(--sunpillar-6),
+                    var(--sunpillar-1),
+                    var(--sunpillar-2),
+                    var(--sunpillar-3)
+                ),
+                radial-gradient( circle at var(--pointer-x) var(--pointer-y), hsl(0, 0%, 70%) 0%, hsla(0, 0%, 30%, 20%) 90% ),
+                var(--grain);
+            background-size: 250% 250%, 100% 100%, 220px 220px;
+            background-position: var(--pointer-x) var(--pointer-y), center center, calc(var(--pointer-x) * 0.01) calc(var(--pointer-y) * 0.01);
+            background-blend-mode: color-dodge;
+            filter: brightness(calc( 2 - var(--pointer-from-center))) contrast(calc( var(--pointer-from-center) + 2 )) saturate(calc( .5 + var(--pointer-from-center) ));
+            mix-blend-mode: luminosity;
+        }
+
+        .card__shine::after {
+            background-position: 0% var(--background-y), calc( (var(--background-x) ) * 0.4) calc( var(--background-y) * 0.5), center center;
+            background-size: 200% 300%, 700% 700%, 100% 100%;
+            mix-blend-mode: difference;
+            filter: brightness(.8) contrast(1.5);
+        }
+
+        #card .card__glare {
+            transform: translate3d( 0, 0, 1.1px);
+            overflow: hidden;
+            background-image:
+                radial-gradient(
+                    farthest-corner circle at var(--pointer-x) var(--pointer-y),
+                    hsl(248, 25%, 80%) 12%,
+                    hsla(207, 40%, 30%, .8) 90%
+                );
             mix-blend-mode: overlay;
-            filter: brightness(0.85) contrast(1.2);
-            opacity: calc(0.3 + var(--pointer-from-center) * 0.6);
+            filter: brightness(.8) contrast(1.2);
+            z-index: 4;
+        }
+
+        .card__shine,
+        .card__glare,
+        .avatar {
+            will-change: transform, opacity, background-image, background-size,
+                background-position, background-blend-mode, filter, box-shadow;
+        }
+
+        /* ==== card__content: адаптирован под таблицу (был для аватара и details) ==== */
+        .card__content {
+            padding: 16px 20px;
+            max-height: 100%;
+            overflow: hidden;
+            text-align: center;
+            pointer-events: none;
+            position: relative;
+            transform: translate3d(calc(var(--pointer-from-left) * -6px + 3px), calc(var(--pointer-from-top) * -6px + 3px), 0.1px) !important;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 6px;
+        }
+
+        @keyframes glow-bg {
+            0% { --bgrotate: 0deg; }
+            100% { --bgrotate: 360deg; }
         }
 
         @keyframes holo-bg {
-            0%   { background-position: 0% 50%, 0% 0%; }
-            100% { background-position: 80px 50%, 90% 90%; }
+            0% { background-position: 0% var(--background-y), 0% 0%, center center; }
+            100% { background-position: 0% var(--background-y), 90% 90%, center center; }
         }
 
-        /* Контент таблицы — поверх голограммы */
-        .rating-title,
-        .rating-scroll,
-        .rating-note {
-            position: relative;
-            z-index: 1;
-        }
-
+        /* ============================================================
+           ТАБЛИЦА — только оформление, без изменения анимации
+           ============================================================ */
         .rating-title {
             color: #d6e7ff;
-            font-size: 18px;
+            font-size: 14px;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 1px;
             text-align: center;
@@ -261,13 +425,12 @@
                 0 1px 3px rgba(0, 0, 0, 1),
                 0 0 14px rgba(74, 158, 255, 0.6);
         }
-
         .rating-scroll {
-            max-height: 220px;
+            max-height: 200px;
             overflow-y: auto;
+            border-radius: 8px;
             scrollbar-width: thin;
             scrollbar-color: rgba(74, 158, 255, 0.6) rgba(10, 42, 107, 0.2);
-            border-radius: 8px;
         }
         .rating-scroll::-webkit-scrollbar { width: 8px; }
         .rating-scroll::-webkit-scrollbar-track { background: rgba(10, 42, 107, 0.2); border-radius: 4px; }
@@ -283,12 +446,12 @@
             white-space: nowrap;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 0.8);
         }
-        .cell-content { display: block; padding: 6px 16px; text-align: center; }
+        .cell-content { display: block; padding: 4px 12px; text-align: center; }
         .rating-table th {
             font-weight: 700;
             color: rgba(255, 255, 255, 0.98);
             text-transform: uppercase;
-            font-size: 12px;
+            font-size: 11px;
             letter-spacing: 0.5px;
             position: sticky;
             top: 0;
@@ -297,34 +460,34 @@
         }
         .rating-table tbody tr:last-child td { border-bottom: none; }
 
-        .pos-cell { width: 40px; font-weight: 800; font-size: 16px; color: rgba(255, 255, 255, 0.7); }
-        .pos-cell.first { color: #ffd700; font-size: 18px; text-shadow: 0 0 12px rgba(255,215,0,0.6), 0 1px 3px #000; }
-        .pos-cell.second { color: #e0e0e0; font-size: 17px; text-shadow: 0 0 10px rgba(220,220,220,0.5), 0 1px 3px #000; }
-        .pos-cell.third { color: #e0a060; font-size: 16px; text-shadow: 0 0 10px rgba(205,127,50,0.5), 0 1px 3px #000; }
+        .pos-cell { width: 36px; font-weight: 800; font-size: 13px; color: rgba(255, 255, 255, 0.7); }
+        .pos-cell.first { color: #ffd700; font-size: 14px; text-shadow: 0 0 10px rgba(255,215,0,0.55), 0 1px 3px #000; }
+        .pos-cell.second { color: #e0e0e0; font-size: 13px; text-shadow: 0 0 8px rgba(220,220,220,0.4), 0 1px 3px #000; }
+        .pos-cell.third { color: #e0a060; font-size: 13px; text-shadow: 0 0 8px rgba(205,127,50,0.4), 0 1px 3px #000; }
 
-        .name-cell { font-weight: 600; font-size: 15px; }
-        .name-cell.first { color: #ffd700; font-weight: 800; text-shadow: 0 0 12px rgba(255,215,0,0.55), 0 1px 3px #000; }
-        .name-cell.second { color: #e5e5e5; font-weight: 800; text-shadow: 0 0 10px rgba(220,220,220,0.45), 0 1px 3px #000; }
-        .name-cell.third { color: #e0a060; font-weight: 800; text-shadow: 0 0 10px rgba(205,127,50,0.45), 0 1px 3px #000; }
+        .name-cell { font-weight: 600; font-size: 12px; }
+        .name-cell.first { color: #ffd700; font-weight: 800; text-shadow: 0 0 10px rgba(255,215,0,0.5), 0 1px 3px #000; }
+        .name-cell.second { color: #e5e5e5; font-weight: 800; text-shadow: 0 0 8px rgba(220,220,220,0.4), 0 1px 3px #000; }
+        .name-cell.third { color: #e0a060; font-weight: 800; text-shadow: 0 0 8px rgba(205,127,50,0.4), 0 1px 3px #000; }
 
-        .champ-cell { width: 90px; font-weight: 700; font-size: 15px; }
+        .champ-cell { width: 70px; font-weight: 700; font-size: 12px; }
         .champ-cell.first { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5), 0 1px 3px #000; }
-        .champ-cell.second { color: #e0e0e0; text-shadow: 0 0 10px rgba(220,220,220,0.4), 0 1px 3px #000; }
-        .champ-cell.third { color: #e0a060; text-shadow: 0 0 10px rgba(205,127,50,0.4), 0 1px 3px #000; }
+        .champ-cell.second { color: #e0e0e0; text-shadow: 0 0 8px rgba(220,220,220,0.4), 0 1px 3px #000; }
+        .champ-cell.third { color: #e0a060; text-shadow: 0 0 8px rgba(205,127,50,0.4), 0 1px 3px #000; }
 
-        .finalist-cell { width: 90px; font-weight: 700; font-size: 15px; }
+        .finalist-cell { width: 70px; font-weight: 700; font-size: 12px; }
         .finalist-cell.first { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5), 0 1px 3px #000; }
-        .finalist-cell.second { color: #e0e0e0; text-shadow: 0 0 10px rgba(220,220,220,0.4), 0 1px 3px #000; }
-        .finalist-cell.third { color: #e0a060; text-shadow: 0 0 10px rgba(205,127,50,0.4), 0 1px 3px #000; }
+        .finalist-cell.second { color: #e0e0e0; text-shadow: 0 0 8px rgba(220,220,220,0.4), 0 1px 3px #000; }
+        .finalist-cell.third { color: #e0a060; text-shadow: 0 0 8px rgba(205,127,50,0.4), 0 1px 3px #000; }
 
-        .points-cell { width: 110px; font-weight: 700; color: #ffd700; font-size: 18px; text-shadow: 0 0 12px rgba(255,215,0,0.55), 0 1px 3px #000; }
-        .points-cell.zero { color: rgba(255, 215, 0, 0.35); font-size: 14px; text-shadow: 0 1px 3px #000; }
+        .points-cell { width: 80px; font-weight: 700; color: #ffd700; font-size: 14px; text-shadow: 0 0 10px rgba(255,215,0,0.55), 0 1px 3px #000; }
+        .points-cell.zero { color: rgba(255, 215, 0, 0.35); font-size: 12px; text-shadow: 0 1px 3px #000; }
 
         .rating-note {
             text-align: center;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 11px;
-            margin-top: 6px;
+            font-size: 10px;
+            margin-top: 4px;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 1);
         }
 
@@ -332,8 +495,7 @@
             .promo-card-content { max-width: 100%; }
             .promo-card-content h2 { font-size: 18px; }
             .slide-arrow { width: 40px; height: 40px; font-size: 26px; }
-            .promo-card.slide-3 { perspective: none; }
-            .rating-container { transform: none !important; margin: 120px auto 80px; }
+            .card-wrapper { height: 300px; margin-top: 110px; }
         }
     </style>
 </head>
@@ -347,7 +509,7 @@
         <div class="container slider-container">
             <div class="swiper promo-slider">
                 <div class="swiper-wrapper">
-                    <!-- СЛАЙД 1: Частицы → Правила -->
+                    <!-- СЛАЙД 1 -->
                     <div class="swiper-slide promo-card">
                         <div class="slide-inner-frame-bg">
                             <iframe src="particles.html"></iframe>
@@ -362,7 +524,7 @@
                         <button class="slide-arrow slide-arrow-next swiper-btn-next">&#8250;</button>
                     </div>
                     
-                    <!-- СЛАЙД 2: Плей-офф → Турниры -->
+                    <!-- СЛАЙД 2 -->
                     <div class="swiper-slide promo-card">
                         <div class="slide-inner-frame-bg">
                             <iframe src="playoff.html"></iframe>
@@ -377,7 +539,7 @@
                         <button class="slide-arrow slide-arrow-next swiper-btn-next">&#8250;</button>
                     </div>
                     
-                    <!-- СЛАЙД 3: Турнирная таблица + голограмма + наклон (статика) -->
+                    <!-- СЛАЙД 3: оригинальная карточка CodePen + наша таблица -->
                     <div class="swiper-slide promo-card slide-3">
                         <div class="promo-card-inner">
                             <div class="promo-card-content">
@@ -386,60 +548,68 @@
                             </div>
                         </div>
 
-                        <div class="rating-container" id="holoCard">
-                            <div class="rating-holo"></div>
-                            <div class="rating-title">Турнирная таблица</div>
-                            <div class="rating-scroll">
-                                <table class="rating-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="pos-cell"><span class="cell-content">#</span></th>
-                                            <th><span class="cell-content">Игрок</span></th>
-                                            <th class="champ-cell"><span class="cell-content">Чемпион</span></th>
-                                            <th class="finalist-cell"><span class="cell-content">Финалист</span></th>
-                                            <th class="points-cell"><span class="cell-content">Чак-чак</span></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="pos-cell first"><span class="cell-content">1</span></td>
-                                            <td><span class="cell-content"><span class="name-cell first">s1mple</span></span></td>
-                                            <td class="champ-cell"><span class="cell-content"><span class="champ-cell first">2</span></span></td>
-                                            <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell first">0</span></span></td>
-                                            <td class="points-cell"><span class="cell-content"><span class="points-cell">4</span></span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="pos-cell second"><span class="cell-content">2</span></td>
-                                            <td><span class="cell-content"><span class="name-cell second">NiKo</span></span></td>
-                                            <td class="champ-cell"><span class="cell-content"><span class="champ-cell second">1</span></span></td>
-                                            <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell second">1</span></span></td>
-                                            <td class="points-cell"><span class="cell-content"><span class="points-cell">3</span></span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="pos-cell third"><span class="cell-content">3</span></td>
-                                            <td><span class="cell-content"><span class="name-cell third">device</span></span></td>
-                                            <td class="champ-cell"><span class="cell-content"><span class="champ-cell third">1</span></span></td>
-                                            <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell third">0</span></span></td>
-                                            <td class="points-cell"><span class="cell-content"><span class="points-cell">2</span></span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="pos-cell"><span class="cell-content">4</span></td>
-                                            <td><span class="cell-content"><span class="name-cell">ZywOo</span></span></td>
-                                            <td class="champ-cell"><span class="cell-content"><span class="champ-cell">0</span></span></td>
-                                            <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell">1</span></span></td>
-                                            <td class="points-cell"><span class="cell-content"><span class="points-cell">1</span></span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="pos-cell"><span class="cell-content">5</span></td>
-                                            <td><span class="cell-content"><span class="name-cell">dupreeh</span></span></td>
-                                            <td class="champ-cell"><span class="cell-content"><span class="champ-cell">0</span></span></td>
-                                            <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell">0</span></span></td>
-                                            <td class="points-cell"><span class="cell-content"><span class="points-cell zero">0</span></span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
+                        <!-- Оригинальная структура из CodePen: card-wrapper > #card > inside > shine + glare + card__content -->
+                        <div class="card-wrapper active">
+                            <section id="card" class="active">
+                                <div class="inside">
+                                    <div class="card__shine"></div>
+                                    <div class="card__glare"></div>
+                                    <div class="card__content">
+                                        <div class="rating-title">Турнирная таблица</div>
+                                        <div class="rating-scroll">
+                                            <table class="rating-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="pos-cell"><span class="cell-content">#</span></th>
+                                                        <th><span class="cell-content">Игрок</span></th>
+                                                        <th class="champ-cell"><span class="cell-content">Чемпион</span></th>
+                                                        <th class="finalist-cell"><span class="cell-content">Финалист</span></th>
+                                                        <th class="points-cell"><span class="cell-content">Чак-чак</span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="pos-cell first"><span class="cell-content">1</span></td>
+                                                        <td><span class="cell-content"><span class="name-cell first">s1mple</span></span></td>
+                                                        <td class="champ-cell"><span class="cell-content"><span class="champ-cell first">2</span></span></td>
+                                                        <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell first">0</span></span></td>
+                                                        <td class="points-cell"><span class="cell-content"><span class="points-cell">4</span></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pos-cell second"><span class="cell-content">2</span></td>
+                                                        <td><span class="cell-content"><span class="name-cell second">NiKo</span></span></td>
+                                                        <td class="champ-cell"><span class="cell-content"><span class="champ-cell second">1</span></span></td>
+                                                        <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell second">1</span></span></td>
+                                                        <td class="points-cell"><span class="cell-content"><span class="points-cell">3</span></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pos-cell third"><span class="cell-content">3</span></td>
+                                                        <td><span class="cell-content"><span class="name-cell third">device</span></span></td>
+                                                        <td class="champ-cell"><span class="cell-content"><span class="champ-cell third">1</span></span></td>
+                                                        <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell third">0</span></span></td>
+                                                        <td class="points-cell"><span class="cell-content"><span class="points-cell">2</span></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pos-cell"><span class="cell-content">4</span></td>
+                                                        <td><span class="cell-content"><span class="name-cell">ZywOo</span></span></td>
+                                                        <td class="champ-cell"><span class="cell-content"><span class="champ-cell">0</span></span></td>
+                                                        <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell">1</span></span></td>
+                                                        <td class="points-cell"><span class="cell-content"><span class="points-cell">1</span></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pos-cell"><span class="cell-content">5</span></td>
+                                                        <td><span class="cell-content"><span class="name-cell">dupreeh</span></span></td>
+                                                        <td class="champ-cell"><span class="cell-content"><span class="champ-cell">0</span></span></td>
+                                                        <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell">0</span></span></td>
+                                                        <td class="points-cell"><span class="cell-content"><span class="points-cell zero">0</span></span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
 
                         <button class="slide-arrow slide-arrow-prev swiper-btn-prev">&#8249;</button>
@@ -475,48 +645,137 @@
                     prevEl: '.swiper-btn-prev',
                 },
             });
-
-            /* ====== Наклон таблицы за курсором + блик ====== */
-            const holoCard = document.getElementById('holoCard');
-            if (!holoCard) return;
-
-            const clamp = (v, min = 0, max = 100) => Math.min(Math.max(v, min), max);
-            const round = (v, p = 2) => parseFloat(v.toFixed(p));
-            const adjust = (v, fMin, fMax, tMin, tMax) =>
-                round(tMin + ((tMax - tMin) * (v - fMin)) / (fMax - fMin));
-
-            holoCard.addEventListener('pointermove', (e) => {
-                holoCard.classList.remove('is-resetting');
-
-                const rect = holoCard.getBoundingClientRect();
-                const px = clamp(((e.clientX - rect.left) / rect.width) * 100);
-                const py = clamp(((e.clientY - rect.top) / rect.height) * 100);
-                const cx = px - 50;
-                const cy = py - 50;
-                const fromCenter = clamp(Math.sqrt(cx * cx + cy * cy) / 50, 0, 1);
-
-                holoCard.style.setProperty('--pointer-x', px + '%');
-                holoCard.style.setProperty('--pointer-y', py + '%');
-                holoCard.style.setProperty('--background-x', adjust(px, 0, 100, 35, 65) + '%');
-                holoCard.style.setProperty('--background-y', adjust(py, 0, 100, 35, 65) + '%');
-                holoCard.style.setProperty('--pointer-from-center', fromCenter);
-
-                const rotX = round(-(cy / 6));
-                const rotY = round(cx / 6);
-                holoCard.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-            });
-
-            holoCard.addEventListener('pointerleave', () => {
-                holoCard.classList.add('is-resetting');
-                holoCard.style.transform = 'rotateX(0deg) rotateY(0deg)';
-                holoCard.style.setProperty('--pointer-x', '50%');
-                holoCard.style.setProperty('--pointer-y', '50%');
-                holoCard.style.setProperty('--pointer-from-center', '0');
-                holoCard.style.setProperty('--background-x', '50%');
-                holoCard.style.setProperty('--background-y', '50%');
-                setTimeout(() => holoCard.classList.remove('is-resetting'), 800);
-            });
         });
+    </script>
+
+    <!-- ============================================================
+         ОРИГИНАЛЬНЫЙ JS ИЗ CODEPEN (файл 3, дословно)
+         ============================================================ -->
+    <script>
+    (function() {
+        const $wrap = document.querySelector(".card-wrapper");
+        const $card = document.querySelector("#card");
+        if (!$wrap || !$card) return;
+
+        const cardUpdate = (e) => {
+            var pos = [e.offsetX, e.offsetY];
+            if (e.pointerType === "touch") {
+                e.preventDefault;
+            }
+            var dimensions = $card.getBoundingClientRect();
+            var l = pos[0];
+            var t = pos[1];
+            var h = dimensions.height;
+            var w = dimensions.width;
+            var px = clamp(Math.abs((100 / w) * l), 0, 100);
+            var py = clamp(Math.abs((100 / h) * t), 0, 100);
+            var cx = px - 50;
+            var cy = py - 50;
+
+            $wrap.setAttribute(
+                "style",
+                `
+                  --pointer-x: ${px}%;
+                  --pointer-y: ${py}%;
+                  --background-x: ${adjust(px, 0, 100, 35, 65)}%;
+                  --background-y: ${adjust(py, 0, 100, 35, 65)}%;
+                  --pointer-from-center: ${clamp(
+                    Math.sqrt((py - 50) * (py - 50) + (px - 50) * (px - 50)) / 50,
+                    0,
+                    1
+                  )};
+                  --pointer-from-top: ${py / 100};
+                  --pointer-from-left: ${px / 100};
+                  --rotate-x: ${round(-(cx / 5))}deg;
+                  --rotate-y: ${round(cy / 4)}deg;
+                `
+            );
+        };
+
+        function ease(x) {
+            return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+        }
+
+        function easedFunc(durationMs, onProgress, onComplete, onCancel) {
+            let startTime = performance.now();
+            let canceled = false;
+
+            function loop() {
+                if (canceled) return;
+                const currentTime = performance.now();
+                const progress = (currentTime - startTime) / durationMs;
+                const easedProgress = ease(progress);
+                onProgress(easedProgress);
+                if (progress < 1) {
+                    requestAnimationFrame(loop);
+                } else {
+                    if (onComplete) onComplete();
+                }
+            }
+
+            loop();
+
+            return {
+                cancel: () => {
+                    canceled = true;
+                }
+            };
+        }
+
+        const round = (value, precision = 3) => parseFloat(value.toFixed(precision));
+
+        const clamp = (value, min = 0, max = 100) => {
+            return Math.min(Math.max(value, min), max);
+        };
+
+        const adjust = (value, fromMin, fromMax, toMin, toMax) => {
+            return round(
+                toMin + ((toMax - toMin) * (value - fromMin)) / (fromMax - fromMin)
+            );
+        };
+
+        const halfW = $wrap.clientWidth / 2;
+        const halfH = $wrap.clientHeight / 2;
+
+        let easer;
+        $card.addEventListener("pointerenter", () => {
+            if (easer) {
+                easer?.cancel?.();
+            }
+        });
+        $card.addEventListener("pointermove", cardUpdate);
+        $card.addEventListener("pointerout", (e) => {
+            easer = easedFunc(
+                1000,
+                (p) => {
+                    let x = adjust(p, 0, 1, e.offsetX, halfW);
+                    let y = adjust(p, 0, 1, e.offsetY, halfH);
+                    cardUpdate({ offsetX: x, offsetY: y });
+                },
+                () => {
+                    $card.classList.remove("active");
+                    $wrap.classList.remove("active");
+                }
+            );
+        });
+
+        cardUpdate({ offsetX: $wrap.clientWidth - 70, offsetY: 60 });
+
+        setTimeout(() => {
+            easer = easedFunc(
+                3000,
+                (p) => {
+                    let x = adjust(p, 0, 1, $wrap.clientWidth - 70, halfW);
+                    let y = adjust(p, 0, 1, 60, halfH);
+                    cardUpdate({ offsetX: x, offsetY: y });
+                },
+                () => {
+                    $card.classList.remove("active");
+                    $wrap.classList.remove("active");
+                }
+            );
+        }, 1000);
+    })();
     </script>
 </body>
 </html>
