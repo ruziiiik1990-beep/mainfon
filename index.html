@@ -10,7 +10,6 @@
     <title>4ak4ak</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --pointer-x: 50%;
@@ -45,7 +44,6 @@
             --card-radius: 6.55% / 4.75%;
         }
 
-        /* ==== страница ==== */
         .bg-image {
             position: absolute;
             top: 0;
@@ -154,24 +152,19 @@
         .slide-arrow-prev { left: 20px; }
         .slide-arrow-next { right: 20px; }
 
-        /* 3-й слайд — центрируем карточку */
         .promo-card.slide-3 {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 90px 30px 70px;
+            padding-top: 90px;
             perspective: 1000px;
         }
 
-        /* ==== карточка ==== */
         .card-wrapper {
             perspective: 500px;
             transform: translate3d( 0, 0, 0.1px);
             position: relative;
             touch-action: none;
-            width: 100%;
-            max-width: 800px;
         }
         .card-wrapper::before {
             content: "";
@@ -207,10 +200,10 @@
         }
 
         #card {
-            /* горизонтальная под таблицу */
-            height: 340px;
-            width: 100%;
+            height: 400px;
             display: grid;
+            /* ЕДИНСТВЕННОЕ ИЗМЕНЕНИЕ: было 0.718, стало 2.154 = ширина ×3 */
+            aspect-ratio: 2.154;
             border-radius: var(--card-radius);
             position: relative;
             background-blend-mode: color-dodge, normal, normal, normal, normal;
@@ -237,19 +230,14 @@
             transition: none;
             transform: translate3d(0,0,0.1px) rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
         }
-
-        /* Прямые потомки .inside — не трогаем внутренности таблицы */
-        #card > .inside > .card__shine,
-        #card > .inside > .card__glare,
-        #card > .inside > .card__content {
+        #card * {
             display: grid;
-            grid-area: 1 / -1;
+            grid-area: 1/-1;
             border-radius: var(--card-radius);
             transform: translate3d(0px, 0px, 0.1px);
             pointer-events: none;
         }
 
-        /* прозрачный фон — иначе shine невидим */
         #card .inside {
             inset: 1px;
             position: absolute;
@@ -383,22 +371,6 @@
                 background-position, background-blend-mode, filter, box-shadow;
         }
 
-        /* ==== card__content с таблицей, над shine (z: 5) ==== */
-        .card__content {
-            padding: 12px 16px;
-            max-height: 100%;
-            overflow: hidden;
-            text-align: center;
-            pointer-events: none;
-            position: relative;
-            transform: translate3d(calc(var(--pointer-from-left) * -6px + 3px), calc(var(--pointer-from-top) * -6px + 3px), 0.1px) !important;
-            z-index: 5;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 4px;
-        }
-
         @keyframes glow-bg {
             0% { --bgrotate: 0deg; }
             100% { --bgrotate: 360deg; }
@@ -408,88 +380,11 @@
             100% { background-position: 0% var(--background-y), 90% 90%, center center; }
         }
 
-        /* ============================================================
-           ТАБЛИЦА — как в rank.html, статичная
-           ============================================================ */
-        .rating-title {
-            color: #d6e7ff;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 2px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-align: center;
-            text-shadow:
-                0 1px 3px rgba(0, 0, 0, 1),
-                0 0 12px rgba(74, 158, 255, 0.6);
-        }
-
-        .rating-table {
-            width: 100%;
-            border-collapse: collapse;
-            color: #fff;
-            table-layout: fixed;
-        }
-        .rating-table th,
-        .rating-table td {
-            padding: 0;
-            border-bottom: 1px solid rgba(140, 190, 255, 0.22);
-            text-align: center;
-            vertical-align: middle;
-            background: rgba(10, 42, 107, 0.15);
-            white-space: nowrap;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 0.8);
-        }
-        .cell-content { display: block; padding: 5px 10px; }
-        .rating-table th {
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.98);
-            text-transform: uppercase;
-            font-size: 10px;
-            letter-spacing: 0.5px;
-            background: rgba(10, 42, 107, 0.35);
-        }
-        .rating-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .pos-cell { width: 36px; font-weight: 800; font-size: 12px; color: rgba(255, 255, 255, 0.7); }
-        .pos-cell.first { color: #ffd700; font-size: 13px; text-shadow: 0 0 8px rgba(255,215,0,0.55), 0 1px 3px #000; }
-        .pos-cell.second { color: #e0e0e0; font-size: 12px; text-shadow: 0 0 6px rgba(220,220,220,0.4), 0 1px 3px #000; }
-        .pos-cell.third { color: #e0a060; font-size: 12px; text-shadow: 0 0 6px rgba(205,127,50,0.4), 0 1px 3px #000; }
-
-        .name-cell { font-weight: 600; font-size: 11px; }
-        .name-cell.first { color: #ffd700; font-weight: 800; text-shadow: 0 0 8px rgba(255,215,0,0.5), 0 1px 3px #000; }
-        .name-cell.second { color: #e5e5e5; font-weight: 800; text-shadow: 0 0 6px rgba(220,220,220,0.4), 0 1px 3px #000; }
-        .name-cell.third { color: #e0a060; font-weight: 800; text-shadow: 0 0 6px rgba(205,127,50,0.4), 0 1px 3px #000; }
-
-        .champ-cell { width: 80px; font-weight: 700; font-size: 11px; }
-        .champ-cell.first { color: #ffd700; text-shadow: 0 0 8px rgba(255,215,0,0.5), 0 1px 3px #000; }
-        .champ-cell.second { color: #e0e0e0; text-shadow: 0 0 6px rgba(220,220,220,0.4), 0 1px 3px #000; }
-        .champ-cell.third { color: #e0a060; text-shadow: 0 0 6px rgba(205,127,50,0.4), 0 1px 3px #000; }
-
-        .finalist-cell { width: 80px; font-weight: 700; font-size: 11px; }
-        .finalist-cell.first { color: #ffd700; text-shadow: 0 0 8px rgba(255,215,0,0.5), 0 1px 3px #000; }
-        .finalist-cell.second { color: #e0e0e0; text-shadow: 0 0 6px rgba(220,220,220,0.4), 0 1px 3px #000; }
-        .finalist-cell.third { color: #e0a060; text-shadow: 0 0 6px rgba(205,127,50,0.4), 0 1px 3px #000; }
-
-        .points-cell { width: 90px; font-weight: 700; color: #ffd700; font-size: 13px; text-shadow: 0 0 8px rgba(255,215,0,0.55), 0 1px 3px #000; }
-        .points-cell.zero { color: rgba(255, 215, 0, 0.35); font-size: 11px; text-shadow: 0 1px 3px #000; }
-
-        .rating-note {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 9px;
-            margin-top: 2px;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 1);
-        }
-
         @media (max-width: 768px) {
             .promo-card-content { max-width: 100%; }
             .promo-card-content h2 { font-size: 18px; }
             .slide-arrow { width: 40px; height: 40px; font-size: 26px; }
             #card { height: 300px; }
-            .promo-card.slide-3 { padding: 80px 15px 70px; }
         }
     </style>
 </head>
@@ -533,7 +428,7 @@
                         <button class="slide-arrow slide-arrow-next swiper-btn-next">&#8250;</button>
                     </div>
                     
-                    <!-- СЛАЙД 3: карточка с таблицей -->
+                    <!-- СЛАЙД 3 -->
                     <div class="swiper-slide promo-card slide-3">
                         <div class="promo-card-inner">
                             <div class="promo-card-content">
@@ -547,58 +442,6 @@
                                 <div class="inside">
                                     <div class="card__shine"></div>
                                     <div class="card__glare"></div>
-                                    <div class="card__content">
-                                        <div class="rating-title">Турнирная таблица</div>
-                                        <table class="rating-table">
-                                            <thead>
-                                                <tr>
-                                                    <th class="pos-cell"><span class="cell-content">#</span></th>
-                                                    <th><span class="cell-content">Игрок</span></th>
-                                                    <th class="champ-cell"><span class="cell-content">Чемпион</span></th>
-                                                    <th class="finalist-cell"><span class="cell-content">Финалист</span></th>
-                                                    <th class="points-cell"><span class="cell-content">Чак-чак</span></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="pos-cell first"><span class="cell-content">1</span></td>
-                                                    <td><span class="cell-content"><span class="name-cell first">s1mple</span></span></td>
-                                                    <td class="champ-cell"><span class="cell-content"><span class="champ-cell first">2</span></span></td>
-                                                    <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell first">0</span></span></td>
-                                                    <td class="points-cell"><span class="cell-content"><span class="points-cell">4</span></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="pos-cell second"><span class="cell-content">2</span></td>
-                                                    <td><span class="cell-content"><span class="name-cell second">NiKo</span></span></td>
-                                                    <td class="champ-cell"><span class="cell-content"><span class="champ-cell second">1</span></span></td>
-                                                    <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell second">1</span></span></td>
-                                                    <td class="points-cell"><span class="cell-content"><span class="points-cell">3</span></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="pos-cell third"><span class="cell-content">3</span></td>
-                                                    <td><span class="cell-content"><span class="name-cell third">device</span></span></td>
-                                                    <td class="champ-cell"><span class="cell-content"><span class="champ-cell third">1</span></span></td>
-                                                    <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell third">0</span></span></td>
-                                                    <td class="points-cell"><span class="cell-content"><span class="points-cell">2</span></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="pos-cell"><span class="cell-content">4</span></td>
-                                                    <td><span class="cell-content"><span class="name-cell">ZywOo</span></span></td>
-                                                    <td class="champ-cell"><span class="cell-content"><span class="champ-cell">0</span></span></td>
-                                                    <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell">1</span></span></td>
-                                                    <td class="points-cell"><span class="cell-content"><span class="points-cell">1</span></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="pos-cell"><span class="cell-content">5</span></td>
-                                                    <td><span class="cell-content"><span class="name-cell">dupreeh</span></span></td>
-                                                    <td class="champ-cell"><span class="cell-content"><span class="champ-cell">0</span></span></td>
-                                                    <td class="finalist-cell"><span class="cell-content"><span class="finalist-cell">0</span></span></td>
-                                                    <td class="points-cell"><span class="cell-content"><span class="points-cell zero">0</span></span></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
-                                    </div>
                                 </div>
                             </section>
                         </div>
@@ -639,7 +482,6 @@
         });
     </script>
 
-    <!-- JS — дословно из CodePen -->
     <script>
     (function() {
         const $wrap = document.querySelector(".card-wrapper");
