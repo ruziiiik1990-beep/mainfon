@@ -177,7 +177,7 @@
             mix-blend-mode: screen;
         }
 
-        /* shine — переливы sunpillar, анимированные */
+        /* shine — мелкие переливы sunpillar, фиксированный размер тайла (как в профиле) */
         .rating-holo::before {
             content: "";
             position: absolute;
@@ -214,10 +214,10 @@
                     #0e152e 10%,
                     #0e152e 12%
                 );
-            background-size: 500% 500%, 300% 300%;
+            background-size: 80px 80px, 200px 200px;   /* ← фиксированный размер, как в профиле */
             background-position: calc(var(--background-x)) var(--background-y), center center;
             background-blend-mode: color, hard-light;
-            filter: brightness(0.95) contrast(1.6) saturate(0.7);
+            filter: brightness(0.9) contrast(1.5) saturate(0.65);
             animation: holo-bg 8s linear infinite;
         }
 
@@ -238,7 +238,7 @@
 
         @keyframes holo-bg {
             0%   { background-position: 0% 50%, 0% 0%; }
-            100% { background-position: 100% 50%, 90% 90%; }
+            100% { background-position: 80px 50%, 90% 90%; }
         }
 
         /* Контент таблицы — поверх голограммы */
@@ -377,7 +377,7 @@
                         <button class="slide-arrow slide-arrow-next swiper-btn-next">&#8250;</button>
                     </div>
                     
-                    <!-- СЛАЙД 3: Турнирная таблица + голограмма + наклон (статика, без Firebase) -->
+                    <!-- СЛАЙД 3: Турнирная таблица + голограмма + наклон (статика) -->
                     <div class="swiper-slide promo-card slide-3">
                         <div class="promo-card-inner">
                             <div class="promo-card-content">
