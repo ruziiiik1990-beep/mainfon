@@ -496,28 +496,31 @@
             transform: scale(0.9) translate3d(0, 0, 0.1px);
         }
 
-                .ach-item .ach-card {
+                   .ach-item .ach-card {
             width: 100%;
             height: 100%;
             display: grid;
             aspect-ratio: 0.718;
             border-radius: var(--card-radius);
             position: relative;
-            background-blend-mode: normal;
-            animation: none;
+            background: #1a1a2e; /* временный тёмный фон, если картинки не загрузятся */
             box-shadow: rgba(0, 0, 0, 0.8) calc((var(--pointer-from-left) * 10px) - 3px) calc((var(--pointer-from-top) * 20px) - 6px) 20px -5px;
             transition: transform 1s ease;
             transform: translate3d(0, 0, 0.1px) rotateX(0deg) rotateY(0deg);
-
-            /* === ТВОИ КАРТИНКИ (шахматный порядок) === */
+            overflow: hidden;
+        }
+                .ach-item .ach-bg-pattern {
+            position: absolute;
+            inset: -50%; /* чтобы при повороте не было пустых углов */
             background-image: 
                 url('pngg/trophy-chak.png'),
                 url('pngg/pile-chak.png');
-            background-size: 100% 100%, 100% 100%;
-            background-position: 0 0, 50% 50%;
+            background-size: 50px 50px, 50px 50px;
+            background-position: 0 0, 25px 25px;
             background-repeat: repeat, repeat;
-
-            overflow: hidden;
+            transform: rotate(45deg);
+            z-index: 0;
+            opacity: 0.85;
         }
         .ach-item .ach-card:hover,
         .ach-item .ach-card.active {
@@ -1263,10 +1266,11 @@
                     deleteBtn = '<button class="ach-delete-btn" data-key="' + key + '" title="Удалить">&times;</button>';
                 }
 
-                div.innerHTML =
+                              div.innerHTML =
                     '<div class="ach-photo">' +
                         '<div class="card-wrapper">' +
                             '<div class="ach-card">' +
+                                '<div class="ach-bg-pattern"></div>' +
                                 '<div class="inside">' +
                                     '<img src="' + item.img + '" alt="">' +
                                 '</div>' +
