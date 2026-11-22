@@ -509,29 +509,17 @@
             transform: translate3d(0, 0, 0.1px) rotateX(0deg) rotateY(0deg);
             overflow: hidden;
         }
-              .ach-item .ach-bg-pattern {
-    position: absolute;
-    inset: -50%;
-    background-image: 
-        url('pngg/pile-chak.png'),  /* картинка */
-        url('pngg/pile-chak.png'),  /* та же картинка (для создания пустоты) */
-        linear-gradient(transparent, transparent); /* прозрачный слой */
-    background-size: 
-        20px 20px,   /* размер картинки (сам чак-чак) */
-        60px 60px,   /* размер повторения (шаг сетки = отступ + картинка) */
-        100% 100%;   /* размер фона */
-    background-position: 
-        0 0,         /* первая картинка в левом верхнем углу */
-        0 0,         /* вторая картинка (та же) */
-        0 0;         /* прозрачный слой */
-    background-repeat: 
-        no-repeat,   /* первая картинка не повторяется */
-        repeat,      /* вторая картинка повторяется (создаёт сетку) */
-        no-repeat;   /* прозрачный слой не повторяется */
-    transform: rotate(45deg);
-    z-index: 0;
-    opacity: 0.85;
-}
+             .ach-item .ach-bg-pattern {
+            position: absolute;
+            inset: -50%;
+            background-image: url('pile-chak2.png');
+            background-size: 45px 45px;
+            background-position: 0 0;
+            background-repeat: repeat;
+            transform: rotate(45deg);
+            z-index: 0;
+            opacity: 0.85;
+        }
         .ach-item .ach-card:hover,
         .ach-item .ach-card.active {
             transition: none;
