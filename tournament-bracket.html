@@ -46,8 +46,11 @@ body::-webkit-scrollbar { display: none; }
 .btn-delete-tournament:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(192,57,43,0.5); }
 
 .tournament-wrapper {
-  background-image: url('png/Tchak.jpg');
-  background-size: cover; background-position: center center; background-repeat: no-repeat;
+    background-image: 
+    repeating-radial-gradient(circle at 0% 100%, transparent 0, rgba(0, 123, 255, 0.15) 40px, transparent 80px),
+    repeating-radial-gradient(circle at 100% 0%, transparent 0, rgba(0, 200, 255, 0.12) 50px, transparent 90px),
+    linear-gradient(135deg, #0a2a6b 0%, #1a4a8b 50%, #0d3b7a 100%);
+  
   padding: 30px 0; border-radius: 12px; position: relative; 
   overflow: hidden; /* Скрываем полосы прокрутки, так как сетка будет зумиться внутрь экрана */
   max-width: 1600px; margin: 0 auto;
