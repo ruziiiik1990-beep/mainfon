@@ -466,35 +466,9 @@
             position: relative;
         }
 
-        .ach-card-wrapper::before {
-            content: "";
-            position: absolute;
-            inset: -8px;
-            border-radius: inherit;
-            transition: all 0.5s ease;
-            filter: contrast(2) saturate(2) blur(28px);
-            transform: scale(0.8) translate3d(0, 0, 0.1px);
-            background-size: 100% 100%;
-            background-position: 0px 0px, 0px 0px, 50% 50%, 0px 0px;
-            background-image: radial-gradient(
-                farthest-side circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
-                hsla(266, 100%, 90%, var(--card-opacity)) 4%,
-                hsla(266, 50%, 80%, calc(var(--card-opacity) * 0.75)) 10%,
-                hsla(266, 25%, 70%, calc(var(--card-opacity) * 0.5)) 50%,
-                hsla(266, 0%, 60%, 0) 100%
-            ),
-            radial-gradient(35% 52% at 55% 20%, #00FFAAC4 0%, #073AFF00 100%),
-            radial-gradient(100% 100% at 50% 50%, #00C1FFFF 1%, #073AFF00 76%),
-            conic-gradient(from 124deg at 50% 50%, #C137FFFF 0%, #07C6FFFF 40%, #07C6FFFF 60%, #C137FFFF 100%);
-        }
+        .ach-card-wrapper::before 
 
-        .ach-card-wrapper:hover::before,
-        .ach-card-wrapper.active::before {
-            filter: contrast(1) saturate(2) blur(32px) opacity(1);
-            transform: scale(0.9) translate3d(0, 0, 0.1px);
-        }
-
-        .ach-card-inner {
+                .ach-card-inner {
             width: 100%;
             height: 100%;
             display: grid;
