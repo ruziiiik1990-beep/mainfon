@@ -445,6 +445,115 @@
         .profile-label .material-symbols-outlined { font-size: 16px; }
 
         .ach-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+                /* === НОВЫЕ МИНИ-КАРТОЧКИ ДОСТИЖЕНИЙ === */
+        .ach-item {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            perspective: 500px; /* для 3D-эффекта */
+        }
+
+        .ach-item .ach-card-inner {
+            width: 120px;
+            height: 168px; /* пропорции как у карточки профиля (182x254 ≈ 0.718) */
+            aspect-ratio: 0.718;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.15);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: #1a1a2e;
+        }
+
+        /* Голографический перелив внутри карточки достижения */
+        .ach-item .ach-card-inner::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(102,192,244,0.3),
+                rgba(102,192,244,0.3) 10px,
+                rgba(26,26,46,0.3) 10px,
+                rgba(26,26,46,0.3) 20px
+            );
+            z-index: 1;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+            opacity: 0.6;
+        }
+
+        /* Блик от курсора */
+        .ach-item .ach-card-inner::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                circle at var(--ach-x, 50%) var(--ach-y, 50%),
+                rgba(255,255,255,0.4) 0%,
+                transparent 60%
+            );
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .ach-item:hover .ach-card-inner::after {
+            opacity: 1;
+        }
+
+        .ach-item:hover .ach-card-inner {
+            transform: scale(1.05) rotateX(4deg) rotateY(4deg);
+            box-shadow: 0 8px 24px rgba(102,192,244,0.3);
+        }
+
+        /* Картинка достижения внутри карточки */
+        .ach-item .ach-card-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            position: relative;
+            z-index: 0;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        /* Кнопка удаления (для админа) */
+        .ach-item .ach-delete-btn {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #dc2626;
+            color: #fff;
+            border: 2px solid #1a1a2e;
+            font-size: 12px;
+            line-height: 16px;
+            text-align: center;
+            cursor: pointer;
+            display: none;
+            z-index: 10;
+            padding: 0;
+        }
+
+        .ach-item:hover .ach-delete-btn {
+            display: block;
+        }
+
+        /* Тултип (подсказка) с названием — оставляем как было, но привязываем к новой карточке */
+        .ach-item .ach-tooltip {
+            bottom: calc(100% + 8px);
+            min-width: 140px;
+            max-width: 220px;
+            font-size: 12px;
+            padding: 10px 12px;
+        }
+        /* === КОНЕЦ НОВЫХ МИНИ-КАРТОЧЕК === */
         .ach-item { position: relative; cursor: pointer; transition: transform 0.2s ease; }
         .ach-item:hover { transform: scale(1.08); z-index: 999; }
         .ach-item img { width: 70px; height: 70px; object-fit: cover; border-radius: 10px; border: 2px solid rgba(255,255,255,0.15); display: block; }
@@ -973,7 +1082,7 @@
                     deleteBtn = '<button class="ach-delete-btn" data-key="' + key + '" title="Удалить">&times;</button>';
                 }
 
-                div.innerHTML = '<img src="' + item.img + '" alt="">' + deleteBtn +
+                               div.innerHTML = '<div class="ach-card-inner"><img src="' + item.img + '" alt=""></div>' + deleteBtn +
                     '<div class="ach-tooltip"><span class="ach-title">' + (item.title || '') + '</span>' + (item.desc || '') + '</div>';
                 
                 var del = div.querySelector('.ach-delete-btn');
@@ -1119,6 +1228,17 @@
             );
         }, 800);
     })();
+            /* === Блик для мини-карточек достижений === */
+    document.addEventListener('mousemove', function(e) {
+        var card = e.target.closest('.ach-card-inner');
+        if (card) {
+            var rect = card.getBoundingClientRect();
+            var x = ((e.clientX - rect.left) / rect.width) * 100;
+            var y = ((e.clientY - rect.top) / rect.height) * 100;
+            card.style.setProperty('--ach-x', x + '%');
+            card.style.setProperty('--ach-y', y + '%');
+        }
+    });
     </script>
 </body>
 </html>
