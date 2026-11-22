@@ -47,27 +47,14 @@ body::-webkit-scrollbar { display: none; }
 
 .tournament-wrapper {
   background-image: 
-    repeating-radial-gradient(circle at 0% 100%, transparent 0, rgba(0, 123, 255, 0.2) 40px, transparent 80px),
-    repeating-radial-gradient(circle at 100% 0%, transparent 0, rgba(0, 200, 255, 0.15) 50px, transparent 90px),
-    repeating-radial-gradient(circle at 50% 50%, transparent 0, rgba(193, 55, 255, 0.1) 60px, transparent 120px),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='100' viewBox='0 0 200 100'><path d='M0 50 Q 50 0, 100 50 T 200 50' stroke='rgba(0,123,255,0.25)' stroke-width='2' fill='none'/><path d='M0 70 Q 50 20, 100 70 T 200 70' stroke='rgba(0,200,255,0.2)' stroke-width='2' fill='none'/><path d='M0 30 Q 50 -20, 100 30 T 200 30' stroke='rgba(193,55,255,0.15)' stroke-width='2' fill='none'/></svg>"),
     linear-gradient(135deg, #0a0a2e 0%, #1a1a4e 50%, #0d0d3a 100%);
-  background-size: 
-    400px 400px, 400px 400px, 400px 400px, 100% 100%;
-  background-position: 0 0, 0 0, 0 0, 0 0;
-  background-repeat: repeat, repeat, repeat, no-repeat;
+  background-size: 200px 100px, 100% 100%;
+  background-repeat: repeat, no-repeat;
+  background-position: 0 0, 0 0;
   padding: 30px 0; border-radius: 12px; position: relative; 
   overflow: hidden;
   max-width: 1600px; margin: 0 auto;
-  --pointer-x: 50%;
-  --pointer-y: 50%;
-  --pointer-from-center: 0;
-  --card-opacity: 0;
-  --background-x: 50%;
-  --background-y: 50%;
-}
-/* === ГОЛОГРАФИЧЕСКИЙ ЭФФЕКТ ДЛЯ ТУРНИРНОЙ СЕТКИ (БЕЗ НАКЛОНА) === */
-
-.tournament-wrapper {
   --pointer-x: 50%;
   --pointer-y: 50%;
   --pointer-from-center: 0;
