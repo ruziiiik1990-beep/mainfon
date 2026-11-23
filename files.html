@@ -10,7 +10,7 @@
   <title>Файлы - 4ak4ak</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    @import url('https://googleapis.com');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
     body {
       margin: 0;
@@ -150,55 +150,89 @@
       font-size: 22px;
     }
 
-      /* =========================================
-       ТОЛЬКО FANCY SPARROW СПРАВА ПО СЕРЕДИНЕ
-       ========================================= */
-    .sparrow-right-box {
+    /* ========================================= */
+    /* Голографическая панель справа (ТОЛЬКО SPARROW) */
+    /* ========================================= */
+    .holographic-widget {
       position: fixed;
-      right: 0;
+      right: 30px;
       top: 50%;
       transform: translateY(-50%);
-      z-index: 9999;
-      width: 240px;
-      background: #0a1428; /* Плотный фон, чтобы наложение цветов работало корректно */
-      border-radius: 16px 0 0 16px;
-      overflow: hidden;
-      box-shadow: -8px 0 30px rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(74, 158, 255, 0.45);
-      border-right: none;
+      width: 340px;
+      max-height: 85vh;
+      overflow-y: auto;
+      z-index: 50;
+      background: rgba(10, 42, 107, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(74, 158, 255, 0.4);
+      border-radius: 16px;
+      padding: 20px;
+      color: #fff;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
     }
 
-    .sparrow-right-box img {
-      width: 100%;
+    .holographic-widget::-webkit-scrollbar {
+      width: 6px;
+    }
+    .holographic-widget::-webkit-scrollbar-thumb {
+      background: rgba(74, 158, 255, 0.5);
+      border-radius: 3px;
+    }
+
+    .holographic-widget header {
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 15px;
+    }
+    .holographic-widget .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .holographic-widget .cell {
+      text-align: center;
+    }
+    .holographic-widget p {
+      margin: 8px 0;
+      font-size: 14px;
+      color: rgba(255,255,255,0.85);
+      font-weight: 600;
+    }
+    .holographic-widget img {
+      max-width: 100%;
       height: auto;
+      border-radius: 8px;
       display: block;
+      margin: 0 auto;
     }
 
-    .shader {
+    /* Стили шейдера */
+    .holographic-widget .shader {
       position: relative;
       overflow: hidden;
-      isolation: isolate; /* Изолирует эффект перелива от фона страницы */
+      backface-visibility: hidden; /* Forces GPU */
     }
-
-    .shader-layer {
+    .holographic-widget .shader-layer {
+      background: black;
+      mix-blend-mode: multiply;
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
+      background-position: center;
     }
-
-    .specular {
+    .holographic-widget .specular {
       mix-blend-mode: color-dodge;
       background-attachment: fixed;
-      background-size: 100% 100vh;
     }
-
-    .mask {
+    .holographic-widget .mask {
       mix-blend-mode: multiply;
-      object-fit: cover;
     }
 
-    .gradient-sparrow {
+    /* Градиент только для Sparrow */
+    .holographic-widget .gradient-sparrow {
       background-image: linear-gradient(
         0deg,
         hsl(359, 60%, 40%),
@@ -217,12 +251,19 @@
       );
     }
 
-    @media (max-width: 768px) {
-      .sparrow-right-box {
-        display: none;
+    /* Адаптивность для мобильных устройств */
+    @media (max-width: 1200px) {
+      .holographic-widget {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        width: 90%;
+        max-width: 600px;
+        margin: 40px auto;
+        max-height: none;
       }
     }
-
   </style>
 </head>
 <body>
@@ -233,6 +274,7 @@
   <!-- Шапка -->
   <div id="header-placeholder" class="header-wrapper"></div>
 
+  <!-- Основной контент (Центр) -->
   <div class="files-container">
     <div class="files-title">Файлы</div>
 
@@ -257,14 +299,27 @@
     </div>
   </div>
 
-  <!-- Fancy Sparrow справа в упор по середине -->
-  <div class="sparrow-right-box">
-    <div class="shader framed">
-      <img src="https://codepen.io" alt="Silhouette design of a sparrow sitting on a branch" width="512">
-      <div class="shader-layer specular gradient-sparrow">
-        <img class="shader-layer mask" src="https://codepen.io" alt="" width="300">
-      </div>
-    </div>
+  <!-- Голографическая панель (Справа по середине) - ТОЛЬКО FANCY SPARROW -->
+  <div class="holographic-widget">
+    <header>
+      <p>CSS holographic effect ✨<br><em>(Прокрутите внутри этой панели)</em></p>
+    </header>
+    
+    <main>
+      <section>
+        <div class="grid">
+          <div class="cell">
+            <p>Fancy Sparrow ✨</p>
+            <div class="shader framed">
+              <img src="https://assets.codepen.io/2153413/sparrow-base.png" alt="Silhouette design of a sparrow sitting on a branch" width="280">
+              <div class="shader-layer specular gradient-sparrow">
+                <img class="shader-layer mask" src="https://assets.codepen.io/2153413/sparrow-mask.png" alt="" width="280">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
 
   <script>
