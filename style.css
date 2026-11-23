@@ -1,546 +1,96 @@
-<header class="header-wrapper">
-  <!-- ===== ФОН С ЦИФРОВОЙ ДЫМКОЙ ===== -->
-  <div id="fog-container">
-    <canvas id="fogCanvas" width="1920" height="100"></canvas>
-  </div>
+/* Общие стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+body, html {
+    width: 100%;
+}
 
-  <div class="container header-container">
-    <div class="header-left" style="margin-left: 200px;">
-      <a class="logo-link" href="index.html" title="Главная">
-        <img src="logo1.jpg" alt="4ak4ak" class="logo-image" loading="lazy">
-      </a>
-      
-      <!-- ===== СЕТЬ МОДУЛЕЙ ===== -->
-      <div id="core-network">
-        <!-- ГЛАВНАЯ -->
-        <a href="index.html" class="module" data-module="home">
-          <h2>Главная</h2>
-          <div class="module-glow"></div>
-        </a>
-        <!-- ТУРНИРЫ -->
-        <a href="tournaments.html" class="module" data-module="tournaments">
-          <h2>Турниры</h2>
-          <div class="module-glow"></div>
-        </a>
-        <!-- RANK -->
-        <a href="rank.html" class="module" data-module="rank">
-          <h2>Rank</h2>
-          <div class="module-glow"></div>
-        </a>
-        <!-- ФАЙЛЫ -->
-        <a href="files.html" class="module" data-module="files">
-          <h2>Файлы</h2>
-          <div class="module-glow"></div>
-        </a>
-        <!-- ПРАВИЛА -->
-        <a href="rules.html" class="module" data-module="rules">
-          <h2>Правила</h2>
-          <div class="module-glow"></div>
-        </a>
-        <!-- ЗАЛ СЛАВЫ -->
-        <a href="https://4ak4ak.pages.dev/zalslavi" class="module" data-module="hall">
-          <h2>Зал славы</h2>
-          <div class="module-glow"></div>
-        </a>
-      </div>
+/* Стили для картинки-фона */
+.bg-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
 
-    </div>
-    <div class="header-right" style="display: flex; align-items: center; gap: 15px;">
-      <div class="header-auth-block">
-        <!-- Кнопки для гостей в стиле модулей -->
-        <div id="guest-buttons" class="auth-links" style="display: flex; align-items: center; gap: 12px;">
-          <a title="Вход" href="login.html" class="module auth-module">
-            <h2>Вход</h2>
-            <div class="module-glow"></div>
-          </a>
-          <a title="Регистрация" href="register.html" class="module auth-module">
-            <h2>Регистрация</h2>
-            <div class="module-glow"></div>
-          </a>
-        </div>
-        <!-- Кнопки для авторизованных в стиле модулей -->
-        <div id="user-buttons" class="auth-links" style="display: none; align-items: center; gap: 12px;">
-          <a title="Мой профиль" href="profile.html" class="module auth-module">
-            <h2>Профиль</h2>
-            <div class="module-glow"></div>
-          </a>
-          <a title="Выход" href="#" id="logout-btn" class="module auth-module">
-            <h2>Выход</h2>
-            <div class="module-glow"></div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+/* Шапка */
+.header-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-  <!-- ===== ПЛАВАЮЩАЯ ПАНЕЛЬ ===== -->
-  <div id="floating-panel">
-    <div id="panel-header">
-      <span id="panel-title">Модуль</span>
-      <button id="panel-close">✕</button>
-    </div>
-    <div id="panel-body"></div>
-  </div>
+/* Элементы шапки */
+.header-container { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 10px 30px; 
+}
 
-  <!-- ===== OVERLAY ===== -->
-  <div id="panel-overlay"></div>
-  <!-- ===== СТИЛИ ===== -->
-  <style>
-    /* Сохраняем position: absolute из вашего CSS на GitHub, меняем белый фон на #F1F5F9 */
-    header.header-wrapper,
-    .header-wrapper {
-      position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
-      width: 100% !important;
-      z-index: 10 !important;
-      min-height: 88px !important;
-      background: #F1F5F9 !important;
-      background-color: #F1F5F9 !important;
-      background-image: none !important;
-      overflow: hidden !important;
-    }
+.header-left { 
+    display: flex; 
+    align-items: center; 
+    gap: 40px;
+}
 
-    /* Контейнер дымки ставим выше фона шапки, но ниже кнопок */
-    .header-wrapper #fog-container {
-      position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-      min-height: 88px !important;
-      z-index: 2 !important;
-      pointer-events: none !important;
-      overflow: hidden;
-    }
-    .header-wrapper #fogCanvas {
-      display: block !important;
-      width: 100% !important;
-      height: 100% !important;
-      min-height: 88px !important;
-      opacity: 1 !important;
-    }
+/* Стили для логотипа */
+.logo-image { 
+    height: 65px;
+    width: auto; 
+    display: block; 
+    transition: transform 0.3s ease;
+}
 
-    /* Контент (логотип, меню, кнопки входа) поднимаем над дымкой */
-    .header-wrapper .container,
-    .header-wrapper .header-container,
-    .header-wrapper .header-left,
-    .header-wrapper .header-right {
-      position: relative !important;
-      z-index: 5 !important;
-      background: transparent !important;
-      background-color: transparent !important;
-    }
+.logo-image:hover {
+    transform: scale(1.05);
+}
 
-    /* ===== СЕТЬ МОДУЛЕЙ (ГОРИЗОНТАЛЬНАЯ) ===== */
-    .header-wrapper #core-network {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      margin-top: 6px;
-      z-index: 3;
-    }
+/* Стилизация меню */
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
 
-    /* ===== МОДУЛИ (ПРЯМОУГОЛЬНИКИ МЕНЮ И КНОПКИ ВХОДА/ПРОФИЛЯ) ===== */
-    .header-wrapper .module {
-      position: relative;
-      width: 110px;
-      height: 55px;
-      text-decoration: none;
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(0, 153, 255, 0.18);
-      border-radius: 12px;
-      box-shadow:
-        0 4px 20px rgba(0, 80, 160, 0.06),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-      padding: 4px 8px;
-      text-align: center;
-      animation: moduleFloat 6s ease-in-out infinite;
-      z-index: 2;
-      box-sizing: border-box;
-    }
-    .header-wrapper .module.auth-module {
-      width: auto;
-      min-width: 96px;
-      padding: 4px 14px;
-    }
-    .header-wrapper .module:hover {
-      transform: scale(1.08);
-      border-color: rgba(0, 153, 255, 0.45);
-      box-shadow:
-        0 10px 30px rgba(0, 120, 220, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
-      background: rgba(255, 255, 255, 0.92);
-    }
+.nav-link {
+    color: #333; 
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    transition: color 0.3s ease; 
+}
 
-    /* Задержки анимации */
-    .header-wrapper .module:nth-child(1) { animation-delay: 0.3s; }
-    .header-wrapper .module:nth-child(2) { animation-delay: 0.9s; }
-    .header-wrapper .module:nth-child(3) { animation-delay: 1.5s; }
-    .header-wrapper .module:nth-child(4) { animation-delay: 2.1s; }
-    .header-wrapper .module:nth-child(5) { animation-delay: 2.7s; }
-    .header-wrapper .module:nth-child(6) { animation-delay: 3.3s; }
+.nav-link:hover {
+    color: #007bff; 
+}
 
-    /* Плавающая анимация */
-    @keyframes moduleFloat {
-      0%, 100% { transform: translateY(3px); }
-      50%      { transform: translateY(-3px); }
-    }
+/* Правая часть (кнопки) */
+.header-auth-block { 
+    margin-left: auto !important; 
+    order: 99 !important; 
+    white-space: nowrap; 
+}
 
-    .header-wrapper .module h2 {
-      font-size: 0.85rem;
-      line-height: 1.1;
-      font-weight: 700;
-      color: #000000;
-      letter-spacing: 0.8px;
-      margin: 0;
-      text-shadow: none;
-    }
-    /* Голографический glow по краям */
-    .header-wrapper .module-glow {
-      position: absolute;
-      inset: -2px;
-      border-radius: 14px;
-      padding: 2px;
-      background: conic-gradient(
-        from 0deg,
-        transparent,
-        rgba(0, 180, 255, 0.22),
-        transparent,
-        rgba(0, 180, 255, 0.12),
-        transparent
-      );
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-      opacity: 0.5;
-      animation: glowSpin 12s linear infinite;
-    }
-    @keyframes glowSpin {
-      0%   { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+/* Мобильная адаптация */
+@media (max-width: 1024px) { 
+    .header-left { margin-left: 0 !important; } 
+}
 
-    /* ===== ПЛАВАЮЩАЯ ПАНЕЛЬ ===== */
-    .header-wrapper #floating-panel {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.92);
-      width: 90%;
-      max-width: 520px;
-      max-height: 80vh;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-radius: 20px;
-      border: 1px solid rgba(0, 180, 255, 0.2);
-      box-shadow:
-        0 24px 64px rgba(0, 40, 80, 0.14),
-        0 0 60px rgba(0, 180, 255, 0.08);
-      z-index: 10000;
-      padding: 0;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      color: #1a2a3a;
-    }
-    .header-wrapper #floating-panel.active {
-      opacity: 1;
-      visibility: visible;
-      transform: translate(-50%, -50%) scale(1);
-    }
-    .header-wrapper #panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 22px;
-      border-bottom: 1px solid rgba(0, 180, 255, 0.12);
-      flex-shrink: 0;
-    }
-    .header-wrapper #panel-title {
-      font-size: 1.0rem;
-      font-weight: 600;
-      color: #1a2a3a;
-      letter-spacing: 2px;
-    }
-    .header-wrapper #panel-close {
-      background: none;
-      border: none;
-      font-size: 1.1rem;
-      color: #88a8b8;
-      cursor: pointer;
-      transition: color 0.2s;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .header-wrapper #panel-close:hover {
-      color: #1a2a3a;
-      background: rgba(0, 0, 0, 0.04);
-    }
-    .header-wrapper #panel-body {
-      padding: 18px 22px 24px;
-      overflow-y: auto;
-      flex: 1;
-      text-align: center;
-    }
-    .header-wrapper #panel-body .panel-content {
-      animation: fadeInContent 0.35s ease;
-    }
-    @keyframes fadeInContent {
-      0%   { opacity: 0; transform: translateY(8px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ===== OVERLAY ===== */
-    .header-wrapper #panel-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 20, 30, 0.25);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
-      z-index: 9999;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.35s ease;
-    }
-    .header-wrapper #panel-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* ===== АДАПТИВ ===== */
-    @media (max-width: 900px) {
-      .header-wrapper .header-left {
-        margin-left: 0 !important;
-      }
-      .header-wrapper .module {
-        width: 90px;
-        height: 45px;
-      }
-      .header-wrapper .module.auth-module {
-        width: auto;
-        min-width: 80px;
-        padding: 4px 10px;
-      }
-      .header-wrapper .module h2 { font-size: 0.72rem; }
-      .header-wrapper #core-network { gap: 12px; }
-    }
-
-    @media (max-width: 768px) {
-      /* Возвращаем кнопки Вход/Регистрация на телефонах (перебиваем стиль из GitHub) */
-      .header-wrapper .auth-links {
-        display: flex !important;
-      }
-    }
-
-    @media (max-width: 650px) {
-      .header-wrapper .header-left {
-        margin-left: 0 !important;
-      }
-      .header-wrapper .module {
-        width: auto;
-        min-width: 84px;
-        height: 38px;
-        padding: 4px 10px;
-      }
-      .header-wrapper .module.auth-module {
-        width: auto;
-        min-width: 80px;
-        padding: 4px 10px;
-      }
-      .header-wrapper .module h2 {
-        font-size: 0.75rem;
-        letter-spacing: 0.3px;
-        white-space: nowrap;
-      }
-      .header-wrapper #core-network {
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-    }
-  </style>
-  <!-- ===== JAVASCRIPT ===== -->
-  <script>
-  (function() {
-    'use strict';
-
-    // ============================================================
-    // 1. ЦИФРОВАЯ ДЫМКА (CANVAS: ПОИСК ВНУТРИ ШАПКИ, ТЁМНО-СИНИЙ ДЫМОК)
-    // ============================================================
-    const headerEl = document.querySelector('.header-wrapper');
-    const fogCanvas = headerEl ? headerEl.querySelector('#fogCanvas') : document.getElementById('fogCanvas');
-    if (!fogCanvas) return;
-
-    const fogCtx = fogCanvas.getContext('2d');
-    let fogWidth = 1920;
-    let fogHeight = 100;
-    let particles = [];
-
-    function initParticles(count = 350) {
-      particles = [];
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x: Math.random() * fogWidth,
-          y: Math.random() * fogHeight,
-          speedX: (Math.random() - 0.5) * 0.4,
-          speedY: (Math.random() - 0.5) * 0.25,
-          size: 2.5 + Math.random() * 4.5,
-          opacity: 0.35 + Math.random() * 0.35
-        });
-      }
-    }
-
-    function resizeFog() {
-      const rect = headerEl ? headerEl.getBoundingClientRect() : fogCanvas.parentElement.getBoundingClientRect();
-      const w = Math.floor(rect.width) || window.innerWidth || 1920;
-      const h = Math.floor(rect.height) || 88;
-      if (fogCanvas.width !== w || fogCanvas.height !== h) {
-        fogCanvas.width = w;
-        fogCanvas.height = h;
-        fogWidth = w;
-        fogHeight = h;
-        initParticles(350);
-      }
-    }
-
-    function drawFog() {
-      if (fogCanvas.width < 10) resizeFog();
-      fogCtx.clearRect(0, 0, fogWidth, fogHeight);
-
-      // Тёмно-синие линии данных
-      fogCtx.strokeStyle = 'rgba(14, 45, 95, 0.75)';
-      fogCtx.lineWidth = 1.2;
-      for (let i = 0; i < 28; i++) {
-        const x = (i / 28) * fogWidth;
-        const y = fogHeight * 0.5 + Math.sin(i * 0.7 + Date.now() * 0.0004) * 22;
-        fogCtx.beginPath();
-        fogCtx.moveTo(x, y);
-        fogCtx.lineTo(x + 55, y + 18 + Math.sin(i * 0.5 + Date.now() * 0.0006) * 15);
-        fogCtx.stroke();
-      }
-
-      // Плотные тёмно-голубые частицы дымки
-      for (const p of particles) {
-        p.x += p.speedX;
-        p.y += p.speedY;
-        if (p.x > fogWidth) p.x = 0;
-        if (p.x < 0) p.x = fogWidth;
-        if (p.y > fogHeight) p.y = 0;
-        if (p.y < 0) p.y = fogHeight;
-
-        const gradient = fogCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
-        gradient.addColorStop(0, `rgba(14, 45, 95, ${p.opacity})`);
-        gradient.addColorStop(1, `rgba(14, 45, 95, 0)`);
-        fogCtx.fillStyle = gradient;
-        fogCtx.beginPath();
-        fogCtx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
-        fogCtx.fill();
-      }
-
-      requestAnimationFrame(drawFog);
-    }
-
-    resizeFog();
-    initParticles(350);
-    drawFog();
-    window.addEventListener('resize', resizeFog);
-    setTimeout(resizeFog, 500);
-    window.addEventListener('load', resizeFog);
-
-    // ============================================================
-    // 2. ДАННЫЕ МОДУЛЕЙ
-    // ============================================================
-    const moduleData = {
-      home: {
-        title: 'Главная',
-        content: '<p style="font-size:0.9rem;color:#1a2a3a;">Добро пожаловать на 4ak4ak!</p>'
-      },
-      tournaments: {
-        title: 'Турниры',
-        content: '<p style="font-size:0.9rem;color:#1a2a3a;">Соревнования и чемпионаты</p>'
-      },
-      rank: {
-        title: 'Rank',
-        content: '<p style="font-size:0.9rem;color:#1a2a3a;">Рейтинг игроков</p>'
-      },
-      files: {
-        title: 'Файлы',
-        content: '<p style="font-size:0.9rem;color:#1a2a3a;">Загрузки и ресурсы</p>'
-      },
-      rules: {
-        title: 'Правила',
-        content: '<p style="font-size:0.9rem;color:#1a2a3a;">Регламент и правила</p>'
-      },
-      hall: {
-        title: 'Зал славы',
-        content: '<p style="font-size:0.9rem;color:#1a2a3a;">Легенды 4ak4ak</p>'
-      }
-    };
-
-    // ============================================================
-    // 3. ПАНЕЛЬ
-    // ============================================================
-    const panel = document.getElementById('floating-panel');
-    const panelOverlay = document.getElementById('panel-overlay');
-    const panelTitle = document.getElementById('panel-title');
-    const panelBody = document.getElementById('panel-body');
-    const panelClose = document.getElementById('panel-close');
-
-    function openPanel(moduleId) {
-      const data = moduleData[moduleId];
-      if (!data) return;
-      panelTitle.textContent = data.title;
-      panelBody.innerHTML = `<div class="panel-content">${data.content}</div>`;
-      panel.classList.add('active');
-      panelOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-    function closePanel() {
-      panel.classList.remove('active');
-      panelOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-    panelClose.addEventListener('click', closePanel);
-    panelOverlay.addEventListener('click', closePanel);
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closePanel();
-    });
-
-    // ============================================================
-    // 4. СОБЫТИЯ МОДУЛЕЙ
-    // ============================================================
-    document.querySelectorAll('.header-wrapper .module').forEach((mod) => {
-      mod.addEventListener('click', (e) => {
-        const href = mod.getAttribute('href');
-        if (!href || href === '#') {
-          e.preventDefault();
-          const moduleId = mod.dataset.module;
-          if (moduleId) openPanel(moduleId);
-        }
-      });
-    });
-
-    console.log('✦ Holographic modules in header loaded');
-  })();
-  </script>
-</header>
+@media (max-width: 768px) { 
+    .logo-image { height: 50px; } 
+    .header-left { gap: 20px; }
+    .nav-list { gap: 15px; }
+    .nav-link { font-size: 16px; }
+    .auth-links { display: none; } 
+    .header-container { padding: 10px 15px; }
+}
