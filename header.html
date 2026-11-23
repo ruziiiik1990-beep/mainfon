@@ -51,6 +51,7 @@ left: 0 !important;
 width: 100% !important;
 z-index: 10 !important;
 min-height: 88px !important;
+/* ✅ ВОЗВРАЩАЕМ БЕЛЫЙ ФОН */
 background: #F1F5F9 !important;
 background-color: #F1F5F9 !important;
 background-image: none !important;
@@ -102,9 +103,9 @@ text-decoration: none;
 background: rgba(255, 255, 255, 0.72);
 backdrop-filter: blur(12px);
 -webkit-backdrop-filter: blur(12px);
-border: 1px solid rgba(30, 80, 200, 0.18);
+border: 1px solid rgba(0, 153, 255, 0.18);
 border-radius: 12px;
-box-shadow: 0 4px 20px rgba(0, 40, 120, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+box-shadow: 0 4px 20px rgba(0, 80, 160, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -124,8 +125,8 @@ padding: 4px 14px;
 }
 .header-wrapper .module:hover {
 transform: scale(1.08);
-border-color: rgba(30, 80, 200, 0.45);
-box-shadow: 0 10px 30px rgba(30, 80, 200, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+border-color: rgba(0, 153, 255, 0.45);
+box-shadow: 0 10px 30px rgba(0, 120, 220, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 background: rgba(255, 255, 255, 0.92);
 }
 .header-wrapper .module:nth-child(1) { animation-delay: 0.3s; }
@@ -147,20 +148,12 @@ letter-spacing: 0.8px;
 margin: 0;
 text-shadow: none;
 }
-/* ✅ ДЫМОК У КНОПОК — ТЕПЕРЬ СИНИЙ (было голубое rgba(0,180,255,...)) */
 .header-wrapper .module-glow {
 position: absolute;
 inset: -2px;
 border-radius: 14px;
 padding: 2px;
-background: conic-gradient(
-  from 0deg,
-  transparent,
-  rgba(30, 80, 200, 0.35),
-  transparent,
-  rgba(30, 80, 200, 0.20),
-  transparent
-);
+background: conic-gradient(from 0deg, transparent, rgba(0, 180, 255, 0.22), transparent, rgba(0, 180, 255, 0.12), transparent);
 -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
 mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
 -webkit-mask-composite: xor;
@@ -182,8 +175,8 @@ background: rgba(255, 255, 255, 0.94);
 backdrop-filter: blur(24px);
 -webkit-backdrop-filter: blur(24px);
 border-radius: 20px;
-border: 1px solid rgba(30, 80, 200, 0.2);
-box-shadow: 0 24px 64px rgba(0, 40, 80, 0.14), 0 0 60px rgba(30, 80, 200, 0.08);
+border: 1px solid rgba(0, 180, 255, 0.2);
+box-shadow: 0 24px 64px rgba(0, 40, 80, 0.14), 0 0 60px rgba(0, 180, 255, 0.08);
 z-index: 10000;
 padding: 0;
 opacity: 0;
@@ -201,7 +194,7 @@ transform: translate(-50%, -50%) scale(1);
 .header-wrapper #panel-header {
 display: flex; justify-content: space-between; align-items: center;
 padding: 14px 22px;
-border-bottom: 1px solid rgba(30, 80, 200, 0.12);
+border-bottom: 1px solid rgba(0, 180, 255, 0.12);
 flex-shrink: 0;
 }
 .header-wrapper #panel-title { font-size: 1.0rem; font-weight: 600; color: #1a2a3a; letter-spacing: 2px; }
@@ -271,6 +264,7 @@ y: Math.random() * fogHeight,
 speedX: (Math.random() - 0.5) * 0.4,
 speedY: (Math.random() - 0.5) * 0.25,
 size: 2.5 + Math.random() * 4.5,
+// ✅ ОПАСИТИ В 3 РАЗА БОЛЬШЕ (оригинал был 0.05-0.13, теперь 0.15-0.39)
 opacity: 0.15 + Math.random() * 0.24
 });
 }
@@ -293,8 +287,8 @@ function drawFog() {
 if (fogCanvas.width < 10) resizeFog();
 fogCtx.clearRect(0, 0, fogWidth, fogHeight);
 
-// ✅ ТЁМНО-СИНИЕ ЛИНИИ
-fogCtx.strokeStyle = 'rgba(30, 80, 200, 1.0)';
+// ✅ ФИОЛЕТОВЫЕ ЛИНИИ (как в оригинале), в 3 раза темнее (было 0.9, стало 1.0)
+fogCtx.strokeStyle = 'rgba(166, 132, 255, 1.0)';
 fogCtx.lineWidth = 1.5;
 for (let i = 0; i < 28; i++) {
 const x = (i / 28) * fogWidth;
@@ -305,7 +299,7 @@ fogCtx.lineTo(x + 55, y + 18 + Math.sin(i * 0.5 + Date.now() * 0.0006) * 15);
 fogCtx.stroke();
 }
 
-// ✅ ТЁМНО-СИНИЕ ШАРИКИ
+// ✅ ФИОЛЕТОВО-СИРЕНЕВЫЕ ШАРИКИ (как в оригинале), в 3 раза темнее
 for (const p of particles) {
 p.x += p.speedX;
 p.y += p.speedY;
@@ -315,8 +309,8 @@ if (p.y > fogHeight) p.y = 0;
 if (p.y < 0) p.y = fogHeight;
 
 const gradient = fogCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
-gradient.addColorStop(0, `rgba(30, 80, 200, ${p.opacity})`);
-gradient.addColorStop(1, `rgba(30, 80, 200, 0)`);
+gradient.addColorStop(0, `rgba(166, 132, 255, ${p.opacity})`);
+gradient.addColorStop(1, `rgba(166, 132, 255, 0)`);
 fogCtx.fillStyle = gradient;
 fogCtx.beginPath();
 fogCtx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
