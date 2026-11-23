@@ -1,27 +1,85 @@
 <header class="header-wrapper">
+  <!-- ===== ФОН С ЦИФРОВОЙ ДЫМКОЙ ===== -->
+  <div id="fog-container">
+    <canvas id="fogCanvas"></canvas>
+  </div>
+
   <div class="container header-container">
     <div class="header-left" style="margin-left: 200px;">
       <a class="logo-link" href="index.html" title="Главная">
         <img src="logo1.jpg" alt="4ak4ak" class="logo-image" loading="lazy">
       </a>
-      <div class="main-menu menu-evolving">
-        <div class="menubar">
-          <nav class="main-menu-nav" id="site_main_menu">
-            <div class="main-menu-container">
-              <div class="main-menu-scroll-area">
-                <ul class="nav-list">
-                  <li><a href="index.html" class="nav-link rhombus-link"><span class="rhombus"><span class="rhombus-text">Главная</span></span></a></li>
-                  <li><a href="tournaments.html" class="nav-link rhombus-link"><span class="rhombus"><span class="rhombus-text">Турниры</span></span></a></li>
-                  <li><a href="rank.html" class="nav-link rhombus-link"><span class="rhombus"><span class="rhombus-text">Rank</span></span></a></li>
-                  <li><a href="files.html" class="nav-link rhombus-link"><span class="rhombus"><span class="rhombus-text">Файлы</span></span></a></li>
-                  <li><a href="rules.html" class="nav-link rhombus-link"><span class="rhombus"><span class="rhombus-text">Правила</span></span></a></li>
-                  <li><a href="zalslavi.html" class="nav-link rhombus-link"><span class="rhombus"><span class="rhombus-text">Зал славы</span></span></a></li>
-                </ul>
-              </div>
-            </div>
-          </nav>
+      
+      <!-- ===== СЕТЬ МОДУЛЕЙ (КВАДРАТИКИ) ===== -->
+      <div id="core-network">
+        <!-- ГЛАВНАЯ -->
+        <div class="module" data-module="home">
+          <div class="chip-corner tl"></div>
+          <div class="chip-corner tr"></div>
+          <div class="chip-corner bl"></div>
+          <div class="chip-corner br"></div>
+          <div class="module-icon">◆</div>
+          <h2>Главная</h2>
+          <p>Начало</p>
+          <div class="module-glow"></div>
+        </div>
+        <!-- ТУРНИРЫ -->
+        <div class="module" data-module="tournaments">
+          <div class="chip-corner tl"></div>
+          <div class="chip-corner tr"></div>
+          <div class="chip-corner bl"></div>
+          <div class="chip-corner br"></div>
+          <div class="module-icon">◈</div>
+          <h2>Турниры</h2>
+          <p>Соревнования</p>
+          <div class="module-glow"></div>
+        </div>
+        <!-- RANK -->
+        <div class="module" data-module="rank">
+          <div class="chip-corner tl"></div>
+          <div class="chip-corner tr"></div>
+          <div class="chip-corner bl"></div>
+          <div class="chip-corner br"></div>
+          <div class="module-icon">◇</div>
+          <h2>Rank</h2>
+          <p>Рейтинг</p>
+          <div class="module-glow"></div>
+        </div>
+        <!-- ФАЙЛЫ -->
+        <div class="module" data-module="files">
+          <div class="chip-corner tl"></div>
+          <div class="chip-corner tr"></div>
+          <div class="chip-corner bl"></div>
+          <div class="chip-corner br"></div>
+          <div class="module-icon">⚙</div>
+          <h2>Файлы</h2>
+          <p>Загрузки</p>
+          <div class="module-glow"></div>
+        </div>
+        <!-- ПРАВИЛА -->
+        <div class="module" data-module="rules">
+          <div class="chip-corner tl"></div>
+          <div class="chip-corner tr"></div>
+          <div class="chip-corner bl"></div>
+          <div class="chip-corner br"></div>
+          <div class="module-icon">◉</div>
+          <h2>Правила</h2>
+          <p>Регламент</p>
+          <div class="module-glow"></div>
+        </div>
+        <!-- ЗАЛ СЛАВЫ -->
+        <div class="module" data-module="hall">
+          <div class="chip-corner tl"></div>
+          <div class="chip-corner tr"></div>
+          <div class="chip-corner bl"></div>
+          <div class="chip-corner br"></div>
+          <div class="module-icon">★</div>
+          <h2>Зал славы</h2>
+          <p>Легенды</p>
+          <div class="module-glow"></div>
         </div>
       </div>
+
     </div>
     <div class="header-right" style="display: flex; align-items: center; gap: 20px;">
       <div class="header-auth-block">
@@ -47,68 +105,161 @@
     </div>
   </div>
 
-  <!-- ===== СТИЛИ ДЛЯ РОМБОВ-ССЫЛОК ===== -->
+  <!-- ===== ПЛАВАЮЩАЯ ПАНЕЛЬ ===== -->
+  <div id="floating-panel">
+    <div id="panel-header">
+      <span id="panel-title">Модуль</span>
+      <button id="panel-close">✕</button>
+    </div>
+    <div id="panel-body"></div>
+  </div>
+
+  <!-- ===== OVERLAY ===== -->
+  <div id="panel-overlay"></div>
+
+  <!-- ===== СТИЛИ ===== -->
   <style>
-    /* Обёртка меню — выстраиваем ромбики в ряд */
-    .header-wrapper .main-menu-nav .nav-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
+    /* Позиционирование header для абсолютных элементов */
+    .header-wrapper {
+      position: relative !important;
+      overflow: visible !important;
+      min-height: 220px;
+    }
+
+    /* ===== ФОН С ЦИФРОВОЙ ДЫМКОЙ ===== */
+    .header-wrapper #fog-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      border-radius: inherit;
+    }
+    .header-wrapper #fogCanvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      opacity: 0.5;
+    }
+
+    /* Контент header поверх тумана */
+    .header-wrapper .container.header-container {
+      position: relative;
+      z-index: 5;
+    }
+
+    /* ===== СЕТЬ МОДУЛЕЙ (ГОРИЗОНТАЛЬНАЯ) ===== */
+    .header-wrapper #core-network {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      gap: 22px;
+      gap: 20px;
+      margin-top: 20px;
+      z-index: 3;
     }
 
-    .header-wrapper .main-menu-nav .nav-list li {
-      margin: 0;
-      padding: 0;
-    }
-
-    /* Ссылка-ромбик */
-    .header-wrapper .rhombus-link {
-      display: block;
-      text-decoration: none;
-      padding: 0;
-      margin: 0;
-      line-height: 1;
-    }
-
-    /* Сам ромб (квадрат, повёрнутый на 45°) */
-    .header-wrapper .rhombus {
-      width: 95px;
-      height: 95px;
-      background: rgba(10, 42, 107, 0.55);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(74, 158, 255, 0.45);
-      border-radius: 10px;
-      transform: rotate(45deg);
+    /* ===== МОДУЛИ (КВАДРАТИКИ) ===== */
+    .header-wrapper .module {
+      position: relative;
+      width: 110px;
+      height: 110px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(74, 158, 255, 0.25);
+      border-radius: 14px;
+      box-shadow:
+        0 4px 20px rgba(0, 80, 160, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      padding: 14px 10px;
+      text-align: center;
+      animation: moduleFloat 6s ease-in-out infinite;
+      z-index: 2;
+    }
+    .header-wrapper .module:hover {
+      transform: scale(1.15);
+      border-color: rgba(74, 158, 255, 0.6);
       box-shadow:
-        0 6px 20px rgba(0, 80, 160, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
-      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-      position: relative;
-      overflow: hidden;
+        0 12px 40px rgba(74, 158, 255, 0.5),
+        inset 0 1px 0 rgba(218, 178, 255, 0.3);
+      background: rgba(74, 158, 255, 0.15);
     }
 
-    /* Голографический glow по контуру ромба */
-    .header-wrapper .rhombus::before {
-      content: '';
+    /* Задержки анимации */
+    .header-wrapper .module:nth-child(1) { animation-delay: 0.3s; }
+    .header-wrapper .module:nth-child(2) { animation-delay: 0.9s; }
+    .header-wrapper .module:nth-child(3) { animation-delay: 1.5s; }
+    .header-wrapper .module:nth-child(4) { animation-delay: 2.1s; }
+    .header-wrapper .module:nth-child(5) { animation-delay: 2.7s; }
+    .header-wrapper .module:nth-child(6) { animation-delay: 3.3s; }
+
+    /* Плавающая анимация (вертикально, без поворота) */
+    @keyframes moduleFloat {
+      0%, 100% { transform: translateY(8px); }
+      50%      { transform: translateY(-8px); }
+    }
+
+    /* Угловые декорации */
+    .header-wrapper .chip-corner {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-color: rgba(74, 158, 255, 0.35);
+      border-style: solid;
+      border-width: 0;
+      pointer-events: none;
+      z-index: 3;
+      transition: border-color 0.3s;
+    }
+    .header-wrapper .chip-corner.tl { top: 4px; left: 4px; border-top-width: 2px; border-left-width: 2px; border-radius: 7px 0 0 0; }
+    .header-wrapper .chip-corner.tr { top: 4px; right: 4px; border-top-width: 2px; border-right-width: 2px; border-radius: 0 7px 0 0; }
+    .header-wrapper .chip-corner.bl { bottom: 4px; left: 4px; border-bottom-width: 2px; border-left-width: 2px; border-radius: 0 0 0 7px; }
+    .header-wrapper .chip-corner.br { bottom: 4px; right: 4px; border-bottom-width: 2px; border-right-width: 2px; border-radius: 0 0 7px 0; }
+    .header-wrapper .module:hover .chip-corner { border-color: rgba(74, 158, 255, 0.8); }
+
+    .header-wrapper .module-icon {
+      font-size: 1.4rem;
+      color: #4a9eff;
+      margin-bottom: 4px;
+      opacity: 0.9;
+    }
+    .header-wrapper .module h2 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+    .header-wrapper .module p {
+      font-size: 0.5rem;
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: 0.5px;
+      font-weight: 300;
+    }
+
+    /* Голографический glow по краям */
+    .header-wrapper .module-glow {
       position: absolute;
       inset: -2px;
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 2px;
       background: conic-gradient(
         from 0deg,
         transparent,
-        rgba(74, 158, 255, 0.35),
+        rgba(74, 158, 255, 0.25),
         transparent,
-        rgba(74, 158, 255, 0.2),
+        rgba(74, 158, 255, 0.15),
         transparent
       );
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -116,83 +267,283 @@
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none;
-      opacity: 0.6;
-      animation: rhombusGlowSpin 8s linear infinite;
+      opacity: 0.5;
+      animation: glowSpin 12s linear infinite;
     }
-
-    @keyframes rhombusGlowSpin {
+    @keyframes glowSpin {
       0%   { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
 
-    /* Hover-эффект */
-    .header-wrapper .rhombus-link:hover .rhombus {
-      transform: rotate(45deg) scale(1.12);
-      border-color: rgba(74, 158, 255, 0.9);
-      background: rgba(74, 158, 255, 0.25);
+    /* ===== ПЛАВАЮЩАЯ ПАНЕЛЬ ===== */
+    .header-wrapper #floating-panel {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.92);
+      width: 90%;
+      max-width: 520px;
+      max-height: 80vh;
+      background: rgba(10, 42, 107, 0.92);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 20px;
+      border: 1px solid rgba(74, 158, 255, 0.4);
       box-shadow:
-        0 10px 30px rgba(74, 158, 255, 0.5),
-        inset 0 1px 0 rgba(218, 178, 255, 0.3);
-    }
-
-    /* Текст внутри ромба (контр-вращение, чтобы был читаемым) */
-    .header-wrapper .rhombus-text {
-      transform: rotate(-45deg);
-      display: block;
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-align: center;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-      white-space: nowrap;
-      line-height: 1.2;
-      max-width: 80px;
+        0 24px 64px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(74, 158, 255, 0.15);
+      z-index: 10000;
+      padding: 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
       overflow: hidden;
-      text-overflow: ellipsis;
+      display: flex;
+      flex-direction: column;
+      color: #fff;
+    }
+    .header-wrapper #floating-panel.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .header-wrapper #panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 22px;
+      border-bottom: 1px solid rgba(74, 158, 255, 0.2);
+      flex-shrink: 0;
+    }
+    .header-wrapper #panel-title {
+      font-size: 1.0rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+    .header-wrapper #panel-close {
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      transition: color 0.2s;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .header-wrapper #panel-close:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .header-wrapper #panel-body {
+      padding: 18px 22px 24px;
+      overflow-y: auto;
+      flex: 1;
+      text-align: center;
+    }
+    .header-wrapper #panel-body .panel-content {
+      animation: fadeInContent 0.35s ease;
+    }
+    @keyframes fadeInContent {
+      0%   { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* Адаптив: на узких экранах ромбики уменьшаются */
-    @media (max-width: 1100px) {
-      .header-wrapper .rhombus {
-        width: 80px;
-        height: 80px;
-      }
-      .header-wrapper .rhombus-text {
-        font-size: 10px;
-        max-width: 65px;
-      }
-      .header-wrapper .main-menu-nav .nav-list {
-        gap: 14px;
-      }
+    /* ===== OVERLAY ===== */
+    .header-wrapper #panel-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 10, 30, 0.5);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.35s ease;
+    }
+    .header-wrapper #panel-overlay.active {
+      opacity: 1;
+      visibility: visible;
     }
 
+    /* ===== АДАПТИВ ===== */
     @media (max-width: 900px) {
-      .header-wrapper .rhombus {
-        width: 65px;
-        height: 65px;
+      .header-wrapper .module {
+        width: 90px;
+        height: 90px;
       }
-      .header-wrapper .rhombus-text {
-        font-size: 8.5px;
-        max-width: 52px;
-      }
-      .header-wrapper .main-menu-nav .nav-list {
-        gap: 8px;
-      }
+      .header-wrapper .module-icon { font-size: 1.2rem; }
+      .header-wrapper .module h2 { font-size: 0.65rem; }
+      .header-wrapper .module p { font-size: 0.45rem; }
+      .header-wrapper #core-network { gap: 12px; }
     }
 
     @media (max-width: 650px) {
-      .header-wrapper .rhombus {
-        width: 55px;
-        height: 55px;
+      .header-wrapper .module {
+        width: 70px;
+        height: 70px;
+        padding: 8px 6px;
       }
-      .header-wrapper .rhombus-text {
-        font-size: 7.5px;
-        max-width: 42px;
-      }
-      .header-wrapper .main-menu-nav .nav-list {
-        gap: 5px;
-      }
+      .header-wrapper .module-icon { font-size: 1rem; }
+      .header-wrapper .module h2 { font-size: 0.55rem; letter-spacing: 0.5px; }
+      .header-wrapper .module p { font-size: 0.4rem; }
+      .header-wrapper #core-network { gap: 8px; flex-wrap: wrap; }
     }
   </style>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+  (function() {
+    'use strict';
+
+    // ============================================================
+    // 1. ЦИФРОВАЯ ДЫМКА (CANVAS)
+    // ============================================================
+    const fogCanvas = document.getElementById('fogCanvas');
+    if (!fogCanvas) return;
+    const fogCtx = fogCanvas.getContext('2d');
+    let fogWidth, fogHeight;
+    let particles = [];
+
+    function resizeFog() {
+      const rect = fogCanvas.parentElement.getBoundingClientRect();
+      fogCanvas.width = rect.width;
+      fogCanvas.height = rect.height;
+      fogWidth = fogCanvas.width;
+      fogHeight = fogCanvas.height;
+    }
+
+    function initParticles(count = 50) {
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * fogWidth,
+          y: Math.random() * fogHeight,
+          speedX: (Math.random() - 0.5) * 0.08,
+          speedY: (Math.random() - 0.5) * 0.05,
+          size: 2 + Math.random() * 4,
+          opacity: 0.05 + Math.random() * 0.08,
+        });
+      }
+    }
+
+    function drawFog() {
+      fogCtx.clearRect(0, 0, fogWidth, fogHeight);
+      // Тонкие линии данных
+      fogCtx.strokeStyle = 'rgba(74, 158, 255, 0.9)';
+      fogCtx.lineWidth = 1;
+      for (let i = 0; i < 25; i++) {
+        const x = (i / 25) * fogWidth;
+        const y = fogHeight * 0.5 + Math.sin(i * 0.7 + Date.now() * 0.00006) * 25;
+        fogCtx.beginPath();
+        fogCtx.moveTo(x, y);
+        fogCtx.lineTo(x + 50, y + 20 + Math.sin(i * 0.5 + Date.now() * 0.00012) * 18);
+        fogCtx.stroke();
+      }
+      // Плавающие частицы
+      for (const p of particles) {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if (p.x > fogWidth) p.x = 0;
+        if (p.x < 0) p.x = fogWidth;
+        if (p.y > fogHeight) p.y = 0;
+        if (p.y < 0) p.y = fogHeight;
+        const gradient = fogCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 1.8);
+        gradient.addColorStop(0, `rgba(74, 158, 255, ${p.opacity * 0.9})`);
+        gradient.addColorStop(1, `rgba(74, 158, 255, 0)`);
+        fogCtx.fillStyle = gradient;
+        fogCtx.beginPath();
+        fogCtx.arc(p.x, p.y, p.size * 1.8, 0, Math.PI * 2);
+        fogCtx.fill();
+      }
+      requestAnimationFrame(drawFog);
+    }
+
+    function initFog() {
+      resizeFog();
+      initParticles(60);
+      drawFog();
+      window.addEventListener('resize', () => {
+        resizeFog();
+        initParticles(60);
+      });
+    }
+    initFog();
+
+    // ============================================================
+    // 2. ДАННЫЕ МОДУЛЕЙ
+    // ============================================================
+    const moduleData = {
+      home: {
+        title: '◆ Главная',
+        content: '<p style="font-size:0.9rem;color:rgba(255,255,255,0.8);">Добро пожаловать на 4ak4ak!</p>'
+      },
+      tournaments: {
+        title: '◈ Турниры',
+        content: '<p style="font-size:0.9rem;color:rgba(255,255,255,0.8);">Соревнования и чемпионаты</p>'
+      },
+      rank: {
+        title: '◇ Rank',
+        content: '<p style="font-size:0.9rem;color:rgba(255,255,255,0.8);">Рейтинг игроков</p>'
+      },
+      files: {
+        title: '⚙ Файлы',
+        content: '<p style="font-size:0.9rem;color:rgba(255,255,255,0.8);">Загрузки и ресурсы</p>'
+      },
+      rules: {
+        title: '◉ Правила',
+        content: '<p style="font-size:0.9rem;color:rgba(255,255,255,0.8);">Регламент и правила</p>'
+      },
+      hall: {
+        title: '★ Зал славы',
+        content: '<p style="font-size:0.9rem;color:rgba(255,255,255,0.8);">Легенды 4ak4ak</p>'
+      }
+    };
+
+    // ============================================================
+    // 3. ПАНЕЛЬ
+    // ============================================================
+    const panel = document.getElementById('floating-panel');
+    const panelOverlay = document.getElementById('panel-overlay');
+    const panelTitle = document.getElementById('panel-title');
+    const panelBody = document.getElementById('panel-body');
+    const panelClose = document.getElementById('panel-close');
+
+    function openPanel(moduleId) {
+      const data = moduleData[moduleId];
+      if (!data) return;
+      panelTitle.textContent = data.title;
+      panelBody.innerHTML = `<div class="panel-content">${data.content}</div>`;
+      panel.classList.add('active');
+      panelOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closePanel() {
+      panel.classList.remove('active');
+      panelOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    panelClose.addEventListener('click', closePanel);
+    panelOverlay.addEventListener('click', closePanel);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closePanel();
+    });
+
+    // ============================================================
+    // 4. СОБЫТИЯ МОДУЛЕЙ
+    // ============================================================
+    document.querySelectorAll('.header-wrapper .module').forEach((mod) => {
+      mod.addEventListener('click', () => {
+        const moduleId = mod.dataset.module;
+        if (moduleId) openPanel(moduleId);
+      });
+    });
+
+    console.log('✦ Holographic modules in header loaded');
+  })();
+  </script>
 </header>
