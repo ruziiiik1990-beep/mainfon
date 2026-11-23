@@ -150,7 +150,7 @@
       font-size: 22px;
     }
 
-    /* =========================================
+      /* =========================================
        ТОЛЬКО FANCY SPARROW СПРАВА ПО СЕРЕДИНЕ
        ========================================= */
     .sparrow-right-box {
@@ -158,8 +158,9 @@
       right: 0;
       top: 50%;
       transform: translateY(-50%);
-      z-index: 999;
+      z-index: 9999;
       width: 240px;
+      background: #0a1428; /* Плотный фон, чтобы наложение цветов работало корректно */
       border-radius: 16px 0 0 16px;
       overflow: hidden;
       box-shadow: -8px 0 30px rgba(0, 0, 0, 0.6);
@@ -176,26 +177,25 @@
     .shader {
       position: relative;
       overflow: hidden;
-      backface-visibility: hidden;
+      isolation: isolate; /* Изолирует эффект перелива от фона страницы */
     }
 
     .shader-layer {
-      background: black;
-      mix-blend-mode: multiply;
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      background-position: center;
     }
 
     .specular {
       mix-blend-mode: color-dodge;
       background-attachment: fixed;
+      background-size: 100% 100vh;
     }
 
     .mask {
       mix-blend-mode: multiply;
+      object-fit: cover;
     }
 
     .gradient-sparrow {
@@ -217,16 +217,12 @@
       );
     }
 
-    @media (max-width: 1350px) {
-      .sparrow-right-box {
-        width: 180px;
-      }
-    }
-    @media (max-width: 1100px) {
+    @media (max-width: 768px) {
       .sparrow-right-box {
         display: none;
       }
     }
+
   </style>
 </head>
 <body>
