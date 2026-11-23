@@ -243,8 +243,8 @@
     }
 
     /* ========================================= */
-    /* Правая часть: ФОН TESLA + ПТИЧКА          */
-    /* ✅ ПТИЧКА НЕ ТРОНУТА                      */
+    /* Правая часть: ПТИЧКА (ПОЛНОСТЬЮ КАК БЫЛО) */
+    /* ✅ Контейнер прозрачный, фон не подложен   */
     /* ========================================= */
     .sparrow-holo {
       flex: 0 0 280px;
@@ -253,10 +253,7 @@
       align-items: center;
       position: relative;
       z-index: 3;
-      background-color: #0a2240;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      background: transparent;   /* ✅ было #0a2240 — вернули прозрачность */
       border-radius: 12px;
       padding: 15px 10px;
       overflow: hidden;
@@ -401,6 +398,8 @@
 
     // ============================================================
     // ГЕНЕРАЦИЯ ФОНА NIKOLA TESLA (variant: glass, seed: 42)
+    // Применяется ТОЛЬКО к .download-block и .download-content::before.
+    // Птичка (.sparrow-holo) НЕ трогается — фон под неё не кладём.
     // ============================================================
     (function() {
       'use strict';
@@ -417,7 +416,6 @@
         };
       }
 
-      // ✅ Функция makeFacetPair для variant "glass" (как у Tesla)
       function makeFacetPair(seed, base, holo) {
         const W = 600, H = 880, cols = 7, rows = 11;
         const rand = createSeededRandom(seed);
@@ -448,29 +446,25 @@
         return { base: draw(base), holo: draw(holo) };
       }
 
-      // Палитры из оригинального кода Tesla
       const NAVY_FACETS = ["#020a16","#020a16","#041020","#041020","#071a30","#0a2240","#0d2848","#103058","#15396a","#1b4480"];
       const PRISM_FACETS = ["#ff3b5c","#ff7a1a","#ffd24d","#5cff7a","#4de4ff","#4d8cff","#b96bff","#ff4dd2","#ffffff"];
 
-      // ✅ Генерируем для seed=42 (как у Tesla)
       const tex = makeFacetPair(42, NAVY_FACETS, PRISM_FACETS);
 
-      // Применяем к блокам
       const downloadBlock = document.getElementById('download-block');
       const downloadContent = document.getElementById('download-content');
-      const sparrowHolo = document.getElementById('sparrow-holo');
 
+      // ✅ Фон Tesla — только на блоке античита
       if (downloadBlock) {
         downloadBlock.style.backgroundImage = tex.matte;
       }
+      // ✅ Радужный reveal — только на левой колонке
       if (downloadContent) {
         downloadContent.style.setProperty('--holo-facets-holo', tex.holo);
       }
-      if (sparrowHolo) {
-        sparrowHolo.style.backgroundImage = tex.matte;
-      }
+      // ❌ .sparrow-holo НЕ трогаем — фон под птичку не кладём
 
-      // ✅ IDLE GLINT — периодическая вспышка голограммы (без наклона)
+      // ✅ Idle glint (без наклона)
       if (downloadContent && window.matchMedia && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         let glintTimer = 0;
         const scheduleGlint = () => {
@@ -484,13 +478,10 @@
           }, delay);
         };
         scheduleGlint();
-
-        window.addEventListener('beforeunload', () => {
-          clearTimeout(glintTimer);
-        });
+        window.addEventListener('beforeunload', () => clearTimeout(glintTimer));
       }
 
-      console.log('✦ Фон Nikola Tesla (glass, seed: 42) применён');
+      console.log('✦ Фон Nikola Tesla (glass, seed: 42) применён к .download-block. Птичка не тронута.');
     })();
   </script>
 
