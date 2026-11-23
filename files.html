@@ -151,75 +151,35 @@
     }
 
     /* =========================================
-       ВСТРОЕННЫЙ БЛОК СПРАВА В УПОР ПО СЕРЕДИНЕ
+       ТОЛЬКО FANCY SPARROW СПРАВА ПО СЕРЕДИНЕ
        ========================================= */
-    .right-middle-widget {
+    .sparrow-right-box {
       position: fixed;
       right: 0;
       top: 50%;
       transform: translateY(-50%);
       z-index: 999;
-      width: 260px;
-      max-height: 75vh;
-      overflow-y: auto;
-      overflow-x: hidden;
-      background: rgba(10, 20, 40, 0.88);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      width: 240px;
+      border-radius: 16px 0 0 16px;
+      overflow: hidden;
+      box-shadow: -8px 0 30px rgba(0, 0, 0, 0.6);
       border: 1px solid rgba(74, 158, 255, 0.45);
       border-right: none;
-      border-radius: 16px 0 0 16px;
-      padding: 15px;
-      box-sizing: border-box;
-      color: #fff;
-      font-size: 12px;
-      box-shadow: -8px 0 30px rgba(0, 0, 0, 0.6);
     }
 
-    .right-middle-widget::-webkit-scrollbar {
-      width: 5px;
-    }
-    .right-middle-widget::-webkit-scrollbar-thumb {
-      background: rgba(74, 158, 255, 0.5);
-      border-radius: 4px;
-    }
-
-    .right-middle-widget a {
-      color: #4a9eff;
-    }
-
-    .right-middle-widget img {
-      max-width: 100%;
+    .sparrow-right-box img {
+      width: 100%;
       height: auto;
       display: block;
     }
 
-    .right-middle-widget .holo-main {
-      margin: 20px 0;
-    }
-
-    .right-middle-widget section {
-      margin: 20px 0;
-    }
-
-    .right-middle-widget .full-width {
-      padding: 10px 0;
-    }
-
-    .right-middle-widget .grid {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    /* The Shader Stuff */
-    .right-middle-widget .shader {
+    .shader {
       position: relative;
       overflow: hidden;
       backface-visibility: hidden;
     }
 
-    .right-middle-widget .shader-layer {
+    .shader-layer {
       background: black;
       mix-blend-mode: multiply;
       position: absolute;
@@ -229,16 +189,15 @@
       background-position: center;
     }
 
-    .right-middle-widget .specular {
+    .specular {
       mix-blend-mode: color-dodge;
       background-attachment: fixed;
     }
 
-    .right-middle-widget .mask {
+    .mask {
       mix-blend-mode: multiply;
     }
 
-    /* Gradient Definitions */
     .gradient-sparrow {
       background-image: linear-gradient(
         0deg,
@@ -258,99 +217,19 @@
       );
     }
 
-    .gradient-lumon {
-      background-image: linear-gradient(
-        0deg,
-        hsl(0, 0%, 0%) 0%,
-        hsl(0, 0%, 0%) 59.8%,
-        hsl(221, 61%, 34%) 60%,
-        hsl(197, 92%, 86%) 60.2%,
-        hsl(0, 0%, 0%) 100%
-      );
-    }
-
-    .gradient-turtle {
-      background-image: linear-gradient(
-        0deg,
-        hsl(0, 0%, 0%) 40%,
-        hsl(195, 63%, 71%) 50%,
-        hsl(261, 49%, 78%) 100%
-      );
-    }
-
-    .gradient-dragonfly {
-      background-image: linear-gradient(
-        25deg,
-        hsl(0, 0%, 33%) 30%,
-        hsl(138, 26%, 83%) 45%,
-        hsl(77, 5%, 72%) 65%,
-        hsl(0, 0%, 33%) 70%
-      );
-    }
-
-    .gradient-beetle {
-      background-image: linear-gradient(
-        0deg,
-        hsl(0, 0%, 0%) 10%,
-        hsl(67, 61%, 83%) 45%,
-        hsl(0, 0%, 0%) 80%
-      );
-    }
-
-    .gradient-nanina {
-      background-image: linear-gradient(
-        0deg,
-        hsl(0, 0%, 0%) 0%,
-        hsl(50, 100%, 88%) 30%,
-        hsl(50, 100%, 88%) 70%,
-        hsl(0, 0%, 0%) 90%
-      );
-    }
-
-    .gradient-mandala {
-      background-image: linear-gradient(
-        30deg,
-        hsl(30, 80%, 20%) 0%,
-        hsl(30, 80%, 80%) 10%,
-        hsl(30, 80%, 20%) 20%,
-        hsl(30, 80%, 80%) 30%,
-        hsl(30, 80%, 20%) 35%,
-        hsl(30, 80%, 80%) 50%,
-        hsl(30, 80%, 20%) 65%,
-        hsl(30, 80%, 80%) 70%,
-        hsl(30, 80%, 20%) 80%,
-        hsl(30, 80%, 80%) 90%,
-        hsl(30, 80%, 20%) 100%
-      );
-    }
-
-    .gradient-deer {
-      background-image: linear-gradient(
-        -25deg,
-        hsl(0, 0%, 0%) 30%,
-        hsl(104, 26%, 83%) 45%,
-        hsl(273, 22%, 25%) 65%,
-        hsl(0, 0%, 0%) 70%
-      );
-    }
-
-    .result-iframe h1,
-    .result-iframe h2 {
-      display: none !important;
-    }
-
     @media (max-width: 1350px) {
-      .right-middle-widget {
-        width: 210px;
+      .sparrow-right-box {
+        width: 180px;
       }
     }
     @media (max-width: 1100px) {
-      .right-middle-widget {
+      .sparrow-right-box {
         display: none;
       }
     }
   </style>
-  <body>
+</head>
+<body>
 
   <!-- Фон -->
   <div class="page-bg"></div>
@@ -382,119 +261,15 @@
     </div>
   </div>
 
-  <!-- Вставленный код справа по середине -->
-  <aside class="right-middle-widget">
-    <header class="content-grid">
-      <p>Experimenting with some CSS holographic effects, inspired by this guide from Robb Owen: <a href="https://robbowen.digital" target="_blank">Holograms, light-leaks and how to build CSS-only shaders.</a></p>
-      <p>Unfortunately, this effect relies on <code>background-attachment: fixed;</code> Which doesn't work as expected on iOS Safari.</p>
-      <p>This effect also relies on scrolling over the images, for the gradient & mask to do its thing. So I have increased the margin on both ends of the demo so you should be able to see it fully.</p>
-      <p>TL;DR: Scroll.</p>
-    </header>
-
-    <div class="holo-main">
-      <section>
-        <div class="grid">
-          <div class="cell">
-            <p>Normal Sparrow</p>
-            <img src="https://codepen.io" alt="Silhouette design of a sparrow sitting on a branch" width="512" class="framed">
-          </div>
-          <div class="cell">
-            <p>Fancy Sparrow ✨</p>
-            <div class="shader framed">
-              <img src="https://codepen.io" alt="Silhouette design of a sparrow sitting on a branch" width="512">
-              <div class="shader-layer specular gradient-sparrow">
-                <img class="shader-layer mask" src="https://codepen.io" alt="" width="300">
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      <section class="full-width">
-        <div class="shader">
-          <img src="https://codepen.io" alt="The Lumon Drop logo from the TV Show Severance" width="700">
-          <div class="shader-layer specular gradient-lumon">
-            <img class="shader-layer mask" src="https://codepen.io" alt="" width="700">
-          </div>
-        </div>
-      </section>
-      
-      <section>
-        <div class="grid">
-          <div class="cell">
-            <p>Turtle</p>
-            <div class="shader framed">
-              <img src="https://codepen.io" alt="Silhouette design of a turtle" width="300">
-              <div class="shader-layer specular gradient-turtle">
-                <img class="shader-layer mask" src="https://codepen.io" alt="" width="300">
-              </div>
-            </div>
-          </div>
-          <div class="cell">
-            <p>Dragonfly</p>
-            <div class="shader framed">
-              <img src="https://codepen.io" alt="Silhouette design of a dragonfly" width="512">
-              <div class="shader-layer specular gradient-dragonfly">
-                <img class="shader-layer mask" src="https://codepen.io" alt="" width="512">
-              </div>
-            </div>
-          </div>
-          <div class="cell cell-wide">
-            <p>Beetle</p>
-            <div class="shader">
-              <img src="https://codepen.io" alt="Macro photo close up of a chromatic green beetle on a brown leaf" width="700">
-              <div class="shader-layer specular gradient-beetle">
-                <img class="shader-layer mask" src="https://codepen.io" alt="" width="700">
-              </div>
-            </div>
-          </div>
-          <div class="cell">
-            <p>Pixel Nanina</p>
-            <div class="shader">
-              <img src="https://codepen.io" alt="Pixelated orange tabby cat design on a lenticular effect background" width="512">
-              <div class="shader-layer specular gradient-nanina">
-                <img class="shader-layer mask" src="https://codepen.io" alt="" width="512">
-              </div>
-            </div>
-          </div>
-          <div class="cell">
-            <p>Mandala</p>
-            <div class="shader framed">
-              <img src="https://codepen.io" alt="Mandala design which looks like a flower, made symetry patterns" width="512">
-              <div class="shader-layer specular gradient-mandala">
-                <img class="shader-layer mask" src="https://codepen.io" alt="" width="512">
-              </div>
-            </div>
-          </div>
-          <div class="cell cell-wide">
-            <p>Deer</p>
-            <div class="shader">
-              <img src="https://codepen.io" alt="Shadowbox design of multiple SVG layers depicting a deer in a forest scene, set within the outline of a deer" width="1024">
-              <div class="shader-layer specular gradient-deer">
-                <img class="shader-layer mask gradient-sparrow" src="https://codepen.io" alt="" width="1024">
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+  <!-- Fancy Sparrow справа в упор по середине -->
+  <div class="sparrow-right-box">
+    <div class="shader framed">
+      <img src="https://codepen.io" alt="Silhouette design of a sparrow sitting on a branch" width="512">
+      <div class="shader-layer specular gradient-sparrow">
+        <img class="shader-layer mask" src="https://codepen.io" alt="" width="300">
+      </div>
     </div>
-
-    <footer class="content-grid">
-      <h2>Credits</h2>
-      <ul>
-        <li><a href="https://robbowen.digital" target="_blank" rel="noopener noreferrer">Robb Owen</a> - For the quality <a href="https://robbowen.digital" target="_blank" rel="noopener noreferrer">CSS-shader guide</a> that got me doing this experiment.</li>
-        <li><a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">David Clode</a> - For the <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">Feather Texture</a> used in the sparrow mask.</li>
-        <li><a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">Tim Schmidbauer</a> - For the <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">Birch Tree Texture</a>, used in the sparrow mask.</li>
-        <li><a href="https://vsueiro.com" target="_blank" rel="noopener noreferrer">Vinicius Sueiro</a> - For the <a href="https://vsueiro.com" target="_blank" rel="noopener noreferrer">Random Dots Generator</a>, used in the pixel nanina and deer masks.</li>
-        <li><a href="https://magicpattern.design" target="_blank" rel="noopener noreferrer">MagicPattern</a> - For the <a href="https://magicpattern.design/tools/god-rays-generator" target="_blank" rel="noopener noreferrer">God Rays Generator</a>, used in the deer and beetle masks.</li>
-      </ul>
-    </footer>
-
-    <div class="my-footer">
-      <p>March 2025, Christian Alder</p>
-      <p><a href="https://bsky.app" target="_blank" rel="noopener noreferrer">Bluesky</a> | <a href="https://mastodon.social" target="_blank" rel="noopener noreferrer">Mastodon</a></p>
-    </div>
-  </aside>
+  </div>
 
   <script>
     fetch('header.html')
@@ -511,5 +286,3 @@
 
 </body>
 </html>
-
-</head>
