@@ -14,55 +14,31 @@
       <div id="core-network">
         <!-- ГЛАВНАЯ -->
         <a href="index.html" class="module" data-module="home">
-          <div class="chip-corner tl"></div>
-          <div class="chip-corner tr"></div>
-          <div class="chip-corner bl"></div>
-          <div class="chip-corner br"></div>
           <h2>Главная</h2>
           <div class="module-glow"></div>
         </a>
         <!-- ТУРНИРЫ -->
         <a href="tournaments.html" class="module" data-module="tournaments">
-          <div class="chip-corner tl"></div>
-          <div class="chip-corner tr"></div>
-          <div class="chip-corner bl"></div>
-          <div class="chip-corner br"></div>
           <h2>Турниры</h2>
           <div class="module-glow"></div>
         </a>
         <!-- RANK -->
         <a href="rank.html" class="module" data-module="rank">
-          <div class="chip-corner tl"></div>
-          <div class="chip-corner tr"></div>
-          <div class="chip-corner bl"></div>
-          <div class="chip-corner br"></div>
           <h2>Rank</h2>
           <div class="module-glow"></div>
         </a>
         <!-- ФАЙЛЫ -->
         <a href="files.html" class="module" data-module="files">
-          <div class="chip-corner tl"></div>
-          <div class="chip-corner tr"></div>
-          <div class="chip-corner bl"></div>
-          <div class="chip-corner br"></div>
           <h2>Файлы</h2>
           <div class="module-glow"></div>
         </a>
         <!-- ПРАВИЛА -->
         <a href="rules.html" class="module" data-module="rules">
-          <div class="chip-corner tl"></div>
-          <div class="chip-corner tr"></div>
-          <div class="chip-corner bl"></div>
-          <div class="chip-corner br"></div>
           <h2>Правила</h2>
           <div class="module-glow"></div>
         </a>
         <!-- ЗАЛ СЛАВЫ -->
-        <a href="https://pages.dev" class="module" data-module="hall">
-          <div class="chip-corner tl"></div>
-          <div class="chip-corner tr"></div>
-          <div class="chip-corner bl"></div>
-          <div class="chip-corner br"></div>
+        <a href="https://4ak4ak.pages.dev/zalslavi" class="module" data-module="hall">
           <h2>Зал славы</h2>
           <div class="module-glow"></div>
         </a>
@@ -74,18 +50,10 @@
         <!-- Кнопки для гостей в стиле модулей -->
         <div id="guest-buttons" class="auth-links" style="display: flex; align-items: center; gap: 12px;">
           <a title="Вход" href="login.html" class="module auth-module">
-            <div class="chip-corner tl"></div>
-            <div class="chip-corner tr"></div>
-            <div class="chip-corner bl"></div>
-            <div class="chip-corner br"></div>
             <h2>Вход</h2>
             <div class="module-glow"></div>
           </a>
           <a title="Регистрация" href="register.html" class="module auth-module">
-            <div class="chip-corner tl"></div>
-            <div class="chip-corner tr"></div>
-            <div class="chip-corner bl"></div>
-            <div class="chip-corner br"></div>
             <h2>Регистрация</h2>
             <div class="module-glow"></div>
           </a>
@@ -93,18 +61,10 @@
         <!-- Кнопки для авторизованных в стиле модулей -->
         <div id="user-buttons" class="auth-links" style="display: none; align-items: center; gap: 12px;">
           <a title="Мой профиль" href="profile.html" class="module auth-module">
-            <div class="chip-corner tl"></div>
-            <div class="chip-corner tr"></div>
-            <div class="chip-corner bl"></div>
-            <div class="chip-corner br"></div>
             <h2>Профиль</h2>
             <div class="module-glow"></div>
           </a>
           <a title="Выход" href="#" id="logout-btn" class="module auth-module">
-            <div class="chip-corner tl"></div>
-            <div class="chip-corner tr"></div>
-            <div class="chip-corner bl"></div>
-            <div class="chip-corner br"></div>
             <h2>Выход</h2>
             <div class="module-glow"></div>
           </a>
@@ -126,7 +86,7 @@
   <div id="panel-overlay"></div>
   <!-- ===== СТИЛИ ===== -->
   <style>
-    /* Принудительно задаём светло-серый фон #F1F5F9 как в ваших 3 файлах */
+    /* Позиционирование header и светлый фон (высота 88px) */
     header.header-wrapper,
     .header-wrapper {
       position: relative !important;
@@ -140,7 +100,7 @@
       overflow: hidden !important;
     }
 
-    /* Убираем возможный белый фон у всех внутренних обёрток шапки */
+    /* Убираем возможный белый фон у внутренних обёрток шапки */
     .header-wrapper .container,
     .header-wrapper .header-container,
     .header-wrapper .header-left,
@@ -151,7 +111,7 @@
       z-index: 5 !important;
     }
 
-    /* ===== ФОН С ЦИФРОВОЙ ДЫМКОЙ И ФИОЛЕТОВЫМИ ШАРИКАМИ ===== */
+    /* ===== ФОН С ЦИФРОВОЙ ДЫМКОЙ ===== */
     .header-wrapper #fog-container {
       position: absolute !important;
       inset: 0 !important;
@@ -183,7 +143,7 @@
       z-index: 3;
     }
 
-    /* ===== МОДУЛИ (КАРТОЧКИ МЕНЮ И КНОПКИ ВХОДА/ПРОФИЛЯ) ===== */
+    /* ===== МОДУЛИ (ПРЯМОУГОЛЬНИКИ МЕНЮ И КНОПКИ ВХОДА/ПРОФИЛЯ) ===== */
     .header-wrapper .module {
       position: relative;
       width: 110px;
@@ -236,24 +196,6 @@
       0%, 100% { transform: translateY(3px); }
       50%      { transform: translateY(-3px); }
     }
-
-    /* Угловые декорации */
-    .header-wrapper .chip-corner {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      border-color: rgba(0, 153, 255, 0.28);
-      border-style: solid;
-      border-width: 0;
-      pointer-events: none;
-      z-index: 3;
-      transition: border-color 0.3s;
-    }
-    .header-wrapper .chip-corner.tl { top: 3px; left: 3px; border-top-width: 2px; border-left-width: 2px; border-radius: 6px 0 0 0; }
-    .header-wrapper .chip-corner.tr { top: 3px; right: 3px; border-top-width: 2px; border-right-width: 2px; border-radius: 0 6px 0 0; }
-    .header-wrapper .chip-corner.bl { bottom: 3px; left: 3px; border-bottom-width: 2px; border-left-width: 2px; border-radius: 0 0 0 6px; }
-    .header-wrapper .chip-corner.br { bottom: 3px; right: 3px; border-bottom-width: 2px; border-right-width: 2px; border-radius: 0 0 6px 0; }
-    .header-wrapper .module:hover .chip-corner { border-color: rgba(0, 153, 255, 0.65); }
 
     .header-wrapper .module h2 {
       font-size: 0.85rem;
@@ -436,7 +378,7 @@
     'use strict';
 
     // ============================================================
-    // 1. ЦИФРОВАЯ ДЫМКА С ФИОЛЕТОВЫМИ ШАРИКАМИ (CANVAS)
+    // 1. ЦИФРОВАЯ ДЫМКА (CANVAS)
     // ============================================================
     const fogCanvas = document.getElementById('fogCanvas');
     if (!fogCanvas) return;
@@ -467,7 +409,7 @@
 
     function drawFog() {
       fogCtx.clearRect(0, 0, fogWidth, fogHeight);
-      // Тонкие фиолетовые линии данных (как в вашем примере)
+      // Тонкие линии данных
       fogCtx.strokeStyle = 'rgba(166, 132, 255, 0.9)';
       fogCtx.lineWidth = 1;
       for (let i = 0; i < 25; i++) {
@@ -478,7 +420,7 @@
         fogCtx.lineTo(x + 50, y + 20 + Math.sin(i * 0.5 + Date.now() * 0.00012) * 18);
         fogCtx.stroke();
       }
-      // Плавающие фиолетовые шарики (эффект из вашего примера)
+      // Плавающие частицы
       for (const p of particles) {
         p.x += p.speedX;
         p.y += p.speedY;
