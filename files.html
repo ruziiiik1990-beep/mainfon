@@ -63,7 +63,9 @@
       text-shadow: 0 2px 10px rgba(74, 158, 255, 0.5);
     }
 
-    /* ЕДИНЫЙ блок: внутри него слева текст, справа птичка. Никаких таблиц. */
+    /* ========================================= */
+    /* ЕДИНАЯ ТАБЛИЦА: общий фон для всего       */
+    /* ========================================= */
     .download-block {
       background: rgba(10, 42, 107, 0.6);
       backdrop-filter: blur(12px);
@@ -73,16 +75,20 @@
       padding: 40px 30px;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
       
-      /* Простое выравнивание в одну строку */
+      /* Выстраиваем содержимое в одну линию: текст слева, птичка справа */
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 40px;
+      text-align: center;
     }
 
+    /* Левая часть с текстом и кнопкой */
     .download-content {
       flex: 1;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .download-icon {
@@ -103,7 +109,7 @@
       color: rgba(255, 255, 255, 0.7);
       font-size: 15px;
       line-height: 1.6;
-      max-width: 600px;
+      max-width: 500px;
       margin: 0 auto 30px auto;
     }
 
@@ -135,7 +141,7 @@
 
     .download-warning {
       color: #ff2d2d;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -162,25 +168,31 @@
     }
 
     /* ========================================= */
-    /* ТОЧНЫЕ СТИЛИ ГОЛОГРАММЫ ИЗ ТВОЕГО КОДА    */
+    /* Правая часть: Голографическая птичка      */
+    /* (без собственного фона, использует общий)  */
     /* ========================================= */
     .sparrow-holo {
-      flex: 0 0 auto;
-      text-align: center;
+      flex: 0 0 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .sparrow-holo p {
       color: #fff;
       font-size: 16px;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin: 0 0 15px 0;
       letter-spacing: 0.5px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
     }
 
+    /* Точные стили шейдера из исходного кода */
     .shader {
       position: relative;
       overflow: hidden;
       backface-visibility: hidden; /* Forces GPU */
+      border-radius: 12px;
     }
 
     .shader-layer {
@@ -221,11 +233,16 @@
       );
     }
 
-    /* Адаптивность: на мобильных птичка уходит под текст */
+    /* Адаптивность: на мобильных устройствах птичка встанет под текстом */
     @media (max-width: 900px) {
       .download-block {
         flex-direction: column;
         gap: 30px;
+      }
+      .sparrow-holo {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 300px;
       }
     }
   </style>
@@ -241,10 +258,10 @@
   <div class="files-container">
     <div class="files-title">Файлы</div>
 
-    <!-- ЕДИНЫЙ блок. Внутри него flex-выравнивание: слева текст, справа птичка -->
+    <!-- ЕДИНАЯ ТАБЛИЦА: общий фон, рамка и размытие применяются один раз -->
     <div class="download-block">
       
-      <!-- Левая часть: контент -->
+      <!-- ЛЕВАЯ СТОРОНА: Текст и кнопка -->
       <div class="download-content">
         <span class="download-icon">🛡️</span>
         <div class="download-title">Античит для турниров</div>
@@ -265,11 +282,11 @@
         </div>
       </div>
 
-      <!-- Правая часть: голографическая птичка (точная копия из твоего рабочего кода) -->
+      <!-- ПРАВАЯ СТОРОНА: Голографическая птичка -->
       <div class="sparrow-holo">
         <p>Fancy Sparrow ✨</p>
         <div class="shader framed">
-          <img src="https://assets.codepen.io/2153413/sparrow-base.png" alt="Fancy Sparrow" width="280" style="max-width: 100%; height: auto; border-radius: 8px;">
+          <img src="https://assets.codepen.io/2153413/sparrow-base.png" alt="Fancy Sparrow" width="280" style="max-width: 100%; height: auto;">
           <div class="shader-layer specular gradient-sparrow">
             <img class="shader-layer mask" src="https://assets.codepen.io/2153413/sparrow-mask.png" alt="" width="280" style="max-width: 100%; height: auto;">
           </div>
