@@ -64,21 +64,30 @@
     }
 
     /* ========================================= */
-    /* ЕДИНАЯ ТАБЛИЦА: ФОН ADA LOVELACE (marine) */
+    /* ЕДИНАЯ ТАБЛИЦА: ФОН ADA LOVELACE + ГОЛОГРАММА */
     /* ========================================= */
     .download-block {
+      /* ✅ Фон (применяется через JS) */
       background-color: #0a2240;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
+      
       border: 2px solid rgba(244, 231, 38, 0.35);
       border-radius: 20px;
       padding: 40px 30px;
+      
+      /* ✅ 3D-наклон + тень (управляются мышью) */
+      transform:
+        perspective(50rem)
+        rotateX(var(--rx, 0deg))
+        rotateY(var(--ry, 0deg))
+        scale(var(--card-scale, 1));
+      transition: transform 0.45s ease, box-shadow 0.45s ease;
       box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        var(--shadow-x, 0) var(--shadow-y, 0.5rem) 1.5rem 0.1rem
+        color-mix(in srgb, #0a2240 38%, transparent);
+      
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -86,6 +95,102 @@
       text-align: center;
       position: relative;
       overflow: hidden;
+      cursor: pointer;
+    }
+
+    /* ✅ При наведении — лёгкое увеличение */
+    .download-block[data-tilting="true"] {
+      --card-scale: 1.02;
+      transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
+    }
+
+    /* ========================================= */
+    /* ::before — REVEAL LAYER (голографические переливы) */
+    /* ========================================= */
+    .download-block::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      border-radius: inherit;
+      /* ✅ reveal-текстура (применяется через JS) */
+      background-image: var(--holo-facets-holo);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      mix-blend-mode: overlay;
+      opacity: 0.55;
+      -webkit-mask-image: linear-gradient(105deg, transparent 22%, #000 42%, #000 58%, transparent 78%);
+      mask-image: linear-gradient(105deg, transparent 22%, #000 42%, #000 58%, transparent 78%);
+      -webkit-mask-size: 250% 100%;
+      mask-size: 250% 100%;
+      -webkit-mask-position: var(--holo-pos, 50%) 0;
+      mask-position: var(--holo-pos, 50%) 0;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      transition:
+        -webkit-mask-position 0.12s ease-out,
+        mask-position 0.12s ease-out,
+        opacity 0.25s ease;
+    }
+
+    /* При наведении — reveal на максимум */
+    .download-block[data-tilting="true"]::before {
+      opacity: 1;
+    }
+
+    /* ========================================= */
+    /* ::after — БЕЛЫЙ БЛИК (sheen) */
+    /* ========================================= */
+    .download-block::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      border-radius: inherit;
+      background: linear-gradient(
+        110deg,
+        transparent 25%,
+        rgba(255, 255, 255, 0.16) 47%,
+        rgba(255, 255, 255, 0.04) 53%,
+        transparent 72%
+      );
+      background-size: 220% 100%;
+      background-position: var(--holo-pos, 78%) 0;
+      mix-blend-mode: screen;
+      transition: background-position 0.12s ease-out;
+    }
+
+    /* ========================================= */
+    /* Idle glint — периодическая вспышка */
+    /* ========================================= */
+    .download-block[data-glint="true"]:not([data-tilting="true"])::before {
+      animation: holo-glint-holo 1.6s ease-in-out;
+    }
+    .download-block[data-glint="true"]:not([data-tilting="true"])::after {
+      animation: holo-glint-sheen 1.6s ease-in-out;
+    }
+
+    @keyframes holo-glint-holo {
+      0%, 100% { opacity: 0.55; -webkit-mask-position: 50% 0; mask-position: 50% 0; }
+      50%      { opacity: 1; -webkit-mask-position: 20% 0; mask-position: 20% 0; }
+    }
+    @keyframes holo-glint-sheen {
+      0%, 100% { background-position: 78% 0; }
+      50%      { background-position: 24% 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .download-block {
+        transition: none;
+      }
+      .download-block::before,
+      .download-block::after {
+        transition: none;
+        animation: none;
+      }
     }
 
     /* Левая часть с текстом и кнопкой */
@@ -95,55 +200,7 @@
       flex-direction: column;
       align-items: center;
       position: relative;
-      z-index: 2;
-    }
-
-    /* Overlay ТОЛЬКО на левой части (текст) */
-    .download-content::before {
-      content: '';
-      position: absolute;
-      top: -20px;
-      bottom: -20px;
-      left: -20px;
-      right: 0;
-      background: linear-gradient(
-        135deg,
-        rgba(10, 34, 64, 0.55) 0%,
-        rgba(10, 34, 64, 0.35) 50%,
-        rgba(10, 34, 64, 0.55) 100%
-      );
-      z-index: -1;
-      pointer-events: none;
-      border-radius: 12px;
-    }
-
-    /* Голографический блик ТОЛЬКО на левой части */
-    .download-content::after {
-      content: '';
-      position: absolute;
-      top: -20px;
-      bottom: -20px;
-      left: -20px;
-      right: 0;
-      z-index: -1;
-      pointer-events: none;
-      border-radius: 12px;
-      background: linear-gradient(
-        110deg,
-        transparent 25%,
-        rgba(255, 255, 255, 0.12) 47%,
-        rgba(255, 255, 255, 0.03) 53%,
-        transparent 72%
-      );
-      background-size: 220% 100%;
-      background-position: 78% 0;
-      mix-blend-mode: screen;
-      animation: sheenMove 8s ease-in-out infinite;
-    }
-
-    @keyframes sheenMove {
-      0%, 100% { background-position: 78% 0; }
-      50%      { background-position: 24% 0; }
+      z-index: 3;
     }
 
     .download-icon {
@@ -225,8 +282,8 @@
     }
 
     /* ========================================= */
-    /* Правая часть: ФОН ADA LOVELACE + ПТИЧКА   */
-    /* ✅ БЕЗ OVERLAY — ГОЛОГРАММА РАБОТАЕТ       */
+    /* Правая часть: Голографическая птичка      */
+    /* ✅ z-index: 4 — ВЫШЕ голографических слоёв */
     /* ========================================= */
     .sparrow-holo {
       flex: 0 0 280px;
@@ -234,8 +291,7 @@
       flex-direction: column;
       align-items: center;
       position: relative;
-      z-index: 3;
-      /* ✅ Фон Ada Lovelace (применяется через JS) */
+      z-index: 4;
       background-color: #0a2240;
       background-size: cover;
       background-position: center;
@@ -244,8 +300,6 @@
       padding: 15px 10px;
       overflow: hidden;
     }
-
-    /* ✅ УБРАЛИ OVERLAY — теперь голограмма видна */
 
     .sparrow-holo p {
       color: #fff;
@@ -258,7 +312,6 @@
       z-index: 1;
     }
 
-    /* ✅ ГОЛОГРАФИЧЕСКИЕ СТИЛИ (НЕ ТРОГАЕМ) */
     .sparrow-holo .shader,
     .sparrow-holo .shader.framed {
       position: relative;
@@ -365,7 +418,7 @@
         </div>
       </div>
 
-      <!-- ПРАВАЯ СТОРОНА: Голографическая птичка с фоном Ada Lovelace -->
+      <!-- ПРАВАЯ СТОРОНА: Голографическая птичка -->
       <div class="sparrow-holo" id="sparrow-holo">
         <p>Fancy Sparrow ✨</p>
         <div class="shader framed">
@@ -392,7 +445,7 @@
       .catch(error => console.error('Ошибка загрузки шапки:', error));
 
     // ============================================================
-    // ГЕНЕРАЦИЯ ФОНА ADA LOVELACE (marine, seed: 3)
+    // ГЕНЕРАЦИЯ ФОНА + REVEAL-ТЕКСТУРЫ + ГОЛОГРАФИЧЕСКИЙ ИНТЕРАКТИВ
     // ============================================================
     (function() {
       'use strict';
@@ -510,27 +563,121 @@
         };
       }
 
+      // Палитры из оригинального кода Ada Lovelace
       const MATTES_MARINE = [
         [40, 90, 175],
         [14, 36, 84],
         [120, 170, 222],
         [236, 244, 252]
       ];
+      const REVEALS_MARINE = [
+        [14, 28, 58],
+        [78, 118, 168],
+        [172, 198, 230],
+        [250, 252, 255]
+      ];
 
+      // Генерируем ОБЕ текстуры (matte и reveal)
       const camo = makeCamo(3);
-      const bgUrl = camo(MATTES_MARINE);
+      const matteUrl = camo(MATTES_MARINE);
+      const revealUrl = camo(REVEALS_MARINE);
 
-      const downloadBlock = document.getElementById('download-block');
+      // Применяем к блоку
+      const block = document.getElementById('download-block');
       const sparrowHolo = document.getElementById('sparrow-holo');
       
-      if (downloadBlock) {
-        downloadBlock.style.backgroundImage = `url(${bgUrl})`;
+      if (block) {
+        block.style.backgroundImage = `url(${matteUrl})`;
+        block.style.setProperty('--holo-facets-holo', `url(${revealUrl})`);
       }
       if (sparrowHolo) {
-        sparrowHolo.style.backgroundImage = `url(${bgUrl})`;
+        sparrowHolo.style.backgroundImage = `url(${matteUrl})`;
       }
 
-      console.log('✦ Фон Ada Lovelace (marine, 2048x2048) применён к обоим блокам');
+      // ============================================================
+      // ГОЛОГРАФИЧЕСКИЙ ИНТЕРАКТИВ (как в оригинальной карточке Ada)
+      // ============================================================
+      if (block && window.matchMedia && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const HALO = 70;
+        const maxTilt = 8;
+        let raf = 0;
+        let pending = null;
+
+        const reset = () => {
+          ["--rx", "--ry", "--holo-pos", "--shadow-x", "--shadow-y"].forEach((p) => 
+            block.style.removeProperty(p)
+          );
+          block.removeAttribute("data-tilting");
+        };
+
+        const apply = () => {
+          raf = 0;
+          const e = pending;
+          if (!e) return;
+          
+          const r = block.getBoundingClientRect();
+          const dx = Math.max(r.left - e.clientX, 0, e.clientX - r.right);
+          const dy = Math.max(r.top - e.clientY, 0, e.clientY - r.bottom);
+          
+          if (Math.hypot(dx, dy) > HALO) {
+            reset();
+            return;
+          }
+          
+          const nx = (e.clientX - r.left) / r.width;
+          const ny = (e.clientY - r.top) / r.height;
+          const px = clamp(nx, -0.18, 1.18);
+          const py = clamp(ny, -0.18, 1.18);
+          const ox = px - 0.5;
+          const oy = py - 0.5;
+          
+          block.style.setProperty("--ry", (ox * 2 * maxTilt).toFixed(2) + "deg");
+          block.style.setProperty("--rx", (-oy * 2 * maxTilt).toFixed(2) + "deg");
+          block.style.setProperty("--holo-pos", (clamp(nx, 0, 1) * 100).toFixed(1) + "%");
+          block.style.setProperty("--shadow-x", (-ox * 1.6).toFixed(2) + "rem");
+          block.style.setProperty("--shadow-y", (0.7 - oy * 1.4).toFixed(2) + "rem");
+          block.setAttribute("data-tilting", "true");
+        };
+
+        const onMove = (e) => {
+          if (e.pointerType && e.pointerType !== "mouse") return;
+          pending = e;
+          if (!raf) raf = requestAnimationFrame(apply);
+        };
+
+        const onOut = (e) => {
+          if (!e.relatedTarget) reset();
+        };
+
+        window.addEventListener("pointermove", onMove, { passive: true });
+        window.addEventListener("pointerout", onOut);
+
+        // Idle glint — периодическая вспышка
+        let glintTimer = 0;
+        const scheduleGlint = () => {
+          const delay = 2600 + Math.random() * 3200;
+          glintTimer = window.setTimeout(() => {
+            if (!document.hidden && 
+                block.getAttribute("data-tilting") !== "true" && 
+                block.getAttribute("data-glint") !== "true") {
+              block.setAttribute("data-glint", "true");
+              window.setTimeout(() => block.removeAttribute("data-glint"), 1700);
+            }
+            scheduleGlint();
+          }, delay);
+        };
+        scheduleGlint();
+
+        // Cleanup
+        window.addEventListener('beforeunload', () => {
+          window.removeEventListener("pointermove", onMove);
+          window.removeEventListener("pointerout", onOut);
+          if (raf) cancelAnimationFrame(raf);
+          clearTimeout(glintTimer);
+        });
+      }
+
+      console.log('✦ Фон Ada Lovelace (marine, 2048x2048) + голографический эффект применены');
     })();
   </script>
 
