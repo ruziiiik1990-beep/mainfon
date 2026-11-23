@@ -67,20 +67,92 @@
     /* ЕДИНАЯ ТАБЛИЦА: общий фон для всего       */
     /* ========================================= */
     .download-block {
-      background: rgba(10, 42, 107, 0.6);
+      /* ===== ЧАСТЬ 1/4: ГОЛОГРАФИЧЕСКИЙ ФОН 2000×2000 ===== */
+      background-image:
+        /* слой 1: радужный holo-перелив (conic) */
+        conic-gradient(
+          from 0deg,
+          hsla(280, 90%, 65%, 0.35),
+          hsla(200, 90%, 60%, 0.30),
+          hsla(160, 90%, 55%, 0.28),
+          hsla(60,  90%, 60%, 0.30),
+          hsla(20,  90%, 60%, 0.32),
+          hsla(330, 90%, 65%, 0.35),
+          hsla(280, 90%, 65%, 0.35)
+        ),
+        /* слой 2: мягкое свечение по центру (radial) */
+        radial-gradient(
+          ellipse at 30% 40%,
+          rgba(74, 158, 255, 0.45) 0%,
+          rgba(120, 80, 255, 0.25) 35%,
+          rgba(10, 42, 107, 0.85) 70%,
+          rgba(5, 15, 45, 0.95) 100%
+        ),
+        /* слой 3: базовая тёмная подложка */
+        linear-gradient(135deg, #06122b 0%, #0a2a6b 55%, #051029 100%);
+
+      background-size: 2000px 2000px, 2000px 2000px, 2000px 2000px;
+      background-position: center center;
+      background-repeat: no-repeat;
+
+      /* holo-перелив анимируется (без наклона, только сдвиг фона) */
+      animation: holoShift 18s ease-in-out infinite alternate;
+
+      /* ===== ЧАСТЬ 2/4: сброс старого фона ===== */
+      background-color: transparent;
+
+      /* сохраняем прежние свойства карточки */
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(74, 158, 255, 0.5);
       border-radius: 20px;
       padding: 40px 30px;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-      
-      /* Выстраиваем содержимое в одну линию: текст слева, птичка справа */
+
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 40px;
       text-align: center;
+
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ЧАСТЬ 1/4: лёгкий holo-блик поверх фона, но ПОД контентом */
+    .download-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        115deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.06) 45%,
+        rgba(180, 220, 255, 0.12) 50%,
+        rgba(255, 255, 255, 0.06) 55%,
+        transparent 100%
+      );
+      background-size: 200% 200%;
+      animation: holoSheen 9s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ЧАСТЬ 2/4: контент и птичка — поверх holo-блика */
+    .download-block > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes holoShift {
+      0%   { background-position: 0% 0%, 30% 40%, center; }
+      50%  { background-position: 100% 100%, 40% 50%, center; }
+      100% { background-position: 50% 0%, 35% 45%, center; }
+    }
+
+    @keyframes holoSheen {
+      0%   { background-position: -50% 0; }
+      100% { background-position: 150% 0; }
     }
 
     /* Левая часть с текстом и кнопкой */
@@ -89,6 +161,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      /* ЧАСТЬ 2/4: без собственного фона */
+      background: transparent;
+      position: relative;
+      z-index: 1;
     }
 
     .download-icon {
@@ -167,6 +243,17 @@
       font-size: 22px;
     }
 
+    /* ЧАСТЬ 2/4: текст/кнопка над holo-бликом */
+    .download-btn,
+    .download-warning,
+    .download-note,
+    .download-title,
+    .download-desc,
+    .download-icon {
+      position: relative;
+      z-index: 2;
+    }
+
     /* ========================================= */
     /* Правая часть: Голографическая птичка      */
     /* (без собственного фона, использует общий)  */
@@ -176,6 +263,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      /* ЧАСТЬ 2/4: прозрачная, поверх holo */
+      background: transparent;
+      position: relative;
+      z-index: 1;
     }
 
     .sparrow-holo p {
@@ -193,6 +284,7 @@
       overflow: hidden;
       backface-visibility: hidden; /* Forces GPU */
       border-radius: 12px;
+      background: transparent;
     }
 
     .shader-layer {
@@ -233,7 +325,7 @@
       );
     }
 
-    /* Адаптивность: на мобильных устройствах птичка встанет под текстом */
+    /* ЧАСТЬ 3/4: адаптивность */
     @media (max-width: 900px) {
       .download-block {
         flex-direction: column;
@@ -243,6 +335,13 @@
         flex: 0 0 auto;
         width: 100%;
         max-width: 300px;
+      }
+    }
+
+    /* ЧАСТЬ 3/4: фикс для браузеров без backdrop-filter */
+    @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+      .download-block {
+        background-color: rgba(10, 42, 107, 0.75);
       }
     }
   </style>
