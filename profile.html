@@ -15,17 +15,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-                body {
-            background-image: url('kolo13.jpg'); 
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            font-family: 'Inter', sans-serif;
+                    body {
             margin: 0;
             padding: 0;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            overflow-y: auto;
+            overflow-x: hidden;
             color: #fff;
         }
+
+        /* Фон — обычная картинка в потоке */
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Шапка поверх фона */
+        .header-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+
+        .profile-container {
+            max-width: 900px;
+            margin: 100px auto 40px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 5;
+        }
+
 
         .profile-container {
             max-width: 900px;
