@@ -58,7 +58,7 @@
           <div class="module-glow"></div>
         </a>
         <!-- ЗАЛ СЛАВЫ -->
-        <a href="https://4ak4ak.pages.dev/zalslavi" class="module" data-module="hall">
+        <a href="https://pages.dev" class="module" data-module="hall">
           <div class="chip-corner tl"></div>
           <div class="chip-corner tr"></div>
           <div class="chip-corner bl"></div>
@@ -126,40 +126,46 @@
   <div id="panel-overlay"></div>
   <!-- ===== СТИЛИ ===== -->
   <style>
-    /* Позиционирование header и светлый фон как в примере (высота без увеличения: 88px) */
+    /* Принудительно ставим светлый фон как в проекте с ромбиками и фиксируем высоту */
     .header-wrapper {
       position: relative !important;
-      overflow: visible !important;
-      min-height: 88px;
-      background: #F1F5F9;
+      overflow: hidden !important;
+      min-height: 88px !important;
+      background-color: #F1F5F9 !important;
+      background-image: none !important;
+    }
+
+    /* Убираем возможный белый фон у внутренних обёрток сайта */
+    .header-wrapper .container.header-container,
+    .header-wrapper .header-left,
+    .header-wrapper .header-right {
+      background: transparent !important;
+      position: relative;
+      z-index: 5;
     }
 
     /* ===== ФОН С ЦИФРОВОЙ ДЫМКОЙ ===== */
     .header-wrapper #fog-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 1 !important;
       pointer-events: none;
       overflow: hidden;
       border-radius: inherit;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.15) !important;
       backdrop-filter: blur(2px);
       -webkit-backdrop-filter: blur(2px);
     }
     .header-wrapper #fogCanvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-      opacity: 0.45;
-    }
-
-    /* Контент header поверх тумана */
-    .header-wrapper .container.header-container {
-      position: relative;
-      z-index: 5;
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      opacity: 0.65 !important;
     }
 
     /* ===== СЕТЬ МОДУЛЕЙ (ГОРИЗОНТАЛЬНАЯ) ===== */
@@ -378,6 +384,9 @@
 
     /* ===== АДАПТИВ ===== */
     @media (max-width: 900px) {
+      .header-wrapper .header-left {
+        margin-left: 0 !important;
+      }
       .header-wrapper .module {
         width: 90px;
         height: 45px;
@@ -387,23 +396,34 @@
         min-width: 80px;
         padding: 4px 10px;
       }
-      .header-wrapper .module h2 { font-size: 0.68rem; }
+      .header-wrapper .module h2 { font-size: 0.72rem; }
       .header-wrapper #core-network { gap: 12px; }
     }
 
     @media (max-width: 650px) {
+      .header-wrapper .header-left {
+        margin-left: 0 !important;
+      }
       .header-wrapper .module {
-        width: 70px;
+        width: auto;
+        min-width: 84px;
         height: 38px;
-        padding: 3px 4px;
+        padding: 4px 10px;
       }
       .header-wrapper .module.auth-module {
         width: auto;
-        min-width: 68px;
-        padding: 3px 8px;
+        min-width: 80px;
+        padding: 4px 10px;
       }
-      .header-wrapper .module h2 { font-size: 0.58rem; letter-spacing: 0.4px; }
-      .header-wrapper #core-network { gap: 8px; flex-wrap: wrap; }
+      .header-wrapper .module h2 {
+        font-size: 0.75rem;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+      }
+      .header-wrapper #core-network {
+        gap: 8px;
+        flex-wrap: wrap;
+      }
     }
   </style>
   <!-- ===== JAVASCRIPT ===== -->
@@ -444,8 +464,8 @@
 
     function drawFog() {
       fogCtx.clearRect(0, 0, fogWidth, fogHeight);
-      // Тонкие линии данных
-      fogCtx.strokeStyle = 'rgba(0, 153, 255, 0.35)';
+      // Тонкие линии данных (сиреневый цвет как в вашем примере)
+      fogCtx.strokeStyle = 'rgba(166, 132, 255, 0.65)';
       fogCtx.lineWidth = 1;
       for (let i = 0; i < 25; i++) {
         const x = (i / 25) * fogWidth;
@@ -464,8 +484,8 @@
         if (p.y > fogHeight) p.y = 0;
         if (p.y < 0) p.y = fogHeight;
         const gradient = fogCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 1.8);
-        gradient.addColorStop(0, `rgba(0, 153, 255, ${p.opacity})`);
-        gradient.addColorStop(1, `rgba(0, 153, 255, 0)`);
+        gradient.addColorStop(0, `rgba(166, 132, 255, ${p.opacity * 1.8})`);
+        gradient.addColorStop(1, `rgba(166, 132, 255, 0)`);
         fogCtx.fillStyle = gradient;
         fogCtx.beginPath();
         fogCtx.arc(p.x, p.y, p.size * 1.8, 0, Math.PI * 2);
