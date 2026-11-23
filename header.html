@@ -1,7 +1,7 @@
 <header class="header-wrapper">
   <!-- ===== ФОН С ЦИФРОВОЙ ДЫМКОЙ ===== -->
   <div id="fog-container">
-    <canvas id="fogCanvas"></canvas>
+    <canvas id="fogCanvas" width="1920" height="100"></canvas>
   </div>
 
   <div class="container header-container">
@@ -38,7 +38,7 @@
           <div class="module-glow"></div>
         </a>
         <!-- ЗАЛ СЛАВЫ -->
-        <a href="https://pages.dev" class="module" data-module="hall">
+        <a href="https://4ak4ak.pages.dev/zalslavi" class="module" data-module="hall">
           <h2>Зал славы</h2>
           <div class="module-glow"></div>
         </a>
@@ -86,43 +86,32 @@
   <div id="panel-overlay"></div>
   <!-- ===== СТИЛИ ===== -->
   <style>
-    /* Позиционирование header и светлый фон (высота 88px) */
+    /* Сохраняем position: absolute из вашего CSS на GitHub, меняем белый фон на #F1F5F9 */
     header.header-wrapper,
     .header-wrapper {
-      position: relative !important;
-      display: block !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
       width: 100% !important;
+      z-index: 10 !important;
       min-height: 88px !important;
-      height: auto !important;
       background: #F1F5F9 !important;
       background-color: #F1F5F9 !important;
       background-image: none !important;
       overflow: hidden !important;
     }
 
-    /* Убираем возможный белый фон у внутренних обёрток шапки */
-    .header-wrapper .container,
-    .header-wrapper .header-container,
-    .header-wrapper .header-left,
-    .header-wrapper .header-right {
-      background: transparent !important;
-      background-color: transparent !important;
-      position: relative !important;
-      z-index: 5 !important;
-    }
-
-    /* ===== ФОН С ЦИФРОВОЙ ДЫМКОЙ ===== */
+    /* Контейнер дымки ставим выше фона шапки, но ниже кнопок */
     .header-wrapper #fog-container {
       position: absolute !important;
-      inset: 0 !important;
+      top: 0 !important;
+      left: 0 !important;
       width: 100% !important;
       height: 100% !important;
       min-height: 88px !important;
-      z-index: 1 !important;
+      z-index: 2 !important;
       pointer-events: none !important;
       overflow: hidden;
-      border-radius: inherit;
-      background: rgba(255, 255, 255, 0.15) !important;
     }
     .header-wrapper #fogCanvas {
       display: block !important;
@@ -130,6 +119,17 @@
       height: 100% !important;
       min-height: 88px !important;
       opacity: 1 !important;
+    }
+
+    /* Контент (логотип, меню, кнопки входа) поднимаем над дымкой */
+    .header-wrapper .container,
+    .header-wrapper .header-container,
+    .header-wrapper .header-left,
+    .header-wrapper .header-right {
+      position: relative !important;
+      z-index: 5 !important;
+      background: transparent !important;
+      background-color: transparent !important;
     }
 
     /* ===== СЕТЬ МОДУЛЕЙ (ГОРИЗОНТАЛЬНАЯ) ===== */
@@ -346,6 +346,13 @@
       .header-wrapper #core-network { gap: 12px; }
     }
 
+    @media (max-width: 768px) {
+      /* Возвращаем кнопки Вход/Регистрация на телефонах (перебиваем стиль из GitHub) */
+      .header-wrapper .auth-links {
+        display: flex !important;
+      }
+    }
+
     @media (max-width: 650px) {
       .header-wrapper .header-left {
         margin-left: 0 !important;
@@ -378,49 +385,61 @@
     'use strict';
 
     // ============================================================
-    // 1. ЦИФРОВАЯ ДЫМКА (CANVAS: ПЛОТНЕЕ И ТЕМНЕЕ В 3 РАЗА)
+    // 1. ЦИФРОВАЯ ДЫМКА (CANVAS: ПОИСК ВНУТРИ ШАПКИ, ТЁМНО-СИНИЙ ДЫМОК)
     // ============================================================
-    const fogCanvas = document.getElementById('fogCanvas');
+    const headerEl = document.querySelector('.header-wrapper');
+    const fogCanvas = headerEl ? headerEl.querySelector('#fogCanvas') : document.getElementById('fogCanvas');
     if (!fogCanvas) return;
+
     const fogCtx = fogCanvas.getContext('2d');
-    let fogWidth, fogHeight;
+    let fogWidth = 1920;
+    let fogHeight = 100;
     let particles = [];
 
-    function resizeFog() {
-      const header = fogCanvas.closest('.header-wrapper') || fogCanvas.parentElement;
-      const rect = header.getBoundingClientRect();
-      fogWidth = fogCanvas.width = rect.width || window.innerWidth;
-      fogHeight = fogCanvas.height = Math.max(rect.height, 88);
-    }
-
-    function initParticles(count = 2400) {
+    function initParticles(count = 350) {
       particles = [];
       for (let i = 0; i < count; i++) {
         particles.push({
           x: Math.random() * fogWidth,
           y: Math.random() * fogHeight,
-          speedX: (Math.random() - 0.5) * 0.08,
-          speedY: (Math.random() - 0.5) * 0.05,
-          size: 2 + Math.random() * 4,
-          opacity: 0.42 + Math.random() * 0.23,
+          speedX: (Math.random() - 0.5) * 0.4,
+          speedY: (Math.random() - 0.5) * 0.25,
+          size: 2.5 + Math.random() * 4.5,
+          opacity: 0.35 + Math.random() * 0.35
         });
       }
     }
 
+    function resizeFog() {
+      const rect = headerEl ? headerEl.getBoundingClientRect() : fogCanvas.parentElement.getBoundingClientRect();
+      const w = Math.floor(rect.width) || window.innerWidth || 1920;
+      const h = Math.floor(rect.height) || 88;
+      if (fogCanvas.width !== w || fogCanvas.height !== h) {
+        fogCanvas.width = w;
+        fogCanvas.height = h;
+        fogWidth = w;
+        fogHeight = h;
+        initParticles(350);
+      }
+    }
+
     function drawFog() {
+      if (fogCanvas.width < 10) resizeFog();
       fogCtx.clearRect(0, 0, fogWidth, fogHeight);
-      // Тонкие линии данных (максимально тёмный иссиня-чёрный оттенок)
-      fogCtx.strokeStyle = 'rgba(4, 12, 24, 0.92)';
-      fogCtx.lineWidth = 1;
-      for (let i = 0; i < 25; i++) {
-        const x = (i / 25) * fogWidth;
-        const y = fogHeight * 0.5 + Math.sin(i * 0.7 + Date.now() * 0.00006) * 25;
+
+      // Тёмно-синие линии данных
+      fogCtx.strokeStyle = 'rgba(14, 45, 95, 0.75)';
+      fogCtx.lineWidth = 1.2;
+      for (let i = 0; i < 28; i++) {
+        const x = (i / 28) * fogWidth;
+        const y = fogHeight * 0.5 + Math.sin(i * 0.7 + Date.now() * 0.0004) * 22;
         fogCtx.beginPath();
         fogCtx.moveTo(x, y);
-        fogCtx.lineTo(x + 50, y + 20 + Math.sin(i * 0.5 + Date.now() * 0.00012) * 18);
+        fogCtx.lineTo(x + 55, y + 18 + Math.sin(i * 0.5 + Date.now() * 0.0006) * 15);
         fogCtx.stroke();
       }
-      // Плотные плавающие частицы дымки (2400 шт., глубокий иссиня-чёрный цвет)
+
+      // Плотные тёмно-голубые частицы дымки
       for (const p of particles) {
         p.x += p.speedX;
         p.y += p.speedY;
@@ -428,29 +447,25 @@
         if (p.x < 0) p.x = fogWidth;
         if (p.y > fogHeight) p.y = 0;
         if (p.y < 0) p.y = fogHeight;
-        const gradient = fogCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 1.8);
-        gradient.addColorStop(0, `rgba(4, 12, 24, ${p.opacity})`);
-        gradient.addColorStop(1, `rgba(4, 12, 24, 0)`);
+
+        const gradient = fogCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
+        gradient.addColorStop(0, `rgba(14, 45, 95, ${p.opacity})`);
+        gradient.addColorStop(1, `rgba(14, 45, 95, 0)`);
         fogCtx.fillStyle = gradient;
         fogCtx.beginPath();
-        fogCtx.arc(p.x, p.y, p.size * 1.8, 0, Math.PI * 2);
+        fogCtx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
         fogCtx.fill();
       }
+
       requestAnimationFrame(drawFog);
     }
 
-    function initFog() {
-      resizeFog();
-      initParticles(2400);
-      drawFog();
-      window.addEventListener('resize', () => {
-        resizeFog();
-        initParticles(2400);
-      });
-    }
-    initFog();
-    setTimeout(() => { resizeFog(); initParticles(2400); }, 300);
-    window.addEventListener('load', () => { resizeFog(); initParticles(2400); });
+    resizeFog();
+    initParticles(350);
+    drawFog();
+    window.addEventListener('resize', resizeFog);
+    setTimeout(resizeFog, 500);
+    window.addEventListener('load', resizeFog);
 
     // ============================================================
     // 2. ДАННЫЕ МОДУЛЕЙ
