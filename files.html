@@ -63,9 +63,7 @@
       text-shadow: 0 2px 10px rgba(74, 158, 255, 0.5);
     }
 
-    /* ========================================= */
-    /* Единая таблица: античит + Fancy Sparrow   */
-    /* ========================================= */
+    /* ЕДИНЫЙ блок: внутри него слева текст, справа птичка. Никаких таблиц. */
     .download-block {
       background: rgba(10, 42, 107, 0.6);
       backdrop-filter: blur(12px);
@@ -74,16 +72,17 @@
       border-radius: 20px;
       padding: 40px 30px;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+      
+      /* Простое выравнивание в одну строку */
       display: flex;
       align-items: center;
-      gap: 30px;
+      justify-content: space-between;
+      gap: 40px;
     }
 
-    /* Левая часть — текст и кнопка */
     .download-content {
       flex: 1;
       text-align: center;
-      min-width: 0;
     }
 
     .download-icon {
@@ -104,6 +103,7 @@
       color: rgba(255, 255, 255, 0.7);
       font-size: 15px;
       line-height: 1.6;
+      max-width: 600px;
       margin: 0 auto 30px auto;
     }
 
@@ -135,7 +135,7 @@
 
     .download-warning {
       color: #ff2d2d;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -162,29 +162,28 @@
     }
 
     /* ========================================= */
-    /* Правая часть — Fancy Sparrow (голограмма) */
+    /* ТОЧНЫЕ СТИЛИ ГОЛОГРАММЫ ИЗ ТВОЕГО КОДА    */
     /* ========================================= */
-    .sparrow-side {
-      flex: 0 0 260px;
+    .sparrow-holo {
+      flex: 0 0 auto;
       text-align: center;
     }
 
-    .sparrow-side p {
-      margin: 0 0 12px 0;
-      font-size: 15px;
-      font-weight: 700;
+    .sparrow-holo p {
       color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
       letter-spacing: 0.5px;
     }
 
-    .sparrow-side .shader {
+    .shader {
       position: relative;
       overflow: hidden;
-      backface-visibility: hidden;
-      border-radius: 12px;
+      backface-visibility: hidden; /* Forces GPU */
     }
 
-    .sparrow-side .shader-layer {
+    .shader-layer {
       background: black;
       mix-blend-mode: multiply;
       position: absolute;
@@ -194,20 +193,13 @@
       background-position: center;
     }
 
-    .sparrow-side .specular {
+    .specular {
       mix-blend-mode: color-dodge;
       background-attachment: fixed;
     }
 
-    .sparrow-side .mask {
+    .mask {
       mix-blend-mode: multiply;
-    }
-
-    .sparrow-side img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 12px;
     }
 
     .gradient-sparrow {
@@ -229,15 +221,11 @@
       );
     }
 
-    /* Адаптив: на узких экранах птичка уходит под текст */
-    @media (max-width: 850px) {
+    /* Адаптивность: на мобильных птичка уходит под текст */
+    @media (max-width: 900px) {
       .download-block {
         flex-direction: column;
-      }
-      .sparrow-side {
-        flex: 0 0 auto;
-        width: 100%;
-        max-width: 280px;
+        gap: 30px;
       }
     }
   </style>
@@ -253,10 +241,10 @@
   <div class="files-container">
     <div class="files-title">Файлы</div>
 
-    <!-- ЕДИНАЯ таблица: античит слева + Fancy Sparrow справа -->
+    <!-- ЕДИНЫЙ блок. Внутри него flex-выравнивание: слева текст, справа птичка -->
     <div class="download-block">
-
-      <!-- Левая часть: античит -->
+      
+      <!-- Левая часть: контент -->
       <div class="download-content">
         <span class="download-icon">🛡️</span>
         <div class="download-title">Античит для турниров</div>
@@ -277,13 +265,13 @@
         </div>
       </div>
 
-      <!-- Правая часть: Fancy Sparrow (голографическая) -->
-      <div class="sparrow-side">
+      <!-- Правая часть: голографическая птичка (точная копия из твоего рабочего кода) -->
+      <div class="sparrow-holo">
         <p>Fancy Sparrow ✨</p>
-        <div class="shader">
-          <img src="https://assets.codepen.io/2153413/sparrow-base.png" alt="Fancy Sparrow" width="260">
+        <div class="shader framed">
+          <img src="https://assets.codepen.io/2153413/sparrow-base.png" alt="Fancy Sparrow" width="280" style="max-width: 100%; height: auto; border-radius: 8px;">
           <div class="shader-layer specular gradient-sparrow">
-            <img class="shader-layer mask" src="https://assets.codepen.io/2153413/sparrow-mask.png" alt="" width="260">
+            <img class="shader-layer mask" src="https://assets.codepen.io/2153413/sparrow-mask.png" alt="" width="280" style="max-width: 100%; height: auto;">
           </div>
         </div>
       </div>
