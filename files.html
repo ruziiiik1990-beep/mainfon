@@ -10,7 +10,7 @@
   <title>Файлы - 4ak4ak</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    @import url('https://googleapis.com');
 
     body {
       margin: 0;
@@ -42,7 +42,7 @@
     }
 
     .files-container {
-      max-width: 900px;
+      max-width: 960px;
       margin: 100px auto 40px auto;
       padding: 20px;
       position: relative;
@@ -70,8 +70,16 @@
       border: 1px solid rgba(74, 158, 255, 0.5);
       border-radius: 20px;
       padding: 40px 30px;
-      text-align: center;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .download-content {
+      flex: 1;
+      text-align: center;
     }
 
     .download-icon {
@@ -151,70 +159,28 @@
     }
 
     /* ========================================= */
-    /* Голографическая панель справа (ТОЛЬКО SPARROW) */
+    /* Птичка Fancy Sparrow внутри блока справа  */
     /* ========================================= */
-    .holographic-widget {
-      position: fixed;
-      right: 30px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 340px;
-      max-height: 85vh;
-      overflow-y: auto;
-      z-index: 50;
-      background: rgba(10, 42, 107, 0.65);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(74, 158, 255, 0.4);
-      border-radius: 16px;
-      padding: 20px;
-      color: #fff;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    .sparrow-inline {
+      width: 240px;
+      flex-shrink: 0;
     }
 
-    .holographic-widget::-webkit-scrollbar {
-      width: 6px;
-    }
-    .holographic-widget::-webkit-scrollbar-thumb {
-      background: rgba(74, 158, 255, 0.5);
-      border-radius: 3px;
-    }
-
-    .holographic-widget header {
-      text-align: center;
-      font-size: 13px;
-      color: rgba(255,255,255,0.7);
-      margin-bottom: 15px;
-    }
-    .holographic-widget .grid {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .holographic-widget .cell {
-      text-align: center;
-    }
-    .holographic-widget p {
-      margin: 8px 0;
-      font-size: 14px;
-      color: rgba(255,255,255,0.85);
-      font-weight: 600;
-    }
-    .holographic-widget img {
-      max-width: 100%;
+    .sparrow-inline img {
+      width: 100%;
       height: auto;
-      border-radius: 8px;
       display: block;
-      margin: 0 auto;
+      border-radius: 12px;
     }
 
-    /* Стили шейдера */
-    .holographic-widget .shader {
+    .sparrow-inline .shader {
       position: relative;
       overflow: hidden;
-      backface-visibility: hidden; /* Forces GPU */
+      backface-visibility: hidden;
+      border-radius: 12px;
     }
-    .holographic-widget .shader-layer {
+
+    .sparrow-inline .shader-layer {
       background: black;
       mix-blend-mode: multiply;
       position: absolute;
@@ -223,16 +189,17 @@
       height: 100%;
       background-position: center;
     }
-    .holographic-widget .specular {
+
+    .sparrow-inline .specular {
       mix-blend-mode: color-dodge;
       background-attachment: fixed;
     }
-    .holographic-widget .mask {
+
+    .sparrow-inline .mask {
       mix-blend-mode: multiply;
     }
 
-    /* Градиент только для Sparrow */
-    .holographic-widget .gradient-sparrow {
+    .sparrow-inline .gradient-sparrow {
       background-image: linear-gradient(
         0deg,
         hsl(359, 60%, 40%),
@@ -251,17 +218,12 @@
       );
     }
 
-    /* Адаптивность для мобильных устройств */
-    @media (max-width: 1200px) {
-      .holographic-widget {
-        position: relative;
-        right: auto;
-        top: auto;
-        transform: none;
-        width: 90%;
-        max-width: 600px;
-        margin: 40px auto;
-        max-height: none;
+    @media (max-width: 768px) {
+      .download-block {
+        flex-direction: column;
+      }
+      .sparrow-inline {
+        width: 200px;
       }
     }
   </style>
@@ -279,47 +241,37 @@
     <div class="files-title">Файлы</div>
 
     <div class="download-block">
-      <span class="download-icon">🛡️</span>
-      <div class="download-title">Античит для турниров</div>
-      <div class="download-desc">
-        Скачайте античит <b>ruzikTastyAC</b> для участия в турнирах. 
-        Запустите его перед началом игры, чтобы подтвердить честность матча.
+      <!-- Левая часть с текстом и кнопкой -->
+      <div class="download-content">
+        <span class="download-icon">🛡️</span>
+        <div class="download-title">Античит для турниров</div>
+        <div class="download-desc">
+          Скачайте античит <b>ruzikTastyAC</b> для участия в турнирах. 
+          Запустите его перед началом игры, чтобы подтвердить честность матча.
+        </div>
+
+        <a href="pngg/ruzikTastyAC.zip" download class="download-btn">
+          <span class="download-arrow">⬇️</span> Скачать Анти-чит
+        </a>
+
+        <div class="download-warning">
+          ОБЯЗАТЕЛЬНО ВЫКЛЮЧИТЬ АНТИВИРУС ПЕРЕД СКАЧИВАНИЕМ
+        </div>
+        <div class="download-note">
+          Файл скачивается напрямую с сайта. Введите его в игру перед матчем.
+        </div>
       </div>
 
-      <a href="pngg/ruzikTastyAC.zip" download class="download-btn">
-        <span class="download-arrow">⬇️</span> Скачать Анти-чит
-      </a>
-
-      <div class="download-warning">
-        ОБЯЗАТЕЛЬНО ВЫКЛЮЧИТЬ АНТИВИРУС ПЕРЕД СКАЧИВАНИЕМ
-      </div>
-      <div class="download-note">
-        Файл скачивается напрямую с сайта. Введите его в игру перед матчем.
-      </div>
-    </div>
-  </div>
-
-  <!-- Голографическая панель (Справа по середине) - ТОЛЬКО FANCY SPARROW -->
-  <div class="holographic-widget">
-    <header>
-      <p>CSS holographic effect ✨<br><em>(Прокрутите внутри этой панели)</em></p>
-    </header>
-    
-    <main>
-      <section>
-        <div class="grid">
-          <div class="cell">
-            <p>Fancy Sparrow ✨</p>
-            <div class="shader framed">
-              <img src="https://assets.codepen.io/2153413/sparrow-base.png" alt="Silhouette design of a sparrow sitting on a branch" width="280">
-              <div class="shader-layer specular gradient-sparrow">
-                <img class="shader-layer mask" src="https://assets.codepen.io/2153413/sparrow-mask.png" alt="" width="280">
-              </div>
-            </div>
+      <!-- Птичка Fancy Sparrow справа внутри таблицы -->
+      <div class="sparrow-inline">
+        <div class="shader framed">
+          <img src="https://codepen.io" alt="Fancy Sparrow" width="512">
+          <div class="shader-layer specular gradient-sparrow">
+            <img class="shader-layer mask" src="https://codepen.io" alt="" width="300">
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </div>
   </div>
 
   <script>
