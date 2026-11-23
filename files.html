@@ -225,9 +225,8 @@
     }
 
     /* ========================================= */
-    /* Правая часть: ФОН ADA LOVELACE (marine)   */
-    /* ✅ ТОТ ЖЕ ФОН, ТО ЖЕ РАЗРЕШЕНИЕ            */
-    /* ✅ БЕЗ УВЕЛИЧЕНИЯ РАМОК                    */
+    /* Правая часть: ФОН ADA LOVELACE + ПТИЧКА   */
+    /* ✅ БЕЗ OVERLAY — ГОЛОГРАММА РАБОТАЕТ       */
     /* ========================================= */
     .sparrow-holo {
       flex: 0 0 280px;
@@ -241,22 +240,12 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      /* ✅ БЕЗ border, box-shadow, backdrop-filter — рамки не увеличиваются */
       border-radius: 12px;
       padding: 15px 10px;
       overflow: hidden;
     }
 
-    /* Тёмный overlay для читаемости текста "Fancy Sparrow" */
-    .sparrow-holo::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(10, 34, 64, 0.4);
-      z-index: 0;
-      pointer-events: none;
-      border-radius: inherit;
-    }
+    /* ✅ УБРАЛИ OVERLAY — теперь голограмма видна */
 
     .sparrow-holo p {
       color: #fff;
@@ -269,7 +258,7 @@
       z-index: 1;
     }
 
-    /* ✅ Контейнер .shader — полностью прозрачный, птичка не тронута */
+    /* ✅ ГОЛОГРАФИЧЕСКИЕ СТИЛИ (НЕ ТРОГАЕМ) */
     .sparrow-holo .shader,
     .sparrow-holo .shader.framed {
       position: relative;
@@ -286,7 +275,6 @@
       z-index: 1;
     }
 
-    /* Стили шейдера (НЕ ТРОГАЕМ) */
     .sparrow-holo .shader-layer {
       background: black;
       mix-blend-mode: multiply;
@@ -322,7 +310,6 @@
       );
     }
 
-    /* Изображения внутри птички — без фонов */
     .sparrow-holo img {
       background: transparent !important;
       border: none !important;
@@ -406,7 +393,6 @@
 
     // ============================================================
     // ГЕНЕРАЦИЯ ФОНА ADA LOVELACE (marine, seed: 3)
-    // ✅ ОДНА ГЕНЕРАЦИЯ — ПРИМЕНЯЕТСЯ К ОБОИМ БЛОКАМ
     // ============================================================
     (function() {
       'use strict';
@@ -531,11 +517,9 @@
         [236, 244, 252]
       ];
 
-      // Генерируем фон ОДИН РАЗ
       const camo = makeCamo(3);
       const bgUrl = camo(MATTES_MARINE);
 
-      // ✅ Применяем к ОБОИМ блокам
       const downloadBlock = document.getElementById('download-block');
       const sparrowHolo = document.getElementById('sparrow-holo');
       
