@@ -102,7 +102,10 @@
     .download-content::before {
       content: '';
       position: absolute;
-      inset: -20px;
+      top: -20px;
+      bottom: -20px;
+      left: -20px;
+      right: 0; /* ✅ НЕ залезает на правую часть */
       background: linear-gradient(
         135deg,
         rgba(10, 34, 64, 0.55) 0%,
@@ -111,17 +114,20 @@
       );
       z-index: -1;
       pointer-events: none;
-      border-radius: inherit;
+      border-radius: 12px;
     }
 
     /* Голографический блик ТОЛЬКО на левой части */
     .download-content::after {
       content: '';
       position: absolute;
-      inset: -20px;
+      top: -20px;
+      bottom: -20px;
+      left: -20px;
+      right: 0; /* ✅ НЕ залезает на правую часть */
       z-index: -1;
       pointer-events: none;
-      border-radius: inherit;
+      border-radius: 12px;
       background: linear-gradient(
         110deg,
         transparent 25%,
@@ -219,7 +225,8 @@
     }
 
     /* ========================================= */
-    /* Правая часть: Голографическая птичка      */
+    /* Правая часть: ГОЛОГРАФИЧЕСКАЯ ПТИЧКА      */
+    /* ✅ ВСЕ ФОНЫ/РАМКИ УБРАНЫ — ПОЛНАЯ ПРОЗРАЧНОСТЬ */
     /* ========================================= */
     .sparrow-holo {
       flex: 0 0 280px;
@@ -228,6 +235,14 @@
       align-items: center;
       position: relative;
       z-index: 3;
+      /* ✅ Принудительная прозрачность */
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      padding: 0;
+      margin: 0;
     }
 
     .sparrow-holo p {
@@ -239,13 +254,25 @@
       text-shadow: 0 2px 8px rgba(0,0,0,0.8);
     }
 
-    .shader {
+    /* ✅ Контейнер .shader — полностью прозрачный */
+    .sparrow-holo .shader,
+    .sparrow-holo .shader.framed {
       position: relative;
       overflow: hidden;
       backface-visibility: hidden;
       border-radius: 12px;
+      /* Принудительная прозрачность */
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      padding: 0;
+      margin: 0;
     }
-    .shader-layer {
+
+    /* ✅ Стили шейдера (из оригинального кода — НЕ ТРОГАЕМ) */
+    .sparrow-holo .shader-layer {
       background: black;
       mix-blend-mode: multiply;
       position: absolute;
@@ -254,14 +281,14 @@
       height: 100%;
       background-position: center;
     }
-    .specular {
+    .sparrow-holo .specular {
       mix-blend-mode: color-dodge;
       background-attachment: fixed;
     }
-    .mask {
+    .sparrow-holo .mask {
       mix-blend-mode: multiply;
     }
-    .gradient-sparrow {
+    .sparrow-holo .gradient-sparrow {
       background-image: linear-gradient(
         0deg,
         hsl(359, 60%, 40%),
@@ -278,6 +305,13 @@
         hsl(265, 60%, 45%),
         hsl(303, 60%, 40%)
       );
+    }
+
+    /* ✅ Изображения внутри птички — без фонов */
+    .sparrow-holo img {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
     }
 
     /* Адаптивность */
@@ -356,7 +390,7 @@
     // ============================================================
     // ГЕНЕРАЦИЯ ФОНА ADA LOVELACE (marine, seed: 3)
     // ✅ УВЕЛИЧЕНО ДО 2048x2048 (в 4 раза больше по каждой стороне)
-    // ✅ УМЕНЬШЕНО РАЗМЫТИЕ (blur)
+    // ✅ УМЕНЬШЕНО РАЗМЫТИЕ
     // ============================================================
     (function() {
       'use strict';
@@ -374,7 +408,6 @@
       }
 
       function makeCamo(seed) {
-        // ✅ УВЕЛИЧЕНО ДО 2048x2048 (было 512x512)
         const W = 2048, H = 2048;
         const LAYER_SEEDS = [seed + 11, seed + 23, seed + 37];
         const COVERAGE = [0.5, 0.34, 0.2];
@@ -397,7 +430,6 @@
           big.width = W; big.height = H;
           const bc = big.getContext('2d');
           bc.imageSmoothingEnabled = true;
-          // ✅ УМЕНЬШЕНО РАЗМЫТИЕ (было 18px и 11px, стало 8px и 5px)
           bc.filter = `blur(${blur}px)`;
           bc.drawImage(small, 0, 0, W, H);
           const dd = bc.getImageData(0, 0, W, H).data;
@@ -419,7 +451,6 @@
         }
 
         function field(s) {
-          // ✅ УМЕНЬШЕНО РАЗМЫТИЕ (было 18 и 11, стало 8 и 5)
           const a = octave(40, 8, s);
           const b = octave(22, 5, s + 101);
           const out = new Float32Array(W * H);
@@ -442,7 +473,6 @@
           const cv2 = document.createElement('canvas');
           cv2.width = W; cv2.height = H;
           const c2 = cv2.getContext('2d');
-          // ✅ УМЕНЬШЕНО РАЗМЫТИЕ (было 3px, стало 1px)
           c2.filter = 'blur(1px)';
           c2.drawImage(cv, 0, 0);
           const d = c2.getImageData(0, 0, W, H).data;
@@ -478,25 +508,22 @@
         };
       }
 
-      // Палитра marine (как у Ada Lovelace)
       const MATTES_MARINE = [
-        [40, 90, 175],   // синий
-        [14, 36, 84],    // тёмно-синий
-        [120, 170, 222], // светло-синий
-        [236, 244, 252]  // почти белый
+        [40, 90, 175],
+        [14, 36, 84],
+        [120, 170, 222],
+        [236, 244, 252]
       ];
 
-      // Генерируем фон для seed=3 (Ada Lovelace)
       const camo = makeCamo(3);
       const bgUrl = camo(MATTES_MARINE);
 
-      // Применяем к блоку
       const block = document.getElementById('download-block');
       if (block) {
         block.style.backgroundImage = `url(${bgUrl})`;
       }
 
-      console.log('✦ Фон Ada Lovelace (marine, 2048x2048) применён к таблице');
+      console.log('✦ Фон Ada Lovelace (marine, 2048x2048) применён');
     })();
   </script>
 
