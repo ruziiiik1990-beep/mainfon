@@ -63,7 +63,18 @@
       text-shadow: 0 2px 10px rgba(74, 158, 255, 0.5);
     }
 
-    /* ЕДИНЫЙ блок: внутри него слева текст, справа птичка. Никаких таблиц. */
+    /* Обертка для выравнивания двух элементов в ряд */
+    .content-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+
+    /* ========================================= */
+    /* Таблица 1: Античит (со стеклянным фоном)  */
+    /* ========================================= */
     .download-block {
       background: rgba(10, 42, 107, 0.6);
       backdrop-filter: blur(12px);
@@ -71,18 +82,9 @@
       border: 1px solid rgba(74, 158, 255, 0.5);
       border-radius: 20px;
       padding: 40px 30px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-      
-      /* Простое выравнивание в одну строку */
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 40px;
-    }
-
-    .download-content {
-      flex: 1;
       text-align: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+      flex: 0 1 600px;
     }
 
     .download-icon {
@@ -162,21 +164,31 @@
     }
 
     /* ========================================= */
-    /* ТОЧНЫЕ СТИЛИ ГОЛОГРАММЫ ИЗ ТВОЕГО КОДА    */
+    /* Таблица 2: Fancy Sparrow (ПОЛНОСТЬЮ ПРОЗРАЧНАЯ) */
     /* ========================================= */
     .sparrow-holo {
       flex: 0 0 auto;
       text-align: center;
+      /* Гарантированная прозрачность контейнера */
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      padding: 0;
+      margin: 0;
     }
 
     .sparrow-holo p {
       color: #fff;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
       letter-spacing: 0.5px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8); /* Тень для читаемости текста */
     }
 
+    /* Точные стили голограммы из твоего исходного кода */
     .shader {
       position: relative;
       overflow: hidden;
@@ -221,11 +233,11 @@
       );
     }
 
-    /* Адаптивность: на мобильных птичка уходит под текст */
+    /* Адаптивность: на узких экранах птичка аккуратно встанет под блоком */
     @media (max-width: 900px) {
-      .download-block {
+      .content-wrapper {
         flex-direction: column;
-        gap: 30px;
+        gap: 40px;
       }
     }
   </style>
@@ -241,11 +253,11 @@
   <div class="files-container">
     <div class="files-title">Файлы</div>
 
-    <!-- ЕДИНЫЙ блок. Внутри него flex-выравнивание: слева текст, справа птичка -->
-    <div class="download-block">
+    <!-- Общая обертка для выравнивания -->
+    <div class="content-wrapper">
       
-      <!-- Левая часть: контент -->
-      <div class="download-content">
+      <!-- ЛЕВАЯ ЧАСТЬ: Таблица с античитом (со стеклом и рамкой) -->
+      <div class="download-block">
         <span class="download-icon">🛡️</span>
         <div class="download-title">Античит для турниров</div>
         <div class="download-desc">
@@ -265,7 +277,7 @@
         </div>
       </div>
 
-      <!-- Правая часть: голографическая птичка (точная копия из твоего рабочего кода) -->
+      <!-- ПРАВАЯ ЧАСТЬ: Fancy Sparrow (АБСОЛЮТНО ПРОЗРАЧНЫЙ КОНТЕЙНЕР) -->
       <div class="sparrow-holo">
         <p>Fancy Sparrow ✨</p>
         <div class="shader framed">
