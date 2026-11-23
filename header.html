@@ -287,8 +287,8 @@ function drawFog() {
 if (fogCanvas.width < 10) resizeFog();
 fogCtx.clearRect(0, 0, fogWidth, fogHeight);
 
-// ✅ ФИОЛЕТОВЫЕ ЛИНИИ (как в оригинале), в 3 раза темнее (было 0.9, стало 1.0)
-fogCtx.strokeStyle = 'rgba(166, 132, 255, 1.0)';
+// ✅ ТЁМНО-СИНИЕ ЛИНИИ (было 166,132,255 — фиолетовый)
+fogCtx.strokeStyle = 'rgba(30, 80, 200, 1.0)';
 fogCtx.lineWidth = 1.5;
 for (let i = 0; i < 28; i++) {
 const x = (i / 28) * fogWidth;
@@ -299,7 +299,7 @@ fogCtx.lineTo(x + 55, y + 18 + Math.sin(i * 0.5 + Date.now() * 0.0006) * 15);
 fogCtx.stroke();
 }
 
-// ✅ ФИОЛЕТОВО-СИРЕНЕВЫЕ ШАРИКИ (как в оригинале), в 3 раза темнее
+// ✅ ТЁМНО-СИНИЕ ШАРИКИ (было 166,132,255 — фиолетовый)
 for (const p of particles) {
 p.x += p.speedX;
 p.y += p.speedY;
@@ -309,8 +309,8 @@ if (p.y > fogHeight) p.y = 0;
 if (p.y < 0) p.y = fogHeight;
 
 const gradient = fogCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
-gradient.addColorStop(0, `rgba(166, 132, 255, ${p.opacity})`);
-gradient.addColorStop(1, `rgba(166, 132, 255, 0)`);
+gradient.addColorStop(0, `rgba(30, 80, 200, ${p.opacity})`);
+gradient.addColorStop(1, `rgba(30, 80, 200, 0)`);
 fogCtx.fillStyle = gradient;
 fogCtx.beginPath();
 fogCtx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
