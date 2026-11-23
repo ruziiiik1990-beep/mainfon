@@ -126,46 +126,50 @@
   <div id="panel-overlay"></div>
   <!-- ===== СТИЛИ ===== -->
   <style>
-    /* Принудительно ставим светлый фон как в проекте с ромбиками и фиксируем высоту */
+    /* Принудительно задаём светло-серый фон #F1F5F9 как в ваших 3 файлах */
+    header.header-wrapper,
     .header-wrapper {
       position: relative !important;
-      overflow: hidden !important;
+      display: block !important;
+      width: 100% !important;
       min-height: 88px !important;
+      height: auto !important;
+      background: #F1F5F9 !important;
       background-color: #F1F5F9 !important;
       background-image: none !important;
+      overflow: hidden !important;
     }
 
-    /* Убираем возможный белый фон у внутренних обёрток сайта */
-    .header-wrapper .container.header-container,
+    /* Убираем возможный белый фон у всех внутренних обёрток шапки */
+    .header-wrapper .container,
+    .header-wrapper .header-container,
     .header-wrapper .header-left,
     .header-wrapper .header-right {
       background: transparent !important;
-      position: relative;
-      z-index: 5;
+      background-color: transparent !important;
+      position: relative !important;
+      z-index: 5 !important;
     }
 
-    /* ===== ФОН С ЦИФРОВОЙ ДЫМКОЙ ===== */
+    /* ===== ФОН С ЦИФРОВОЙ ДЫМКОЙ И ФИОЛЕТОВЫМИ ШАРИКАМИ ===== */
     .header-wrapper #fog-container {
       position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
+      inset: 0 !important;
       width: 100% !important;
       height: 100% !important;
+      min-height: 88px !important;
       z-index: 1 !important;
-      pointer-events: none;
+      pointer-events: none !important;
       overflow: hidden;
       border-radius: inherit;
       background: rgba(255, 255, 255, 0.15) !important;
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
     }
     .header-wrapper #fogCanvas {
       display: block !important;
       width: 100% !important;
       height: 100% !important;
-      opacity: 0.65 !important;
+      min-height: 88px !important;
+      opacity: 0.75 !important;
     }
 
     /* ===== СЕТЬ МОДУЛЕЙ (ГОРИЗОНТАЛЬНАЯ) ===== */
@@ -432,7 +436,7 @@
     'use strict';
 
     // ============================================================
-    // 1. ЦИФРОВАЯ ДЫМКА (CANVAS)
+    // 1. ЦИФРОВАЯ ДЫМКА С ФИОЛЕТОВЫМИ ШАРИКАМИ (CANVAS)
     // ============================================================
     const fogCanvas = document.getElementById('fogCanvas');
     if (!fogCanvas) return;
@@ -441,11 +445,10 @@
     let particles = [];
 
     function resizeFog() {
-      const rect = fogCanvas.parentElement.getBoundingClientRect();
-      fogCanvas.width = rect.width;
-      fogCanvas.height = rect.height;
-      fogWidth = fogCanvas.width;
-      fogHeight = fogCanvas.height;
+      const header = fogCanvas.closest('.header-wrapper') || fogCanvas.parentElement;
+      const rect = header.getBoundingClientRect();
+      fogWidth = fogCanvas.width = rect.width || window.innerWidth;
+      fogHeight = fogCanvas.height = Math.max(rect.height, 88);
     }
 
     function initParticles(count = 50) {
@@ -457,25 +460,25 @@
           speedX: (Math.random() - 0.5) * 0.08,
           speedY: (Math.random() - 0.5) * 0.05,
           size: 2 + Math.random() * 4,
-          opacity: 0.08 + Math.random() * 0.1,
+          opacity: 0.05 + Math.random() * 0.08,
         });
       }
     }
 
     function drawFog() {
       fogCtx.clearRect(0, 0, fogWidth, fogHeight);
-      // Тонкие линии данных (сиреневый цвет как в вашем примере)
-      fogCtx.strokeStyle = 'rgba(166, 132, 255, 0.65)';
+      // Тонкие фиолетовые линии данных (как в вашем примере)
+      fogCtx.strokeStyle = 'rgba(166, 132, 255, 0.9)';
       fogCtx.lineWidth = 1;
       for (let i = 0; i < 25; i++) {
         const x = (i / 25) * fogWidth;
-        const y = fogHeight * 0.5 + Math.sin(i * 0.7 + Date.now() * 0.00006) * 20;
+        const y = fogHeight * 0.5 + Math.sin(i * 0.7 + Date.now() * 0.00006) * 25;
         fogCtx.beginPath();
         fogCtx.moveTo(x, y);
-        fogCtx.lineTo(x + 50, y + 15 + Math.sin(i * 0.5 + Date.now() * 0.00012) * 14);
+        fogCtx.lineTo(x + 50, y + 20 + Math.sin(i * 0.5 + Date.now() * 0.00012) * 18);
         fogCtx.stroke();
       }
-      // Плавающие частицы
+      // Плавающие фиолетовые шарики (эффект из вашего примера)
       for (const p of particles) {
         p.x += p.speedX;
         p.y += p.speedY;
@@ -484,8 +487,8 @@
         if (p.y > fogHeight) p.y = 0;
         if (p.y < 0) p.y = fogHeight;
         const gradient = fogCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 1.8);
-        gradient.addColorStop(0, `rgba(166, 132, 255, ${p.opacity * 1.8})`);
-        gradient.addColorStop(1, `rgba(166, 132, 255, 0)`);
+        gradient.addColorStop(0, `rgba(166, 132, 255, ${p.opacity * 0.9})`);
+        gradient.addColorStop(1, `rgba(166, 132, 255, 10)`);
         fogCtx.fillStyle = gradient;
         fogCtx.beginPath();
         fogCtx.arc(p.x, p.y, p.size * 1.8, 0, Math.PI * 2);
@@ -504,6 +507,8 @@
       });
     }
     initFog();
+    setTimeout(() => { resizeFog(); initParticles(60); }, 300);
+    window.addEventListener('load', () => { resizeFog(); initParticles(60); });
 
     // ============================================================
     // 2. ДАННЫЕ МОДУЛЕЙ
