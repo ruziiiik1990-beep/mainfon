@@ -1,9 +1,4 @@
 <header class="header-wrapper">
-  <!-- ===== ФОН С ЦИФРОВОЙ ДЫМКОЙ (CANVAS) ===== -->
-  <div id="fog-container">
-    <canvas id="fogCanvas"></canvas>
-  </div>
-
   <div class="container header-container">
     <div class="header-left" style="margin-left: 200px;">
       <a class="logo-link" href="index.html" title="Главная">
@@ -15,12 +10,12 @@
             <div class="main-menu-container">
               <div class="main-menu-scroll-area">
                 <ul class="nav-list">
-                  <li><a href="index.html" class="nav-link">Главная</a></li>
-                  <li><a href="tournaments.html" class="nav-link">Турниры</a></li>
-                  <li><a href="rank.html" class="nav-link">Rank</a></li>
-                  <li><a href="files.html" class="nav-link">Файлы</a></li>
-                  <li><a href="rules.html" class="nav-link">Правила</a></li>
-                  <li><a href="zalslavi.html" class="nav-link">Зал славы</a></li>
+                  <li><a href="index.html" class="nav-link rhombus-link"><span class="rhombus"><span class="rhombus-text">Главная</span></span></a></li>
+                  <li><a href="tournaments.html" class="nav-link rhombus-link"><span class="rhombus"><span class="rhombus-text">Турниры</span></span></a></li>
+                  <li><a href="rank.html" class="nav-link rhombus-link"><span class="rhombus"><span class="rhombus-text">Rank</span></span></a></li>
+                  <li><a href="files.html" class="nav-link rhombus-link"><span class="rhombus"><span class="rhombus-text">Файлы</span></span></a></li>
+                  <li><a href="rules.html" class="nav-link rhombus-link"><span class="rhombus"><span class="rhombus-text">Правила</span></span></a></li>
+                  <li><a href="zalslavi.html" class="nav-link rhombus-link"><span class="rhombus"><span class="rhombus-text">Зал славы</span></span></a></li>
                 </ul>
               </div>
             </div>
@@ -52,235 +47,68 @@
     </div>
   </div>
 
-  <!-- ===== СЕТЬ МОДУЛЕЙ (CARD, SKILLS, VIBES, GEAR) ===== -->
-  <div id="core-network">
-    <!-- CARD -->
-    <div class="module" data-module="card">
-      <div class="chip-corner tl"></div>
-      <div class="chip-corner tr"></div>
-      <div class="chip-corner bl"></div>
-      <div class="chip-corner br"></div>
-      <div class="module-icon">◆</div>
-      <h2>CARD</h2>
-      <p>Bio · Gustos</p>
-      <div class="module-glow"></div>
-    </div>
-    <!-- SKILLS -->
-    <div class="module" data-module="skills">
-      <div class="chip-corner tl"></div>
-      <div class="chip-corner tr"></div>
-      <div class="chip-corner bl"></div>
-      <div class="chip-corner br"></div>
-      <div class="module-icon">◈</div>
-      <h2>SKILLS</h2>
-      <p>6 Habilidades</p>
-      <div class="module-glow"></div>
-    </div>
-    <!-- VIBES -->
-    <div class="module" data-module="vibes">
-      <div class="chip-corner tl"></div>
-      <div class="chip-corner tr"></div>
-      <div class="chip-corner bl"></div>
-      <div class="chip-corner br"></div>
-      <div class="module-icon">◇</div>
-      <h2>VIBES</h2>
-      <p>Inspiraciones</p>
-      <div class="module-glow"></div>
-    </div>
-    <!-- GEAR -->
-    <div class="module" data-module="gear">
-      <div class="chip-corner tl"></div>
-      <div class="chip-corner tr"></div>
-      <div class="chip-corner bl"></div>
-      <div class="chip-corner br"></div>
-      <div class="module-icon">⚙</div>
-      <h2>GEAR</h2>
-      <p>Herramientas</p>
-      <div class="module-glow"></div>
-    </div>
-  </div>
-
-  <!-- ===== SVG ЛИНИИ СОЕДИНЕНИЯ ===== -->
-  <svg id="connections" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#0099ff" stop-opacity="0.20" />
-        <stop offset="50%" stop-color="#66ccff" stop-opacity="0.08" />
-        <stop offset="100%" stop-color="#0099ff" stop-opacity="0.20" />
-      </linearGradient>
-    </defs>
-    <line id="conn1" x1="0" y1="0" x2="0" y2="0" stroke="url(#lineGrad)" stroke-width="1.5" />
-    <line id="conn2" x1="0" y1="0" x2="0" y2="0" stroke="url(#lineGrad)" stroke-width="1.5" />
-    <line id="conn3" x1="0" y1="0" x2="0" y2="0" stroke="url(#lineGrad)" stroke-width="1.5" />
-    <line id="conn4" x1="0" y1="0" x2="0" y2="0" stroke="url(#lineGrad)" stroke-width="1.5" />
-  </svg>
-
-  <!-- ===== ПЛАВАЮЩАЯ ПАНЕЛЬ ===== -->
-  <div id="floating-panel">
-    <div id="panel-header">
-      <span id="panel-title">Módulo</span>
-      <button id="panel-close">✕</button>
-    </div>
-    <div id="panel-body"></div>
-  </div>
-
-  <!-- ===== OVERLAY ===== -->
-  <div id="panel-overlay"></div>
-
-  <!-- ===== СТИЛИ ДЛЯ HEADER-МОДУЛЕЙ ===== -->
+  <!-- ===== СТИЛИ ДЛЯ РОМБОВ-ССЫЛОК ===== -->
   <style>
-    /* Позиционирование header для абсолютных элементов */
-    .header-wrapper {
-      position: relative !important;
-      overflow: visible !important;
-      min-height: 220px;
-    }
-
-    /* ===== ФОН С ЦИФРОВОЙ ДЫМКОЙ ===== */
-    .header-wrapper #fog-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-      border-radius: inherit;
-    }
-    .header-wrapper #fogCanvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-      opacity: 0.5;
-    }
-
-    /* Контент header поверх тумана */
-    .header-wrapper .container.header-container {
-      position: relative;
-      z-index: 5;
-    }
-
-    /* ===== СЕТЬ МОДУЛЕЙ ===== */
-    .header-wrapper #core-network {
-      position: relative;
-      width: 100%;
-      max-width: 700px;
-      height: 280px;
-      margin: 20px auto 0 auto;
-      z-index: 3;
-    }
-
-    /* ===== МОДУЛИ (РОМБЫ) ===== */
-    .header-wrapper .module {
-      position: absolute;
-      width: 130px;
-      height: 130px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(74, 158, 255, 0.25);
-      border-radius: 14px;
-      box-shadow:
-        0 4px 20px rgba(0, 80, 160, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    /* Обёртка меню — выстраиваем ромбики в ряд */
+    .header-wrapper .main-menu-nav .nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-      padding: 14px 10px;
-      text-align: center;
-      animation: moduleFloat 6s ease-in-out infinite;
-      z-index: 2;
+      gap: 22px;
     }
-    .header-wrapper .module:hover {
-      transform: rotate(45deg) scale(1.15) !important;
-      border-color: rgba(74, 158, 255, 0.6);
+
+    .header-wrapper .main-menu-nav .nav-list li {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Ссылка-ромбик */
+    .header-wrapper .rhombus-link {
+      display: block;
+      text-decoration: none;
+      padding: 0;
+      margin: 0;
+      line-height: 1;
+    }
+
+    /* Сам ромб (квадрат, повёрнутый на 45°) */
+    .header-wrapper .rhombus {
+      width: 95px;
+      height: 95px;
+      background: rgba(10, 42, 107, 0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(74, 158, 255, 0.45);
+      border-radius: 10px;
+      transform: rotate(45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       box-shadow:
-        0 12px 40px rgba(74, 158, 255, 0.5),
-        inset 0 1px 0 rgba(218, 178, 255, 0.3);
-      background: rgba(74, 158, 255, 0.15);
+        0 6px 20px rgba(0, 80, 160, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+      position: relative;
+      overflow: hidden;
     }
 
-    /* Задержки анимации */
-    .header-wrapper .module:nth-child(1) { animation-delay: 0.3s; }
-    .header-wrapper .module:nth-child(2) { animation-delay: 0.9s; }
-    .header-wrapper .module:nth-child(3) { animation-delay: 1.5s; }
-    .header-wrapper .module:nth-child(4) { animation-delay: 2.1s; }
-
-    /* Позиции в углах */
-    .header-wrapper .module:nth-child(1) { top: 0; left: 0; }
-    .header-wrapper .module:nth-child(2) { top: 0; right: 0; }
-    .header-wrapper .module:nth-child(3) { bottom: 0; left: 0; }
-    .header-wrapper .module:nth-child(4) { bottom: 0; right: 0; }
-
-    /* Вращение ромба */
-    @keyframes moduleFloat {
-      0%, 100% { transform: rotate(45deg) translateY(8px); }
-      50%      { transform: rotate(45deg) translateY(-8px); }
-    }
-
-    /* Контр-вращение содержимого */
-    .header-wrapper .module .module-icon,
-    .header-wrapper .module h2,
-    .header-wrapper .module p,
-    .header-wrapper .module .chip-corner {
-      transform: rotate(-45deg);
-    }
-
-    /* Угловые декорации */
-    .header-wrapper .chip-corner {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      border-color: rgba(74, 158, 255, 0.35);
-      border-style: solid;
-      border-width: 0;
-      pointer-events: none;
-      z-index: 3;
-      transition: border-color 0.3s;
-    }
-    .header-wrapper .chip-corner.tl { top: 4px; left: 4px; border-top-width: 2px; border-left-width: 2px; border-radius: 7px 0 0 0; }
-    .header-wrapper .chip-corner.tr { top: 4px; right: 4px; border-top-width: 2px; border-right-width: 2px; border-radius: 0 7px 0 0; }
-    .header-wrapper .chip-corner.bl { bottom: 4px; left: 4px; border-bottom-width: 2px; border-left-width: 2px; border-radius: 0 0 0 7px; }
-    .header-wrapper .chip-corner.br { bottom: 4px; right: 4px; border-bottom-width: 2px; border-right-width: 2px; border-radius: 0 0 7px 0; }
-    .header-wrapper .module:hover .chip-corner { border-color: rgba(74, 158, 255, 0.8); }
-
-    .header-wrapper .module-icon {
-      font-size: 1.6rem;
-      color: #4a9eff;
-      margin-bottom: 2px;
-      opacity: 0.9;
-    }
-    .header-wrapper .module h2 {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: 2px;
-      margin-bottom: 2px;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-    }
-    .header-wrapper .module p {
-      font-size: 0.55rem;
-      color: rgba(255, 255, 255, 0.7);
-      letter-spacing: 1px;
-      font-weight: 300;
-    }
-
-    /* Голографический glow по краям */
-    .header-wrapper .module-glow {
+    /* Голографический glow по контуру ромба */
+    .header-wrapper .rhombus::before {
+      content: '';
       position: absolute;
       inset: -2px;
-      border-radius: 16px;
+      border-radius: 12px;
       padding: 2px;
       background: conic-gradient(
         from 0deg,
         transparent,
-        rgba(74, 158, 255, 0.25),
+        rgba(74, 158, 255, 0.35),
         transparent,
-        rgba(74, 158, 255, 0.15),
+        rgba(74, 158, 255, 0.2),
         transparent
       );
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -288,456 +116,83 @@
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none;
-      opacity: 0.5;
-      animation: glowSpin 12s linear infinite;
+      opacity: 0.6;
+      animation: rhombusGlowSpin 8s linear infinite;
     }
-    @keyframes glowSpin {
+
+    @keyframes rhombusGlowSpin {
       0%   { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
 
-    /* ===== SVG ЛИНИИ ===== */
-    .header-wrapper #connections {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* ===== ПЛАВАЮЩАЯ ПАНЕЛЬ ===== */
-    .header-wrapper #floating-panel {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.92);
-      width: 90%;
-      max-width: 520px;
-      max-height: 80vh;
-      background: rgba(10, 42, 107, 0.92);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-radius: 20px;
-      border: 1px solid rgba(74, 158, 255, 0.4);
+    /* Hover-эффект */
+    .header-wrapper .rhombus-link:hover .rhombus {
+      transform: rotate(45deg) scale(1.12);
+      border-color: rgba(74, 158, 255, 0.9);
+      background: rgba(74, 158, 255, 0.25);
       box-shadow:
-        0 24px 64px rgba(0, 0, 0, 0.5),
-        0 0 60px rgba(74, 158, 255, 0.15);
-      z-index: 10000;
-      padding: 0;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+        0 10px 30px rgba(74, 158, 255, 0.5),
+        inset 0 1px 0 rgba(218, 178, 255, 0.3);
+    }
+
+    /* Текст внутри ромба (контр-вращение, чтобы был читаемым) */
+    .header-wrapper .rhombus-text {
+      transform: rotate(-45deg);
+      display: block;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+      white-space: nowrap;
+      line-height: 1.2;
+      max-width: 80px;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      color: #fff;
-    }
-    .header-wrapper #floating-panel.active {
-      opacity: 1;
-      visibility: visible;
-      transform: translate(-50%, -50%) scale(1);
-    }
-    .header-wrapper #panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 22px;
-      border-bottom: 1px solid rgba(74, 158, 255, 0.2);
-      flex-shrink: 0;
-    }
-    .header-wrapper #panel-title {
-      font-size: 1.0rem;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: 2px;
-    }
-    .header-wrapper #panel-close {
-      background: none;
-      border: none;
-      font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.6);
-      cursor: pointer;
-      transition: color 0.2s;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .header-wrapper #panel-close:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.1);
-    }
-    .header-wrapper #panel-body {
-      padding: 18px 22px 24px;
-      overflow-y: auto;
-      flex: 1;
-    }
-    .header-wrapper #panel-body .panel-content {
-      animation: fadeInContent 0.35s ease;
-    }
-    @keyframes fadeInContent {
-      0%   { opacity: 0; transform: translateY(8px); }
-      100% { opacity: 1; transform: translateY(0); }
+      text-overflow: ellipsis;
     }
 
-    /* ===== OVERLAY ===== */
-    .header-wrapper #panel-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 10, 30, 0.5);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      z-index: 9999;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.35s ease;
-    }
-    .header-wrapper #panel-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* ===== КОНТЕНТ ПАНЕЛИ ===== */
-    .header-wrapper .item-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-      gap: 10px;
-      margin-top: 4px;
-    }
-    .header-wrapper .item-chip {
-      background: rgba(74, 158, 255, 0.08);
-      border: 1px solid rgba(74, 158, 255, 0.2);
-      border-radius: 12px;
-      padding: 12px 10px;
-      text-align: center;
-      transition: all 0.2s;
-    }
-    .header-wrapper .item-chip:hover {
-      background: rgba(74, 158, 255, 0.15);
-      transform: translateY(-2px);
-    }
-    .header-wrapper .item-chip .icon {
-      font-size: 1.4rem;
-      display: block;
-      margin-bottom: 4px;
-    }
-    .header-wrapper .item-chip .label {
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: #fff;
-    }
-    .header-wrapper .item-chip .desc {
-      font-size: 0.6rem;
-      color: rgba(255, 255, 255, 0.6);
-      margin-top: 2px;
-    }
-    .header-wrapper .bio-card {
-      text-align: center;
-      padding: 4px 0;
-    }
-    .header-wrapper .bio-card .avatar {
-      font-size: 2.8rem;
-      display: block;
-      margin-bottom: 4px;
-      color: #4a9eff;
-    }
-    .header-wrapper .bio-card .name {
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: #fff;
-    }
-    .header-wrapper .bio-card .role {
-      font-size: 0.8rem;
-      color: #4a9eff;
-      margin-top: 2px;
-    }
-    .header-wrapper .bio-card .tagline {
-      font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.6);
-      margin-top: 4px;
-      font-style: italic;
-    }
-    .header-wrapper .bio-gustos {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      justify-content: center;
-      margin-top: 12px;
-    }
-    .header-wrapper .bio-gustos .gusto {
-      background: rgba(74, 158, 255, 0.1);
-      border-radius: 30px;
-      padding: 3px 12px;
-      font-size: 0.65rem;
-      color: #fff;
-      border: 1px solid rgba(74, 158, 255, 0.3);
-      letter-spacing: 1px;
-    }
-
-    /* ===== АДАПТИВ ===== */
-    @media (max-width: 768px) {
-      .header-wrapper #core-network {
-        height: 240px;
-        max-width: 500px;
-      }
-      .header-wrapper .module {
-        width: 100px;
-        height: 100px;
-      }
-      .header-wrapper .module-icon { font-size: 1.2rem; }
-      .header-wrapper .module h2 { font-size: 0.7rem; }
-      .header-wrapper .module p { font-size: 0.45rem; }
-    }
-    @media (max-width: 480px) {
-      .header-wrapper #core-network {
-        height: 200px;
-        max-width: 360px;
-      }
-      .header-wrapper .module {
+    /* Адаптив: на узких экранах ромбики уменьшаются */
+    @media (max-width: 1100px) {
+      .header-wrapper .rhombus {
         width: 80px;
         height: 80px;
-        padding: 6px 4px;
       }
-      .header-wrapper .module-icon { font-size: 1rem; }
-      .header-wrapper .module h2 { font-size: 0.55rem; letter-spacing: 1px; }
-      .header-wrapper .module p { font-size: 0.4rem; }
+      .header-wrapper .rhombus-text {
+        font-size: 10px;
+        max-width: 65px;
+      }
+      .header-wrapper .main-menu-nav .nav-list {
+        gap: 14px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .header-wrapper .rhombus {
+        width: 65px;
+        height: 65px;
+      }
+      .header-wrapper .rhombus-text {
+        font-size: 8.5px;
+        max-width: 52px;
+      }
+      .header-wrapper .main-menu-nav .nav-list {
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .header-wrapper .rhombus {
+        width: 55px;
+        height: 55px;
+      }
+      .header-wrapper .rhombus-text {
+        font-size: 7.5px;
+        max-width: 42px;
+      }
+      .header-wrapper .main-menu-nav .nav-list {
+        gap: 5px;
+      }
     }
   </style>
-
-  <!-- ===== JAVASCRIPT: ТУМАН + МОДУЛИ ===== -->
-  <script>
-  (function() {
-    'use strict';
-
-    // ============================================================
-    // 1. ЦИФРОВАЯ ДЫМКА (CANVAS)
-    // ============================================================
-    const fogCanvas = document.getElementById('fogCanvas');
-    if (!fogCanvas) return;
-    const fogCtx = fogCanvas.getContext('2d');
-    let fogWidth, fogHeight;
-    let particles = [];
-
-    function resizeFog() {
-      const rect = fogCanvas.parentElement.getBoundingClientRect();
-      fogCanvas.width = rect.width;
-      fogCanvas.height = rect.height;
-      fogWidth = fogCanvas.width;
-      fogHeight = fogCanvas.height;
-    }
-
-    function initParticles(count = 50) {
-      particles = [];
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x: Math.random() * fogWidth,
-          y: Math.random() * fogHeight,
-          speedX: (Math.random() - 0.5) * 0.08,
-          speedY: (Math.random() - 0.5) * 0.05,
-          size: 2 + Math.random() * 4,
-          opacity: 0.05 + Math.random() * 0.08,
-        });
-      }
-    }
-
-    function drawFog() {
-      fogCtx.clearRect(0, 0, fogWidth, fogHeight);
-      // Тонкие линии данных
-      fogCtx.strokeStyle = 'rgba(74, 158, 255, 0.9)';
-      fogCtx.lineWidth = 1;
-      for (let i = 0; i < 25; i++) {
-        const x = (i / 25) * fogWidth;
-        const y = fogHeight * 0.5 + Math.sin(i * 0.7 + Date.now() * 0.00006) * 25;
-        fogCtx.beginPath();
-        fogCtx.moveTo(x, y);
-        fogCtx.lineTo(x + 50, y + 20 + Math.sin(i * 0.5 + Date.now() * 0.00012) * 18);
-        fogCtx.stroke();
-      }
-      // Плавающие частицы
-      for (const p of particles) {
-        p.x += p.speedX;
-        p.y += p.speedY;
-        if (p.x > fogWidth) p.x = 0;
-        if (p.x < 0) p.x = fogWidth;
-        if (p.y > fogHeight) p.y = 0;
-        if (p.y < 0) p.y = fogHeight;
-        const gradient = fogCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 1.8);
-        gradient.addColorStop(0, `rgba(74, 158, 255, ${p.opacity * 0.9})`);
-        gradient.addColorStop(1, `rgba(74, 158, 255, 0)`);
-        fogCtx.fillStyle = gradient;
-        fogCtx.beginPath();
-        fogCtx.arc(p.x, p.y, p.size * 1.8, 0, Math.PI * 2);
-        fogCtx.fill();
-      }
-      requestAnimationFrame(drawFog);
-    }
-
-    function initFog() {
-      resizeFog();
-      initParticles(60);
-      drawFog();
-      window.addEventListener('resize', () => {
-        resizeFog();
-        initParticles(60);
-      });
-    }
-    initFog();
-
-    // ============================================================
-    // 2. ДАННЫЕ МОДУЛЕЙ
-    // ============================================================
-    const moduleData = {
-      card: {
-        title: '◆ CARD — Bio',
-        content: `
-          <div class="bio-card">
-            <span class="avatar">⏣</span>
-            <div class="name">zirak9</div>
-            <div class="role">Desarrollador Front-End · Creative Coder</div>
-            <div class="tagline">"Construyendo experiencias digitales inmersivas"</div>
-            <div class="bio-gustos">
-              <span class="gusto">GAMER</span>
-              <span class="gusto">PROGRAMADOR</span>
-              <span class="gusto">CREATIVO</span>
-              <span class="gusto">MAKER</span>
-              <span class="gusto">APRENDIZ</span>
-            </div>
-            <div style="margin-top:12px;font-size:0.65rem;color:rgba(255,255,255,0.5);letter-spacing:1px;">
-              Nivel 9 · Clase Holográfico
-            </div>
-          </div>
-        `
-      },
-      skills: {
-        title: '◈ SKILLS — Habilidades',
-        content: `
-          <div class="item-grid">
-            <div class="item-chip"><span class="icon">🌐</span><span class="label">Front-End</span><span class="desc">HTML · CSS · JS</span></div>
-            <div class="item-chip"><span class="icon">⚛️</span><span class="label">Frameworks</span><span class="desc">React · Vue</span></div>
-            <div class="item-chip"><span class="icon">🧊</span><span class="label">3D & Animación</span><span class="desc">Three.js · GSAP</span></div>
-            <div class="item-chip"><span class="icon">🎨</span><span class="label">Diseño</span><span class="desc">UI/UX · Figma</span></div>
-            <div class="item-chip"><span class="icon">🔧</span><span class="label">Herramientas</span><span class="desc">Git · Webpack</span></div>
-            <div class="item-chip"><span class="icon">📐</span><span class="label">Gráficos</span><span class="desc">SVG · Canvas</span></div>
-          </div>
-        `
-      },
-      vibes: {
-        title: '◇ VIBES — Inspiraciones',
-        content: `
-          <div class="item-grid">
-            <div class="item-chip"><span class="icon">🎮</span><span class="label">Juegos</span><span class="desc">Dark Souls · Elden Ring</span></div>
-            <div class="item-chip"><span class="icon">🎬</span><span class="label">Películas</span><span class="desc">Blade Runner · Dune</span></div>
-            <div class="item-chip"><span class="icon">🎵</span><span class="label">Música</span><span class="desc">Synthwave · Bandas sonoras</span></div>
-            <div class="item-chip"><span class="icon">📚</span><span class="label">Libros</span><span class="desc">Ciencia ficción · Filosofía</span></div>
-            <div class="item-chip"><span class="icon">🏛️</span><span class="label">Arte</span><span class="desc">Digital · Neoclásico</span></div>
-            <div class="item-chip"><span class="icon">🧠</span><span class="label">Filosofía</span><span class="desc">Estoicismo · Exploración</span></div>
-          </div>
-        `
-      },
-      gear: {
-        title: '⚙ GEAR — Herramientas',
-        content: `
-          <div class="item-grid">
-            <div class="item-chip"><span class="icon">📝</span><span class="label">VS Code</span><span class="desc">Editor principal</span></div>
-            <div class="item-chip"><span class="icon">🔍</span><span class="label">Chrome DevTools</span><span class="desc">Depuración</span></div>
-            <div class="item-chip"><span class="icon">🎯</span><span class="label">Figma</span><span class="desc">Diseño UI/UX</span></div>
-            <div class="item-chip"><span class="icon">🐙</span><span class="label">Git</span><span class="desc">Control de versiones</span></div>
-            <div class="item-chip"><span class="icon">💻</span><span class="label">Terminal</span><span class="desc">Línea de comandos</span></div>
-            <div class="item-chip"><span class="icon">🧪</span><span class="label">CodePen</span><span class="desc">Sandbox creativo</span></div>
-          </div>
-        `
-      }
-    };
-
-    // ============================================================
-    // 3. ПАНЕЛЬ
-    // ============================================================
-    const panel = document.getElementById('floating-panel');
-    const panelOverlay = document.getElementById('panel-overlay');
-    const panelTitle = document.getElementById('panel-title');
-    const panelBody = document.getElementById('panel-body');
-    const panelClose = document.getElementById('panel-close');
-
-    function openPanel(moduleId) {
-      const data = moduleData[moduleId];
-      if (!data) return;
-      panelTitle.textContent = data.title;
-      panelBody.innerHTML = `<div class="panel-content">${data.content}</div>`;
-      panel.classList.add('active');
-      panelOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-    function closePanel() {
-      panel.classList.remove('active');
-      panelOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-    panelClose.addEventListener('click', closePanel);
-    panelOverlay.addEventListener('click', closePanel);
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closePanel();
-    });
-
-    // ============================================================
-    // 4. СОБЫТИЯ МОДУЛЕЙ
-    // ============================================================
-    document.querySelectorAll('.header-wrapper .module').forEach((mod) => {
-      mod.addEventListener('click', () => {
-        const moduleId = mod.dataset.module;
-        if (moduleId) openPanel(moduleId);
-      });
-    });
-
-    // ============================================================
-    // 5. SVG ЛИНИИ СОЕДИНЕНИЯ МЕЖДУ МОДУЛЯМИ
-    // ============================================================
-    function updateConnections() {
-      const modules = document.querySelectorAll('.header-wrapper .module');
-      const connLines = document.querySelectorAll('#connections line');
-      const network = document.getElementById('core-network');
-      if (!network || modules.length < 4) return;
-
-      const networkRect = network.getBoundingClientRect();
-      const centers = [];
-      modules.forEach(mod => {
-        const modRect = mod.getBoundingClientRect();
-        centers.push({
-          x: modRect.left + modRect.width / 2 - networkRect.left,
-          y: modRect.top + modRect.height / 2 - networkRect.top,
-        });
-      });
-
-      // Соединяем модули крест-накрест (по диагонали)
-      const connections = [
-        [centers[0].x, centers[0].y, centers[1].x, centers[1].y],
-        [centers[1].x, centers[1].y, centers[3].x, centers[3].y],
-        [centers[3].x, centers[3].y, centers[2].x, centers[2].y],
-        [centers[2].x, centers[2].y, centers[0].x, centers[0].y],
-      ];
-
-      connLines.forEach((line, i) => {
-        if (i < connections.length) {
-          const [x1, y1, x2, y2] = connections[i];
-          if (x2 && y2) {
-            line.setAttribute('x1', x1);
-            line.setAttribute('y1', y1);
-            line.setAttribute('x2', x2);
-            line.setAttribute('y2', y2);
-          }
-        }
-      });
-    }
-
-    setTimeout(updateConnections, 300);
-    window.addEventListener('resize', updateConnections);
-    window.addEventListener('load', updateConnections);
-
-    console.log('✦ Holographic modules in header loaded');
-    console.log('◈ Módulos: CARD, SKILLS, VIBES, GEAR');
-  })();
-  </script>
 </header>
