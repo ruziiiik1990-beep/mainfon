@@ -64,130 +64,31 @@
     }
 
     /* ========================================= */
-    /* ЕДИНАЯ ТАБЛИЦА: ФОН ADA LOVELACE          */
-    /* ✅ БЕЗ ГОЛОГРАФИЧЕСКИХ СЛОЁВ              */
+    /* ЕДИНАЯ ТАБЛИЦА: общий фон для всего       */
     /* ========================================= */
     .download-block {
-      background-color: #0a2240;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      border: 2px solid rgba(244, 231, 38, 0.35);
+      background: rgba(10, 42, 107, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(74, 158, 255, 0.5);
       border-radius: 20px;
       padding: 40px 30px;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+      
+      /* Выстраиваем содержимое в одну линию: текст слева, птичка справа */
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 40px;
       text-align: center;
-      position: relative;
-      overflow: hidden;
     }
 
-    /* ========================================= */
-    /* ЛЕВАЯ ЧАСТЬ: ТЕКСТ + ГОЛОГРАФИЧЕСКИЕ СЛОИ */
-    /* ========================================= */
+    /* Левая часть с текстом и кнопкой */
     .download-content {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
-      z-index: 2;
-      
-      /* ✅ 3D-наклон + тень */
-      transform:
-        perspective(50rem)
-        rotateX(var(--rx, 0deg))
-        rotateY(var(--ry, 0deg))
-        scale(var(--card-scale, 1));
-      transition: transform 0.45s ease, box-shadow 0.45s ease;
-      box-shadow:
-        var(--shadow-x, 0) var(--shadow-y, 0.5rem) 1.5rem 0.1rem
-        color-mix(in srgb, #0a2240 38%, transparent);
-      cursor: pointer;
-      border-radius: 12px;
-      padding: 20px;
-    }
-
-    .download-content[data-tilting="true"] {
-      --card-scale: 1.02;
-      transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
-    }
-
-    /* ========================================= */
-    /* ::before — REVEAL LAYER (только на левой части) */
-    /* ========================================= */
-    .download-content::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      border-radius: inherit;
-      background-image: var(--holo-facets-holo);
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-      mix-blend-mode: overlay;
-      opacity: 0.55;
-      -webkit-mask-image: linear-gradient(105deg, transparent 22%, #000 42%, #000 58%, transparent 78%);
-      mask-image: linear-gradient(105deg, transparent 22%, #000 42%, #000 58%, transparent 78%);
-      -webkit-mask-size: 250% 100%;
-      mask-size: 250% 100%;
-      -webkit-mask-position: var(--holo-pos, 50%) 0;
-      mask-position: var(--holo-pos, 50%) 0;
-      -webkit-mask-repeat: no-repeat;
-      mask-repeat: no-repeat;
-      transition:
-        -webkit-mask-position 0.12s ease-out,
-        mask-position 0.12s ease-out,
-        opacity 0.25s ease;
-    }
-
-    .download-content[data-tilting="true"]::before {
-      opacity: 1;
-    }
-
-    /* ========================================= */
-    /* ::after — БЕЛЫЙ БЛИК (только на левой части) */
-    /* ========================================= */
-    .download-content::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      border-radius: inherit;
-      background: linear-gradient(
-        110deg,
-        transparent 25%,
-        rgba(255, 255, 255, 0.16) 47%,
-        rgba(255, 255, 255, 0.04) 53%,
-        transparent 72%
-      );
-      background-size: 220% 100%;
-      background-position: var(--holo-pos, 78%) 0;
-      mix-blend-mode: screen;
-      transition: background-position 0.12s ease-out;
-    }
-
-    /* Idle glint */
-    .download-content[data-glint="true"]:not([data-tilting="true"])::before {
-      animation: holo-glint-holo 1.6s ease-in-out;
-    }
-    .download-content[data-glint="true"]:not([data-tilting="true"])::after {
-      animation: holo-glint-sheen 1.6s ease-in-out;
-    }
-
-    @keyframes holo-glint-holo {
-      0%, 100% { opacity: 0.55; -webkit-mask-position: 50% 0; mask-position: 50% 0; }
-      50%      { opacity: 1; -webkit-mask-position: 20% 0; mask-position: 20% 0; }
-    }
-    @keyframes holo-glint-sheen {
-      0%, 100% { background-position: 78% 0; }
-      50%      { background-position: 24% 0; }
     }
 
     .download-icon {
@@ -201,16 +102,15 @@
       font-size: 24px;
       font-weight: 700;
       margin-bottom: 12px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
     }
 
     .download-desc {
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255, 255, 255, 0.7);
       font-size: 15px;
       line-height: 1.6;
       max-width: 500px;
       margin: 0 auto 30px auto;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
     }
 
     .download-btn {
@@ -247,7 +147,7 @@
       letter-spacing: 2px;
       margin-top: 20px;
       margin-bottom: 10px;
-      text-shadow: 0 0 12px rgba(255, 45, 45, 0.8), 0 2px 6px rgba(0,0,0,0.8);
+      text-shadow: 0 0 12px rgba(255, 45, 45, 0.8), 0 2px 6px rgba(0,0,0,0.6);
       animation: warningPulse 1.5s ease-in-out infinite;
     }
 
@@ -258,10 +158,9 @@
 
     .download-note {
       margin-top: 10px;
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(255, 255, 255, 0.5);
       font-size: 13px;
       font-style: italic;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
     }
 
     .download-arrow {
@@ -270,22 +169,13 @@
 
     /* ========================================= */
     /* Правая часть: Голографическая птичка      */
-    /* ✅ ПОЛНОСТЬЮ НЕЗАВИСИМАЯ ОТ ЛЕВОЙ ЧАСТИ   */
+    /* (без собственного фона, использует общий)  */
     /* ========================================= */
     .sparrow-holo {
       flex: 0 0 280px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
-      z-index: 3;
-      background-color: #0a2240;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      border-radius: 12px;
-      padding: 15px 10px;
-      overflow: hidden;
     }
 
     .sparrow-holo p {
@@ -294,29 +184,18 @@
       font-weight: 700;
       margin: 0 0 15px 0;
       letter-spacing: 0.5px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-      position: relative;
-      z-index: 1;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
     }
 
-    /* ✅ ГОЛОГРАФИЧЕСКИЕ СТИЛИ ПТИЧКИ (НЕ ТРОГАЕМ) */
-    .sparrow-holo .shader,
-    .sparrow-holo .shader.framed {
+    /* Точные стили шейдера из исходного кода */
+    .shader {
       position: relative;
       overflow: hidden;
-      backface-visibility: hidden;
+      backface-visibility: hidden; /* Forces GPU */
       border-radius: 12px;
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      padding: 0;
-      margin: 0;
-      z-index: 1;
     }
 
-    .sparrow-holo .shader-layer {
+    .shader-layer {
       background: black;
       mix-blend-mode: multiply;
       position: absolute;
@@ -325,14 +204,17 @@
       height: 100%;
       background-position: center;
     }
-    .sparrow-holo .specular {
+
+    .specular {
       mix-blend-mode: color-dodge;
       background-attachment: fixed;
     }
-    .sparrow-holo .mask {
+
+    .mask {
       mix-blend-mode: multiply;
     }
-    .sparrow-holo .gradient-sparrow {
+
+    .gradient-sparrow {
       background-image: linear-gradient(
         0deg,
         hsl(359, 60%, 40%),
@@ -351,25 +233,7 @@
       );
     }
 
-    .sparrow-holo img {
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      position: relative;
-      z-index: 2;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .download-content {
-        transition: none;
-      }
-      .download-content::before,
-      .download-content::after {
-        transition: none;
-        animation: none;
-      }
-    }
-
+    /* Адаптивность: на мобильных устройствах птичка встанет под текстом */
     @media (max-width: 900px) {
       .download-block {
         flex-direction: column;
@@ -385,14 +249,20 @@
 </head>
 <body>
 
+  <!-- Фон -->
   <div class="page-bg"></div>
+
+  <!-- Шапка -->
   <div id="header-placeholder" class="header-wrapper"></div>
 
   <div class="files-container">
     <div class="files-title">Файлы</div>
 
-    <div class="download-block" id="download-block">
-      <div class="download-content" id="download-content">
+    <!-- ЕДИНАЯ ТАБЛИЦА: общий фон, рамка и размытие применяются один раз -->
+    <div class="download-block">
+      
+      <!-- ЛЕВАЯ СТОРОНА: Текст и кнопка -->
+      <div class="download-content">
         <span class="download-icon">🛡️</span>
         <div class="download-title">Античит для турниров</div>
         <div class="download-desc">
@@ -412,7 +282,8 @@
         </div>
       </div>
 
-      <div class="sparrow-holo" id="sparrow-holo">
+      <!-- ПРАВАЯ СТОРОНА: Голографическая птичка -->
+      <div class="sparrow-holo">
         <p>Fancy Sparrow ✨</p>
         <div class="shader framed">
           <img src="https://assets.codepen.io/2153413/sparrow-base.png" alt="Fancy Sparrow" width="280" style="max-width: 100%; height: auto;">
@@ -421,6 +292,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -435,225 +307,6 @@
         document.body.appendChild(script);
       })
       .catch(error => console.error('Ошибка загрузки шапки:', error));
-
-    (function() {
-      'use strict';
-
-      const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
-
-      function createSeededRandom(seed) {
-        return function() {
-          seed |= 0;
-          seed = (seed + 0x6d2b79f5) | 0;
-          let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-        };
-      }
-
-      function makeCamo(seed) {
-        const W = 2048, H = 2048;
-        const LAYER_SEEDS = [seed + 11, seed + 23, seed + 37];
-        const COVERAGE = [0.5, 0.34, 0.2];
-
-        function octave(scale, blur, s) {
-          const rand = createSeededRandom(s);
-          const sw = Math.max(1, Math.round(W / scale));
-          const sh = Math.max(1, Math.round(H / scale));
-          const small = document.createElement('canvas');
-          small.width = sw; small.height = sh;
-          const sc = small.getContext('2d');
-          const im = sc.createImageData(sw, sh);
-          for (let i = 0; i < sw * sh; i++) {
-            const v = Math.floor(rand() * 256), k = i * 4;
-            im.data[k] = im.data[k + 1] = im.data[k + 2] = v;
-            im.data[k + 3] = 255;
-          }
-          sc.putImageData(im, 0, 0);
-          const big = document.createElement('canvas');
-          big.width = W; big.height = H;
-          const bc = big.getContext('2d');
-          bc.imageSmoothingEnabled = true;
-          bc.filter = `blur(${blur}px)`;
-          bc.drawImage(small, 0, 0, W, H);
-          const dd = bc.getImageData(0, 0, W, H).data;
-          const out = new Float32Array(W * H);
-          for (let i = 0; i < W * H; i++) out[i] = dd[i * 4];
-          return out;
-        }
-
-        function equalize(a) {
-          const hist = new Array(256).fill(0);
-          for (let i = 0; i < a.length; i++) hist[clamp(Math.round(a[i]), 0, 255)]++;
-          const lut = new Array(256);
-          let cum = 0;
-          for (let v = 0; v < 256; v++) {
-            cum += hist[v];
-            lut[v] = Math.round((cum / a.length) * 255);
-          }
-          for (let i = 0; i < a.length; i++) a[i] = lut[clamp(Math.round(a[i]), 0, 255)];
-        }
-
-        function field(s) {
-          const a = octave(40, 8, s);
-          const b = octave(22, 5, s + 101);
-          const out = new Float32Array(W * H);
-          for (let i = 0; i < W * H; i++) out[i] = a[i] * 0.55 + b[i] * 0.45;
-          equalize(out);
-          return out;
-        }
-
-        function solidify(mask) {
-          const cv = document.createElement('canvas');
-          cv.width = W; cv.height = H;
-          const ctx = cv.getContext('2d');
-          const im = ctx.createImageData(W, H);
-          for (let i = 0; i < W * H; i++) {
-            const v = mask[i] ? 255 : 0, k = i * 4;
-            im.data[k] = im.data[k + 1] = im.data[k + 2] = v;
-            im.data[k + 3] = 255;
-          }
-          ctx.putImageData(im, 0, 0);
-          const cv2 = document.createElement('canvas');
-          cv2.width = W; cv2.height = H;
-          const c2 = cv2.getContext('2d');
-          c2.filter = 'blur(1px)';
-          c2.drawImage(cv, 0, 0);
-          const d = c2.getImageData(0, 0, W, H).data;
-          const out = new Uint8Array(W * H);
-          for (let i = 0; i < W * H; i++) out[i] = d[i * 4] > 127 ? 1 : 0;
-          return out;
-        }
-
-        const masks = LAYER_SEEDS.map((s, i) => {
-          const f = field(s);
-          const thr = Math.round((1 - COVERAGE[i]) * 255);
-          const m = new Uint8Array(W * H);
-          for (let j = 0; j < W * H; j++) m[j] = f[j] > thr ? 1 : 0;
-          return solidify(m);
-        });
-
-        return function recolor(palette) {
-          const cv = document.createElement('canvas');
-          cv.width = W; cv.height = H;
-          const ctx = cv.getContext('2d');
-          const out = ctx.createImageData(W, H);
-          const d = out.data;
-          for (let i = 0; i < W * H; i++) {
-            let c = palette[0];
-            if (masks[0][i]) c = palette[1];
-            if (masks[1][i]) c = palette[2];
-            if (masks[2][i]) c = palette[3];
-            const k = i * 4;
-            d[k] = c[0]; d[k + 1] = c[1]; d[k + 2] = c[2]; d[k + 3] = 255;
-          }
-          ctx.putImageData(out, 0, 0);
-          return cv.toDataURL();
-        };
-      }
-
-      const MATTES_MARINE = [[40, 90, 175], [14, 36, 84], [120, 170, 222], [236, 244, 252]];
-      const REVEALS_MARINE = [[14, 28, 58], [78, 118, 168], [172, 198, 230], [250, 252, 255]];
-
-      const camo = makeCamo(3);
-      const matteUrl = camo(MATTES_MARINE);
-      const revealUrl = camo(REVEALS_MARINE);
-
-      const downloadBlock = document.getElementById('download-block');
-      const downloadContent = document.getElementById('download-content');
-      const sparrowHolo = document.getElementById('sparrow-holo');
-      
-      if (downloadBlock) {
-        downloadBlock.style.backgroundImage = `url(${matteUrl})`;
-      }
-      if (downloadContent) {
-        downloadContent.style.setProperty('--holo-facets-holo', `url(${revealUrl})`);
-      }
-      if (sparrowHolo) {
-        sparrowHolo.style.backgroundImage = `url(${matteUrl})`;
-      }
-
-      // ✅ ГОЛОГРАФИЧЕСКИЙ ИНТЕРАКТИВ ТОЛЬКО ДЛЯ ЛЕВОЙ ЧАСТИ
-      if (downloadContent && window.matchMedia && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        const HALO = 70;
-        const maxTilt = 8;
-        let raf = 0;
-        let pending = null;
-
-        const reset = () => {
-          ["--rx", "--ry", "--holo-pos", "--shadow-x", "--shadow-y"].forEach((p) => 
-            downloadContent.style.removeProperty(p)
-          );
-          downloadContent.removeAttribute("data-tilting");
-        };
-
-        const apply = () => {
-          raf = 0;
-          const e = pending;
-          if (!e) return;
-          
-          const r = downloadContent.getBoundingClientRect();
-          const dx = Math.max(r.left - e.clientX, 0, e.clientX - r.right);
-          const dy = Math.max(r.top - e.clientY, 0, e.clientY - r.bottom);
-          
-          if (Math.hypot(dx, dy) > HALO) {
-            reset();
-            return;
-          }
-          
-          const nx = (e.clientX - r.left) / r.width;
-          const ny = (e.clientY - r.top) / r.height;
-          const px = clamp(nx, -0.18, 1.18);
-          const py = clamp(ny, -0.18, 1.18);
-          const ox = px - 0.5;
-          const oy = py - 0.5;
-          
-          downloadContent.style.setProperty("--ry", (ox * 2 * maxTilt).toFixed(2) + "deg");
-          downloadContent.style.setProperty("--rx", (-oy * 2 * maxTilt).toFixed(2) + "deg");
-          downloadContent.style.setProperty("--holo-pos", (clamp(nx, 0, 1) * 100).toFixed(1) + "%");
-          downloadContent.style.setProperty("--shadow-x", (-ox * 1.6).toFixed(2) + "rem");
-          downloadContent.style.setProperty("--shadow-y", (0.7 - oy * 1.4).toFixed(2) + "rem");
-          downloadContent.setAttribute("data-tilting", "true");
-        };
-
-        const onMove = (e) => {
-          if (e.pointerType && e.pointerType !== "mouse") return;
-          pending = e;
-          if (!raf) raf = requestAnimationFrame(apply);
-        };
-
-        const onOut = (e) => {
-          if (!e.relatedTarget) reset();
-        };
-
-        window.addEventListener("pointermove", onMove, { passive: true });
-        window.addEventListener("pointerout", onOut);
-
-        let glintTimer = 0;
-        const scheduleGlint = () => {
-          const delay = 2600 + Math.random() * 3200;
-          glintTimer = window.setTimeout(() => {
-            if (!document.hidden && 
-                downloadContent.getAttribute("data-tilting") !== "true" && 
-                downloadContent.getAttribute("data-glint") !== "true") {
-              downloadContent.setAttribute("data-glint", "true");
-              window.setTimeout(() => downloadContent.removeAttribute("data-glint"), 1700);
-            }
-            scheduleGlint();
-          }, delay);
-        };
-        scheduleGlint();
-
-        window.addEventListener('beforeunload', () => {
-          window.removeEventListener("pointermove", onMove);
-          window.removeEventListener("pointerout", onOut);
-          if (raf) cancelAnimationFrame(raf);
-          clearTimeout(glintTimer);
-        });
-      }
-
-      console.log('✦ Фон Ada Lovelace + голографический эффект применены');
-    })();
   </script>
 
 </body>
