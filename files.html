@@ -243,20 +243,14 @@
     }
 
     /* ========================================= */
-    /* Правая часть: ПТИЧКА (ПОЛНОСТЬЮ КАК БЫЛО) */
-    /* ✅ Контейнер прозрачный, фон не подложен   */
+    /* ПРАВАЯ ЧАСТЬ: ГОЛОГРАФИЧЕСКАЯ ПТИЧКА      */
+    /* ✅ КОД ПТИЧКИ 1-В-1 ИЗ ИСХОДНИКА           */
     /* ========================================= */
     .sparrow-holo {
       flex: 0 0 280px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
-      z-index: 3;
-      background: transparent;   /* ✅ было #0a2240 — вернули прозрачность */
-      border-radius: 12px;
-      padding: 15px 10px;
-      overflow: hidden;
     }
 
     .sparrow-holo p {
@@ -265,29 +259,18 @@
       font-weight: 700;
       margin: 0 0 15px 0;
       letter-spacing: 0.5px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-      position: relative;
-      z-index: 1;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
     }
 
-    /* ✅ ГОЛОГРАФИЧЕСКИЕ СТИЛИ ПТИЧКИ (НЕ ТРОГАЕМ) */
-    .sparrow-holo .shader,
-    .sparrow-holo .shader.framed {
+    /* Точные стили шейдера из исходного кода */
+    .shader {
       position: relative;
       overflow: hidden;
-      backface-visibility: hidden;
+      backface-visibility: hidden; /* Forces GPU */
       border-radius: 12px;
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      padding: 0;
-      margin: 0;
-      z-index: 1;
     }
 
-    .sparrow-holo .shader-layer {
+    .shader-layer {
       background: black;
       mix-blend-mode: multiply;
       position: absolute;
@@ -296,14 +279,17 @@
       height: 100%;
       background-position: center;
     }
-    .sparrow-holo .specular {
+
+    .specular {
       mix-blend-mode: color-dodge;
       background-attachment: fixed;
     }
-    .sparrow-holo .mask {
+
+    .mask {
       mix-blend-mode: multiply;
     }
-    .sparrow-holo .gradient-sparrow {
+
+    .gradient-sparrow {
       background-image: linear-gradient(
         0deg,
         hsl(359, 60%, 40%),
@@ -320,14 +306,6 @@
         hsl(265, 60%, 45%),
         hsl(303, 60%, 40%)
       );
-    }
-
-    .sparrow-holo img {
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      position: relative;
-      z-index: 2;
     }
 
     @media (max-width: 900px) {
@@ -372,7 +350,8 @@
         </div>
       </div>
 
-      <div class="sparrow-holo" id="sparrow-holo">
+      <!-- ✅ ПТИЧКА: разметка 1-в-1 из исходника -->
+      <div class="sparrow-holo">
         <p>Fancy Sparrow ✨</p>
         <div class="shader framed">
           <img src="https://assets.codepen.io/2153413/sparrow-base.png" alt="Fancy Sparrow" width="280" style="max-width: 100%; height: auto;">
@@ -381,6 +360,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -399,7 +379,7 @@
     // ============================================================
     // ГЕНЕРАЦИЯ ФОНА NIKOLA TESLA (variant: glass, seed: 42)
     // Применяется ТОЛЬКО к .download-block и .download-content::before.
-    // Птичка (.sparrow-holo) НЕ трогается — фон под неё не кладём.
+    // Птичка (.sparrow-holo) НЕ трогается.
     // ============================================================
     (function() {
       'use strict';
@@ -454,17 +434,14 @@
       const downloadBlock = document.getElementById('download-block');
       const downloadContent = document.getElementById('download-content');
 
-      // ✅ Фон Tesla — только на блоке античита
       if (downloadBlock) {
         downloadBlock.style.backgroundImage = tex.matte;
       }
-      // ✅ Радужный reveal — только на левой колонке
       if (downloadContent) {
         downloadContent.style.setProperty('--holo-facets-holo', tex.holo);
       }
-      // ❌ .sparrow-holo НЕ трогаем — фон под птичку не кладём
+      // ❌ .sparrow-holo НЕ трогаем
 
-      // ✅ Idle glint (без наклона)
       if (downloadContent && window.matchMedia && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         let glintTimer = 0;
         const scheduleGlint = () => {
@@ -481,7 +458,7 @@
         window.addEventListener('beforeunload', () => clearTimeout(glintTimer));
       }
 
-      console.log('✦ Фон Nikola Tesla (glass, seed: 42) применён к .download-block. Птичка не тронута.');
+      console.log('✦ Фон Nikola Tesla (glass, seed: 42) применён. Птичка — исходный код без изменений.');
     })();
   </script>
 
