@@ -38,7 +38,7 @@
           <div class="module-glow"></div>
         </a>
         <!-- ЗАЛ СЛАВЫ -->
-        <a href="https://4ak4ak.pages.dev/zalslavi" class="module" data-module="hall">
+        <a href="https://pages.dev" class="module" data-module="hall">
           <h2>Зал славы</h2>
           <div class="module-glow"></div>
         </a>
@@ -129,7 +129,7 @@
       width: 100% !important;
       height: 100% !important;
       min-height: 88px !important;
-      opacity: 0.75 !important;
+      opacity: 0.85 !important;
     }
 
     /* ===== СЕТЬ МОДУЛЕЙ (ГОРИЗОНТАЛЬНАЯ) ===== */
@@ -378,7 +378,7 @@
     'use strict';
 
     // ============================================================
-    // 1. ЦИФРОВАЯ ДЫМКА (CANVAS)
+    // 1. ЦИФРОВАЯ ДЫМКА (CANVAS: 300 ЧАСТИЦ, ТЁМНО-ГОЛУБОЙ ОТТЕНОК)
     // ============================================================
     const fogCanvas = document.getElementById('fogCanvas');
     if (!fogCanvas) return;
@@ -393,7 +393,7 @@
       fogHeight = fogCanvas.height = Math.max(rect.height, 88);
     }
 
-    function initParticles(count = 50) {
+    function initParticles(count = 300) {
       particles = [];
       for (let i = 0; i < count; i++) {
         particles.push({
@@ -402,15 +402,15 @@
           speedX: (Math.random() - 0.5) * 0.08,
           speedY: (Math.random() - 0.5) * 0.05,
           size: 2 + Math.random() * 4,
-          opacity: 0.05 + Math.random() * 0.08,
+          opacity: 0.08 + Math.random() * 0.12,
         });
       }
     }
 
     function drawFog() {
       fogCtx.clearRect(0, 0, fogWidth, fogHeight);
-      // Тонкие линии данных
-      fogCtx.strokeStyle = 'rgba(166, 132, 255, 0.9)';
+      // Тонкие линии данных (тёмно-голубые, в 2 раза темнее)
+      fogCtx.strokeStyle = 'rgba(28, 72, 135, 0.7)';
       fogCtx.lineWidth = 1;
       for (let i = 0; i < 25; i++) {
         const x = (i / 25) * fogWidth;
@@ -420,7 +420,7 @@
         fogCtx.lineTo(x + 50, y + 20 + Math.sin(i * 0.5 + Date.now() * 0.00012) * 18);
         fogCtx.stroke();
       }
-      // Плавающие частицы
+      // Плавающие частицы дымки (300 шт., тёмно-голубой цвет)
       for (const p of particles) {
         p.x += p.speedX;
         p.y += p.speedY;
@@ -429,8 +429,8 @@
         if (p.y > fogHeight) p.y = 0;
         if (p.y < 0) p.y = fogHeight;
         const gradient = fogCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 1.8);
-        gradient.addColorStop(0, `rgba(166, 132, 255, ${p.opacity * 0.9})`);
-        gradient.addColorStop(1, `rgba(166, 132, 255, 10)`);
+        gradient.addColorStop(0, `rgba(28, 72, 135, ${p.opacity * 1.3})`);
+        gradient.addColorStop(1, `rgba(28, 72, 135, 0)`);
         fogCtx.fillStyle = gradient;
         fogCtx.beginPath();
         fogCtx.arc(p.x, p.y, p.size * 1.8, 0, Math.PI * 2);
@@ -441,16 +441,16 @@
 
     function initFog() {
       resizeFog();
-      initParticles(60);
+      initParticles(300);
       drawFog();
       window.addEventListener('resize', () => {
         resizeFog();
-        initParticles(60);
+        initParticles(300);
       });
     }
     initFog();
-    setTimeout(() => { resizeFog(); initParticles(60); }, 300);
-    window.addEventListener('load', () => { resizeFog(); initParticles(60); });
+    setTimeout(() => { resizeFog(); initParticles(300); }, 300);
+    window.addEventListener('load', () => { resizeFog(); initParticles(300); });
 
     // ============================================================
     // 2. ДАННЫЕ МОДУЛЕЙ
