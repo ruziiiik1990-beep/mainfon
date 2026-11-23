@@ -105,7 +105,7 @@
       top: -20px;
       bottom: -20px;
       left: -20px;
-      right: 0; /* ✅ НЕ залезает на правую часть */
+      right: 0;
       background: linear-gradient(
         135deg,
         rgba(10, 34, 64, 0.55) 0%,
@@ -124,7 +124,7 @@
       top: -20px;
       bottom: -20px;
       left: -20px;
-      right: 0; /* ✅ НЕ залезает на правую часть */
+      right: 0;
       z-index: -1;
       pointer-events: none;
       border-radius: 12px;
@@ -225,8 +225,9 @@
     }
 
     /* ========================================= */
-    /* Правая часть: ГОЛОГРАФИЧЕСКАЯ ПТИЧКА      */
-    /* ✅ ВСЕ ФОНЫ/РАМКИ УБРАНЫ — ПОЛНАЯ ПРОЗРАЧНОСТЬ */
+    /* Правая часть: ФОН ADA LOVELACE (marine)   */
+    /* ✅ ТОТ ЖЕ ФОН, ТО ЖЕ РАЗРЕШЕНИЕ            */
+    /* ✅ БЕЗ УВЕЛИЧЕНИЯ РАМОК                    */
     /* ========================================= */
     .sparrow-holo {
       flex: 0 0 280px;
@@ -235,14 +236,26 @@
       align-items: center;
       position: relative;
       z-index: 3;
-      /* ✅ Принудительная прозрачность */
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      padding: 0;
-      margin: 0;
+      /* ✅ Фон Ada Lovelace (применяется через JS) */
+      background-color: #0a2240;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      /* ✅ БЕЗ border, box-shadow, backdrop-filter — рамки не увеличиваются */
+      border-radius: 12px;
+      padding: 15px 10px;
+      overflow: hidden;
+    }
+
+    /* Тёмный overlay для читаемости текста "Fancy Sparrow" */
+    .sparrow-holo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 34, 64, 0.4);
+      z-index: 0;
+      pointer-events: none;
+      border-radius: inherit;
     }
 
     .sparrow-holo p {
@@ -252,16 +265,17 @@
       margin: 0 0 15px 0;
       letter-spacing: 0.5px;
       text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+      position: relative;
+      z-index: 1;
     }
 
-    /* ✅ Контейнер .shader — полностью прозрачный */
+    /* ✅ Контейнер .shader — полностью прозрачный, птичка не тронута */
     .sparrow-holo .shader,
     .sparrow-holo .shader.framed {
       position: relative;
       overflow: hidden;
       backface-visibility: hidden;
       border-radius: 12px;
-      /* Принудительная прозрачность */
       background: transparent !important;
       border: none !important;
       box-shadow: none !important;
@@ -269,9 +283,10 @@
       -webkit-backdrop-filter: none !important;
       padding: 0;
       margin: 0;
+      z-index: 1;
     }
 
-    /* ✅ Стили шейдера (из оригинального кода — НЕ ТРОГАЕМ) */
+    /* Стили шейдера (НЕ ТРОГАЕМ) */
     .sparrow-holo .shader-layer {
       background: black;
       mix-blend-mode: multiply;
@@ -307,11 +322,13 @@
       );
     }
 
-    /* ✅ Изображения внутри птички — без фонов */
+    /* Изображения внутри птички — без фонов */
     .sparrow-holo img {
       background: transparent !important;
       border: none !important;
       box-shadow: none !important;
+      position: relative;
+      z-index: 2;
     }
 
     /* Адаптивность */
@@ -361,8 +378,8 @@
         </div>
       </div>
 
-      <!-- ПРАВАЯ СТОРОНА: Голографическая птичка -->
-      <div class="sparrow-holo">
+      <!-- ПРАВАЯ СТОРОНА: Голографическая птичка с фоном Ada Lovelace -->
+      <div class="sparrow-holo" id="sparrow-holo">
         <p>Fancy Sparrow ✨</p>
         <div class="shader framed">
           <img src="https://assets.codepen.io/2153413/sparrow-base.png" alt="Fancy Sparrow" width="280" style="max-width: 100%; height: auto;">
@@ -389,8 +406,7 @@
 
     // ============================================================
     // ГЕНЕРАЦИЯ ФОНА ADA LOVELACE (marine, seed: 3)
-    // ✅ УВЕЛИЧЕНО ДО 2048x2048 (в 4 раза больше по каждой стороне)
-    // ✅ УМЕНЬШЕНО РАЗМЫТИЕ
+    // ✅ ОДНА ГЕНЕРАЦИЯ — ПРИМЕНЯЕТСЯ К ОБОИМ БЛОКАМ
     // ============================================================
     (function() {
       'use strict';
@@ -515,15 +531,22 @@
         [236, 244, 252]
       ];
 
+      // Генерируем фон ОДИН РАЗ
       const camo = makeCamo(3);
       const bgUrl = camo(MATTES_MARINE);
 
-      const block = document.getElementById('download-block');
-      if (block) {
-        block.style.backgroundImage = `url(${bgUrl})`;
+      // ✅ Применяем к ОБОИМ блокам
+      const downloadBlock = document.getElementById('download-block');
+      const sparrowHolo = document.getElementById('sparrow-holo');
+      
+      if (downloadBlock) {
+        downloadBlock.style.backgroundImage = `url(${bgUrl})`;
+      }
+      if (sparrowHolo) {
+        sparrowHolo.style.backgroundImage = `url(${bgUrl})`;
       }
 
-      console.log('✦ Фон Ada Lovelace (marine, 2048x2048) применён');
+      console.log('✦ Фон Ada Lovelace (marine, 2048x2048) применён к обоим блокам');
     })();
   </script>
 
