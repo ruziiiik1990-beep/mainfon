@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        body {
+                body {
             background-image: url('pngg/5kolo.png'); 
             background-size: cover;
             background-position: center;
@@ -53,8 +53,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
             gap: 0;
         }
-
-        /* ====== ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА ====== */
+                /* ====== ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА ====== */
         :root {
             --pointer-x: 50%;
             --pointer-y: 50%;
@@ -102,7 +101,6 @@
             touch-action: none;
         }
 
-        /* ЗАМЕНЕНО: reveal-слой woodland подставляется из JS через --holo-facets-holo */
         .profile-photo .card-wrapper::before {
             content: "";
             position: absolute;
@@ -113,29 +111,25 @@
             transition: all 0.5s ease;
             filter: contrast(2) saturate(2) blur(36px);
             transform: scale(0.8) translate3d(0, 0, 0.1px);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-image: var(--holo-facets-holo, none);
-            mix-blend-mode: screen;
-            opacity: 0.5;
-            -webkit-mask-image: linear-gradient(105deg, transparent 34%, #000 45%, #000 55%, transparent 66%);
-            mask-image: linear-gradient(105deg, transparent 34%, #000 45%, #000 55%, transparent 66%);
-            -webkit-mask-size: 250% 100%;
-            mask-size: 250% 100%;
-            -webkit-mask-position: var(--holo-pos, 50%) 0;
-            mask-position: var(--holo-pos, 50%) 0;
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-position: 0px 0px, 0px 0px, 50% 50%, 0px 0px;
+            background-image: radial-gradient(
+                farthest-side circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+                hsla(266, 100%, 90%, var(--card-opacity)) 4%,
+                hsla(266, 50%, 80%, calc(var(--card-opacity) * 0.75)) 10%,
+                hsla(266, 25%, 70%, calc(var(--card-opacity) * 0.5)) 50%,
+                hsla(266, 0%, 60%, 0) 100%
+            ),
+            radial-gradient(35% 52% at 55% 20%, #00FFAAC4 0%, #073AFF00 100%),
+            radial-gradient(100% 100% at 50% 50%, #00C1FFFF 1%, #073AFF00 76%),
+            conic-gradient(from 124deg at 50% 50%, #C137FFFF 0%, #07C6FFFF 40%, #07C6FFFF 60%, #C137FFFF 100%);
         }
         .profile-photo .card-wrapper:hover::before,
         .profile-photo .card-wrapper.active::before {
             filter: contrast(1) saturate(2) blur(40px) opacity(1);
             transform: scale(0.9) translate3d(0, 0, 0.1px);
-            opacity: 1;
         }
 
-        /* ЗАМЕНЕНО: фон woodland (Grace Hopper) задаётся из JS ниже */
         .profile-photo #card {
             width: 100%;
             height: 100%;
@@ -143,14 +137,23 @@
             aspect-ratio: 0.718;
             border-radius: var(--card-radius);
             position: relative;
-            background-color: #0a2240;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-blend-mode: color-dodge, normal, normal, normal, normal;
             animation: glow-bg 12s linear infinite;
             box-shadow: rgba(0, 0, 0, 0.8) calc((var(--pointer-from-left) * 10px) - 3px) calc((var(--pointer-from-top) * 20px) - 6px) 20px -5px;
             transition: transform 1s ease;
             transform: translate3d(0, 0, 0.1px) rotateX(0deg) rotateY(0deg);
+            background-size: 100% 100%;
+            background-position: 0px 0px, 0px 0px, 50% 50%, 0px 0px;
+            background-image: radial-gradient(
+                farthest-side circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+                hsla(266, 100%, 90%, var(--card-opacity)) 4%,
+                hsla(266, 50%, 80%, calc(var(--card-opacity) * 0.75)) 10%,
+                hsla(266, 25%, 70%, calc(var(--card-opacity) * 0.5)) 50%,
+                hsla(266, 0%, 60%, 0) 100%
+            ),
+            radial-gradient(35% 52% at 55% 20%, #00FFAAC4 0%, #073AFF00 100%),
+            radial-gradient(100% 100% at 50% 50%, #00C1FFFF 1%, #073AFF00 76%),
+            conic-gradient(from 124deg at 50% 50%, #C137FFFF 0%, #07C6FFFF 40%, #07C6FFFF 60%, #C137FFFF 100%);
             overflow: hidden;
         }
         .profile-photo #card:hover,
@@ -307,8 +310,7 @@
             filter: brightness(0.8) contrast(1.2);
             z-index: 4;
         }
-
-        .profile-photo .avatar-wrap {
+                .profile-photo .avatar-wrap {
             width: 80%;
             margin: 0 auto;
             position: relative;
@@ -364,8 +366,7 @@
             100% { background-position: 0% var(--background-y), 90% 90%, center center; }
         }
         /* ====== /ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА ====== */
-
-        .profile-rank-badge {
+                .profile-rank-badge {
             display: flex;
             width: fit-content;
             margin: 0 auto;
@@ -434,8 +435,7 @@
         .profile-label { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(102,192,244,0.1); border: 1px solid rgba(102,192,244,0.3); color: #66c0f4; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; font-family: 'Inter', sans-serif; text-decoration: none; transition: all 0.2s; }
         .profile-label:hover { background: rgba(102,192,244,0.2); }
         .profile-label .material-symbols-outlined { font-size: 16px; }
-
-        .ach-grid { 
+                .ach-grid { 
             display: flex; 
             flex-wrap: wrap; 
             gap: 16px; 
@@ -446,6 +446,7 @@
             cursor: pointer; 
         }
 
+        /* Обёртка достижения — такие же размеры, как у карточки профиля */
         .ach-item .ach-photo {
             width: 182px;
             aspect-ratio: 0.718;
@@ -538,7 +539,7 @@
         .ach-item .ach-card .inside {
             inset: 1px;
             position: absolute;
-            background: transparent;
+                       background: transparent;
             border-radius: var(--card-radius);
             display: flex;
             flex-direction: column;
@@ -681,8 +682,7 @@
             filter: brightness(0.8) contrast(1.2);
             z-index: 4;
         }
-
-        .ach-delete-btn { 
+                .ach-delete-btn { 
             position: absolute; 
             top: -6px; 
             right: -6px; 
@@ -883,7 +883,7 @@
                 </div>
             </div>
         </div>
-        <div class="profile-table-wrapper">
+                <div class="profile-table-wrapper">
             <div class="profile-body">
                 <div class="profile-section">
                     <h3 class="profile-section-name">
@@ -929,8 +929,7 @@
             </div>
         </div>
     </div>
-
-    <script>
+        <script>
         fetch('header.html').then(r => r.text()).then(data => {
             document.getElementById('header-placeholder').innerHTML = data;
             const script = document.createElement('script');
@@ -1002,6 +1001,7 @@
             initAchievements(targetUid, isAdmin);
         });
 
+        /* ======================== РАНГ ======================== */
         function chakChakWord(n) {
             var mod10 = n % 10;
             var mod100 = n % 100;
@@ -1075,6 +1075,7 @@
             }
         }
 
+        /* ======================== СТАТИСТИКА ======================== */
         async function loadPlayerStats(nick) {
             const statsBlock = document.getElementById('profileStats');
             const statsList = document.getElementById('statsList');
@@ -1198,6 +1199,7 @@
             }
         }
 
+        /* ======================== ДОСТИЖЕНИЯ ======================== */
         var achRef = null;
         var lastAchData = null;
         var targetAchievementsUid = null;
@@ -1325,6 +1327,7 @@
             remove(ref(db, 'achievements/' + targetAchievementsUid + '/' + key));
         }
 
+        /* ======================== ГОЛОГРАФИЧЕСКИЕ КАРТОЧКИ ДОСТИЖЕНИЙ ======================== */
         function initAchCard(itemEl) {
             var wrap = itemEl.querySelector('.card-wrapper');
             var card = itemEl.querySelector('.ach-card');
@@ -1369,7 +1372,7 @@
             });
         }
     </script>
-
+        <!-- Голографическая карточка профиля: взаимодействие с курсором -->
     <script>
     (function() {
         const $wrap = document.querySelector(".profile-photo .card-wrapper");
@@ -1465,148 +1468,6 @@
                 }
             );
         }, 800);
-    })();
-    </script>
-            <!-- ============================================================
-         ФОН GRACE HOPPER (variant="woodland", seed 23)
-         Порт makeCamo из HolographicCard.
-         Применяется ТОЛЬКО к .profile-photo #card и
-         .profile-photo .card-wrapper::before.
-         Достижения (.ach-item) и статистика (#profileStats) НЕ трогаются.
-         ============================================================ -->
-    <script>
-    (function () {
-      'use strict';
-
-      const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
-
-      function createSeededRandom(seed) {
-        return function () {
-          seed |= 0;
-          seed = (seed + 0x6d2b79f5) | 0;
-          let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-        };
-      }
-
-      function makeCamo(seed) {
-        const W = 512, H = 512;
-        const LAYER_SEEDS = [seed + 11, seed + 23, seed + 37];
-        const COVERAGE = [0.5, 0.34, 0.2];
-
-        function octave(scale, blur, s) {
-          const rand = createSeededRandom(s);
-          const sw = Math.max(1, Math.round(W / scale));
-          const sh = Math.max(1, Math.round(H / scale));
-          const small = document.createElement("canvas");
-          small.width = sw; small.height = sh;
-          const sc = small.getContext("2d");
-          const im = sc.createImageData(sw, sh);
-          for (let i = 0; i < sw * sh; i++) {
-            const v = Math.floor(rand() * 256), k = i * 4;
-            im.data[k] = im.data[k + 1] = im.data[k + 2] = v;
-            im.data[k + 3] = 255;
-          }
-          sc.putImageData(im, 0, 0);
-          const big = document.createElement("canvas");
-          big.width = W; big.height = H;
-          const bc = big.getContext("2d");
-          bc.imageSmoothingEnabled = true;
-          bc.filter = `blur(${blur}px)`;
-          bc.drawImage(small, 0, 0, W, H);
-          const dd = bc.getImageData(0, 0, W, H).data;
-          const out = new Float32Array(W * H);
-          for (let i = 0; i < W * H; i++) out[i] = dd[i * 4];
-          return out;
-        }
-
-        function equalize(a) {
-          const hist = new Array(256).fill(0);
-          for (let i = 0; i < a.length; i++) hist[clamp(Math.round(a[i]), 0, 255)]++;
-          const lut = new Array(256);
-          let cum = 0;
-          for (let v = 0; v < 256; v++) { cum += hist[v]; lut[v] = Math.round((cum / a.length) * 255); }
-          for (let i = 0; i < a.length; i++) a[i] = lut[clamp(Math.round(a[i]), 0, 255)];
-        }
-
-        function field(s) {
-          const a = octave(40, 18, s), b = octave(22, 11, s + 101);
-          const out = new Float32Array(W * H);
-          for (let i = 0; i < W * H; i++) out[i] = a[i] * 0.55 + b[i] * 0.45;
-          equalize(out);
-          return out;
-        }
-
-        function solidify(mask) {
-          const cv = document.createElement("canvas");
-          cv.width = W; cv.height = H;
-          const ctx = cv.getContext("2d");
-          const im = ctx.createImageData(W, H);
-          for (let i = 0; i < W * H; i++) {
-            const v = mask[i] ? 255 : 0, k = i * 4;
-            im.data[k] = im.data[k + 1] = im.data[k + 2] = v;
-            im.data[k + 3] = 255;
-          }
-          ctx.putImageData(im, 0, 0);
-          const cv2 = document.createElement("canvas");
-          cv2.width = W; cv2.height = H;
-          const c2 = cv2.getContext("2d");
-          c2.filter = "blur(3px)";
-          c2.drawImage(cv, 0, 0);
-          const d = c2.getImageData(0, 0, W, H).data;
-          const out = new Uint8Array(W * H);
-          for (let i = 0; i < W * H; i++) out[i] = d[i * 4] > 127 ? 1 : 0;
-          return out;
-        }
-
-        const masks = LAYER_SEEDS.map((s, i) => {
-          const f = field(s);
-          const thr = Math.round((1 - COVERAGE[i]) * 255);
-          const m = new Uint8Array(W * H);
-          for (let j = 0; j < W * H; j++) m[j] = f[j] > thr ? 1 : 0;
-          return solidify(m);
-        });
-
-        return function recolor(palette) {
-          const cv = document.createElement("canvas");
-          cv.width = W; cv.height = H;
-          const ctx = cv.getContext("2d");
-          const out = ctx.createImageData(W, H);
-          const d = out.data;
-          for (let i = 0; i < W * H; i++) {
-            let c = palette[0];
-            if (masks[0][i]) c = palette[1];
-            if (masks[1][i]) c = palette[2];
-            if (masks[2][i]) c = palette[3];
-            const k = i * 4;
-            d[k] = c[0]; d[k + 1] = c[1]; d[k + 2] = c[2]; d[k + 3] = 255;
-          }
-          ctx.putImageData(out, 0, 0);
-          return `url("${cv.toDataURL()}")`;
-        };
-      }
-
-      // ===== Палитры Grace Hopper (woodland) из HolographicCard =====
-      const MATTES_WOODLAND  = [[74, 92, 50], [42, 54, 28], [16, 20, 11], [176, 164, 116]];
-      const REVEALS_WOODLAND = [[16, 20, 11], [84, 102, 54], [162, 180, 116], [238, 242, 214]];
-
-      const camo = makeCamo(23); // seed Grace Hopper
-      const matte  = camo(MATTES_WOODLAND);
-      const reveal = camo(REVEALS_WOODLAND);
-
-      const card = document.querySelector('.profile-photo #card');
-      const wrap = document.querySelector('.profile-photo .card-wrapper');
-
-      if (card) {
-        card.style.backgroundImage = matte;
-        card.style.backgroundSize = 'cover';
-        card.style.backgroundPosition = 'center';
-        card.style.backgroundRepeat = 'no-repeat';
-      }
-      if (wrap) {
-        wrap.style.setProperty('--holo-facets-holo', reveal);
-      }
     })();
     </script>
 </body>
