@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="style.css">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-body {
+html, body {
 margin: 0;
 padding: 0;
 background: transparent;
@@ -20,13 +20,14 @@ overflow-x: hidden;
 }
 /* Фон — обычная картинка в потоке, как на главной */
 .bg-image {
-position: absolute;
+position: fixed;
 top: 0;
 left: 0;
 width: 100%;
-height: auto;
+height: 100%;
 z-index: 0;
 pointer-events: none;
+object-fit: cover;
 }
 /* Шапка поверх фона */
 .header-wrapper {
@@ -34,28 +35,38 @@ position: relative;
 z-index: 10;
 }
 
-/* ====== ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА СЛЕВА ОТ СТРАНИЦЫ ====== */
+/* ====== ОБЁРТКА СТРАНИЦЫ: таблица + наклейка ====== */
+.rating-page {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 40px;
+padding: 40px 20px;
+min-height: 100vh;
+box-sizing: border-box;
+position: relative;
+z-index: 5;
+}
+
+/* ====== ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА ====== */
 .holo-sticker {
-position: fixed; /* Привязка к странице/экрану, а не к таблице */
-left: 60px;      /* Отступ от левого края страницы */
-top: 50%;
-transform: translateY(-50%);
+flex: 0 0 180px;
 width: 180px;
 height: 180px;
-z-index: 5;
 filter: drop-shadow(0 0 25px rgba(74, 158, 255, 0.5));
 animation: sticker-float 4s ease-in-out infinite;
-pointer-events: none; /* Чтобы не мешала кликать по элементам страницы */
+pointer-events: none;
 }
 @keyframes sticker-float {
-0%, 100% { transform: translateY(-50%) scale(1); }
-50% { transform: translateY(-55%) scale(1.03); }
+0%, 100% { transform: translateY(0) scale(1); }
+50% { transform: translateY(-8px) scale(1.03); }
 }
 .holo-sticker svg {
 width: 100%;
 height: 100%;
+display: block;
 }
-/* Цвета для голографического паттерна (из твоего кода) */
+/* Цвета для голографического паттерна */
 .color0 { fill: none; }
 .color1 { fill: #8EABE5; }
 .color2 { fill: #BCACF3; }
@@ -64,28 +75,20 @@ height: 100%;
 .color5 { fill: #B5DFC8; }
 .circle { fill: url(#multi-dots); }
 
-/* Адаптив: на маленьких экранах убираем влево и ставим сверху */
-@media (max-width: 1100px) {
+/* Адаптив: на маленьких экранах убираем наклейку или ставим сверху */
+@media (max-width: 900px) {
+.rating-page {
+flex-direction: column;
+gap: 20px;
+}
 .holo-sticker {
-left: 30px;
 width: 140px;
 height: 140px;
 }
 }
-@media (max-width: 850px) {
+@media (max-width: 500px) {
 .holo-sticker {
-position: relative;
-left: auto;
-top: auto;
-transform: none;
-margin: 0 auto 20px auto;
-width: 150px;
-height: 150px;
-pointer-events: auto;
-}
-@keyframes sticker-float {
-0%, 100% { transform: scale(1); }
-50% { transform: scale(1.03); }
+display: none;
 }
 }
 /* ========================================================== */
@@ -112,7 +115,7 @@ pointer-events: auto;
 /* ====== КОНТЕЙНЕР С ГОЛОГРАММОЙ ====== */
 .rating-container {
 max-width: 650px;
-margin: 40px auto 40px auto;
+width: 100%;
 padding: 20px;
 background: rgba(10, 42, 107, 0.55);
 border: 1px solid rgba(74, 158, 255, 0.45);
@@ -303,11 +306,14 @@ box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 <!-- Шапка -->
 <div id="header-placeholder" class="header-wrapper"></div>
 
-<div class="rating-container">
-<!-- ✅ ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА СЛЕВА ОТ СТРАНИЦЫ -->
+<!-- ====== ОБЁРТКА: наклейка + таблица ====== -->
+<div class="rating-page">
+
+<!-- ✅ ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА (полностью голографическая, без белого фона) -->
 <div class="holo-sticker">
 <svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
+<!-- Голографический паттерн (радужные точки) -->
 <pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots" viewBox="12.5 -34 26 23" style="overflow:visible;">
 <g>
 <rect x="12.5" y="-34" width="26" height="23"/>
@@ -321,23 +327,37 @@ box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 <g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
 </g>
 </pattern>
-<!-- Обрезка по кругу для картинки -->
+<!-- Обрезка по кругу -->
 <clipPath id="badge-clip">
 <circle cx="128" cy="128" r="120"/>
 </clipPath>
+<!-- Голографический градиент для верхнего слоя -->
+<linearGradient id="holo-shine" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
+<stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
+<stop offset="40%" stop-color="#5cff7a" stop-opacity="0.6"/>
+<stop offset="60%" stop-color="#4de4ff" stop-opacity="0.7"/>
+<stop offset="80%" stop-color="#b96bff" stop-opacity="0.6"/>
+<stop offset="100%" stop-color="#ff4dd2" stop-opacity="0.7"/>
+</linearGradient>
 </defs>
 
-<!-- 1. Голографический фон (паттерн) -->
+<!-- 1. Базовый голографический фон (паттерн) -->
 <circle class="circle" cx="128" cy="128" r="120"/>
 
-<!-- 2. Картинка dust2.png, уменьшенная на 30% (240 * 0.7 = 168) и отцентрированная (X=44, Y=44) -->
-<image href="png/dust2.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip)"/>
+<!-- 2. Картинка dust2.png — полупрозрачная, чтобы голограмма просвечивала -->
+<image href="png/dust2.png" x="28" y="28" width="200" height="200" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip)" opacity="0.55" style="mix-blend-mode: multiply;"/>
 
-<!-- 3. Голографический оверлей для эффекта блеска поверх картинки -->
-<circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: color-dodge; opacity: 0.5;"/>
+<!-- 3. Голографический градиент поверх -->
+<circle cx="128" cy="128" r="120" fill="url(#holo-shine)" clip-path="url(#badge-clip)" style="mix-blend-mode: color-dodge; opacity: 0.7;"/>
+
+<!-- 4. Второй слой паттерна для усиления голографии -->
+<circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.4;"/>
 </svg>
 </div>
 
+<!-- Таблица рейтинга -->
+<div class="rating-container">
 <div class="rating-holo"></div>
 <div class="rating-title">Турнирная таблица</div>
 <div class="rating-scroll">
@@ -363,6 +383,8 @@ box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 <div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
 <!-- Кнопка сброса (видна только админу) -->
 <button class="btn-reset" id="btnReset">Сбросить чак-чаки</button>
+</div>
+
 </div>
 
 <script>
