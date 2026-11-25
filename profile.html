@@ -39,10 +39,8 @@ margin-bottom: 20px;
 position: relative;
 }
 .profile-intro, .profile-body { padding: 0 24px; }
-
-/* ====== НОЖИ: голографический эффект как Dragonfly ====== */
-/* Первый нож: справа от карточки пользователя */
-.knife-side {
+/* ====== ГОЛО-КАРТИНКИ: DRAGONFLY (в таблице профиля) / MANDALA (в углу достижений) ====== */
+.dragonfly-side {
 position: absolute;
 right: 18px;
 top: 50%;
@@ -52,28 +50,32 @@ display: flex;
 flex-direction: column;
 align-items: center;
 text-align: center;
-width: 70px; /* mandala 140px / 2 */
+width: 200px;
 }
-.knife-side p {
+.dragonfly-side p {
 color: #fff;
-font-size: 11px;
+font-size: 15px;
 font-weight: 700;
-margin: 0 0 6px 0;
+margin: 0 0 10px 0;
 letter-spacing: 0.5px;
 text-shadow: 0 2px 8px rgba(0,0,0,0.6);
 }
-.knife-side .shader {
-width: 66px; /* mandala shader 133px / 2 */
-border-radius: 8px;
+.dragonfly-side .shader {
+width: 170px;
+border-radius: 12px;
 }
-.knife-side .shader img {
+.dragonfly-side .shader img {
 width: 100% !important;
 height: auto !important;
 display: block;
 }
-
-/* Второй нож: в статистике турниров */
-.knife-side-stats {
+/* Dragonfly — повёрнута на 45 градусов вправо */
+.dragonfly-tilt {
+transform: rotate(45deg);
+margin: 30px 0;
+}
+/* Mandala — почти в угол таблицы достижений, на 30% меньше */
+.mandala-side {
 position: absolute;
 top: 16px;
 right: 20px;
@@ -82,9 +84,40 @@ display: flex;
 flex-direction: column;
 align-items: center;
 text-align: center;
+width: 140px;
+}
+.mandala-side p {
+color: #fff;
+font-size: 14px;
+font-weight: 700;
+margin: 0 0 8px 0;
+letter-spacing: 0.5px;
+text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+.mandala-side .shader {
+width: 133px;
+border-radius: 12px;
+}
+.mandala-side .shader img {
+width: 100% !important;
+height: auto !important;
+display: block;
+}
+/* ====== НОЖИ: Gamma (слева от карточки) / Kogot (в достижениях по центру) ====== */
+/* Gamma — слева от карточки пользователя */
+.knife-side-left {
+position: absolute;
+left: 18px;
+top: 50%;
+transform: translateY(-50%);
+z-index: 6;
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
 width: 70px;
 }
-.knife-side-stats p {
+.knife-side-left p {
 color: #fff;
 font-size: 11px;
 font-weight: 700;
@@ -92,24 +125,51 @@ margin: 0 0 6px 0;
 letter-spacing: 0.5px;
 text-shadow: 0 2px 8px rgba(0,0,0,0.6);
 }
-.knife-side-stats .shader {
+.knife-side-left .shader {
 width: 66px;
 border-radius: 8px;
 }
-.knife-side-stats .shader img {
+.knife-side-left .shader img {
 width: 100% !important;
 height: auto !important;
 display: block;
 }
-
-/* Точные стили шейдера из Dragonfly */
+/* Kogot — в достижениях по центру */
+.knife-side-ach {
+position: relative;
+margin: 20px auto 0 auto;
+z-index: 6;
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+width: 70px;
+}
+.knife-side-ach p {
+color: #fff;
+font-size: 11px;
+font-weight: 700;
+margin: 0 0 6px 0;
+letter-spacing: 0.5px;
+text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+.knife-side-ach .shader {
+width: 66px;
+border-radius: 8px;
+}
+.knife-side-ach .shader img {
+width: 100% !important;
+height: auto !important;
+display: block;
+}
+/* Точные стили шейдера из исходника */
 .shader {
 position: relative;
 overflow: hidden;
 backface-visibility: hidden;
 }
 .shader-layer {
-background: #374151; /* серый как таблица */
+background: #374151;
 mix-blend-mode: multiply;
 position: absolute;
 inset: 0;
@@ -124,10 +184,11 @@ background-attachment: fixed;
 .mask {
 mix-blend-mode: multiply;
 }
-
 /* ТОЛЬКО эффект блёсток (блик бегает влево-вправо) */
-.knife-side .shader::after,
-.knife-side-stats .shader::after {
+.dragonfly-side .shader::after,
+.mandala-side .shader::after,
+.knife-side-left .shader::after,
+.knife-side-ach .shader::after {
 content: "";
 position: absolute;
 inset: 0;
@@ -145,16 +206,17 @@ background-size: 220% 100%;
 background-position: 78% 0;
 transition: background-position 0.12s ease-out;
 }
-.knife-side .shader[data-glint="true"]::after,
-.knife-side-stats .shader[data-glint="true"]::after {
+.dragonfly-side .shader[data-glint="true"]::after,
+.mandala-side .shader[data-glint="true"]::after,
+.knife-side-left .shader[data-glint="true"]::after,
+.knife-side-ach .shader[data-glint="true"]::after {
 animation: holo-glint-side 1.6s ease-in-out;
 }
 @keyframes holo-glint-side {
 0%, 100% { background-position: 78% 0; }
 50%      { background-position: 24% 0; }
 }
-
-/* Радужный градиент Fancy Sparrow (как у Dragonfly) */
+/* Радужный градиент Fancy Sparrow (используется и на Dragonfly, и на ножах) */
 .gradient-sparrow {
 background-image: linear-gradient(
 0deg,
@@ -173,17 +235,31 @@ hsl(265, 60%, 45%),
 hsl(303, 60%, 40%)
 );
 }
-
+.gradient-mandala {
+background-image: linear-gradient(
+30deg,
+hsl(30, 80%, 20%) 0%,
+hsl(30, 80%, 80%) 10%,
+hsl(30, 80%, 20%) 20%,
+hsl(30, 80%, 80%) 30%,
+hsl(30, 80%, 20%) 35%,
+hsl(30, 80%, 80%) 50%,
+hsl(30, 80%, 20%) 65%,
+hsl(30, 80%, 80%) 70%,
+hsl(30, 80%, 20%) 80%,
+hsl(30, 80%, 80%) 90%,
+hsl(30, 80%, 20%) 100%
+);
+}
 @media (max-width: 768px) {
-.knife-side, .knife-side-stats {
+.dragonfly-side, .mandala-side, .knife-side-left, .knife-side-ach {
 position: static;
 transform: none;
 width: auto;
 margin: 0 auto;
 }
-.knife-side .shader, .knife-side-stats .shader { margin: 0 auto; }
+.dragonfly-side .shader, .mandala-side .shader, .knife-side-left .shader, .knife-side-ach .shader { margin: 0 auto; }
 }
-
 .profile-head {
 position: relative;
 display: flex;
@@ -870,11 +946,7 @@ border: 1px dashed rgba(102,192,244,0.25);
 .ach-img-option.selected { border-color: #66c0f4; box-shadow: 0 0 12px rgba(102,192,244,0.4); }
 .ach-admin-input { width: 100%; box-sizing: border-box; padding: 8px 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.3); color: #e0e6f0; font-size: 13px; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s; }
 .ach-admin-input:focus { border-color: #66c0f4; }
-.profile-stats {
-padding: 0 0 26px;
-text-align: left;
-position: relative;
-}
+.profile-stats { padding: 0 0 26px; text-align: left; }
 .profile-stats .profile-section-name {
 margin: 22px 0 14px;
 padding-top: 20px;
@@ -958,6 +1030,16 @@ margin-bottom: 2px;
 <div class="profile">
 <div class="profile-intro">
 <div class="profile-head">
+<!-- ✅ GAMMA: слева от карточки пользователя -->
+<div class="knife-side-left">
+<p>Gamma</p>
+<div class="shader framed" id="holoKnife1">
+<img src="pngg/gamma.png" alt="Нож Gamma" width="512">
+<div class="shader-layer specular gradient-sparrow">
+<img class="shader-layer mask" src="pngg/gamma.png" alt="" width="512" style="filter: brightness(0) contrast(1);">
+</div>
+</div>
+</div>
 <div class="profile-photo">
 <div class="card-wrapper active">
 <section id="card" class="active">
@@ -979,13 +1061,13 @@ margin-bottom: 2px;
 </section>
 </div>
 </div>
-<!-- ✅ ПЕРВЫЙ НОЖ: справа от карточки пользователя -->
-<div class="knife-side">
-<p>Нож #1</p>
-<div class="shader framed" id="holoKnife1">
-<img src="knife1.png" alt="Нож с зелёной ручкой" width="512">
+<!-- ✅ DRAGONFLY: справа от карточки (как было) -->
+<div class="dragonfly-side">
+<p>Dragonfly</p>
+<div class="shader framed dragonfly-tilt" id="holoShader1">
+<img src="https://assets.codepen.io/2153413/dragonfly-base.png" alt="Silhouette design of a dragonfly" width="512">
 <div class="shader-layer specular gradient-sparrow">
-<img class="shader-layer mask" src="knife1.png" alt="" width="512" style="filter: brightness(0) contrast(1);">
+<img class="shader-layer mask" src="https://assets.codepen.io/2153413/dragonfly-mask.png" alt="" width="512">
 </div>
 </div>
 </div>
@@ -995,16 +1077,6 @@ margin-bottom: 2px;
 <span class="material-symbols-outlined">leaderboard</span> Статистика турниров
 </h3>
 <div class="stats-list" id="statsList"></div>
-<!-- ✅ ВТОРОЙ НОЖ: в статистике турниров -->
-<div class="knife-side-stats">
-<p>Нож #2</p>
-<div class="shader framed" id="holoKnife2">
-<img src="knife2.png" alt="Нож с красным лезвием" width="512">
-<div class="shader-layer specular gradient-sparrow">
-<img class="shader-layer mask" src="knife2.png" alt="" width="512" style="filter: brightness(0) contrast(1);">
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -1053,15 +1125,35 @@ margin-bottom: 2px;
 </div>
 </div>
 </div>
+<!-- ✅ KOGOT: в достижениях по центру -->
+<div class="knife-side-ach">
+<p>Kogot</p>
+<div class="shader framed" id="holoKnife2">
+<img src="pngg/kogot.png" alt="Нож Kogot" width="512">
+<div class="shader-layer specular gradient-sparrow">
+<img class="shader-layer mask" src="pngg/kogot.png" alt="" width="512" style="filter: brightness(0) contrast(1);">
+</div>
+</div>
+</div>
+<!-- ✅ MANDALA: в углу таблицы достижений (как было) -->
+<div class="mandala-side">
+<p>Mandala</p>
+<div class="shader framed" id="holoShader2">
+<img src="https://assets.codepen.io/2153413/mandala-base.png" alt="Mandala design" width="512">
+<div class="shader-layer specular gradient-mandala">
+<img class="shader-layer mask" src="https://assets.codepen.io/2153413/mandala-mask.png" alt="" width="512">
+</div>
+</div>
+</div>
 </div>
 </div>
 <script>
 // ============================================================
-// БЛЁСТКИ: только бегающий блик (влево-вправо) на обоих ножах.
+// БЛЁСТКИ: только бегающий блик (влево-вправо) на всех картинках.
 // ============================================================
 (function() {
 if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-['holoKnife1', 'holoKnife2'].forEach(function(id) {
+['holoShader1', 'holoShader2', 'holoKnife1', 'holoKnife2'].forEach(function(id) {
 var el = document.getElementById(id);
 if (!el) return;
 var scheduleGlint = function() {
@@ -1076,7 +1168,7 @@ scheduleGlint();
 };
 scheduleGlint();
 });
-console.log('✦ Блёстки применены к обоим ножам.');
+console.log('✦ Блёстки применены ко всем картинкам.');
 })();
 </script>
 <script>
