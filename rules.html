@@ -1,564 +1,652 @@
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-  <title>Правила - 4ak4ak</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: transparent !important;
-      background-color: transparent !important;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
+<title>Правила - 4ak4ak</title>
+<link rel="stylesheet" href="style.css">
+<style>
+html, body {
+margin: 0;
+padding: 0;
+background: transparent !important;
+background-color: transparent !important;
+overflow-y: auto;
+overflow-x: hidden;
+}
+#tubes-canvas {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 5;
+pointer-events: none;
+background-color: #000000 !important;
+mix-blend-mode: screen;
+}
+.rules-bg {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-image: url('png/dust2B.jpg');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+z-index: -1;
+pointer-events: none;
+}
+.rules-bg::after {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.4);
+}
+.header-wrapper {
+position: relative;
+z-index: 10;
+}
+.book-viewport {
+perspective: 2000px;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 20px 0;
+background: transparent !important;
+min-height: 100vh;
+margin-top: 100px;
+position: relative;
+z-index: 1;
+}
 
-    /* Канвас с трубками: ПОВЕРХ книги, ПОД шапкой */
-    #tubes-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 5;                 /* выше книги (1-7 внутри .book-viewport), ниже шапки (10) */
-      pointer-events: none;       /* клики проходят к кнопкам книги/шапки */
-      
-      /* Возвращаем чёрный фон для корректной работы аддитивного смешивания */
-      background-color: #000000 !important;
-      
-      /* Делаем чёрный цвет полностью прозрачным, сохраняя цветные трубки */
-      mix-blend-mode: screen;
-    }
+/* ====== ОБЪЁМНАЯ КНИГА ====== */
+.book-wrapper {
+position: relative;
+width: 380px;
+height: 520px;
+transform-style: preserve-3d;
+transform: rotateX(15deg) rotateY(-5deg);
+/* Тень под книгой */
+filter: drop-shadow(0 40px 30px rgba(0,0,0,0.6));
+}
 
-    /* Фон страницы правил */
-    .rules-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('png/dust2B.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      z-index: -1;
-      pointer-events: none;
-    }
-    .rules-bg::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-    }
+/* --- Корешок (левая грань) --- */
+.book-spine {
+position: absolute;
+left: -28px;
+top: 0;
+width: 28px;
+height: 100%;
+transform: rotateY(-90deg);
+transform-origin: right center;
+background:
+repeating-linear-gradient(
+90deg,
+#3a0000 0px,
+#2a0000 2px,
+#4a0000 4px,
+#2a0000 6px
+),
+linear-gradient(180deg, #5a0000 0%, #2a0000 50%, #1a0000 100%);
+background-blend-mode: overlay;
+border-radius: 4px 0 0 4px;
+box-shadow: inset -4px 0 8px rgba(0,0,0,0.6);
+}
+/* Тиснёные полосы на корешке */
+.book-spine::before {
+content: '';
+position: absolute;
+top: 60px;
+left: 0;
+right: 0;
+height: 3px;
+background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+box-shadow: 0 1px 0 rgba(0,0,0,0.5);
+}
+.book-spine::after {
+content: '';
+position: absolute;
+bottom: 60px;
+left: 0;
+right: 0;
+height: 3px;
+background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+box-shadow: 0 1px 0 rgba(0,0,0,0.5);
+}
 
-    /* Шапка должна быть НАД канвасом */
-    .header-wrapper {
-      position: relative;
-      z-index: 10;
-    }
+/* --- Правая грань (толщина книги, страницы) --- */
+.book-right-edge {
+position: absolute;
+right: -24px;
+top: 0;
+width: 24px;
+height: 100%;
+transform: rotateY(90deg);
+transform-origin: left center;
+background:
+repeating-linear-gradient(
+180deg,
+#f5f0e6 0px,
+#e8e0d0 1px,
+#f5f0e6 2px,
+#d8d0c0 3px
+);
+border-radius: 0 3px 3px 0;
+box-shadow: inset 4px 0 8px rgba(0,0,0,0.3);
+}
 
-    /* Отступ сверху, чтобы шапка не перекрывала книгу */
-    .book-viewport {
-      perspective: 2000px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px 0;
-      background: transparent !important;
-      min-height: 100vh;
-      margin-top: 100px;
-      position: relative;
-      z-index: 1;
-    }
-    .book-wrapper {
-      position: relative;
-      width: 380px;
-      height: 520px;
-      transform-style: preserve-3d;
-      transform: rotateX(15deg) rotateY(-5deg);
-    }
-    .b-page {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      transform-origin: left center;
-      transform-style: preserve-3d;
-      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-      border-radius: 4px 12px 12px 4px;
-    }
-    .page-side {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      backface-visibility: hidden;
-      border-radius: 4px 12px 12px 4px;
-    }
-    .back-side {
-      transform: rotateY(180deg);
-      background: #fcf8f2;
-      border-radius: 12px 4px 4px 12px;
-      border: 1px solid #e8dec9;
-    }
-    
-    .front-cover-page {
-      background: linear-gradient(135deg, #8B0000 0%, #4A0000 100%);
-      border-left: 8px solid #2A0000;
-      border: 2px solid #5A0000;
-    }
-    
-    .back-cover-page {
-      background: linear-gradient(135deg, #4A0000 0%, #2A0000 100%);
-      border-left: 8px solid #1A0000;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
+/* --- Нижняя грань (толщина снизу) --- */
+.book-bottom-edge {
+position: absolute;
+bottom: -24px;
+left: 0;
+width: 100%;
+height: 24px;
+transform: rotateX(-90deg);
+transform-origin: top center;
+background:
+repeating-linear-gradient(
+90deg,
+#f5f0e6 0px,
+#e8e0d0 1px,
+#f5f0e6 2px,
+#d8d0c0 3px
+);
+border-radius: 0 0 3px 3px;
+box-shadow: inset 0 -4px 8px rgba(0,0,0,0.3);
+}
 
-    .back-cover-text {
-      color: #D4AF37;
-      font-family: 'Georgia', serif;
-      font-size: 22px;
-      line-height: 1.5;
-      font-weight: bold;
-      margin-bottom: 20px;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-    }
-    .back-cover-logo {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 3px solid #D4AF37;
-      object-fit: cover;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-    }
+/* --- Задняя обложка (кожа) --- */
+.back-cover-page {
+background:
+/* Кожаная текстура через шум */
+radial-gradient(ellipse at 20% 30%, rgba(255,255,255,0.08) 0%, transparent 50%),
+radial-gradient(ellipse at 80% 70%, rgba(0,0,0,0.3) 0%, transparent 50%),
+linear-gradient(135deg, #6a0000 0%, #3a0000 40%, #2a0000 100%);
+border-left: 8px solid #1a0000;
+border: 2px solid #4a0000;
+box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+}
 
-    .cover-design {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      color: #D4AF37;
-      text-align: center;
-      padding: 20px;
-    }
-    .cover-design h2 {
-      font-family: 'Georgia', serif;
-      font-size: 26px;
-      letter-spacing: 3px;
-      margin: 0;
-    }
-    .gold-badge {
-      background: #D4AF37;
-      color: #4A0000;
-      padding: 6px 20px;
-      font-weight: bold;
-      font-size: 15px;
-      margin: 15px 0;
-      border-radius: 4px;
-      letter-spacing: 2px;
-    }
-    .cover-design p {
-      font-size: 13px;
-      color: #f0e6d2;
-      font-style: italic;
-      margin-bottom: 15px;
-    }
-    
-    .front-cover-logo {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: 2px solid #D4AF37;
-      object-fit: cover;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    }
+/* --- Передняя обложка (кожа с тиснением) --- */
+.front-cover-page {
+background:
+/* Блик сверху */
+radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.15) 0%, transparent 40%),
+/* Тень снизу */
+radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.4) 0%, transparent 50%),
+/* Основной кожаный градиент */
+linear-gradient(135deg, #8B0000 0%, #5a0000 40%, #3a0000 100%);
+border-left: 8px solid #2A0000;
+border: 2px solid #5A0000;
+box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+}
+/* Рамка тиснения на передней обложке */
+.front-cover-page .cover-design::before {
+content: '';
+position: absolute;
+top: 20px;
+left: 20px;
+right: 20px;
+bottom: 20px;
+border: 2px solid rgba(212, 175, 55, 0.4);
+border-radius: 4px;
+pointer-events: none;
+box-shadow:
+inset 0 0 0 1px rgba(0,0,0,0.3),
+0 0 0 1px rgba(212, 175, 55, 0.2);
+}
+/* Угловые украшения */
+.front-cover-page .cover-design::after {
+content: '';
+position: absolute;
+top: 30px;
+left: 30px;
+right: 30px;
+bottom: 30px;
+border: 1px solid rgba(212, 175, 55, 0.25);
+border-radius: 2px;
+pointer-events: none;
+}
 
-    .open-book-btn {
-      background: #D4AF37;
-      color: #4A0000;
-      border: none;
-      padding: 10px 20px;
-      font-size: 13px;
-      font-weight: bold;
-      border-radius: 20px;
-      cursor: pointer;
-      margin-top: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-    
-    .back-to-start-btn {
-      background: transparent;
-      color: #D4AF37;
-      border: 1px solid #D4AF37;
-      padding: 8px 16px;
-      font-size: 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      margin-top: 10px;
-      display: none;
-    }
-
-    .nav-arrow {
-      position: absolute;
-      bottom: 20px;
-      background: #8B0000;
-      color: #fff;
-      border: none;
-      padding: 6px 14px;
-      font-size: 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      z-index: 10;
-    }
-    .next-arrow { right: 20px; }
-    .prev-arrow { left: 20px; }
-    
-    .paper-page {
-      background: #fcf8f2;
-      color: #2b2b2b;
-      border: 1px solid #e8dec9;
-    }
-    .text-box {
-      padding: 45px 25px 30px 45px;
-      font-family: sans-serif;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-    .text-box h3 {
-      font-family: 'Georgia', serif;
-      color: #8B0000;
-      border-bottom: 2px solid #e8dec9;
-      padding-bottom: 8px;
-      margin-top: 0;
-      font-size: 18px;
-    }
-    .text-box ul { padding-left: 15px; margin: 0; }
-    .text-box li { margin-bottom: 12px; }
-    
-    .gif-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-    .page-gif {
-      width: 100%;
-      max-width: 100%;
-      max-height: 380px;
-      object-fit: contain;
-      border-radius: 8px;
-      border: 2px solid #e8dec9;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      margin-bottom: 20px;
-    }
-    .gif-caption {
-      font-family: 'Georgia', serif;
-      color: #8B0000;
-      font-size: 16px;
-      font-weight: bold;
-      text-align: center;
-      font-style: italic;
-    }
-
-    .small-text-note {
-      font-style: italic;
-      font-size: 11px;
-      color: #777;
-      margin-top: 25px;
-      text-align: center;
-      border-top: 1px dashed #ddd;
-      padding-top: 10px;
-    }
-    
-    .thanks-page .text-box {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      text-align: center;
-      padding: 30px;
-    }
-    .thanks-page h3 {
-      border: none;
-      color: #8B0000;
-      font-size: 24px;
-      margin-bottom: 15px;
-    }
-    .thanks-page p {
-      font-size: 16px;
-      color: #333;
-      margin-bottom: 30px;
-    }
-    
-    .intro-page .text-box {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      text-align: center;
-      padding: 30px;
-    }
-    .intro-page h2 {
-      border: none;
-      color: #8B0000;
-      font-size: 32px;
-      font-family: 'Georgia', serif;
-      margin-bottom: 20px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-    }
-    .intro-page p {
-      font-size: 18px;
-      color: #555;
-      font-style: italic;
-    }
-
-    .b-page.flipped {
-      transform: rotateY(-180deg);
-    }
-  </style>
+.b-page {
+position: absolute;
+width: 100%;
+height: 100%;
+top: 0;
+left: 0;
+transform-origin: left center;
+transform-style: preserve-3d;
+transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+border-radius: 4px 12px 12px 4px;
+}
+.page-side {
+position: absolute;
+width: 100%;
+height: 100%;
+top: 0;
+left: 0;
+backface-visibility: hidden;
+border-radius: 4px 12px 12px 4px;
+}
+.back-side {
+transform: rotateY(180deg);
+background: #fcf8f2;
+border-radius: 12px 4px 4px 12px;
+border: 1px solid #e8dec9;
+}
+.cover-design {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 100%;
+color: #D4AF37;
+text-align: center;
+padding: 20px;
+position: relative;
+}
+.cover-design h2 {
+font-family: 'Georgia', serif;
+font-size: 26px;
+letter-spacing: 3px;
+margin: 0;
+text-shadow: 0 2px 4px rgba(0,0,0,0.6), 0 0 20px rgba(212,175,55,0.3);
+}
+.gold-badge {
+background: linear-gradient(135deg, #D4AF37 0%, #B8860B 50%, #D4AF37 100%);
+color: #4A0000;
+padding: 6px 20px;
+font-weight: bold;
+font-size: 15px;
+margin: 15px 0;
+border-radius: 4px;
+letter-spacing: 2px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+}
+.cover-design p {
+font-size: 13px;
+color: #f0e6d2;
+font-style: italic;
+margin-bottom: 15px;
+text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+.front-cover-logo {
+width: 80px;
+height: 80px;
+border-radius: 50%;
+border: 2px solid #D4AF37;
+object-fit: cover;
+margin-bottom: 20px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 20px rgba(212,175,55,0.3);
+}
+.open-book-btn {
+background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+color: #4A0000;
+border: none;
+padding: 10px 20px;
+font-size: 13px;
+font-weight: bold;
+border-radius: 20px;
+cursor: pointer;
+margin-top: 20px;
+box-shadow: 0 4px 10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+transition: transform 0.2s, box-shadow 0.2s;
+}
+.open-book-btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 14px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+}
+.back-to-start-btn {
+background: transparent;
+color: #D4AF37;
+border: 1px solid #D4AF37;
+padding: 8px 16px;
+font-size: 12px;
+border-radius: 20px;
+cursor: pointer;
+margin-top: 10px;
+display: none;
+}
+.nav-arrow {
+position: absolute;
+bottom: 20px;
+background: linear-gradient(135deg, #8B0000, #5a0000);
+color: #fff;
+border: none;
+padding: 6px 14px;
+font-size: 12px;
+border-radius: 4px;
+cursor: pointer;
+box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+z-index: 10;
+}
+.next-arrow { right: 20px; }
+.prev-arrow { left: 20px; }
+.paper-page {
+background: #fcf8f2;
+color: #2b2b2b;
+border: 1px solid #e8dec9;
+}
+.text-box {
+padding: 45px 25px 30px 45px;
+font-family: sans-serif;
+font-size: 13px;
+line-height: 1.6;
+}
+.text-box h3 {
+font-family: 'Georgia', serif;
+color: #8B0000;
+border-bottom: 2px solid #e8dec9;
+padding-bottom: 8px;
+margin-top: 0;
+font-size: 18px;
+}
+.text-box ul { padding-left: 15px; margin: 0; }
+.text-box li { margin-bottom: 12px; }
+.gif-container {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 100%;
+padding: 20px;
+box-sizing: border-box;
+}
+.page-gif {
+width: 100%;
+max-width: 100%;
+max-height: 380px;
+object-fit: contain;
+border-radius: 8px;
+border: 2px solid #e8dec9;
+box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+margin-bottom: 20px;
+}
+.gif-caption {
+font-family: 'Georgia', serif;
+color: #8B0000;
+font-size: 16px;
+font-weight: bold;
+text-align: center;
+font-style: italic;
+}
+.small-text-note {
+font-style: italic;
+font-size: 11px;
+color: #777;
+margin-top: 25px;
+text-align: center;
+border-top: 1px dashed #ddd;
+padding-top: 10px;
+}
+.thanks-page .text-box {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 100%;
+text-align: center;
+padding: 30px;
+}
+.thanks-page h3 {
+border: none;
+color: #8B0000;
+font-size: 24px;
+margin-bottom: 15px;
+}
+.thanks-page p {
+font-size: 16px;
+color: #333;
+margin-bottom: 30px;
+}
+.intro-page .text-box {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 100%;
+text-align: center;
+padding: 30px;
+}
+.intro-page h2 {
+border: none;
+color: #8B0000;
+font-size: 32px;
+font-family: 'Georgia', serif;
+margin-bottom: 20px;
+text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+.intro-page p {
+font-size: 18px;
+color: #555;
+font-style: italic;
+}
+.b-page.flipped {
+transform: rotateY(-180deg);
+}
+.back-cover-text {
+color: #D4AF37;
+font-family: 'Georgia', serif;
+font-size: 22px;
+line-height: 1.5;
+font-weight: bold;
+margin-bottom: 20px;
+text-shadow: 1px 1px 3px rgba(0,0,0,0.5), 0 0 15px rgba(212,175,55,0.3);
+}
+.back-cover-logo {
+width: 120px;
+height: 120px;
+border-radius: 50%;
+border: 3px solid #D4AF37;
+object-fit: cover;
+box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 20px rgba(212,175,55,0.3);
+}
+</style>
 </head>
 <body>
+<div class="rules-bg"></div>
+<canvas id="tubes-canvas"></canvas>
+<div id="header-placeholder" class="header-wrapper"></div>
+<div class="book-viewport">
+<div class="book-wrapper" id="myBook">
+<!-- ✅ 3D-ГРАНИ: корешок, правый край, нижний край -->
+<div class="book-spine"></div>
+<div class="book-right-edge"></div>
+<div class="book-bottom-edge"></div>
 
-  <!-- Фон -->
-  <div class="rules-bg"></div>
-
-  <!-- Канвас с трубками-радугой за курсором -->
-  <canvas id="tubes-canvas"></canvas>
-
-  <!-- Шапка -->
-  <div id="header-placeholder" class="header-wrapper"></div>
-
-  <div class="book-viewport">
-    <div class="book-wrapper" id="myBook">
-      
-      <!-- ЗАДНЯЯ ОБЛОЖКА -->
-      <div class="b-page back-cover-page" style="z-index: 1;">
-        <div class="back-cover-text">Спасибо за прочтение<br>и удача в погоне за <span style="white-space: nowrap;">Чак-Чак!</span></div>
-        <img src="logo1.jpg" class="back-cover-logo" alt="Чак-Чак">
-      </div>
-      
-      <!-- СТРАНИЦА 5: СПАСИБО -->
-      <div class="b-page paper-page thanks-page" id="p5" style="z-index: 2;">
-        <div class="page-side front-side">
-          <div class="text-box">
-            <h3>Спасибо за прочтение!</h3>
-            <p>Желаем удачи в турнире и только побед!</p>
-            <button class="open-book-btn" onclick="closeBook()">Закрыть книгу 📕</button>
-          </div>
-        </div>
-        <div class="page-side back-side">
-          <button class="nav-arrow prev-arrow" onclick="turnPage(5, 'prev')">↩ Назад</button>
-        </div>
-      </div>
-
-      <!-- СТРАНИЦА 4: ПРИЗЫ -->
-      <div class="b-page paper-page" id="p4" style="z-index: 3;">
-        <div class="page-side front-side">
-          <div class="text-box">
-            <h3>🏆 Призы и Рейтинг</h3>
-            <ul>
-              <li><b>Финал матча:</b> Победители получают скины лучшего качества, проигравшие в финале — скины послабее. Призы отображаются в меню противостояния.</li>
-              <li><b>Выдача скинов:</b> Админ добавляет вас в друзья в Steam, заносит в блокнот и передает скины сразу, как спадет временная блокировка обмена Steam.</li>
-              <li><b>Рейтинг «Чак-Чак»:</b> За победу в турнире начисляется <b>2 чак-чака</b>, за участие в финале (2 место) — <b>1 чак-чак</b>.</li>
-            </ul>
-            <p class="small-text-note">Турнир создан ради эмоций и символических призов!</p>
-          </div>
-          <button class="nav-arrow next-arrow" onclick="turnPage(4, 'next')">Вперед ↪</button>
-        </div>
-        <div class="page-side back-side">
-          <button class="nav-arrow prev-arrow" onclick="turnPage(4, 'prev')">↩ Назад</button>
-        </div>
-      </div>
-
-      <!-- СТРАНИЦА 3: АНТИЧИТ -->
-      <div class="b-page paper-page" id="p3" style="z-index: 4;">
-        <div class="page-side front-side">
-          <div class="text-box">
-            <h3>🛡️ Anti-cheat и Старт</h3>
-            <ul>
-              <li><b>Запуск:</b> Перед запуском игры <b>обязательно</b> включите античит <u>ruzikTastyAC</u>. Включение во время игры — тех. поражение всей команде, если вы зальете такой файл на сайт. Но если вы случайно запустили, после захода в игру, вы можете выйти из игры, остановить анти-чити запустить заново, файл переливается, в моих документах он всегда один</li>
-              <li><b>Коннект к серверу:</b> После согласования времени в чате появится кнопка <b>Connected</b> для автовыхода на сервер CS2.</li>
-              <li><b>Залив файла анти-чита:</b> После игры найдите в «Моих документах» файл <b>match_log</b> и загрузите его через <b>желтый плюс</b> в противостоянии матча.</li>
-            </ul>
-          </div>
-          <button class="nav-arrow next-arrow" onclick="turnPage(3, 'next')">Вперед ↪</button>
-        </div>
-        <div class="page-side back-side">
-          <div class="gif-container">
-            <img src="gif/20261026_InexpensiveBlueSquirrelNotATK-tmAsxdSkeHp.gif" class="page-gif" alt="Призы">
-            <div class="gif-caption">Ценные призы ждут победителей!</div>
-          </div>
-          <button class="nav-arrow prev-arrow" onclick="turnPage(3, 'prev')">↩ Назад</button>
-        </div>
-      </div>
-
-      <!-- СТРАНИЦА 2: ОСНОВНЫЕ ПРАВИЛА -->
-      <div class="b-page paper-page" id="p2" style="z-index: 5;">
-        <div class="page-side front-side">
-          <div class="text-box">
-            <h3>📝 Основные правила</h3>
-            <ul>
-              <li><b>Формат:</b> Сетка плей-офф 5х5. Турнир проходит раз в 2 недели (с пятницы по воскресенье). Регистрация открывается 1-го числа.</li>
-              <li><b>Рандом:</b> Участники распределяются по командам случайно. Победители этапа снова перемешиваются в новые команды для следующей стадии.</li>
-            </ul>
-          </div>
-          <button class="nav-arrow next-arrow" onclick="turnPage(2, 'next')">Вперед ↪</button>
-        </div>
-        <div class="page-side back-side">
-          <div class="gif-container">
-            <img src="gif/20261026_SuccessfulEagerPastaArsonNoSexy-gUbG2z5bg.gif" class="page-gif" alt="Античит">
-            <div class="gif-caption">Следи за статусом античита!</div>
-          </div>
-          <button class="nav-arrow prev-arrow" onclick="turnPage(2, 'prev')">↩ Назад</button>
-        </div>
-      </div>
-
-      <!-- СТРАНИЦА 1: ЗАСТАВКА "ЧИТАЙ ВНИМАТЕЛЬНО" -->
-      <div class="b-page paper-page intro-page" id="p1" style="z-index: 6;">
-        <div class="page-side front-side">
-          <div class="text-box">
-            <h2>Читай<br>внимательно!</h2>
-            <p>Здесь собраны все важные правила турнира.</p>
-          </div>
-          <button class="nav-arrow next-arrow" onclick="turnPage(1, 'next')">Вперед ↪</button>
-        </div>
-        <div class="page-side back-side">
-          <button class="nav-arrow prev-arrow" onclick="turnPage(1, 'prev')">↩ Назад</button>
-        </div>
-      </div>
-
-      <!-- ПЕРЕДНЯЯ ОБЛОЖКА -->
-      <div class="b-page front-cover-page" id="p0" style="z-index: 7;">
-        <div class="page-side front-side">
-          <div class="cover-design">
-            <img src="logo1.jpg" class="front-cover-logo" alt="Логотип">
-            <h2>РУКОВОДСТВО</h2>
-            <div class="gold-badge">ЧАК-ЧАК</div>
-            <p>Официальные правила турниров CS2</p>
-            <button class="open-book-btn" onclick="turnPage(0, 'next')">Открыть книгу 📖</button>
-            <button class="back-to-start-btn" id="backToStartBtn" onclick="closeBook()">Вернуться на обложку</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    // Загрузка шапки
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-placeholder').innerHTML = data;
-        const script = document.createElement('script');
-        script.type = 'module';
-        script.src = 'auth.js';
-        document.body.appendChild(script);
-      })
-      .catch(error => console.error('Ошибка загрузки шапки:', error));
-  </script>
-
-  <script>
-  function turnPage(pageId, direction) {
-    const page = document.getElementById('p' + pageId);
-    
-    if (direction === 'next') {
-      page.classList.add('flipped');
-      setTimeout(() => { page.style.zIndex = pageId; }, 300);
-      
-      if (pageId === 0) {
-        document.getElementById('backToStartBtn').style.display = 'inline-block';
-      }
-    } else if (direction === 'prev') {
-      page.style.zIndex = 100; 
-      setTimeout(() => { page.classList.remove('flipped'); }, 10);
-      setTimeout(() => { 
-        if (pageId === 1) page.style.zIndex = 6;
-        else if (pageId === 2) page.style.zIndex = 5;
-        else if (pageId === 3) page.style.zIndex = 4;
-        else if (pageId === 4) page.style.zIndex = 3;
-        else if (pageId === 5) page.style.zIndex = 2;
-      }, 800); 
-    }
-  }
-
-  function closeBook() {
-    [1, 2, 3, 4, 5].forEach(i => {
-      const page = document.getElementById('p' + i);
-      if (page) {
-        page.classList.remove('flipped');
-        if (i === 1) page.style.zIndex = 6;
-        else if (i === 2) page.style.zIndex = 5;
-        else if (i === 3) page.style.zIndex = 4;
-        else if (i === 4) page.style.zIndex = 3;
-        else if (i === 5) page.style.zIndex = 2;
-      }
-    });
-    
-    const p0 = document.getElementById('p0');
-    setTimeout(() => {
-      p0.classList.remove('flipped');
-      p0.style.zIndex = 7;
-    }, 100);
-
-    document.getElementById('backToStartBtn').style.display = 'none';
-  }
-  </script>
-
-  <!-- Трубки-радуга за курсором -->
-  <script type="module">
-    import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
-
-    const canvas = document.getElementById('tubes-canvas');
-
-    const app = TubesCursor(canvas, {
-      tubes: {
-        colors: ["#f967fb", "#53bc28", "#6958d5"],
-        lights: {
-          intensity: 200,
-          colors: ["#83f36e", "#fe8a2e", "#ff008a", "#60aed5"]
-        }
-      }
-    });
-
-    // Смена цветов при клике по странице
-    document.body.addEventListener('click', () => {
-      const colors = randomColors(3);
-      const lightsColors = randomColors(4);
-      app.tubes.setColors(colors);
-      app.tubes.setLightsColors(lightsColors);
-    });
-
-    function randomColors(count) {
-      return new Array(count)
-        .fill(0)
-        .map(() => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
-    }
-  </script>
-
+<!-- ЗАДНЯЯ ОБЛОЖКА -->
+<div class="b-page back-cover-page" style="z-index: 1;">
+<div class="back-cover-text">Спасибо за прочтение<br>и удача в погоне за <span style="white-space: nowrap;">Чак-Чак!</span></div>
+<img src="logo1.jpg" class="back-cover-logo" alt="Чак-Чак">
+</div>
+<!-- СТРАНИЦА 5: СПАСИБО -->
+<div class="b-page paper-page thanks-page" id="p5" style="z-index: 2;">
+<div class="page-side front-side">
+<div class="text-box">
+<h3>Спасибо за прочтение!</h3>
+<p>Желаем удачи в турнире и только побед!</p>
+<button class="open-book-btn" onclick="closeBook()">Закрыть книгу 📕</button>
+</div>
+</div>
+<div class="page-side back-side">
+<button class="nav-arrow prev-arrow" onclick="turnPage(5, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- СТРАНИЦА 4: ПРИЗЫ -->
+<div class="b-page paper-page" id="p4" style="z-index: 3;">
+<div class="page-side front-side">
+<div class="text-box">
+<h3>🏆 Призы и Рейтинг</h3>
+<ul>
+<li><b>Финал матча:</b> Победители получают скины лучшего качества, проигравшие в финале — скины послабее. Призы отображаются в меню противостояния.</li>
+<li><b>Выдача скинов:</b> Админ добавляет вас в друзья в Steam, заносит в блокнот и передает скины сразу, как спадет временная блокировка обмена Steam.</li>
+<li><b>Рейтинг «Чак-Чак»:</b> За победу в турнире начисляется <b>2 чак-чака</b>, за участие в финале (2 место) — <b>1 чак-чак</b>.</li>
+</ul>
+<p class="small-text-note">Турнир создан ради эмоций и символических призов!</p>
+</div>
+<button class="nav-arrow next-arrow" onclick="turnPage(4, 'next')">Вперед ↪</button>
+</div>
+<div class="page-side back-side">
+<button class="nav-arrow prev-arrow" onclick="turnPage(4, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- СТРАНИЦА 3: АНТИЧИТ -->
+<div class="b-page paper-page" id="p3" style="z-index: 4;">
+<div class="page-side front-side">
+<div class="text-box">
+<h3>🛡️ Anti-cheat и Старт</h3>
+<ul>
+<li><b>Запуск:</b> Перед запуском игры <b>обязательно</b> включите античит <u>ruzikTastyAC</u>. Включение во время игры — тех. поражение всей команде, если вы зальете такой файл на сайт. Но если вы случайно запустили, после захода в игру, вы можете выйти из игры, остановить анти-чити запустить заново, файл переливается, в моих документах он всегда один</li>
+<li><b>Коннект к серверу:</b> После согласования времени в чате появится кнопка <b>Connected</b> для автовыхода на сервер CS2.</li>
+<li><b>Залив файла анти-чита:</b> После игры найдите в «Моих документах» файл <b>match_log</b> и загрузите его через <b>желтый плюс</b> в противостоянии матча.</li>
+</ul>
+</div>
+<button class="nav-arrow next-arrow" onclick="turnPage(3, 'next')">Вперед ↪</button>
+</div>
+<div class="page-side back-side">
+<div class="gif-container">
+<img src="gif/20261026_InexpensiveBlueSquirrelNotATK-tmAsxdSkeHp.gif" class="page-gif" alt="Призы">
+<div class="gif-caption">Ценные призы ждут победителей!</div>
+</div>
+<button class="nav-arrow prev-arrow" onclick="turnPage(3, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- СТРАНИЦА 2: ОСНОВНЫЕ ПРАВИЛА -->
+<div class="b-page paper-page" id="p2" style="z-index: 5;">
+<div class="page-side front-side">
+<div class="text-box">
+<h3>📝 Основные правила</h3>
+<ul>
+<li><b>Формат:</b> Сетка плей-офф 5х5. Турнир проходит раз в 2 недели (с пятницы по воскресенье). Регистрация открывается 1-го числа.</li>
+<li><b>Рандом:</b> Участники распределяются по командам случайно. Победители этапа снова перемешиваются в новые команды для следующей стадии.</li>
+</ul>
+</div>
+<button class="nav-arrow next-arrow" onclick="turnPage(2, 'next')">Вперед ↪</button>
+</div>
+<div class="page-side back-side">
+<div class="gif-container">
+<img src="gif/20261026_SuccessfulEagerPastaArsonNoSexy-gUbG2z5bg.gif" class="page-gif" alt="Античит">
+<div class="gif-caption">Следи за статусом античита!</div>
+</div>
+<button class="nav-arrow prev-arrow" onclick="turnPage(2, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- СТРАНИЦА 1: ЗАСТАВКА "ЧИТАЙ ВНИМАТЕЛЬНО" -->
+<div class="b-page paper-page intro-page" id="p1" style="z-index: 6;">
+<div class="page-side front-side">
+<div class="text-box">
+<h2>Читай<br>внимательно!</h2>
+<p>Здесь собраны все важные правила турнира.</p>
+</div>
+<button class="nav-arrow next-arrow" onclick="turnPage(1, 'next')">Вперед ↪</button>
+</div>
+<div class="page-side back-side">
+<button class="nav-arrow prev-arrow" onclick="turnPage(1, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- ПЕРЕДНЯЯ ОБЛОЖКА -->
+<div class="b-page front-cover-page" id="p0" style="z-index: 7;">
+<div class="page-side front-side">
+<div class="cover-design">
+<img src="logo1.jpg" class="front-cover-logo" alt="Логотип">
+<h2>РУКОВОДСТВО</h2>
+<div class="gold-badge">ЧАК-ЧАК</div>
+<p>Официальные правила турниров CS2</p>
+<button class="open-book-btn" onclick="turnPage(0, 'next')">Открыть книгу 📖</button>
+<button class="back-to-start-btn" id="backToStartBtn" onclick="closeBook()">Вернуться на обложку</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+fetch('header.html')
+.then(response => response.text())
+.then(data => {
+document.getElementById('header-placeholder').innerHTML = data;
+const script = document.createElement('script');
+script.type = 'module';
+script.src = 'auth.js';
+document.body.appendChild(script);
+})
+.catch(error => console.error('Ошибка загрузки шапки:', error));
+</script>
+<script>
+function turnPage(pageId, direction) {
+const page = document.getElementById('p' + pageId);
+if (direction === 'next') {
+page.classList.add('flipped');
+setTimeout(() => { page.style.zIndex = pageId; }, 300);
+if (pageId === 0) {
+document.getElementById('backToStartBtn').style.display = 'inline-block';
+}
+} else if (direction === 'prev') {
+page.style.zIndex = 100;
+setTimeout(() => { page.classList.remove('flipped'); }, 10);
+setTimeout(() => {
+if (pageId === 1) page.style.zIndex = 6;
+else if (pageId === 2) page.style.zIndex = 5;
+else if (pageId === 3) page.style.zIndex = 4;
+else if (pageId === 4) page.style.zIndex = 3;
+else if (pageId === 5) page.style.zIndex = 2;
+}, 800);
+}
+}
+function closeBook() {
+[1, 2, 3, 4, 5].forEach(i => {
+const page = document.getElementById('p' + i);
+if (page) {
+page.classList.remove('flipped');
+if (i === 1) page.style.zIndex = 6;
+else if (i === 2) page.style.zIndex = 5;
+else if (i === 3) page.style.zIndex = 4;
+else if (i === 4) page.style.zIndex = 3;
+else if (i === 5) page.style.zIndex = 2;
+}
+});
+const p0 = document.getElementById('p0');
+setTimeout(() => {
+p0.classList.remove('flipped');
+p0.style.zIndex = 7;
+}, 100);
+document.getElementById('backToStartBtn').style.display = 'none';
+}
+</script>
+<script type="module">
+import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
+const canvas = document.getElementById('tubes-canvas');
+const app = TubesCursor(canvas, {
+tubes: {
+colors: ["#f967fb", "#53bc28", "#6958d5"],
+lights: {
+intensity: 200,
+colors: ["#83f36e", "#fe8a2e", "#ff008a", "#60aed5"]
+}
+}
+});
+document.body.addEventListener('click', () => {
+const colors = randomColors(3);
+const lightsColors = randomColors(4);
+app.tubes.setColors(colors);
+app.tubes.setLightsColors(lightsColors);
+});
+function randomColors(count) {
+return new Array(count)
+.fill(0)
+.map(() => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
+}
+</script>
 </body>
 </html>
