@@ -1,478 +1,512 @@
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-  <title>Рейтинг турнира - 4ak4ak</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+<title>Рейтинг турнира - 4ak4ak</title>
+<link rel="stylesheet" href="style.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+body {
+margin: 0;
+padding: 0;
+background: transparent;
+font-family: 'Inter', sans-serif;
+overflow-y: auto;
+overflow-x: hidden;
+}
+/* Фон — обычная картинка в потоке, как на главной */
+.bg-image {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: auto;
+z-index: 0;
+pointer-events: none;
+}
+/* Шапка поверх фона */
+.header-wrapper {
+position: relative;
+z-index: 10;
+}
+/* ====== ПЕРЕМЕННЫЕ ГОЛОГРАММЫ ====== */
+:root {
+--metafy: url(https://assets.codepen.io/13471/metafy-repeat.png);
+--grain: url(https://assets.codepen.io/13471/grain.webp);
+--sunpillar-1: hsl(2, 100%, 73%);
+--sunpillar-2: hsl(53, 100%, 69%);
+--sunpillar-3: hsl(93, 100%, 69%);
+--sunpillar-4: hsl(176, 100%, 76%);
+--sunpillar-5: hsl(228, 100%, 74%);
+--sunpillar-6: hsl(283, 100%, 73%);
+--sunpillar-clr-1: var(--sunpillar-1);
+--sunpillar-clr-2: var(--sunpillar-2);
+--sunpillar-clr-3: var(--sunpillar-3);
+--sunpillar-clr-4: var(--sunpillar-4);
+--sunpillar-clr-5: var(--sunpillar-5);
+--sunpillar-clr-6: var(--sunpillar-6);
+--background-x: 50%;
+--background-y: 50%;
+}
 
-    body {
-      margin: 0;
-      padding: 0;
-      background: transparent;
-      font-family: 'Inter', sans-serif;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
+/* ====== ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА СЛЕВА ====== */
+.holo-sticker {
+position: absolute;
+left: -200px;
+top: 50%;
+transform: translateY(-50%);
+width: 180px;
+height: 180px;
+z-index: 5;
+filter: drop-shadow(0 0 20px rgba(74, 158, 255, 0.6));
+animation: sticker-float 4s ease-in-out infinite;
+}
+@keyframes sticker-float {
+0%, 100% { transform: translateY(-50%) scale(1); }
+50% { transform: translateY(-55%) scale(1.05); }
+}
+.holo-sticker svg {
+width: 100%;
+height: 100%;
+}
+/* Цвета для голографического паттерна */
+.color0 { fill: none; }
+.color1 { fill: #8EABE5; }
+.color2 { fill: #BCACF3; }
+.color3 { fill: #FAA9B2; }
+.color4 { fill: #F8FCA8; }
+.color5 { fill: #B5DFC8; }
+.circle { fill: url(#multi-dots); }
 
-    /* Фон — обычная картинка в потоке, как на главной */
-    .bg-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: auto;
-      z-index: 0;
-      pointer-events: none;
-    }
+/* Адаптив для наклейки */
+@media (max-width: 1100px) {
+.holo-sticker {
+left: -120px;
+width: 140px;
+height: 140px;
+}
+}
+@media (max-width: 850px) {
+.holo-sticker {
+position: relative;
+left: auto;
+top: auto;
+transform: none;
+margin: 0 auto 20px auto;
+width: 150px;
+height: 150px;
+}
+@keyframes sticker-float {
+0%, 100% { transform: scale(1); }
+50% { transform: scale(1.05); }
+}
+}
 
-    /* Шапка поверх фона */
-    .header-wrapper {
-      position: relative;
-      z-index: 10;
-    }
-
-    /* ====== ПЕРЕМЕННЫЕ ГОЛОГРАММЫ ====== */
-    :root {
-      --metafy: url(https://assets.codepen.io/13471/metafy-repeat.png);
-      --grain: url(https://assets.codepen.io/13471/grain.webp);
-      --sunpillar-1: hsl(2, 100%, 73%);
-      --sunpillar-2: hsl(53, 100%, 69%);
-      --sunpillar-3: hsl(93, 100%, 69%);
-      --sunpillar-4: hsl(176, 100%, 76%);
-      --sunpillar-5: hsl(228, 100%, 74%);
-      --sunpillar-6: hsl(283, 100%, 73%);
-      --sunpillar-clr-1: var(--sunpillar-1);
-      --sunpillar-clr-2: var(--sunpillar-2);
-      --sunpillar-clr-3: var(--sunpillar-3);
-      --sunpillar-clr-4: var(--sunpillar-4);
-      --sunpillar-clr-5: var(--sunpillar-5);
-      --sunpillar-clr-6: var(--sunpillar-6);
-      --background-x: 50%;
-      --background-y: 50%;
-    }
-
-    /* ====== КОНТЕЙНЕР С ГОЛОГРАММОЙ ====== */
-    .rating-container {
-      max-width: 650px;
-      margin: 40px auto 40px auto;
-      padding: 20px;
-      background: rgba(10, 42, 107, 0.55);
-      border: 1px solid rgba(74, 158, 255, 0.45);
-      border-radius: 14px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      position: relative;
-      z-index: 5;
-      isolation: isolate;
-      overflow: hidden;   /* голограмма не вылезет за скругление */
-    }
-
-    /* Слой голограммы — под таблицей */
-    .rating-holo {
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* shine — переливающиеся полосы (анимированный) */
-    .rating-holo::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      mask-image: var(--metafy);
-      mask-mode: luminance;
-      mask-repeat: repeat;
-      mask-size: 150%;
-      mask-position: top calc(200% - (var(--background-y) * 5)) left calc((100% - var(--background-x)));
-      filter: brightness(0.85) contrast(1.5) saturate(0.5);
-      animation: holo-bg 18s linear infinite;
-      mix-blend-mode: color-dodge;
-      background-image:
-        repeating-linear-gradient(0deg,
-          var(--sunpillar-clr-1) calc(5% * 1),
-          var(--sunpillar-clr-2) calc(5% * 2),
-          var(--sunpillar-clr-3) calc(5% * 3),
-          var(--sunpillar-clr-4) calc(5% * 4),
-          var(--sunpillar-clr-5) calc(5% * 5),
-          var(--sunpillar-clr-6) calc(5% * 6),
-          var(--sunpillar-clr-1) calc(5% * 7)
-        ),
-        repeating-linear-gradient(-45deg,
-          #0e152e 0%,
-          hsl(180, 10%, 60%) 3.8%,
-          hsl(180, 29%, 66%) 4.5%,
-          hsl(180, 10%, 60%) 5.2%,
-          #0e152e 10%,
-          #0e152e 12%
-        ),
-        radial-gradient(
-          farthest-corner circle at 50% 50%,
-          hsla(0, 0%, 0%, 0.1) 12%,
-          hsla(0, 0%, 0%, 0.15) 20%,
-          hsla(0, 0%, 0%, 0.25) 120%
-        );
-      background-position: 0% var(--background-y), 50% var(--background-y), center center;
-      background-blend-mode: color, hard-light;
-      background-size: 500% 500%, 300% 300%, 200% 200%;
-      background-repeat: repeat;
-    }
-
-    /* glare — мягкий статичный блик по центру */
-    .rating-holo::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background-image: radial-gradient(
-        farthest-corner circle at 50% 30%,
-        hsl(248, 25%, 80%) 5%,
-        hsla(207, 40%, 30%, 0.8) 90%
-      );
-      mix-blend-mode: overlay;
-      filter: brightness(0.7) contrast(1.2);
-      opacity: 0.55;
-    }
-
-    @keyframes holo-bg {
-      0%   { background-position: 0% var(--background-y), 0% 0%, center center; }
-      100% { background-position: 0% var(--background-y), 90% 90%, center center; }
-    }
-
-    /* ====== КОНТЕНТ ПОВЕРХ ГОЛОГРАММЫ ====== */
-    .rating-title,
-    .rating-scroll,
-    .rating-note,
-    .btn-reset {
-      position: relative;
-      z-index: 1;
-    }
-
-    .rating-title {
-      color: #4a9eff;
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-align: center;
-      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8), 0 0 12px rgba(74, 158, 255, 0.35);
-    }
-
-    .rating-table-wrapper { display: flex; justify-content: center; margin: 0 auto; }
-
-    .rating-scroll {
-      max-height: 400px;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(74, 158, 255, 0.5) rgba(10, 42, 107, 0.3);
-      border-radius: 8px;
-    }
-    .rating-scroll::-webkit-scrollbar { width: 8px; }
-    .rating-scroll::-webkit-scrollbar-track { background: rgba(10, 42, 107, 0.3); border-radius: 4px; }
-    .rating-scroll::-webkit-scrollbar-thumb { background: rgba(74, 158, 255, 0.5); border-radius: 4px; }
-    .rating-scroll::-webkit-scrollbar-thumb:hover { background: rgba(74, 158, 255, 0.7); }
-
-    .rating-table { width: 100%; border-collapse: collapse; color: #fff; table-layout: fixed; }
-
-    .rating-table th, .rating-table td {
-      padding: 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      text-align: center;
-      vertical-align: middle;
-      background: rgba(10, 42, 107, 0.65);
-      white-space: nowrap;
-    }
-
-    .cell-content { display: block; padding: 6px 16px; text-align: center; }
-
-    .rating-table th {
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.95);
-      text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: 0.5px;
-      position: sticky;
-      top: 0;
-      z-index: 2;
-    }
-
-    .rating-table tbody tr:last-child td { border-bottom: none; }
-
-    .pos-cell { width: 40px; font-weight: 800; font-size: 16px; color: rgba(255, 255, 255, 0.5); }
-    .pos-cell.first { color: #ffd700; font-size: 18px; }
-    .pos-cell.second { color: #C0C0C0; font-size: 17px; }
-    .pos-cell.third { color: #CD7F32; font-size: 16px; }
-
-    .name-cell { font-weight: 600; font-size: 15px; }
-    .name-cell.first { color: #ffd700; font-weight: 800; }
-    .name-cell.second { color: #C0C0C0; font-weight: 800; }
-    .name-cell.third { color: #CD7F32; font-weight: 800; }
-
-    .name-cell a { color: inherit; text-decoration: none; transition: text-decoration 0.2s; }
-    .name-cell a:hover { text-decoration: underline; }
-
-    .champ-cell, .finalist-cell, .points-cell { text-align: center; }
-
-    .champ-cell { width: 90px; font-weight: 700; font-size: 15px; }
-    .champ-cell.first { color: #ffd700; }
-    .champ-cell.second { color: #C0C0C0; }
-    .champ-cell.third { color: #CD7F32; }
-
-    .finalist-cell { width: 90px; font-weight: 700; font-size: 15px; }
-    .finalist-cell.first { color: #ffd700; }
-    .finalist-cell.second { color: #C0C0C0; }
-    .finalist-cell.third { color: #CD7F32; }
-
-    .points-cell { width: 110px; font-weight: 700; color: #ffd700; font-size: 18px; }
-    .points-cell.zero { color: rgba(255, 215, 0, 0.3); font-size: 14px; }
-
-    .points-logo { width: 20px; height: 20px; border-radius: 50%; vertical-align: middle; margin-left: 6px; }
-
-    .rating-empty { text-align: center; color: rgba(255, 255, 255, 0.35); font-size: 14px; padding: 24px; font-style: italic; }
-
-    .rating-note {
-      text-align: center;
-      color: rgba(255, 255, 255, 0.55);
-      font-size: 12px;
-      margin-top: 12px;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
-    }
-
-    /* Кнопка сброса — только для админа */
-    .btn-reset {
-      display: none;
-      margin: 20px auto 0 auto;
-      padding: 12px 30px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      background: linear-gradient(135deg, #c0392b, #e74c3c);
-      border: 2px solid rgba(255,255,255,0.2);
-      border-radius: 50px;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn-reset:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 22px rgba(192,57,43,0.5);
-    }
-    .btn-reset.visible { display: block; }
-  </style>
+/* ====== КОНТЕЙНЕР С ГОЛОГРАММОЙ ====== */
+.rating-container {
+max-width: 650px;
+margin: 40px auto 40px auto;
+padding: 20px;
+background: rgba(10, 42, 107, 0.55);
+border: 1px solid rgba(74, 158, 255, 0.45);
+border-radius: 14px;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+position: relative;
+z-index: 5;
+isolation: isolate;
+overflow: hidden;   /* голограмма не вылезет за скругление */
+}
+/* Слой голограммы — под таблицей */
+.rating-holo {
+position: absolute;
+inset: 0;
+border-radius: inherit;
+overflow: hidden;
+pointer-events: none;
+z-index: 0;
+}
+/* shine — переливающиеся полосы (анимированный) */
+.rating-holo::before {
+content: "";
+position: absolute;
+inset: 0;
+border-radius: inherit;
+mask-image: var(--metafy);
+mask-mode: luminance;
+mask-repeat: repeat;
+mask-size: 150%;
+mask-position: top calc(200% - (var(--background-y) * 5)) left calc((100% - var(--background-x)));
+filter: brightness(0.85) contrast(1.5) saturate(0.5);
+animation: holo-bg 18s linear infinite;
+mix-blend-mode: color-dodge;
+background-image:
+repeating-linear-gradient(0deg,
+var(--sunpillar-clr-1) calc(5% * 1),
+var(--sunpillar-clr-2) calc(5% * 2),
+var(--sunpillar-clr-3) calc(5% * 3),
+var(--sunpillar-clr-4) calc(5% * 4),
+var(--sunpillar-clr-5) calc(5% * 5),
+var(--sunpillar-clr-6) calc(5% * 6),
+var(--sunpillar-clr-1) calc(5% * 7)
+),
+repeating-linear-gradient(-45deg,
+#0e152e 0%,
+hsl(180, 10%, 60%) 3.8%,
+hsl(180, 29%, 66%) 4.5%,
+hsl(180, 10%, 60%) 5.2%,
+#0e152e 10%,
+#0e152e 12%
+),
+radial-gradient(
+farthest-corner circle at 50% 50%,
+hsla(0, 0%, 0%, 0.1) 12%,
+hsla(0, 0%, 0%, 0.15) 20%,
+hsla(0, 0%, 0%, 0.25) 120%
+);
+background-position: 0% var(--background-y), 50% var(--background-y), center center;
+background-blend-mode: color, hard-light;
+background-size: 500% 500%, 300% 300%, 200% 200%;
+background-repeat: repeat;
+}
+/* glare — мягкий статичный блик по центру */
+.rating-holo::after {
+content: "";
+position: absolute;
+inset: 0;
+border-radius: inherit;
+background-image: radial-gradient(
+farthest-corner circle at 50% 30%,
+hsl(248, 25%, 80%) 5%,
+hsla(207, 40%, 30%, 0.8) 90%
+);
+mix-blend-mode: overlay;
+filter: brightness(0.7) contrast(1.2);
+opacity: 0.55;
+}
+@keyframes holo-bg {
+0%   { background-position: 0% var(--background-y), 0% 0%, center center; }
+100% { background-position: 0% var(--background-y), 90% 90%, center center; }
+}
+/* ====== КОНТЕНТ ПОВЕРХ ГОЛОГРАММЫ ====== */
+.rating-title,
+.rating-scroll,
+.rating-note,
+.btn-reset {
+position: relative;
+z-index: 1;
+}
+.rating-title {
+color: #4a9eff;
+font-size: 20px;
+font-weight: 700;
+margin-bottom: 16px;
+text-transform: uppercase;
+letter-spacing: 1px;
+text-align: center;
+text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8), 0 0 12px rgba(74, 158, 255, 0.35);
+}
+.rating-table-wrapper { display: flex; justify-content: center; margin: 0 auto; }
+.rating-scroll {
+max-height: 400px;
+overflow-y: auto;
+scrollbar-width: thin;
+scrollbar-color: rgba(74, 158, 255, 0.5) rgba(10, 42, 107, 0.3);
+border-radius: 8px;
+}
+.rating-scroll::-webkit-scrollbar { width: 8px; }
+.rating-scroll::-webkit-scrollbar-track { background: rgba(10, 42, 107, 0.3); border-radius: 4px; }
+.rating-scroll::-webkit-scrollbar-thumb { background: rgba(74, 158, 255, 0.5); border-radius: 4px; }
+.rating-scroll::-webkit-scrollbar-thumb:hover { background: rgba(74, 158, 255, 0.7); }
+.rating-table { width: 100%; border-collapse: collapse; color: #fff; table-layout: fixed; }
+.rating-table th, .rating-table td {
+padding: 0;
+border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+text-align: center;
+vertical-align: middle;
+background: rgba(10, 42, 107, 0.65);
+white-space: nowrap;
+}
+.cell-content { display: block; padding: 6px 16px; text-align: center; }
+.rating-table th {
+font-weight: 700;
+color: rgba(255, 255, 255, 0.95);
+text-transform: uppercase;
+font-size: 12px;
+letter-spacing: 0.5px;
+position: sticky;
+top: 0;
+z-index: 2;
+}
+.rating-table tbody tr:last-child td { border-bottom: none; }
+.pos-cell { width: 40px; font-weight: 800; font-size: 16px; color: rgba(255, 255, 255, 0.5); }
+.pos-cell.first { color: #ffd700; font-size: 18px; }
+.pos-cell.second { color: #C0C0C0; font-size: 17px; }
+.pos-cell.third { color: #CD7F32; font-size: 16px; }
+.name-cell { font-weight: 600; font-size: 15px; }
+.name-cell.first { color: #ffd700; font-weight: 800; }
+.name-cell.second { color: #C0C0C0; font-weight: 800; }
+.name-cell.third { color: #CD7F32; font-weight: 800; }
+.name-cell a { color: inherit; text-decoration: none; transition: text-decoration 0.2s; }
+.name-cell a:hover { text-decoration: underline; }
+.champ-cell, .finalist-cell, .points-cell { text-align: center; }
+.champ-cell { width: 90px; font-weight: 700; font-size: 15px; }
+.champ-cell.first { color: #ffd700; }
+.champ-cell.second { color: #C0C0C0; }
+.champ-cell.third { color: #CD7F32; }
+.finalist-cell { width: 90px; font-weight: 700; font-size: 15px; }
+.finalist-cell.first { color: #ffd700; }
+.finalist-cell.second { color: #C0C0C0; }
+.finalist-cell.third { color: #CD7F32; }
+.points-cell { width: 110px; font-weight: 700; color: #ffd700; font-size: 18px; }
+.points-cell.zero { color: rgba(255, 215, 0, 0.3); font-size: 14px; }
+.points-logo { width: 20px; height: 20px; border-radius: 50%; vertical-align: middle; margin-left: 6px; }
+.rating-empty { text-align: center; color: rgba(255, 255, 255, 0.35); font-size: 14px; padding: 24px; font-style: italic; }
+.rating-note {
+text-align: center;
+color: rgba(255, 255, 255, 0.55);
+font-size: 12px;
+margin-top: 12px;
+text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+/* Кнопка сброса — только для админа */
+.btn-reset {
+display: none;
+margin: 20px auto 0 auto;
+padding: 12px 30px;
+font-size: 14px;
+font-weight: 700;
+color: #fff;
+background: linear-gradient(135deg, #c0392b, #e74c3c);
+border: 2px solid rgba(255,255,255,0.2);
+border-radius: 50px;
+cursor: pointer;
+font-family: 'Inter', sans-serif;
+transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-reset:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 22px rgba(192,57,43,0.5);
+}
+.btn-reset.visible { display: block; }
+</style>
 </head>
 <body>
+<!-- Фон (картинка в потоке) -->
+<img src="pngg/9kolo.png" class="bg-image" alt="Фон">
+<!-- Шапка -->
+<div id="header-placeholder" class="header-wrapper"></div>
 
-  <!-- Фон (картинка в потоке) -->
-  <img src="pngg/9kolo.png" class="bg-image" alt="Фон">
+<div class="rating-container">
+<!-- ✅ ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА СЛЕВА -->
+<div class="holo-sticker">
+<svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
+<defs>
+<pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots" viewBox="12.5 -34 26 23" style="overflow:visible;">
+<g>
+<rect x="12.5" y="-34" width="26" height="23"/>
+<g><circle class="color1" cx="45" cy="-7.5" r="7.5"/></g>
+<g><circle class="color1" cx="19" cy="-7.5" r="7.5"/><circle class="color2" cx="29.5" cy="-10" r="7.5"/></g>
+<g><circle class="color3" cx="39.5" cy="-26" r="7.5"/><circle class="color1" cx="45" cy="-30.5" r="7.5"/><circle class="color4" cx="42.5" cy="-17" r="7.5"/></g>
+<g><circle class="color3" cx="13.5" cy="-26" r="7.5"/><circle class="color1" cx="19" cy="-30.5" r="7.5"/><circle class="color1" cx="33.5" cy="-16" r="7.5"/><circle class="color2" cx="23.5" cy="-12" r="7.5"/><circle class="color2" cx="29.5" cy="-33" r="7.5"/><circle class="color4" cx="16.5" cy="-17" r="7.5"/><circle class="color5" cx="37.5" cy="-26" r="7.5"/><circle class="color3" cx="27.5" cy="-23" r="7.5"/></g>
+<g><circle class="color1" cx="7.5" cy="-16" r="7.5"/><circle class="color5" cx="11.5" cy="-26" r="7.5"/></g>
+<g><circle class="color4" cx="42.5" cy="-40" r="7.5"/></g>
+<g><circle class="color1" cx="33.5" cy="-39" r="7.5"/><circle class="color2" cx="23.5" cy="-35" r="7.5"/><circle class="color4" cx="16.5" cy="-40" r="7.5"/></g>
+<g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
+</g>
+</pattern>
+<clipPath id="badge-clip">
+<circle cx="128" cy="128" r="120"/>
+</clipPath>
+</defs>
 
-  <!-- Шапка -->
-  <div id="header-placeholder" class="header-wrapper"></div>
+<!-- Голографический фон (паттерн) -->
+<circle class="circle" cx="128" cy="128" r="120"/>
 
-  <div class="rating-container">
-    <div class="rating-holo"></div>
+<!-- Картинка dust2.png внутри круга -->
+<image href="png/dust2.png" x="16" y="16" width="224" height="224" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip)"/>
 
-    <div class="rating-title">Турнирная таблица</div>
+<!-- Голографический оверлей для эффекта блеска -->
+<circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
+</svg>
+</div>
 
-    <div class="rating-scroll">
-      <div class="rating-table-wrapper">
-        <table class="rating-table">
-          <thead>
-            <tr>
-              <th class="pos-cell"><span class="cell-content">#</span></th>
-              <th><span class="cell-content">Игрок</span></th>
-              <th class="champ-cell"><span class="cell-content">Чемпион</span></th>
-              <th class="finalist-cell"><span class="cell-content">Финалист</span></th>
-              <th class="points-cell"><span class="cell-content">Чак-чак</span></th>
-            </tr>
-          </thead>
-          <tbody id="ratingBody">
-            <tr>
-              <td colspan="5" class="rating-empty">Итоги появятся после финала</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+<div class="rating-holo"></div>
+<div class="rating-title">Турнирная таблица</div>
+<div class="rating-scroll">
+<div class="rating-table-wrapper">
+<table class="rating-table">
+<thead>
+<tr>
+<th class="pos-cell"><span class="cell-content">#</span></th>
+<th><span class="cell-content">Игрок</span></th>
+<th class="champ-cell"><span class="cell-content">Чемпион</span></th>
+<th class="finalist-cell"><span class="cell-content">Финалист</span></th>
+<th class="points-cell"><span class="cell-content">Чак-чак</span></th>
+</tr>
+</thead>
+<tbody id="ratingBody">
+<tr>
+<td colspan="5" class="rating-empty">Итоги появятся после финала</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
+<!-- Кнопка сброса (видна только админу) -->
+<button class="btn-reset" id="btnReset">Сбросить чак-чаки</button>
+</div>
 
-    <div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
-
-    <!-- Кнопка сброса (видна только админу) -->
-    <button class="btn-reset" id="btnReset">Сбросить чак-чаки</button>
-  </div>
-
-  <script>
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-placeholder').innerHTML = data;
-        const script = document.createElement('script');
-        script.type = 'module';
-        script.src = 'auth.js';
-        document.body.appendChild(script);
-      })
-      .catch(error => console.error('Ошибка загрузки шапки:', error));
-  </script>
-
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-
-  <script>
-    (function() {
-      var firebaseConfig = {
-        apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
-        authDomain: "ak4ak-8be45.firebaseapp.com",
-        databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "ak4ak-8be45",
-        storageBucket: "ak4ak-8be45.appspot.com",
-        messagingSenderId: "408070680295",
-        appId: "1:408070680295:web:77b9656094e330b803bc42"
-      };
-      firebase.initializeApp(firebaseConfig);
-      var db = firebase.database();
-      var auth = firebase.auth();
-
-      var LOGO_URL = 'png/logo1.jpg';
-      var isAdmin = false;
-
-      function escapeHtml(t) {
-        if (!t) return '';
-        return String(t)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#039;");
-      }
-
-      // === Проверка админа через playoff/adminNicks ===
-      auth.onAuthStateChanged(function(user) {
-        if (!user) return;
-        db.ref('users/' + user.uid).once('value').then(function(snap) {
-          if (!snap.exists()) return;
-          var ud = snap.val();
-          var myNick = ud.nick || (ud.email ? ud.email.split('@')[0] : null);
-          if (!myNick) return;
-          db.ref('playoff/adminNicks/' + myNick).once('value').then(function(adminSnap) {
-            isAdmin = adminSnap.exists() && adminSnap.val() === true;
-            if (isAdmin) {
-              document.getElementById('btnReset').classList.add('visible');
-            }
-          });
-        });
-      });
-
-      function renderRating(allResults) {
-        var body = document.getElementById('ratingBody');
-
-        var stats = {};
-
-        allResults.forEach(function(finalResult) {
-          if (!finalResult) return;
-          var winners = finalResult.winners || [];
-          var runnersUp = finalResult.runnersUp || [];
-
-          winners.forEach(function(nick) {
-            if (!nick) return;
-            if (!stats[nick]) stats[nick] = { champ: 0, finalist: 0, points: 0 };
-            stats[nick].champ++;
-            stats[nick].points += 2;
-          });
-          runnersUp.forEach(function(nick) {
-            if (!nick) return;
-            if (!stats[nick]) stats[nick] = { champ: 0, finalist: 0, points: 0 };
-            stats[nick].finalist++;
-            stats[nick].points += 1;
-          });
-        });
-
-        var hasData = Object.keys(stats).length > 0;
-        if (!hasData) {
-          body.innerHTML = '<tr><td colspan="5" class="rating-empty">Итоги появятся после финала</td></tr>';
-          return;
-        }
-
-        var arr = Object.keys(stats).map(function(nick) {
-          return { nick: nick, champ: stats[nick].champ, finalist: stats[nick].finalist, points: stats[nick].points };
-        });
-
-        arr.sort(function(a, b) {
-          if (b.points !== a.points) return b.points - a.points;
-          if (b.champ !== a.champ) return b.champ - a.champ;
-          return b.finalist - a.finalist;
-        });
-
-        var html = '';
-        arr.forEach(function(row, i) {
-          var pos = i + 1;
-          var posClass = '';
-          var nameClass = '';
-          var champClass = '';
-          var finalistClass = '';
-          if (pos === 1) { posClass = nameClass = champClass = finalistClass = ' first'; }
-          else if (pos === 2) { posClass = nameClass = champClass = finalistClass = ' second'; }
-          else if (pos === 3) { posClass = nameClass = champClass = finalistClass = ' third'; }
-
-          var pointsClass = (row.points === 0) ? ' zero' : '';
-          var logoHtml = (row.points > 0) ? (' <img src="' + LOGO_URL + '" class="points-logo" alt="Чак-чак">') : '';
-
-          html += '<tr>'
-            + '<td class="pos-cell"><span class="cell-content">' + pos + '</span></td>'
-            + '<td><span class="cell-content"><span class="name-cell' + nameClass + '"><a href="profile.html?nick=' + encodeURIComponent(row.nick) + '" target="_top">' + escapeHtml(row.nick) + '</a></span></span></td>'
-            + '<td class="champ-cell"><span class="cell-content"><span class="champ-cell' + champClass + '">' + row.champ + '</span></span></td>'
-            + '<td class="finalist-cell"><span class="cell-content"><span class="finalist-cell' + finalistClass + '">' + row.finalist + '</span></span></td>'
-            + '<td class="points-cell"><span class="cell-content"><span class="points-cell' + pointsClass + '">' + row.points + logoHtml + '</span></span></td>'
-            + '</tr>';
-        });
-        body.innerHTML = html;
-      }
-
-      function loadAndRender() {
-        db.ref('playoff/tournaments').on('value', function(snap) {
-          var tournaments = snap.val() || {};
-          var allResults = [];
-          Object.keys(tournaments).forEach(function(tid) {
-            if (tournaments[tid] && tournaments[tid].finalResult) {
-              allResults.push(tournaments[tid].finalResult);
-            }
-          });
-          renderRating(allResults);
-        });
-      }
-
-      // === Сброс чак-чаков (только админ) ===
-      document.getElementById('btnReset').addEventListener('click', function() {
-        if (!isAdmin) return;
-        if (!confirm('Сбросить чак-чаки? Результаты всех финалов будут удалены.')) return;
-        db.ref('playoff/tournaments').once('value').then(function(snap) {
-          var tournaments = snap.val() || {};
-          var updates = {};
-          Object.keys(tournaments).forEach(function(tid) {
-            if (tournaments[tid] && tournaments[tid].finalResult) {
-              updates['playoff/tournaments/' + tid + '/finalResult'] = null;
-            }
-          });
-          if (Object.keys(updates).length > 0) {
-            db.ref().update(updates).then(function() {
-              alert('Чак-чаки сброшены!');
-            });
-          } else {
-            alert('Нет результатов для сброса.');
-          }
-        });
-      });
-
-      loadAndRender();
-    })();
-  </script>
+<script>
+fetch('header.html')
+.then(response => response.text())
+.then(data => {
+document.getElementById('header-placeholder').innerHTML = data;
+const script = document.createElement('script');
+script.type = 'module';
+script.src = 'auth.js';
+document.body.appendChild(script);
+})
+.catch(error => console.error('Ошибка загрузки шапки:', error));
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script>
+(function() {
+var firebaseConfig = {
+apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
+authDomain: "ak4ak-8be45.firebaseapp.com",
+databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
+projectId: "ak4ak-8be45",
+storageBucket: "ak4ak-8be45.appspot.com",
+messagingSenderId: "408070680295",
+appId: "1:408070680295:web:77b9656094e330b803bc42"
+};
+firebase.initializeApp(firebaseConfig);
+var db = firebase.database();
+var auth = firebase.auth();
+var LOGO_URL = 'png/logo1.jpg';
+var isAdmin = false;
+function escapeHtml(t) {
+if (!t) return '';
+return String(t)
+.replace(/&/g, "&amp;")
+.replace(/</g, "&lt;")
+.replace(/>/g, "&gt;")
+.replace(/"/g, "&quot;")
+.replace(/'/g, "&#039;");
+}
+// === Проверка админа через playoff/adminNicks ===
+auth.onAuthStateChanged(function(user) {
+if (!user) return;
+db.ref('users/' + user.uid).once('value').then(function(snap) {
+if (!snap.exists()) return;
+var ud = snap.val();
+var myNick = ud.nick || (ud.email ? ud.email.split('@')[0] : null);
+if (!myNick) return;
+db.ref('playoff/adminNicks/' + myNick).once('value').then(function(adminSnap) {
+isAdmin = adminSnap.exists() && adminSnap.val() === true;
+if (isAdmin) {
+document.getElementById('btnReset').classList.add('visible');
+}
+});
+});
+});
+function renderRating(allResults) {
+var body = document.getElementById('ratingBody');
+var stats = {};
+allResults.forEach(function(finalResult) {
+if (!finalResult) return;
+var winners = finalResult.winners || [];
+var runnersUp = finalResult.runnersUp || [];
+winners.forEach(function(nick) {
+if (!nick) return;
+if (!stats[nick]) stats[nick] = { champ: 0, finalist: 0, points: 0 };
+stats[nick].champ++;
+stats[nick].points += 2;
+});
+runnersUp.forEach(function(nick) {
+if (!nick) return;
+if (!stats[nick]) stats[nick] = { champ: 0, finalist: 0, points: 0 };
+stats[nick].finalist++;
+stats[nick].points += 1;
+});
+});
+var hasData = Object.keys(stats).length > 0;
+if (!hasData) {
+body.innerHTML = '<tr><td colspan="5" class="rating-empty">Итоги появятся после финала</td></tr>';
+return;
+}
+var arr = Object.keys(stats).map(function(nick) {
+return { nick: nick, champ: stats[nick].champ, finalist: stats[nick].finalist, points: stats[nick].points };
+});
+arr.sort(function(a, b) {
+if (b.points !== a.points) return b.points - a.points;
+if (b.champ !== a.champ) return b.champ - a.champ;
+return b.finalist - a.finalist;
+});
+var html = '';
+arr.forEach(function(row, i) {
+var pos = i + 1;
+var posClass = '';
+var nameClass = '';
+var champClass = '';
+var finalistClass = '';
+if (pos === 1) { posClass = nameClass = champClass = finalistClass = ' first'; }
+else if (pos === 2) { posClass = nameClass = champClass = finalistClass = ' second'; }
+else if (pos === 3) { posClass = nameClass = champClass = finalistClass = ' third'; }
+var pointsClass = (row.points === 0) ? ' zero' : '';
+var logoHtml = (row.points > 0) ? (' <img src="' + LOGO_URL + '" class="points-logo" alt="Чак-чак">') : '';
+html += '<tr>'
++ '<td class="pos-cell"><span class="cell-content">' + pos + '</span></td>'
++ '<td><span class="cell-content"><span class="name-cell' + nameClass + '"><a href="profile.html?nick=' + encodeURIComponent(row.nick) + '" target="_top">' + escapeHtml(row.nick) + '</a></span></span></td>'
++ '<td class="champ-cell"><span class="cell-content"><span class="champ-cell' + champClass + '">' + row.champ + '</span></span></td>'
++ '<td class="finalist-cell"><span class="cell-content"><span class="finalist-cell' + finalistClass + '">' + row.finalist + '</span></span></td>'
++ '<td class="points-cell"><span class="cell-content"><span class="points-cell' + pointsClass + '">' + row.points + logoHtml + '</span></span></td>'
++ '</tr>';
+});
+body.innerHTML = html;
+}
+function loadAndRender() {
+db.ref('playoff/tournaments').on('value', function(snap) {
+var tournaments = snap.val() || {};
+var allResults = [];
+Object.keys(tournaments).forEach(function(tid) {
+if (tournaments[tid] && tournaments[tid].finalResult) {
+allResults.push(tournaments[tid].finalResult);
+}
+});
+renderRating(allResults);
+});
+}
+// === Сброс чак-чаков (только админ) ===
+document.getElementById('btnReset').addEventListener('click', function() {
+if (!isAdmin) return;
+if (!confirm('Сбросить чак-чаки? Результаты всех финалов будут удалены.')) return;
+db.ref('playoff/tournaments').once('value').then(function(snap) {
+var tournaments = snap.val() || {};
+var updates = {};
+Object.keys(tournaments).forEach(function(tid) {
+if (tournaments[tid] && tournaments[tid].finalResult) {
+updates['playoff/tournaments/' + tid + '/finalResult'] = null;
+}
+});
+if (Object.keys(updates).length > 0) {
+db.ref().update(updates).then(function() {
+alert('Чак-чаки сброшены!');
+});
+} else {
+alert('Нет результатов для сброса.');
+}
+});
+});
+loadAndRender();
+})();
+</script>
 </body>
 </html>
