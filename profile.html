@@ -54,10 +54,12 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
             gap: 0;
             background-color: #0a2240;
-            background-image: var(--profile-facets);
-            background-position: center;
             background-size: cover;
+            background-position: center;
             background-repeat: no-repeat;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
         }
@@ -70,7 +72,7 @@
             z-index: 0;
             pointer-events: none;
             border-radius: inherit;
-            background-image: var(--profile-facets-holo);
+            background-image: var(--holo-facets-holo);
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
@@ -1603,8 +1605,8 @@
       const profileHead = document.querySelector('.profile-head');
 
       if (profileHead) {
-        profileHead.style.backgroundImage = tex.base;
-        profileHead.style.setProperty('--profile-facets-holo', tex.holo);
+        profileHead.style.backgroundImage = tex.matte;
+        profileHead.style.setProperty('--holo-facets-holo', tex.holo);
       }
 
       // Idle glint — периодическая вспышка
