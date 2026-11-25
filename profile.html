@@ -44,40 +44,84 @@
         
         .profile-intro, .profile-body { padding: 0 24px; }
 
-        /* ====== ЗОНА КАРТОЧКИ ПРОФИЛЯ: ФОН NIKOLA TESLA (glass, seed 42) ====== */
-        .profile-head {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    gap: 0;
-    background-color: #374151;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 20px;
-    margin: 24px 0;   /* <-- отступ сверху и снизу, как по бокам */
-    padding: 40px 30px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-    position: relative;
-    overflow: hidden;
-}
+        /* ====== ГОЛО-КАРТИНКИ СПРАВА: DRAGONFLY / MANDALA (шейдер 1-в-1 из исходника) ====== */
+        .profile-table-wrapper.holo-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-right: 12px;
+        }
+        .profile-table-wrapper.holo-row .profile,
+        .profile-table-wrapper.holo-row .profile-body { flex: 1; min-width: 0; }
 
-        /* ::before — REVEAL LAYER (радужные facets) */
-        .profile-head::before {
+        .holo-side {
+            flex: 0 0 240px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 24px 0;
+        }
+        .holo-side p {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 15px 0;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        }
+        .holo-side .shader {
+            width: 190px;
+            border-radius: 12px;
+        }
+        .holo-side .shader img {
+            width: 100% !important;
+            height: auto !important;
+            display: block;
+        }
+        /* Dragonfly — повёрнута на 45 градусов вправо */
+        .dragonfly-tilt {
+            transform: rotate(45deg);
+            margin: 45px 0;
+        }
+
+        /* Точные стили шейдера из исходника */
+        .shader {
+            position: relative;
+            overflow: hidden;
+            backface-visibility: hidden; /* Forces GPU */
+        }
+        .shader-layer {
+            background: black;
+            mix-blend-mode: multiply;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background-position: center;
+        }
+        .specular {
+            mix-blend-mode: color-dodge;
+            background-attachment: fixed;
+        }
+        .mask {
+            mix-blend-mode: multiply;
+        }
+
+        /* Тесла-эффект (радужные грани + блик) на самих картинах */
+        .holo-side .shader::after {
             content: "";
             position: absolute;
             inset: 0;
-            z-index: 0;
+            z-index: 5;
             pointer-events: none;
             border-radius: inherit;
-            background-image: var(--holo-facets-holo);
+            background-image: var(--holo-facets-load);
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
             mix-blend-mode: screen;
-            opacity: 0.5;
+            opacity: 0.45;
             -webkit-mask-image: linear-gradient(105deg, transparent 34%, #000 45%, #000 55%, transparent 66%);
             mask-image: linear-gradient(105deg, transparent 34%, #000 45%, #000 55%, transparent 66%);
             -webkit-mask-size: 250% 100%;
@@ -91,43 +135,53 @@
                 mask-position 0.12s ease-out,
                 opacity 0.25s ease;
         }
-
-        /* ::after — БЕЛЫЙ БЛИК */
-        .profile-head::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            border-radius: inherit;
-            background: linear-gradient(
-                110deg,
-                transparent 25%,
-                rgba(255, 255, 255, 0.16) 47%,
-                rgba(255, 255, 255, 0.04) 53%,
-                transparent 72%
-            );
-            background-size: 220% 100%;
-            background-position: var(--holo-pos, 78%) 0;
-            mix-blend-mode: screen;
-            transition: background-position 0.12s ease-out;
-        }
-
-        /* Idle glint — периодическая вспышка */
-        .profile-head[data-glint="true"]::before { animation: holo-glint-holo 1.6s ease-in-out; }
-        .profile-head[data-glint="true"]::after  { animation: holo-glint-sheen 1.6s ease-in-out; }
-
-        @keyframes holo-glint-holo {
-            0%, 100% { opacity: 0.5; -webkit-mask-position: 50% 0; mask-position: 50% 0; }
+        .holo-side .shader[data-glint="true"]::after { animation: holo-glint-side 1.6s ease-in-out; }
+        @keyframes holo-glint-side {
+            0%, 100% { opacity: 0.45; -webkit-mask-position: 50% 0; mask-position: 50% 0; }
             50%      { opacity: 1; -webkit-mask-position: 20% 0; mask-position: 20% 0; }
         }
-        @keyframes holo-glint-sheen {
-            0%, 100% { background-position: 78% 0; }
-            50%      { background-position: 24% 0; }
+
+        /* Шейдерные градиенты Dragonfly и Mandala из исходника */
+        .gradient-dragonfly {
+            background-image: linear-gradient(
+                25deg,
+                hsl(0, 0%, 33%) 30%,
+                hsl(138, 26%, 83%) 45%,
+                hsl(77, 5%, 72%) 65%,
+                hsl(0, 0%, 33%) 70%
+            );
+        }
+        .gradient-mandala {
+            background-image: linear-gradient(
+                30deg,
+                hsl(30, 80%, 20%) 0%,
+                hsl(30, 80%, 80%) 10%,
+                hsl(30, 80%, 20%) 20%,
+                hsl(30, 80%, 80%) 30%,
+                hsl(30, 80%, 20%) 35%,
+                hsl(30, 80%, 80%) 50%,
+                hsl(30, 80%, 20%) 65%,
+                hsl(30, 80%, 80%) 70%,
+                hsl(30, 80%, 20%) 80%,
+                hsl(30, 80%, 80%) 90%,
+                hsl(30, 80%, 20%) 100%
+            );
         }
 
-        /* Контент карточки — над фоном */
-        .profile-head > * { position: relative; z-index: 1; }
+        @media (max-width: 768px) {
+            .profile-table-wrapper.holo-row { flex-direction: column; padding-right: 0; }
+            .holo-side { flex: 0 0 auto; width: 100%; }
+        }
+
+        .profile-head {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            gap: 0;
+        }
                 /* ====== ГОЛОГРАФИЧЕСКАЯ КАРТОЧКА ====== */
         :root {
             --pointer-x: 50%;
@@ -922,7 +976,7 @@
     <div id="header-placeholder" class="header-wrapper"></div>
 
     <div class="profile-container">
-        <div class="profile-table-wrapper">
+        <div class="profile-table-wrapper holo-row">
             <div class="profile">
                 <div class="profile-intro">
                     <div class="profile-head">
@@ -957,8 +1011,19 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ✅ DRAGONFLY: повёрнута на 45 градусов вправо, разметка 1-в-1 из исходника -->
+            <div class="holo-side">
+                <p>Dragonfly</p>
+                <div class="shader framed dragonfly-tilt" id="holoShader1">
+                    <img src="https://assets.codepen.io/2153413/dragonfly-base.png" alt="Silhouette design of a dragonfly" width="512">
+                    <div class="shader-layer specular gradient-dragonfly">
+                        <img class="shader-layer mask" src="https://assets.codepen.io/2153413/dragonfly-mask.png" alt="" width="512">
+                    </div>
+                </div>
+            </div>
         </div>
-                <div class="profile-table-wrapper">
+                <div class="profile-table-wrapper holo-row">
             <div class="profile-body">
                 <div class="profile-section">
                     <h3 class="profile-section-name">
@@ -1002,8 +1067,104 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ✅ MANDALA: справа в таблице достижений, разметка 1-в-1 из исходника -->
+            <div class="holo-side">
+                <p>Mandala</p>
+                <div class="shader framed" id="holoShader2">
+                    <img src="https://assets.codepen.io/2153413/mandala-base.png" alt="Mandala design" width="512">
+                    <div class="shader-layer specular gradient-mandala">
+                        <img class="shader-layer mask" src="https://assets.codepen.io/2153413/mandala-mask.png" alt="" width="512">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+        <script>
+        // ============================================================
+        // ТЕСЛА-ЭФФЕКТ (радужные грани + вспышки) на картинках Dragonfly и Mandala.
+        // Каждой картинке — свой seeded-узор, сгенерированный как фон Nikola Tesla.
+        // ============================================================
+        (function() {
+          'use strict';
+
+          const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+
+          function createSeededRandom(seed) {
+            return function() {
+              seed |= 0;
+              seed = (seed + 0x6d2b79f5) | 0;
+              let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+              t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+              return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+            };
+          }
+
+          function makeFacetPair(seed, base, holo) {
+            const W = 600, H = 880, cols = 7, rows = 11;
+            const rand = createSeededRandom(seed);
+            const pts = {};
+            for (let r = 0; r <= rows; r++) for (let c = 0; c <= cols; c++) {
+              const jx = (rand() * 2 - 1) * (W / cols) * 0.42;
+              const jy = (rand() * 2 - 1) * (H / rows) * 0.42;
+              const x = c === 0 ? 0 : c === cols ? W : (c * W) / cols + jx;
+              const y = r === 0 ? 0 : r === rows ? H : (r * H) / rows + jy;
+              pts[`${r},${c}`] = [clamp(x, 0, W), clamp(y, 0, H)];
+            }
+            const tris = [];
+            for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+              const a = pts[`${r},${c}`], b = pts[`${r},${c + 1}`];
+              const cc = pts[`${r + 1},${c}`], d = pts[`${r + 1},${c + 1}`];
+              if (rand() < 0.5) tris.push([a, b, d], [a, d, cc]);
+              else tris.push([a, b, cc], [b, d, cc]);
+            }
+            const draw = (palette) => {
+              const polys = tris.map((t) => {
+                const fill = palette[Math.floor(rand() * palette.length)];
+                const p = t.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
+                return `<polygon points="${p}" fill="${fill}"/>`;
+              }).join("");
+              const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice">${polys}</svg>`;
+              return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+            };
+            return { base: draw(base), holo: draw(holo) };
+          }
+
+          const NAVY_FACETS = ["#020a16","#020a16","#041020","#041020","#071a30","#0a2240","#0d2848","#103058","#15396a","#1b4480"];
+          const PRISM_FACETS = ["#ff3b5c","#ff7a1a","#ffd24d","#5cff7a","#4de4ff","#4d8cff","#b96bff","#ff4dd2","#ffffff"];
+
+          // Разные seed — у каждой картинки уникальный узор
+          const texs = [
+            { el: document.getElementById('holoShader1'), tex: makeFacetPair(42, NAVY_FACETS, PRISM_FACETS) },
+            { el: document.getElementById('holoShader2'), tex: makeFacetPair(1337, NAVY_FACETS, PRISM_FACETS) }
+          ];
+
+          texs.forEach(({ el, tex }) => {
+            if (!el) return;
+            el.style.setProperty('--holo-facets-load', tex.holo);
+          });
+
+          // Idle glint — периодические вспышки на обеих картинках
+          if (window.matchMedia && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            texs.forEach(({ el }) => {
+              if (!el) return;
+              const scheduleGlint = () => {
+                const delay = 2600 + Math.random() * 3200;
+                window.setTimeout(() => {
+                  if (!document.hidden && el.getAttribute("data-glint") !== "true") {
+                    el.setAttribute("data-glint", "true");
+                    window.setTimeout(() => el.removeAttribute("data-glint"), 1700);
+                  }
+                  scheduleGlint();
+                }, delay);
+              };
+              scheduleGlint();
+            });
+          }
+
+          console.log('✦ Тесла-эффект применён к Dragonfly и Mandala.');
+        })();
+        </script>
         <script>
         fetch('header.html').then(r => r.text()).then(data => {
             document.getElementById('header-placeholder').innerHTML = data;
@@ -1543,90 +1704,6 @@
                 }
             );
         }, 800);
-    })();
-    </script>
-
-    <script>
-    // ============================================================
-    // ФОН NIKOLA TESLA (glass, seed 42) — только для зоны карточки
-    // профиля (.profile-head). До первой полоски (border-bottom),
-    // в статистику и призы фон НЕ опускается.
-    // ============================================================
-    (function() {
-      'use strict';
-
-      const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
-
-      function createSeededRandom(seed) {
-        return function() {
-          seed |= 0;
-          seed = (seed + 0x6d2b79f5) | 0;
-          let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-        };
-      }
-
-      function makeFacetPair(seed, base, holo) {
-        const W = 600, H = 880, cols = 7, rows = 11;
-        const rand = createSeededRandom(seed);
-        const pts = {};
-        for (let r = 0; r <= rows; r++) for (let c = 0; c <= cols; c++) {
-          const jx = (rand() * 2 - 1) * (W / cols) * 0.42;
-          const jy = (rand() * 2 - 1) * (H / rows) * 0.42;
-          const x = c === 0 ? 0 : c === cols ? W : (c * W) / cols + jx;
-          const y = r === 0 ? 0 : r === rows ? H : (r * H) / rows + jy;
-          pts[`${r},${c}`] = [clamp(x, 0, W), clamp(y, 0, H)];
-        }
-        const tris = [];
-        for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
-          const a = pts[`${r},${c}`], b = pts[`${r},${c + 1}`];
-          const cc = pts[`${r + 1},${c}`], d = pts[`${r + 1},${c + 1}`];
-          if (rand() < 0.5) tris.push([a, b, d], [a, d, cc]);
-          else tris.push([a, b, cc], [b, d, cc]);
-        }
-        const draw = (palette) => {
-          const polys = tris.map((t) => {
-            const fill = palette[Math.floor(rand() * palette.length)];
-            const p = t.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
-            return `<polygon points="${p}" fill="${fill}"/>`;
-          }).join("");
-          const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice">${polys}</svg>`;
-          return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
-        };
-        return { base: draw(base), holo: draw(holo) };
-      }
-
-      const NAVY_FACETS = ["#020a16","#020a16","#041020","#041020","#071a30","#0a2240","#0d2848","#103058","#15396a","#1b4480"];
-      const PRISM_FACETS = ["#ff3b5c","#ff7a1a","#ffd24d","#5cff7a","#4de4ff","#4d8cff","#b96bff","#ff4dd2","#ffffff"];
-
-      const tex = makeFacetPair(42, NAVY_FACETS, PRISM_FACETS);
-
-      const profileHead = document.querySelector('.profile-head');
-
-      if (profileHead) {
-        profileHead.style.backgroundImage = tex.matte;
-        profileHead.style.setProperty('--holo-facets-holo', tex.holo);
-      }
-
-      // Idle glint — периодическая вспышка
-      if (profileHead && window.matchMedia && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        let glintTimer = 0;
-        const scheduleGlint = () => {
-          const delay = 2600 + Math.random() * 3200;
-          glintTimer = window.setTimeout(() => {
-            if (!document.hidden && profileHead.getAttribute("data-glint") !== "true") {
-              profileHead.setAttribute("data-glint", "true");
-              window.setTimeout(() => profileHead.removeAttribute("data-glint"), 1700);
-            }
-            scheduleGlint();
-          }, delay);
-        };
-        scheduleGlint();
-        window.addEventListener('beforeunload', () => clearTimeout(glintTimer));
-      }
-
-      console.log('✦ Фон Nikola Tesla (glass, seed: 42) применён к зоне карточки профиля.');
     })();
     </script>
 </body>
