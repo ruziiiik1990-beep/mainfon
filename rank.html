@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="style.css">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-html, body {
+body {
 margin: 0;
 padding: 0;
 background: transparent;
@@ -20,80 +20,20 @@ overflow-x: hidden;
 }
 /* Фон — обычная картинка в потоке, как на главной */
 .bg-image {
-position: fixed;
+position: absolute;
 top: 0;
 left: 0;
 width: 100%;
-height: 100%;
+height: auto;
 z-index: 0;
 pointer-events: none;
-object-fit: cover;
 }
 /* Шапка поверх фона */
 .header-wrapper {
 position: relative;
 z-index: 10;
 }
-
-/* ====== ОБЁРТКА СТРАНИЦЫ: таблица + наклейка ====== */
-.rating-page {
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 40px;
-padding: 40px 20px;
-min-height: 100vh;
-box-sizing: border-box;
-position: relative;
-z-index: 5;
-}
-
-/* ====== ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА ====== */
-.holo-sticker {
-flex: 0 0 180px;
-width: 180px;
-height: 180px;
-filter: drop-shadow(0 0 25px rgba(74, 158, 255, 0.5));
-animation: sticker-float 4s ease-in-out infinite;
-pointer-events: none;
-}
-@keyframes sticker-float {
-0%, 100% { transform: translateY(0) scale(1); }
-50% { transform: translateY(-8px) scale(1.03); }
-}
-.holo-sticker svg {
-width: 100%;
-height: 100%;
-display: block;
-}
-/* Цвета для голографического паттерна */
-.color0 { fill: none; }
-.color1 { fill: #8EABE5; }
-.color2 { fill: #BCACF3; }
-.color3 { fill: #FAA9B2; }
-.color4 { fill: #F8FCA8; }
-.color5 { fill: #B5DFC8; }
-.circle { fill: url(#multi-dots); }
-
-/* Адаптив: на маленьких экранах убираем наклейку или ставим сверху */
-@media (max-width: 900px) {
-.rating-page {
-flex-direction: column;
-gap: 20px;
-}
-.holo-sticker {
-width: 140px;
-height: 140px;
-}
-}
-@media (max-width: 500px) {
-.holo-sticker {
-display: none;
-}
-}
-/* ========================================================== */
-
-/* ====== ПЕРЕМЕННЫЕ ГОЛОГРАММЫ (для фона таблицы) ====== */
+/* ====== ПЕРЕМЕННЫЕ ГОЛОГРАММЫ ====== */
 :root {
 --metafy: url(https://assets.codepen.io/13471/metafy-repeat.png);
 --grain: url(https://assets.codepen.io/13471/grain.webp);
@@ -112,10 +52,67 @@ display: none;
 --background-x: 50%;
 --background-y: 50%;
 }
-/* ====== КОНТЕЙНЕР С ГОЛОГРАММОЙ ====== */
+
+/* ====== ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА — привязана к СТРАНИЦЕ (fixed) ====== */
+.holo-sticker {
+position: fixed;
+left: 60px;
+top: 50%;
+transform: translateY(-50%);
+width: 180px;
+height: 180px;
+z-index: 5;
+filter: drop-shadow(0 0 25px rgba(74, 158, 255, 0.5));
+animation: sticker-float 4s ease-in-out infinite;
+pointer-events: none;
+}
+@keyframes sticker-float {
+0%, 100% { transform: translateY(-50%) scale(1); }
+50% { transform: translateY(-55%) scale(1.03); }
+}
+.holo-sticker svg {
+width: 100%;
+height: 100%;
+display: block;
+}
+/* Цвета для голографического паттерна */
+.color0 { fill: none; }
+.color1 { fill: #8EABE5; }
+.color2 { fill: #BCACF3; }
+.color3 { fill: #FAA9B2; }
+.color4 { fill: #F8FCA8; }
+.color5 { fill: #B5DFC8; }
+.circle { fill: url(#multi-dots); }
+
+@media (max-width: 1100px) {
+.holo-sticker {
+left: 30px;
+width: 140px;
+height: 140px;
+}
+}
+@media (max-width: 850px) {
+.holo-sticker {
+position: relative;
+left: auto;
+top: auto;
+transform: none;
+margin: 0 auto 20px auto;
+width: 150px;
+height: 150px;
+pointer-events: auto;
+}
+@keyframes sticker-float {
+0%, 100% { transform: scale(1); }
+50% { transform: scale(1.03); }
+}
+}
+/* ========================================================== */
+
+/* ====== КОНТЕЙНЕР С ГОЛОГРАММОЙ (оригинал из rank.txt) ====== */
 .rating-container {
 max-width: 650px;
-width: 100%;
+margin: 40px auto 40px auto;
 padding: 20px;
 background: rgba(10, 42, 107, 0.55);
 border: 1px solid rgba(74, 158, 255, 0.45);
@@ -126,7 +123,6 @@ z-index: 5;
 isolation: isolate;
 overflow: hidden;
 }
-/* Слой голограммы — под таблицей */
 .rating-holo {
 position: absolute;
 inset: 0;
@@ -135,7 +131,6 @@ overflow: hidden;
 pointer-events: none;
 z-index: 0;
 }
-/* shine — переливающиеся полосы (анимированный) */
 .rating-holo::before {
 content: "";
 position: absolute;
@@ -178,7 +173,6 @@ background-blend-mode: color, hard-light;
 background-size: 500% 500%, 300% 300%, 200% 200%;
 background-repeat: repeat;
 }
-/* glare — мягкий статичный блик по центру */
 .rating-holo::after {
 content: "";
 position: absolute;
@@ -197,7 +191,6 @@ opacity: 0.55;
 0%   { background-position: 0% var(--background-y), 0% 0%, center center; }
 100% { background-position: 0% var(--background-y), 90% 90%, center center; }
 }
-/* ====== КОНТЕНТ ПОВЕРХ ГОЛОГРАММЫ ====== */
 .rating-title,
 .rating-scroll,
 .rating-note,
@@ -278,7 +271,6 @@ font-size: 12px;
 margin-top: 12px;
 text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
-/* Кнопка сброса — только для админа */
 .btn-reset {
 display: none;
 margin: 20px auto 0 auto;
@@ -306,14 +298,10 @@ box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 <!-- Шапка -->
 <div id="header-placeholder" class="header-wrapper"></div>
 
-<!-- ====== ОБЁРТКА: наклейка + таблица ====== -->
-<div class="rating-page">
-
-<!-- ✅ ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА (полностью голографическая, без белого фона) -->
+<!-- ✅ ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА — привязана к странице (fixed), слева с отступом 60px -->
 <div class="holo-sticker">
 <svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
-<!-- Голографический паттерн (радужные точки) -->
 <pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots" viewBox="12.5 -34 26 23" style="overflow:visible;">
 <g>
 <rect x="12.5" y="-34" width="26" height="23"/>
@@ -327,11 +315,9 @@ box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 <g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
 </g>
 </pattern>
-<!-- Обрезка по кругу -->
 <clipPath id="badge-clip">
 <circle cx="128" cy="128" r="120"/>
 </clipPath>
-<!-- Голографический градиент для верхнего слоя -->
 <linearGradient id="holo-shine" x1="0%" y1="0%" x2="100%" y2="100%">
 <stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
 <stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
@@ -342,21 +328,21 @@ box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 </linearGradient>
 </defs>
 
-<!-- 1. Базовый голографический фон (паттерн) -->
+<!-- 1. Голографический фон (паттерн) — СНИЗУ -->
 <circle class="circle" cx="128" cy="128" r="120"/>
 
-<!-- 2. Картинка dust2.png — полупрозрачная, чтобы голограмма просвечивала -->
-<image href="png/dust2.png" x="28" y="28" width="200" height="200" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip)" opacity="0.55" style="mix-blend-mode: multiply;"/>
+<!-- 2. Голографический градиент — ПОСЕРЕДИНЕ -->
+<circle cx="128" cy="128" r="120" fill="url(#holo-shine)" clip-path="url(#badge-clip)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
 
-<!-- 3. Голографический градиент поверх -->
-<circle cx="128" cy="128" r="120" fill="url(#holo-shine)" clip-path="url(#badge-clip)" style="mix-blend-mode: color-dodge; opacity: 0.7;"/>
+<!-- 3. Картинка mirage.png — ПОВЕРХ голографии -->
+<image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip)"/>
 
-<!-- 4. Второй слой паттерна для усиления голографии -->
-<circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.4;"/>
+<!-- 4. Второй слой паттерна для усиления блеска — СВЕРХУ -->
+<circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
 
-<!-- Таблица рейтинга -->
+<!-- ====== ТАБЛИЦА РЕЙТИНГА (оригинал из rank.txt, не тронута) ====== -->
 <div class="rating-container">
 <div class="rating-holo"></div>
 <div class="rating-title">Турнирная таблица</div>
@@ -381,10 +367,7 @@ box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 </div>
 </div>
 <div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
-<!-- Кнопка сброса (видна только админу) -->
 <button class="btn-reset" id="btnReset">Сбросить чак-чаки</button>
-</div>
-
 </div>
 
 <script>
@@ -427,7 +410,6 @@ return String(t)
 .replace(/"/g, "&quot;")
 .replace(/'/g, "&#039;");
 }
-// === Проверка админа через playoff/adminNicks ===
 auth.onAuthStateChanged(function(user) {
 if (!user) return;
 db.ref('users/' + user.uid).once('value').then(function(snap) {
@@ -510,7 +492,6 @@ allResults.push(tournaments[tid].finalResult);
 renderRating(allResults);
 });
 }
-// === Сброс чак-чаков (только админ) ===
 document.getElementById('btnReset').addEventListener('click', function() {
 if (!isAdmin) return;
 if (!confirm('Сбросить чак-чаки? Результаты всех финалов будут удалены.')) return;
