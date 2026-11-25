@@ -125,8 +125,10 @@
             height: 100%;
             background-position: center;
         }
-        /* Цвет накладывается ТОЛЬКО на силуэт картинки (по прозрачности PNG) */
+        /* Цвет накладывается ТОЛЬКО на силуэт картинки (по прозрачности PNG),
+           режим multiply — сохраняет внутреннюю структуру рисунка */
         .tint {
+            mix-blend-mode: multiply;
             -webkit-mask-size: 100% 100%;
             mask-size: 100% 100%;
             -webkit-mask-repeat: no-repeat;
