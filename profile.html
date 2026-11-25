@@ -90,18 +90,18 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            width: 140px;
+            width: 80px;
         }
         .mandala-side p {
             color: #fff;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 700;
             margin: 0 0 8px 0;
             letter-spacing: 0.5px;
             text-shadow: 0 2px 8px rgba(0,0,0,0.6);
         }
         .mandala-side .shader {
-            width: 133px; /* 190px - 30% */
+            width: 66px; /* было 190px: сначала -30%, теперь еще в 2 раза меньше */
             border-radius: 12px;
         }
         .mandala-side .shader img {
@@ -112,18 +112,27 @@
 
         /* Точные стили шейдера из исходника */
         .shader {
+            background: #374151; /* серый позади картинки, как в таблице */
             position: relative;
             overflow: hidden;
             backface-visibility: hidden; /* Forces GPU */
         }
         .shader-layer {
-            background: #374151; /* серый, как в таблице профиля (было black) */
-            mix-blend-mode: multiply;
+            background: transparent;
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             background-position: center;
+        }
+        /* Цвет накладывается ТОЛЬКО на силуэт картинки (по прозрачности PNG) */
+        .tint {
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
         }
         .specular {
             mix-blend-mode: color-dodge;
@@ -133,7 +142,10 @@
             mix-blend-mode: multiply;
         }
 
-        /* ТОЛЬКО эффект блёсток (блик бегает влево-вправо) — без фона Nikola Tesla */
+        .dragonfly-side .shader,
+        .mandala-side .shader { background: #374151; }
+
+        /* Только блёстки (блик бегает влево-вправо) — без фона Nikola Tesla */
         .dragonfly-side .shader::after,
         .mandala-side .shader::after {
             content: "";
@@ -1052,9 +1064,7 @@
                         <p>Dragonfly</p>
                         <div class="shader framed dragonfly-tilt" id="holoShader1">
                             <img src="https://assets.codepen.io/2153413/dragonfly-base.png" alt="Silhouette design of a dragonfly" width="512">
-                            <div class="shader-layer specular gradient-sparrow">
-                                <img class="shader-layer mask" src="https://assets.codepen.io/2153413/dragonfly-mask.png" alt="" width="512">
-                            </div>
+                            <div class="shader-layer tint gradient-sparrow" style="-webkit-mask-image: url('https://assets.codepen.io/2153413/dragonfly-base.png'); mask-image: url('https://assets.codepen.io/2153413/dragonfly-base.png');"></div>
                         </div>
                     </div>
                 </div>
@@ -1117,9 +1127,7 @@
                 <p>Mandala</p>
                 <div class="shader framed" id="holoShader2">
                     <img src="https://assets.codepen.io/2153413/mandala-base.png" alt="Mandala design" width="512">
-                    <div class="shader-layer specular gradient-mandala">
-                        <img class="shader-layer mask" src="https://assets.codepen.io/2153413/mandala-mask.png" alt="" width="512">
-                    </div>
+                    <div class="shader-layer tint gradient-mandala" style="-webkit-mask-image: url('https://assets.codepen.io/2153413/mandala-base.png'); mask-image: url('https://assets.codepen.io/2153413/mandala-base.png');"></div>
                 </div>
             </div>
         </div>
