@@ -1,18 +1,40 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
   <title>Файлы - 4ak4ak</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-    body {
-      margin: 0;
-      padding: 0;
-      background: transparent;
-      font-family: 'Inter', sans-serif;
-    }
+            body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+        }
+
+        .page-bg {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 70px);
+            background-image: url('pngg/5kolo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            pointer-events: none;
+        }
+
 
     .page-bg {
       position: fixed;
@@ -34,11 +56,14 @@
     }
 
     .files-container {
-      max-width: 900px;
+      max-width: 1100px;
       margin: 100px auto 40px auto;
       padding: 20px;
       position: relative;
       z-index: 1;
+      flex: 1;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .files-title {
@@ -52,15 +77,114 @@
       text-shadow: 0 2px 10px rgba(74, 158, 255, 0.5);
     }
 
+    /* ========================================= */
+    /* ЕДИНАЯ ТАБЛИЦА: ФОН NIKOLA TESLA (glass)  */
+    /* ========================================= */
     .download-block {
-      background: rgba(10, 42, 107, 0.6);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(74, 158, 255, 0.5);
+      background-color: #0a2240;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border: 2px solid rgba(244, 231, 38, 0.35);
       border-radius: 20px;
       padding: 40px 30px;
-      text-align: center;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ========================================= */
+    /* ЛЕВАЯ ЧАСТЬ: ТЕКСТ + ГОЛОГРАФИЧЕСКИЕ СЛОИ */
+    /* ========================================= */
+    .download-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    /* ::before — REVEAL LAYER (радужные facets) */
+    .download-content::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      border-radius: inherit;
+      background-image: var(--holo-facets-holo);
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      mix-blend-mode: screen;
+      opacity: 0.5;
+      -webkit-mask-image: linear-gradient(105deg, transparent 34%, #000 45%, #000 55%, transparent 66%);
+      mask-image: linear-gradient(105deg, transparent 34%, #000 45%, #000 55%, transparent 66%);
+      -webkit-mask-size: 250% 100%;
+      mask-size: 250% 100%;
+      -webkit-mask-position: var(--holo-pos, 50%) 0;
+      mask-position: var(--holo-pos, 50%) 0;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      transition:
+        -webkit-mask-position 0.12s ease-out,
+        mask-position 0.12s ease-out,
+        opacity 0.25s ease;
+    }
+
+    /* ::after — БЕЛЫЙ БЛИК */
+    .download-content::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      border-radius: inherit;
+      background: linear-gradient(
+        110deg,
+        transparent 25%,
+        rgba(255, 255, 255, 0.16) 47%,
+        rgba(255, 255, 255, 0.04) 53%,
+        transparent 72%
+      );
+      background-size: 220% 100%;
+      background-position: var(--holo-pos, 78%) 0;
+      mix-blend-mode: screen;
+      transition: background-position 0.12s ease-out;
+    }
+
+    /* Idle glint — периодическая вспышка */
+    .download-content[data-glint="true"]::before {
+      animation: holo-glint-holo 1.6s ease-in-out;
+    }
+    .download-content[data-glint="true"]::after {
+      animation: holo-glint-sheen 1.6s ease-in-out;
+    }
+
+    @keyframes holo-glint-holo {
+      0%, 100% { opacity: 0.5; -webkit-mask-position: 50% 0; mask-position: 50% 0; }
+      50%      { opacity: 1; -webkit-mask-position: 20% 0; mask-position: 20% 0; }
+    }
+    @keyframes holo-glint-sheen {
+      0%, 100% { background-position: 78% 0; }
+      50%      { background-position: 24% 0; }
+    }
+
+    /* ========================================= */
+    /* ШРИФТ: Comic Neue для ВСЕГО контента      */
+    /* таблицы с античитом                       */
+    /* ========================================= */
+    .download-content,
+    .download-content * {
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
     }
 
     .download-icon {
@@ -74,15 +198,16 @@
       font-size: 24px;
       font-weight: 700;
       margin-bottom: 12px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
     }
 
     .download-desc {
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.85);
       font-size: 15px;
       line-height: 1.6;
-      max-width: 600px;
+      max-width: 500px;
       margin: 0 auto 30px auto;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
     }
 
     .download-btn {
@@ -111,44 +236,154 @@
       transform: translateY(-1px);
     }
 
+    .download-warning {
+      color: #ff2d2d;
+      font-size: 18px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 12px rgba(255, 45, 45, 0.8), 0 2px 6px rgba(0,0,0,0.8);
+      animation: warningPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes warningPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
     .download-note {
-      margin-top: 25px;
-      color: rgba(255, 255, 255, 0.5);
+      margin-top: 10px;
+      color: rgba(255, 255, 255, 0.6);
       font-size: 13px;
       font-style: italic;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
     }
 
     .download-arrow {
       font-size: 22px;
     }
+
+    /* ========================================= */
+    /* ПРАВАЯ ЧАСТЬ: ГОЛОГРАФИЧЕСКАЯ ПТИЧКА      */
+    /* ✅ КОД ПТИЧКИ 1-В-1 ИЗ ИСХОДНИКА           */
+    /* ========================================= */
+    .sparrow-holo {
+      flex: 0 0 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .sparrow-holo p {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0 0 15px 0;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    /* Точные стили шейдера из исходного кода */
+    .shader {
+      position: relative;
+      overflow: hidden;
+      backface-visibility: hidden; /* Forces GPU */
+      border-radius: 12px;
+    }
+
+    .shader-layer {
+      background: black;
+      mix-blend-mode: multiply;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-position: center;
+    }
+
+    .specular {
+      mix-blend-mode: color-dodge;
+      background-attachment: fixed;
+    }
+
+    .mask {
+      mix-blend-mode: multiply;
+    }
+
+    .gradient-sparrow {
+      background-image: linear-gradient(
+        0deg,
+        hsl(359, 60%, 40%),
+        hsl(16, 60%, 45%),
+        hsl(33, 60%, 50%),
+        hsl(45, 60%, 55%),
+        hsl(58, 60%, 60%),
+        hsl(58, 60%, 65%),
+        hsl(58, 60%, 70%),
+        hsl(96, 60%, 65%),
+        hsl(146, 60%, 60%),
+        hsl(183, 60%, 55%),
+        hsl(225, 60%, 50%),
+        hsl(265, 60%, 45%),
+        hsl(303, 60%, 40%)
+      );
+    }
+
+    @media (max-width: 900px) {
+      .download-block {
+        flex-direction: column;
+        gap: 30px;
+      }
+      .sparrow-holo {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 300px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Фон -->
   <div class="page-bg"></div>
-
-  <!-- Шапка -->
   <div id="header-placeholder" class="header-wrapper"></div>
 
   <div class="files-container">
     <div class="files-title">Файлы</div>
 
-    <div class="download-block">
-      <span class="download-icon">🛡️</span>
-      <div class="download-title">Античит для турниров</div>
-      <div class="download-desc">
-        Скачайте античит <b>ruzikTastyAC</b> для участия в турнирах. 
-        Установите его перед началом игры, чтобы подтвердить честность матча.
+    <div class="download-block" id="download-block">
+      <div class="download-content" id="download-content">
+        <span class="download-icon">🛡️</span>
+        <div class="download-title">Античит для турниров</div>
+        <div class="download-desc">
+          Скачайте античит <b>ruzikTastyAC</b> для участия в турнирах. 
+          Запустите его перед началом игры, чтобы подтвердить честность матча.
+        </div>
+
+        <a href="pngg/ruzikTastyAC.zip" download class="download-btn">
+          <span class="download-arrow">⬇️</span> Скачать Анти-чит
+        </a>
+
+        <div class="download-warning">
+          ОБЯЗАТЕЛЬНО ВЫКЛЮЧИТЬ АНТИВИРУС ПЕРЕД СКАЧИВАНИЕМ
+        </div>
+        <div class="download-note">
+          Файл скачивается напрямую с сайта. Введите его в игру перед матчем.
+        </div>
       </div>
 
-      <a href="pngg/ruzikTastyAC" download class="download-btn">
-        <span class="download-arrow">⬇️</span> Скачать Анти-чит
-      </a>
-
-      <div class="download-note">
-        Файл скачивается напрямую с сайта. Введите его в игру перед матчем.
+      <!-- ✅ ПТИЧКА: разметка 1-в-1 из исходника -->
+      <div class="sparrow-holo">
+        <p>Fancy Sparrow ✨</p>
+        <div class="shader framed">
+          <img src="https://assets.codepen.io/2153413/sparrow-base.png" alt="Fancy Sparrow" width="280" style="max-width: 100%; height: auto;">
+          <div class="shader-layer specular gradient-sparrow">
+            <img class="shader-layer mask" src="https://assets.codepen.io/2153413/sparrow-mask.png" alt="" width="280" style="max-width: 100%; height: auto;">
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 
@@ -163,6 +398,91 @@
         document.body.appendChild(script);
       })
       .catch(error => console.error('Ошибка загрузки шапки:', error));
+
+    // ============================================================
+    // ГЕНЕРАЦИЯ ФОНА NIKOLA TESLA (variant: glass, seed: 42)
+    // Применяется ТОЛЬКО к .download-block и .download-content::before.
+    // Птичка (.sparrow-holo) НЕ трогается.
+    // ============================================================
+    (function() {
+      'use strict';
+
+      const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+
+      function createSeededRandom(seed) {
+        return function() {
+          seed |= 0;
+          seed = (seed + 0x6d2b79f5) | 0;
+          let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      function makeFacetPair(seed, base, holo) {
+        const W = 600, H = 880, cols = 7, rows = 11;
+        const rand = createSeededRandom(seed);
+        const pts = {};
+        for (let r = 0; r <= rows; r++) for (let c = 0; c <= cols; c++) {
+          const jx = (rand() * 2 - 1) * (W / cols) * 0.42;
+          const jy = (rand() * 2 - 1) * (H / rows) * 0.42;
+          const x = c === 0 ? 0 : c === cols ? W : (c * W) / cols + jx;
+          const y = r === 0 ? 0 : r === rows ? H : (r * H) / rows + jy;
+          pts[`${r},${c}`] = [clamp(x, 0, W), clamp(y, 0, H)];
+        }
+        const tris = [];
+        for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+          const a = pts[`${r},${c}`], b = pts[`${r},${c + 1}`];
+          const cc = pts[`${r + 1},${c}`], d = pts[`${r + 1},${c + 1}`];
+          if (rand() < 0.5) tris.push([a, b, d], [a, d, cc]);
+          else tris.push([a, b, cc], [b, d, cc]);
+        }
+        const draw = (palette) => {
+          const polys = tris.map((t) => {
+            const fill = palette[Math.floor(rand() * palette.length)];
+            const p = t.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
+            return `<polygon points="${p}" fill="${fill}"/>`;
+          }).join("");
+          const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice">${polys}</svg>`;
+          return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+        };
+        return { base: draw(base), holo: draw(holo) };
+      }
+
+      const NAVY_FACETS = ["#020a16","#020a16","#041020","#041020","#071a30","#0a2240","#0d2848","#103058","#15396a","#1b4480"];
+      const PRISM_FACETS = ["#ff3b5c","#ff7a1a","#ffd24d","#5cff7a","#4de4ff","#4d8cff","#b96bff","#ff4dd2","#ffffff"];
+
+      const tex = makeFacetPair(42, NAVY_FACETS, PRISM_FACETS);
+
+      const downloadBlock = document.getElementById('download-block');
+      const downloadContent = document.getElementById('download-content');
+
+      if (downloadBlock) {
+        downloadBlock.style.backgroundImage = tex.matte;
+      }
+      if (downloadContent) {
+        downloadContent.style.setProperty('--holo-facets-holo', tex.holo);
+      }
+      // ❌ .sparrow-holo НЕ трогаем
+
+      if (downloadContent && window.matchMedia && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        let glintTimer = 0;
+        const scheduleGlint = () => {
+          const delay = 2600 + Math.random() * 3200;
+          glintTimer = window.setTimeout(() => {
+            if (!document.hidden && downloadContent.getAttribute("data-glint") !== "true") {
+              downloadContent.setAttribute("data-glint", "true");
+              window.setTimeout(() => downloadContent.removeAttribute("data-glint"), 1700);
+            }
+            scheduleGlint();
+          }, delay);
+        };
+        scheduleGlint();
+        window.addEventListener('beforeunload', () => clearTimeout(glintTimer));
+      }
+
+      console.log('✦ Фон Nikola Tesla (glass, seed: 42) применён. Птичка — исходный код без изменений.');
+    })();
   </script>
 
 </body>
