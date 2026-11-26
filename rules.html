@@ -1063,21 +1063,29 @@ return new Array(count)
 <script>
 (function() {
 'use strict';
-var show = document.getElementById('magicClutch');
 var stickers = document.querySelectorAll('.holo-sticker');
 if (!stickers.length) return;
 var running = false;
+var currentShow = null;
+var currentSticker = null;
 
 stickers.forEach(function(sticker) {
 sticker.addEventListener('click', function() {
 if (running) return;
 running = true;
+currentSticker = sticker;
+
+var modalId = sticker.getAttribute('data-modal');
+currentShow = document.getElementById(modalId);
+
 var rect = sticker.getBoundingClientRect();
 var svgImg = sticker.querySelector('image');
 var src = svgImg ? svgImg.getAttribute('href') : null;
-if (!src) { running = false; return; }
+if (!src) { running = false; if (currentShow) currentShow.classList.add('open'); return; }
+
 sticker.style.visibility = 'hidden';
 sticker.style.animation = 'none';
+
 var layer = document.createElement('div');
 layer.className = 'evap-layer';
 var canvas = document.createElement('canvas');
@@ -1088,12 +1096,15 @@ canvas.style.width = window.innerWidth + 'px';
 canvas.style.height = window.innerHeight + 'px';
 layer.appendChild(canvas);
 document.body.appendChild(layer);
+
 var flash = document.createElement('div');
 flash.className = 'evap-flash';
 document.body.appendChild(flash);
+
 var img = new Image();
 img.onload = function() { dissolve(img, rect, scale); };
 img.src = src;
+
 function dissolve(img, rect, scale) {
 var ctx = canvas.getContext('2d');
 ctx.scale(scale, scale);
@@ -1105,6 +1116,7 @@ octx.drawImage(img, 0, 0, W, H);
 var data;
 try { data = octx.getImageData(0, 0, W, H).data; }
 catch (e) { data = null; }
+
 var parts = [];
 if (data) {
 for (var y = 0; y < H; y += 2) {
@@ -1149,6 +1161,7 @@ bl: 0
 });
 }
 }
+
 var t0 = performance.now();
 function frame(t) {
 var el = t - t0;
@@ -1188,7 +1201,7 @@ requestAnimationFrame(frame);
 } else {
 document.body.removeChild(layer);
 document.body.removeChild(flash);
-show.classList.add('open');
+if (currentShow) currentShow.classList.add('open');
 running = false;
 }
 }
@@ -1198,16 +1211,21 @@ requestAnimationFrame(frame);
 });
 
 function closeShow() {
-show.classList.remove('open');
+if (currentShow) currentShow.classList.remove('open');
 stickers.forEach(function(s) {
 s.style.visibility = 'visible';
 s.style.animation = '';
 });
+currentShow = null;
+currentSticker = null;
 }
-document.getElementById('mcClose').addEventListener('click', closeShow);
-document.getElementById('mcBackdrop').addEventListener('click', closeShow);
+
+// Закрытие по крестику и фону в обеих модалках
+document.querySelectorAll('[data-close]').forEach(function(el) {
+el.addEventListener('click', closeShow);
+});
 document.addEventListener('keydown', function(e) {
-if (!show.classList.contains('open')) return;
+if (!currentShow || !currentShow.classList.contains('open')) return;
 if (e.key === 'Escape') closeShow();
 });
 })();
