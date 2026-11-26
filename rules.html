@@ -102,7 +102,6 @@ background: #fcf8f2;
 border-radius: 12px 4px 4px 12px;
 border: 1px solid #e8dec9;
 }
-/* ====== ПРЕМИАЛЬНАЯ ПЕРЕДНЯЯ ОБЛОЖКА ====== */
 .front-cover-page {
 background-color: #5a0a0a;
 background-image:
@@ -117,6 +116,7 @@ radial-gradient(circle at 70% 60%, rgba(0,0,0,0.10) 0%, transparent 2px),
 radial-gradient(circle at 20% 80%, rgba(0,0,0,0.08) 0%, transparent 2px),
 radial-gradient(circle at 85% 25%, rgba(0,0,0,0.11) 0%, transparent 2px),
 linear-gradient(135deg, #3a0505 0%, #6a0a0a 25%, #8b1010 50%, #5a0808 75%, #2a0303 100%);
+background-blend-mode: normal, normal, normal, normal, normal, normal, normal, normal, normal, normal;
 border-left: 8px solid #2A0000;
 border: 2px solid #5A0000;
 box-shadow: inset 0 0 60px rgba(0,0,0,0.6), inset 0 0 20px rgba(100,10,10,0.3);
@@ -145,7 +145,6 @@ border-radius: 2px;
 pointer-events: none;
 box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3);
 }
-/* ====== ПРЕМИАЛЬНАЯ ЗАДНЯЯ ОБЛОЖКА ====== */
 .back-cover-page {
 background-color: #4a0808;
 background-image:
@@ -404,11 +403,11 @@ font-style: italic;
 transform: rotateY(-180deg);
 }
 
-/* ==========================================
-   СТИЛИ ДВУХ СТИКЕРОВ (ЛЕВЫЙ + ПРАВЫЙ)
-   ========================================== */
+/* ===== СТИКЕР ===== */
 .holo-sticker {
 position: fixed;
+bottom: 50px;
+right: 50px;
 width: 180px;
 height: 180px;
 z-index: 100;
@@ -416,16 +415,6 @@ filter: drop-shadow(0 0 25px rgba(74, 158, 255, 0.5));
 animation: sticker-float 4s ease-in-out infinite;
 pointer-events: auto;
 cursor: pointer;
-}
-/* Левый стикер: top 250px, left 150px */
-.holo-sticker-left {
-top: 250px;
-left: 150px;
-}
-/* Правый стикер: top 250px, right 150px */
-.holo-sticker-right {
-top: 250px;
-right: 150px;
 }
 @keyframes sticker-float {
 0%, 100% { transform: translateY(0) scale(1); }
@@ -442,23 +431,11 @@ display: block;
 .color3 { fill: #FAA9B2; }
 .color4 { fill: #F8FCA8; }
 .color5 { fill: #B5DFC8; }
-.circle-left { fill: url(#multi-dots-left); }
-.circle-right { fill: url(#multi-dots-right); }
+.circle { fill: url(#multi-dots-sticker); }
+@media (max-width: 1100px) { .holo-sticker { bottom: 30px; right: 30px; width: 140px; height: 140px; } }
+@media (max-width: 850px) { .holo-sticker { bottom: 20px; right: 20px; width: 120px; height: 120px; } }
 
-@media (max-width: 1100px) {
-.holo-sticker { width: 140px; height: 140px; }
-.holo-sticker-left { top: 30px; left: 30px; }
-.holo-sticker-right { top: 30px; right: 30px; }
-}
-@media (max-width: 850px) {
-.holo-sticker { width: 120px; height: 120px; }
-.holo-sticker-left { top: 20px; left: 20px; }
-.holo-sticker-right { top: 20px; right: 20px; }
-}
-
-/* ==========================================
-   СТИЛИ МОДАЛКИ И ЭФФЕКТА ИСПАРЕНИЯ
-   ========================================== */
+/* ===== МОДАЛКА ===== */
 .mc-show {
 position: fixed;
 inset: 0;
@@ -487,8 +464,6 @@ border-radius: 6px;
 box-shadow: 0 30px 90px rgba(0,0,0,0.55);
 overflow: hidden;
 animation: mcZoom 0.55s cubic-bezier(0.2, 0.8, 0.25, 1);
-font-family: 'Inter', -apple-system, sans-serif;
-color: #23241f;
 }
 @keyframes mcZoom {
 from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
@@ -590,9 +565,7 @@ transition: opacity 0.5s ease;
 .mc-pages { top: 48px; }
 }
 
-/* ==========================================
-   СТИЛИ СЛАЙДА (Coldzera / Mirage)
-   ========================================== */
+/* ===== СЛАЙД ===== */
 .magic-mirage-wrapper {
 background-color: #e8e4de;
 font-family: 'Inter', sans-serif;
@@ -700,11 +673,11 @@ color: #555;
 <canvas id="tubes-canvas"></canvas>
 <div id="header-placeholder" class="header-wrapper"></div>
 
-<!-- ===== СТИКЕР ЛЕВЫЙ (top: 250px, left: 150px) ===== -->
-<div class="holo-sticker holo-sticker-left" id="holoStickerLeft">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
+<!-- СТИКЕР -->
+<div class="holo-sticker" id="holoSticker">
+<svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
-<pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-left" viewBox="12.5 -34 26 23" style="overflow:visible;">
+<pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-sticker" viewBox="12.5 -34 26 23" style="overflow:visible;">
 <g>
 <rect x="12.5" y="-34" width="26" height="23"/>
 <g><circle class="color1" cx="45" cy="-7.5" r="7.5"/></g>
@@ -717,10 +690,10 @@ color: #555;
 <g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
 </g>
 </pattern>
-<clipPath id="badge-clip-left">
+<clipPath id="badge-clip-sticker">
 <circle cx="128" cy="128" r="120"/>
 </clipPath>
-<linearGradient id="holo-shine-left" x1="0%" y1="0%" x2="100%" y2="100%">
+<linearGradient id="holo-shine-sticker" x1="0%" y1="0%" x2="100%" y2="100%">
 <stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
 <stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
 <stop offset="40%" stop-color="#5cff7a" stop-opacity="0.6"/>
@@ -729,57 +702,19 @@ color: #555;
 <stop offset="100%" stop-color="#ff4dd2" stop-opacity="0.7"/>
 </linearGradient>
 </defs>
-<circle class="circle-left" cx="128" cy="128" r="120" style="fill: url(#multi-dots-left);"/>
-<circle cx="128" cy="128" r="120" fill="url(#holo-shine-left)" clip-path="url(#badge-clip-left)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
-<image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip-left)"/>
-<circle class="circle-left" cx="128" cy="128" r="120" style="fill: url(#multi-dots-left); mix-blend-mode: screen; opacity: 0.35;"/>
-</svg>
-</div>
-
-<!-- ===== СТИКЕР ПРАВЫЙ (top: 250px, right: 150px) ===== -->
-<div class="holo-sticker holo-sticker-right" id="holoStickerRight">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
-<defs>
-<pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-right" viewBox="12.5 -34 26 23" style="overflow:visible;">
-<g>
-<rect x="12.5" y="-34" width="26" height="23"/>
-<g><circle class="color1" cx="45" cy="-7.5" r="7.5"/></g>
-<g><circle class="color1" cx="19" cy="-7.5" r="7.5"/><circle class="color2" cx="29.5" cy="-10" r="7.5"/></g>
-<g><circle class="color3" cx="39.5" cy="-26" r="7.5"/><circle class="color1" cx="45" cy="-30.5" r="7.5"/><circle class="color4" cx="42.5" cy="-17" r="7.5"/></g>
-<g><circle class="color3" cx="13.5" cy="-26" r="7.5"/><circle class="color1" cx="19" cy="-30.5" r="7.5"/><circle class="color1" cx="33.5" cy="-16" r="7.5"/><circle class="color2" cx="23.5" cy="-12" r="7.5"/><circle class="color2" cx="29.5" cy="-33" r="7.5"/><circle class="color4" cx="16.5" cy="-17" r="7.5"/><circle class="color5" cx="37.5" cy="-26" r="7.5"/><circle class="color3" cx="27.5" cy="-23" r="7.5"/></g>
-<g><circle class="color1" cx="7.5" cy="-16" r="7.5"/><circle class="color5" cx="11.5" cy="-26" r="7.5"/></g>
-<g><circle class="color4" cx="42.5" cy="-40" r="7.5"/></g>
-<g><circle class="color1" cx="33.5" cy="-39" r="7.5"/><circle class="color2" cx="23.5" cy="-35" r="7.5"/><circle class="color4" cx="16.5" cy="-40" r="7.5"/></g>
-<g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
-</g>
-</pattern>
-<clipPath id="badge-clip-right">
-<circle cx="128" cy="128" r="120"/>
-</clipPath>
-<linearGradient id="holo-shine-right" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
-<stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
-<stop offset="40%" stop-color="#5cff7a" stop-opacity="0.6"/>
-<stop offset="60%" stop-color="#4de4ff" stop-opacity="0.7"/>
-<stop offset="80%" stop-color="#b96bff" stop-opacity="0.6"/>
-<stop offset="100%" stop-color="#ff4dd2" stop-opacity="0.7"/>
-</linearGradient>
-</defs>
-<circle class="circle-right" cx="128" cy="128" r="120" style="fill: url(#multi-dots-right);"/>
-<circle cx="128" cy="128" r="120" fill="url(#holo-shine-right)" clip-path="url(#badge-clip-right)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
-<image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip-right)"/>
-<circle class="circle-right" cx="128" cy="128" r="120" style="fill: url(#multi-dots-right); mix-blend-mode: screen; opacity: 0.35;"/>
+<circle class="circle" cx="128" cy="128" r="120"/>
+<circle cx="128" cy="128" r="120" fill="url(#holo-shine-sticker)" clip-path="url(#badge-clip-sticker)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
+<image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip-sticker)"/>
+<circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
 
 <div class="book-viewport">
 <div class="book-wrapper" id="myBook">
-<!-- ЗАДНЯЯ ОБЛОЖКА -->
 <div class="b-page back-cover-page" style="z-index: 1;">
 <div class="back-cover-text">Спасибо за прочтение<br>и удача в погоне за <span style="white-space: nowrap;">Чак-Чак!</span></div>
 <img src="logo1.jpg" class="back-cover-logo" alt="Чак-Чак">
 </div>
-<!-- СТРАНИЦА 5: СПАСИБО -->
 <div class="b-page paper-page thanks-page" id="p5" style="z-index: 2;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -792,7 +727,6 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(5, 'prev')">↩ Назад</button>
 </div>
 </div>
-<!-- СТРАНИЦА 4: ПРИЗЫ -->
 <div class="b-page paper-page" id="p4" style="z-index: 3;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -810,7 +744,6 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(4, 'prev')">↩ Назад</button>
 </div>
 </div>
-<!-- СТРАНИЦА 3: АНТИЧИТ -->
 <div class="b-page paper-page" id="p3" style="z-index: 4;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -831,7 +764,6 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(3, 'prev')">↩ Назад</button>
 </div>
 </div>
-<!-- СТРАНИЦА 2: ОСНОВНЫЕ ПРАВИЛА -->
 <div class="b-page paper-page" id="p2" style="z-index: 5;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -851,7 +783,6 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(2, 'prev')">↩ Назад</button>
 </div>
 </div>
-<!-- СТРАНИЦА 1: ЗАСТАВКА -->
 <div class="b-page paper-page intro-page" id="p1" style="z-index: 6;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -864,7 +795,6 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(1, 'prev')">↩ Назад</button>
 </div>
 </div>
-<!-- ПЕРЕДНЯЯ ОБЛОЖКА -->
 <div class="b-page front-cover-page" id="p0" style="z-index: 7;">
 <div class="page-side front-side">
 <div class="cover-design">
@@ -880,12 +810,12 @@ color: #555;
 </div>
 </div>
 
-<!-- ===== МОДАЛКА ===== -->
+<!-- МОДАЛКА -->
 <div class="mc-show" id="magicClutch">
 <div class="mc-backdrop" id="mcBackdrop"></div>
 <div class="mc-window">
 <div class="mc-topbar">
-<span class="brand">THE Coldzera CLUTCH</span>
+<span class="brand">THE MAGIC CLUTCH</span>
 <span class="counter">
 <span><span class="mc-count-cur" id="mcCurrent">01</span> / <span id="mcTotal">01</span></span>
 <button class="mc-x" id="mcClose" title="Закрыть">&#10005;</button>
@@ -897,30 +827,30 @@ color: #555;
 <div class="magic-mirage-wrapper">
 <div class="main-content">
 <div class="left-column">
-<div class="section-label">CONTEXT</div>
-<h1 class="main-title"><span class="highlight">Крылатое AWP привет!</span></h1>
-<p class="description">В полуфинале MLG Major Championship: Columbus 2016 его команда, Luminosity Gaming, играла против Team Liquid. При счете 9:15 бразильскому коллективу требовалось чудо, и coldzera его сотворил!</p>
-<p class="description">Игроки Liquid решили использовать старую, но проверенную тактику — зарашить В. Он практически в одиночку с AWP Asiimov в руках остановил выход пятерых противников.</p>
+<div class="section-label">02 / CONTEXT</div>
+<h1 class="main-title"><span class="highlight">Кухня, которую запомнили.</span></h1>
+<p class="description">Раньше разработчики CS рисовали на картах граффити за крутые хайлайты с мейджоров, но давно забросили эту традицию. Клатч Маджикса стал идеальным поводом её воскресить.</p>
+<p class="description">И, хоть сделали это Valve необычным способом, факт остается фактом: впервые после выхода CS 2 в игре появилась отсылка на киберспортивный хайлайт.</p>
 <div class="tagline">
 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.09 8.26L20 9.27L15.55 13.97L16.91 20L12 16.9L7.09 20L8.45 13.97L4 9.27L9.91 8.26L12 2Z"/></svg>
-winged AWP
+A SECRET SAUCE FOR A LEGENDARY ROUND
 </div>
 </div>
 <div class="center-column">
 <div class="image-wrapper">
-<img src="png/Coldzera.png" alt="Coldzera Highlight">
+<img src="png/magixx.png" alt="Magixx Highlight">
 </div>
 </div>
 <div class="right-column">
-<div class="section-label">Coldzera</div>
+<div class="section-label">03 / MAGIC</div>
 <div class="image-container">
-<img src="png/flyAWP.png" alt="Fly AWP">
+<img src="png/pomidor.png" alt="Magic Tomato Paste">
 </div>
-<p class="description">На карте Mirage за фургоном на точке В можно найти изображение AWP с крыльями и четверкой отметок над прицелом. Этот рисунок появился тоже не просто так. Виновником появления стал Марсело coldzera Давид.</p>
+<p class="description">Разработчики CS 2 добавили кое-что необычное: в магазине на Mirage, который обычно называют кухней, теперь можно найти банки томатной пасты «Magic». На ней нарисован веселый помидор и есть подпись «Секретная заправка» на русском языке.</p>
 </div>
 </div>
 <div class="footer">
-<div class="footer-left">Coldzera / Mirage</div>
+<div class="footer-left">Magic / Mirage</div>
 <div class="footer-right">
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
 </div>
@@ -1009,23 +939,21 @@ return new Array(count)
 }
 </script>
 
-<!-- ===== JS ИСПАРЕНИЯ (ОБЩИЙ ДЛЯ ОБОИХ СТИКЕРОВ) ===== -->
+<!-- JS ИСПАРЕНИЯ -->
 <script>
 (function() {
 'use strict';
 var show = document.getElementById('magicClutch');
-var stickers = document.querySelectorAll('.holo-sticker');
-if (!stickers.length) return;
+var sticker = document.getElementById('holoSticker');
+if (!sticker) return;
 var running = false;
-
-stickers.forEach(function(sticker) {
 sticker.addEventListener('click', function() {
 if (running) return;
 running = true;
 var rect = sticker.getBoundingClientRect();
 var svgImg = sticker.querySelector('image');
 var src = svgImg ? svgImg.getAttribute('href') : null;
-if (!src) { running = false; return; }
+if (!src) { running = false; show.classList.add('open'); return; }
 sticker.style.visibility = 'hidden';
 sticker.style.animation = 'none';
 var layer = document.createElement('div');
@@ -1145,14 +1073,10 @@ running = false;
 requestAnimationFrame(frame);
 }
 });
-});
-
 function closeShow() {
 show.classList.remove('open');
-stickers.forEach(function(s) {
-s.style.visibility = 'visible';
-s.style.animation = '';
-});
+sticker.style.visibility = 'visible';
+sticker.style.animation = '';
 }
 document.getElementById('mcClose').addEventListener('click', closeShow);
 document.getElementById('mcBackdrop').addEventListener('click', closeShow);
