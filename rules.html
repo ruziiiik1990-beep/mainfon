@@ -314,24 +314,21 @@ font-style: italic;
 transform: rotateY(-180deg);
 }
 
-/* ==========================================
-   СТИКЕР: top 250px, right 150px
-   ========================================== */
+/* ====== ГОЛОГРАФИЧЕСКИЙ СТИКЕР (закреплён справа 150px, сверху 250px) ====== */
 .holo-sticker {
 position: fixed;
-top: 250px;
 right: 150px;
+top: 250px;
 width: 180px;
 height: 180px;
-z-index: 100;
+z-index: 20;
 filter: drop-shadow(0 0 25px rgba(74, 158, 255, 0.5));
 animation: sticker-float 4s ease-in-out infinite;
-pointer-events: auto;
-cursor: pointer;
+pointer-events: none;
 }
 @keyframes sticker-float {
 0%, 100% { transform: translateY(0) scale(1); }
-50% { transform: translateY(-10px) scale(1.03); }
+50% { transform: translateY(-8px) scale(1.03); }
 }
 .holo-sticker svg {
 width: 100%;
@@ -344,21 +341,28 @@ display: block;
 .color3 { fill: #FAA9B2; }
 .color4 { fill: #F8FCA8; }
 .color5 { fill: #B5DFC8; }
-.circle { fill: url(#multi-dots-sticker); }
-@media (max-width: 1100px) { .holo-sticker { top: 30px; right: 30px; width: 140px; height: 140px; } }
-@media (max-width: 850px) { .holo-sticker { top: 20px; right: 20px; width: 120px; height: 120px; } }
+.circle { fill: url(#multi-dots); }
+@media (max-width: 1100px) {
+.holo-sticker { right: 60px; width: 140px; height: 140px; }
+}
+@media (max-width: 850px) {
+.holo-sticker { right: 30px; width: 120px; height: 120px; }
+}
 </style>
 </head>
 <body>
+<!-- Фон -->
 <div class="rules-bg"></div>
+<!-- Канвас с трубками-радугой за курсором -->
 <canvas id="tubes-canvas"></canvas>
+<!-- Шапка -->
 <div id="header-placeholder" class="header-wrapper"></div>
 
-<!-- СТИКЕР: top 250px, right 150px -->
-<div class="holo-sticker" id="holoSticker">
+<!-- ✅ ГОЛОГРАФИЧЕСКИЙ СТИКЕР (закреплён справа 150px, сверху 250px) -->
+<div class="holo-sticker">
 <svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
-<pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-sticker" viewBox="12.5 -34 26 23" style="overflow:visible;">
+<pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots" viewBox="12.5 -34 26 23" style="overflow:visible;">
 <g>
 <rect x="12.5" y="-34" width="26" height="23"/>
 <g><circle class="color1" cx="45" cy="-7.5" r="7.5"/></g>
@@ -371,10 +375,10 @@ display: block;
 <g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
 </g>
 </pattern>
-<clipPath id="badge-clip-sticker">
+<clipPath id="badge-clip">
 <circle cx="128" cy="128" r="120"/>
 </clipPath>
-<linearGradient id="holo-shine-sticker" x1="0%" y1="0%" x2="100%" y2="100%">
+<linearGradient id="holo-shine" x1="0%" y1="0%" x2="100%" y2="100%">
 <stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
 <stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
 <stop offset="40%" stop-color="#5cff7a" stop-opacity="0.6"/>
@@ -384,18 +388,20 @@ display: block;
 </linearGradient>
 </defs>
 <circle class="circle" cx="128" cy="128" r="120"/>
-<circle cx="128" cy="128" r="120" fill="url(#holo-shine-sticker)" clip-path="url(#badge-clip-sticker)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
-<image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip-sticker)"/>
+<circle cx="128" cy="128" r="120" fill="url(#holo-shine)" clip-path="url(#badge-clip)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
+<image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip)"/>
 <circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
 
 <div class="book-viewport">
 <div class="book-wrapper" id="myBook">
+<!-- ЗАДНЯЯ ОБЛОЖКА -->
 <div class="b-page back-cover-page" style="z-index: 1;">
 <div class="back-cover-text">Спасибо за прочтение<br>и удача в погоне за <span style="white-space: nowrap;">Чак-Чак!</span></div>
 <img src="logo1.jpg" class="back-cover-logo" alt="Чак-Чак">
 </div>
+<!-- СТРАНИЦА 5: СПАСИБО -->
 <div class="b-page paper-page thanks-page" id="p5" style="z-index: 2;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -408,6 +414,7 @@ display: block;
 <button class="nav-arrow prev-arrow" onclick="turnPage(5, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- СТРАНИЦА 4: ПРИЗЫ -->
 <div class="b-page paper-page" id="p4" style="z-index: 3;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -425,6 +432,7 @@ display: block;
 <button class="nav-arrow prev-arrow" onclick="turnPage(4, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- СТРАНИЦА 3: АНТИЧИТ -->
 <div class="b-page paper-page" id="p3" style="z-index: 4;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -445,6 +453,7 @@ display: block;
 <button class="nav-arrow prev-arrow" onclick="turnPage(3, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- СТРАНИЦА 2: ОСНОВНЫЕ ПРАВИЛА -->
 <div class="b-page paper-page" id="p2" style="z-index: 5;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -464,6 +473,7 @@ display: block;
 <button class="nav-arrow prev-arrow" onclick="turnPage(2, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- СТРАНИЦА 1: ЗАСТАВКА "ЧИТАЙ ВНИМАТЕЛЬНО" -->
 <div class="b-page paper-page intro-page" id="p1" style="z-index: 6;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -476,6 +486,7 @@ display: block;
 <button class="nav-arrow prev-arrow" onclick="turnPage(1, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- ПЕРЕДНЯЯ ОБЛОЖКА -->
 <div class="b-page front-cover-page" id="p0" style="z-index: 7;">
 <div class="page-side front-side">
 <div class="cover-design">
@@ -543,6 +554,7 @@ p0.style.zIndex = 7;
 document.getElementById('backToStartBtn').style.display = 'none';
 }
 </script>
+<!-- Трубки-радуга за курсором -->
 <script type="module">
 import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
 const canvas = document.getElementById('tubes-canvas');
