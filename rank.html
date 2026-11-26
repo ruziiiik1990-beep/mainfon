@@ -351,6 +351,9 @@ bottom: 18px;
 left: 0; right: 0;
 overflow-y: auto;
 padding: 14px 32px 8px;
+display: flex;
+align-items: center;
+justify-content: center;
 }
 .mc-page { display: none; }
 .mc-page.active { display: block; animation: mcPageIn 0.5s ease; }
@@ -621,7 +624,7 @@ transition: opacity 0.5s ease;
 <hr class="mc-rule">
 <div class="mc-pages" id="mcPages">
 <div class="mc-page active" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
-<img src="png/presentation.png" alt="Презентация" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+<img src="png/magic.png" alt="Magic" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
 </div>
 </div>
 </div>
@@ -729,4 +732,7 @@ var pointsClass = (row.points === 0) ? ' zero' : '';
 var logoHtml = (row.points > 0) ? (' <img src="' + LOGO_URL + '" class="points-logo" alt="Чак-чак">') : '';
 html += '<tr>'
 + '<td class="pos-cell"><span class="cell-content">' + pos + '</span></td>'
-+ '<td><span class="cell-content"><span class="name-cell' + nameClass + '"><a href="profile.html?nick=' + encodeURIComponent(row.nick) + '" target="_top">
++ '<td><span class="cell-content"><span class="name-cell' + nameClass + '"><a href="profile.html?nick=' + encodeURIComponent(row.nick) + '" target="_top">' + escapeHtml(row.nick) + '</a></span></span></td>'
++ '<td class="champ-cell"><span class="cell-content"><span class="champ-cell' + champClass + '">' + row.champ + '</span></span></td>'
++ '<td class="finalist-cell"><span class="cell-content"><span class="finalist-cell' + finalistClass + '">' + row.finalist + '</span></span></td>'
++ '<td class="points-cell"><span class="cell-content
