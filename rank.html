@@ -269,7 +269,7 @@ box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 }
 .btn-reset.visible { display: block; }
 
-/* ================= THE MAGIC CLUTCH: презентация 1700x600 ================= */
+/* ================= THE MAGIC CLUTCH: 1700x600 ================= */
 .mc-show {
 position: fixed;
 inset: 0;
@@ -359,14 +359,14 @@ from { opacity: 0; transform: translateY(12px); }
 to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ====== ЕДИНСТВЕННАЯ СТРАНИЦА: magixx по центру, pomidor справа, текст слева ====== */
+/* ====== СТРАНИЦА 1: три колонки в ряд ====== */
 .mc-page-1 {
 display: flex;
 gap: 24px;
 align-items: stretch;
 height: 100%;
 }
-/* Левая колонка — текст про разработчиков CS2 */
+/* Левая колонка — текст 02 */
 .mc-col-left {
 flex: 0 0 380px;
 display: flex;
@@ -425,10 +425,9 @@ letter-spacing: 3px;
 color: #63645a;
 margin-bottom: 4px;
 }
-/* ✅ Шрифт как у текста про граффити (mc-body стиль) */
 .mc-caption {
-font-size: 13.5px;
-line-height: 1.75;
+font-size: 11px;
+line-height: 1.55;
 color: #43443c;
 }
 .mc-caption b { color: #23241f; }
@@ -441,8 +440,8 @@ color: #7d9c50;
 margin: 10px 0 8px;
 }
 .mc-body {
-font-size: 13.5px;
-line-height: 1.75;
+font-size: 12px;
+line-height: 1.6;
 color: #43443c;
 margin: 0 0 8px;
 }
@@ -460,11 +459,32 @@ text-decoration: none;
 }
 .mc-link:hover { color: #23241f; border-color: #23241f; }
 
+/* ====== СТРАНИЦЫ 2 и 3: только текст ====== */
+.mc-h-page {
+font-size: 30px;
+line-height: 1.08;
+font-weight: 600;
+letter-spacing: -0.8px;
+color: #7d9c50;
+margin: 0 0 12px;
+max-width: 640px;
+}
+.mc-page-cols { display: flex; gap: 32px; }
+.mc-page-cols > div { flex: 1; }
+.mc-stat {
+background: #dfddd5;
+border: 1px solid rgba(0,0,0,0.15);
+border-radius: 4px;
+padding: 12px;
+margin-bottom: 10px;
+}
+.mc-stat .n { font-size: 22px; font-weight: 700; color: #23241f; }
+.mc-stat .l { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #63645a; margin-top: 2px; }
 .mc-arrows {
 position: absolute;
 bottom: 14px;
 right: 32px;
-display: none; /* скрыты, так как страница одна */
+display: flex;
 gap: 8px;
 z-index: 2;
 }
@@ -516,7 +536,9 @@ transition: opacity 0.5s ease;
 .mc-arrows { right: 16px; }
 .mc-rule { margin: 0 16px; }
 .mc-pages { padding: 12px 16px 6px; top: 48px; }
+.mc-page-cols { flex-direction: column; gap: 14px; }
 .mc-h-display { font-size: 24px; }
+.mc-h-page { font-size: 22px; }
 }
 </style>
 </head>
@@ -586,23 +608,23 @@ transition: opacity 0.5s ease;
 </div>
 </div>
 
-<!-- THE MAGIC CLUTCH: только страница с magixx и pomidor -->
+<!-- THE MAGIC CLUTCH: 1700x600 -->
 <div class="mc-show" id="magicClutch">
 <div class="mc-backdrop" id="mcBackdrop"></div>
 <div class="mc-window">
 <div class="mc-topbar">
 <span class="brand">THE MAGIC CLUTCH</span>
 <span class="counter">
-<span><span class="mc-count-cur" id="mcCurrent">01</span> / <span id="mcTotal">01</span></span>
+<span><span class="mc-count-cur" id="mcCurrent">01</span> / <span id="mcTotal">03</span></span>
 <button class="mc-x" id="mcClose" title="Закрыть">&#10005;</button>
 </span>
 </div>
 <hr class="mc-rule">
 <div class="mc-pages" id="mcPages">
 
-<!-- ✅ ЕДИНСТВЕННАЯ СТРАНИЦА: magixx по центру, pomidor справа, текст слева -->
+<!-- СТРАНИЦА 1: три колонки -->
 <div class="mc-page active mc-page-1">
-<!-- Левая: текст про разработчиков CS2 -->
+<!-- Левая: текст 02 -->
 <div class="mc-col-left">
 <div class="mc-num">02</div>
 <div class="mc-caption">Разработчики CS2 в ночном обновлении добавили кое-что необычное: в магазине на Mirage, который обычно называют <b>кухней</b>, теперь можно найти банки томатной пасты «Magic». На ней нарисован веселый помидор и есть подпись «Секретная заправка» на русском языке.</div>
@@ -624,6 +646,45 @@ transition: opacity 0.5s ease;
 </div>
 </div>
 
+<!-- СТРАНИЦА 2: только текст -->
+<div class="mc-page">
+<div class="mc-num">01 / THE PLAY</div>
+<h1 class="mc-h-page">Второй овертайм.<br>Дело пахнет жареным.</h1>
+<div class="mc-page-cols">
+<div>
+<p class="mc-body">Кёльн, четвертьфинал мейджора. Team Spirit против G2, карта Mirage, <b>матч-поинт в пользу G2</b>. После установки на B magixx остался один на кухне — у угла, которого по сценарию быть не должно.</p>
+<p class="mc-body">Четверо игроков G2 заходят на ретейк со стороны маркета. Капитан Spirit отвечает <b>одним зажимом из АК</b>: четыре фрага подряд, один за другим, как томаты в банку. Раунд взят, дальше Spirit дожимают карту и идут в полуфинал.</p>
+<p class="mc-body">Сам Борис после матча признался, что <b>не сразу понял, что произошло</b>. На репитах момент разнёс всю киберспортивную сцену.</p>
+</div>
+<div>
+<div class="mc-stat"><div class="n">1v4</div><div class="l">клатч</div></div>
+<div class="mc-stat"><div class="n">AK-47</div><div class="l">один зажим</div></div>
+<div class="mc-stat"><div class="n">Mirage</div><div class="l">кухня, точка B</div></div>
+</div>
+</div>
+</div>
+
+<!-- СТРАНИЦА 3: только текст -->
+<div class="mc-page">
+<div class="mc-num">03 / LEGACY</div>
+<h1 class="mc-h-page">Банки, которые<br>не убрать из истории.</h1>
+<div class="mc-page-cols">
+<div>
+<p class="mc-body"><b>1 июля 2026 года</b> Valve выпустила патч кёльнского мейджора — и тихо поставила на полку в кухне Mirage банки томатного соуса. Подпись: <b>«Magic: Secret Sauce»</b>, под ней метка <b>«4X»</b> — по числу фрагов в клатче.</p>
+<p class="mc-body">Это первый в истории CS2 tribute конкретному моменту мейджора. Прошлый раз такое случилось в 2017-м, когда Valve увековечила гранату Dosia в CS:GO. Банки даже можно разбить пулями — но раунд не вернуть: история осталась на полке Mirage навсегда.</p>
+</div>
+<div>
+<div class="mc-stat"><div class="n">1-й</div><div class="l">трибьют CS2</div></div>
+<div class="mc-stat"><div class="n">4 банки</div><div class="l">томатов на карте</div></div>
+<div class="mc-stat"><div class="n">2017</div><div class="l">прошлый раз (Dosia)</div></div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="mc-arrows">
+<button class="mc-arrow" id="mcPrev">&#10094;</button>
+<button class="mc-arrow" id="mcNext">&#10095;</button>
 </div>
 </div>
 </div>
@@ -786,6 +847,8 @@ pages.forEach(function(p, i) { p.classList.toggle('active', i === current); });
 document.getElementById('mcCurrent').textContent = pad(current);
 document.querySelector('.mc-pages').scrollTop = 0;
 }
+document.getElementById('mcPrev').addEventListener('click', function() { go(current - 1); });
+document.getElementById('mcNext').addEventListener('click', function() { go(current + 1); });
 function openShow() { show.classList.add('open'); go(0); }
 function closeShow() {
 show.classList.remove('open');
@@ -797,6 +860,8 @@ document.getElementById('mcBackdrop').addEventListener('click', closeShow);
 document.addEventListener('keydown', function(e) {
 if (!show.classList.contains('open')) return;
 if (e.key === 'Escape') closeShow();
+if (e.key === 'ArrowRight') go(current + 1);
+if (e.key === 'ArrowLeft') go(current - 1);
 });
 var sticker = document.querySelector('.holo-sticker');
 if (!sticker) return;
