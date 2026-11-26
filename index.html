@@ -10,7 +10,7 @@
 <title>4ak4ak</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
 --pointer-x: 50%;
@@ -50,6 +50,16 @@ width: 100%;
 height: auto;
 z-index: 0;
 pointer-events: none;
+display: block;
+}
+/* ==========================================
+   НОВЫЙ КОНТЕЙНЕР: обтягивает картинку kolo11.png
+   Стикёр позиционируется ОТ НИЗА ИМЕННО ЭТОЙ КАРТИНКИ
+   ========================================== */
+.bg-with-sticker {
+position: relative;
+width: 100%;
+z-index: 0;
 }
 .slider-section {
 position: relative;
@@ -473,19 +483,12 @@ text-shadow: 0 2px 4px rgba(0, 0, 0, 1);
 .points-cell.zero { font-size: 10px; }
 .rating-note { font-size: 9px; }
 }
+
 /* ==========================================
-PAGE WRAPPER — позиционный контекст для стикера
-========================================== */
-.page-wrapper {
-position: relative;
-min-height: 100vh;
-width: 100%;
-}
-/* ==========================================
-СТИЛИ ГОЛОГРАФИЧЕСКОГО СТИКЕРА
-Закреплён справа в нижнем углу через position: absolute внутри .page-wrapper
-Отступ 50px снизу и 50px справа
-========================================== */
+   СТИЛИ ГОЛОГРАФИЧЕСКОГО СТИКЕРА
+   Позиционируется ОТ КРАЁВ КАРТИНКИ kolo11.png
+   (через контейнер .bg-with-sticker с position: relative)
+   ========================================== */
 .holo-sticker {
 position: absolute;
 right: 50px;
@@ -516,9 +519,10 @@ display: block;
 .circle { fill: url(#multi-dots-profile); }
 @media (max-width: 1100px) { .holo-sticker { right: 30px; bottom: 30px; width: 140px; height: 140px; } }
 @media (max-width: 850px) { .holo-sticker { right: 20px; bottom: 20px; width: 120px; height: 120px; } }
+
 /* ==========================================
-СТИЛИ МОДАЛЬНОГО ОКНА И ЭФФЕКТА ИСПАРЕНИЯ
-========================================== */
+   СТИЛИ МОДАЛЬНОГО ОКНА И ЭФФЕКТА ИСПАРЕНИЯ
+   ========================================== */
 .mc-show {
 position: fixed;
 inset: 0;
@@ -649,9 +653,10 @@ transition: opacity 0.5s ease;
 .mc-rule { margin: 0 16px; }
 .mc-pages { top: 48px; }
 }
+
 /* ==========================================
-СТИЛИ ДЛЯ КОНТЕНТА СЛАЙДА (Magic / Mirage)
-========================================== */
+   СТИЛИ ДЛЯ КОНТЕНТА СЛАЙДА (Magic / Mirage)
+   ========================================== */
 .magic-mirage-wrapper {
 background-color: #e8e4de;
 font-family: 'Inter', sans-serif;
@@ -755,12 +760,57 @@ color: #555;
 </style>
 </head>
 <body>
-<!-- ==========================================
-PAGE WRAPPER — содержит весь контент и стикер
-========================================== -->
-<div class="page-wrapper">
+
 <div id="header-placeholder" class="header-wrapper"></div>
+
+<!-- ==========================================
+     КОНТЕЙНЕР: картинка kolo11.png + стикёр
+     Стикер позиционируется ОТ КРАЁВ ЭТОЙ КАРТИНКИ
+     ========================================== -->
+<div class="bg-with-sticker">
 <img src="kolo11.png" class="bg-image" alt="Фон">
+
+<!-- ==========================================
+     ГОЛОГРАФИЧЕСКИЙ СТИКЕР (ТРИГГЕР)
+     Отступ 50px от правого и нижнего края kolo11.png
+     ========================================== -->
+<div class="holo-sticker" id="holoSticker">
+<svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
+<defs>
+<pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-profile" viewBox="12.5 -34 26 23" style="overflow:visible;">
+<g>
+<rect x="12.5" y="-34" width="26" height="23"/>
+<g><circle class="color1" cx="45" cy="-7.5" r="7.5"/></g>
+<g><circle class="color1" cx="19" cy="-7.5" r="7.5"/><circle class="color2" cx="29.5" cy="-10" r="7.5"/></g>
+<g><circle class="color3" cx="39.5" cy="-26" r="7.5"/><circle class="color1" cx="45" cy="-30.5" r="7.5"/><circle class="color4" cx="42.5" cy="-17" r="7.5"/></g>
+<g><circle class="color3" cx="13.5" cy="-26" r="7.5"/><circle class="color1" cx="19" cy="-30.5" r="7.5"/><circle class="color1" cx="33.5" cy="-16" r="7.5"/><circle class="color2" cx="23.5" cy="-12" r="7.5"/><circle class="color2" cx="29.5" cy="-33" r="7.5"/><circle class="color4" cx="16.5" cy="-17" r="7.5"/><circle class="color5" cx="37.5" cy="-26" r="7.5"/><circle class="color3" cx="27.5" cy="-23" r="7.5"/></g>
+<g><circle class="color1" cx="7.5" cy="-16" r="7.5"/><circle class="color5" cx="11.5" cy="-26" r="7.5"/></g>
+<g><circle class="color4" cx="42.5" cy="-40" r="7.5"/></g>
+<g><circle class="color1" cx="33.5" cy="-39" r="7.5"/><circle class="color2" cx="23.5" cy="-35" r="7.5"/><circle class="color4" cx="16.5" cy="-40" r="7.5"/></g>
+<g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
+</g>
+</pattern>
+<clipPath id="badge-clip">
+<circle cx="128" cy="128" r="120"/>
+</clipPath>
+<linearGradient id="holo-shine" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
+<stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
+<stop offset="40%" stop-color="#5cff7a" stop-opacity="0.6"/>
+<stop offset="60%" stop-color="#4de4ff" stop-opacity="0.7"/>
+<stop offset="80%" stop-color="#b96bff" stop-opacity="0.6"/>
+<stop offset="100%" stop-color="#ff4dd2" stop-opacity="0.7"/>
+</linearGradient>
+</defs>
+<circle class="circle" cx="128" cy="128" r="120"/>
+<circle cx="128" cy="128" r="120" fill="url(#holo-shine)" clip-path="url(#badge-clip)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
+<image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip)"/>
+<circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.35;"/>
+</svg>
+</div>
+</div>
+<!-- /bg-with-sticker -->
+
 <div class="slider-section">
 <div class="container slider-container">
 <div class="swiper promo-slider">
@@ -865,49 +915,10 @@ PAGE WRAPPER — содержит весь контент и стикер
 </div>
 </div>
 </div>
+
 <!-- ==========================================
-ГОЛОГРАФИЧЕСКИЙ СТИКЕР (ТРИГГЕР)
-Закреплён справа в нижнем углу, отступ 50px снизу и 50px справа
-========================================== -->
-<div class="holo-sticker" id="holoSticker">
-<svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
-<defs>
-<pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-profile" viewBox="12.5 -34 26 23" style="overflow:visible;">
-<g>
-<rect x="12.5" y="-34" width="26" height="23"/>
-<g><circle class="color1" cx="45" cy="-7.5" r="7.5"/></g>
-<g><circle class="color1" cx="19" cy="-7.5" r="7.5"/><circle class="color2" cx="29.5" cy="-10" r="7.5"/></g>
-<g><circle class="color3" cx="39.5" cy="-26" r="7.5"/><circle class="color1" cx="45" cy="-30.5" r="7.5"/><circle class="color4" cx="42.5" cy="-17" r="7.5"/></g>
-<g><circle class="color3" cx="13.5" cy="-26" r="7.5"/><circle class="color1" cx="19" cy="-30.5" r="7.5"/><circle class="color1" cx="33.5" cy="-16" r="7.5"/><circle class="color2" cx="23.5" cy="-12" r="7.5"/><circle class="color2" cx="29.5" cy="-33" r="7.5"/><circle class="color4" cx="16.5" cy="-17" r="7.5"/><circle class="color5" cx="37.5" cy="-26" r="7.5"/><circle class="color3" cx="27.5" cy="-23" r="7.5"/></g>
-<g><circle class="color1" cx="7.5" cy="-16" r="7.5"/><circle class="color5" cx="11.5" cy="-26" r="7.5"/></g>
-<g><circle class="color4" cx="42.5" cy="-40" r="7.5"/></g>
-<g><circle class="color1" cx="33.5" cy="-39" r="7.5"/><circle class="color2" cx="23.5" cy="-35" r="7.5"/><circle class="color4" cx="16.5" cy="-40" r="7.5"/></g>
-<g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
-</g>
-</pattern>
-<clipPath id="badge-clip">
-<circle cx="128" cy="128" r="120"/>
-</clipPath>
-<linearGradient id="holo-shine" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
-<stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
-<stop offset="40%" stop-color="#5cff7a" stop-opacity="0.6"/>
-<stop offset="60%" stop-color="#4de4ff" stop-opacity="0.7"/>
-<stop offset="80%" stop-color="#b96bff" stop-opacity="0.6"/>
-<stop offset="100%" stop-color="#ff4dd2" stop-opacity="0.7"/>
-</linearGradient>
-</defs>
-<circle class="circle" cx="128" cy="128" r="120"/>
-<circle cx="128" cy="128" r="120" fill="url(#holo-shine)" clip-path="url(#badge-clip)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
-<image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip)"/>
-<circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.35;"/>
-</svg>
-</div>
-</div>
-<!-- /page-wrapper -->
-<!-- ==========================================
-МОДАЛЬНОЕ ОКНО (СЛАЙД Magic / Mirage)
-========================================== -->
+     МОДАЛЬНОЕ ОКНО (СЛАЙД Magic / Mirage)
+     ========================================== -->
 <div class="mc-show" id="magicClutch">
 <div class="mc-backdrop" id="mcBackdrop"></div>
 <div class="mc-window">
@@ -957,6 +968,7 @@ A SECRET SAUCE FOR A LEGENDARY ROUND
 </div>
 </div>
 </div>
+
 <script>
 fetch('header.html')
 .then(response => response.text())
@@ -1087,9 +1099,10 @@ $wrap.classList.remove("active");
 }, 1000);
 })();
 </script>
+
 <!-- ==========================================
-JAVASCRIPT ДЛЯ ЭФФЕКТА ИСПАРЕНИЯ
-========================================== -->
+     JAVASCRIPT ДЛЯ ЭФФЕКТА ИСПАРЕНИЯ
+     ========================================== -->
 <script>
 (function() {
 'use strict';
