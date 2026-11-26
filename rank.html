@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -9,54 +10,62 @@
 <title>Рейтинг турнира - 4ak4ak</title>
 <link rel="stylesheet" href="style.css">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
 html, body {
-margin: 0;
-padding: 0;
-background: transparent;
-font-family: 'Inter', sans-serif;
-overflow-y: auto;
-overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
+
 .bg-image {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: auto;
-z-index: 0;
-pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 0;
+    pointer-events: none;
 }
+
 .header-wrapper {
-position: relative;
-z-index: 10;
+    position: relative;
+    z-index: 10;
 }
+
 .page-wrapper {
-position: relative;
-min-height: 100vh;
-width: 100%;
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
 }
+
 .holo-sticker {
-position: absolute;
-left: 60px;
-top: 50%;
-transform: translateY(-50%);
-width: 180px;
-height: 180px;
-z-index: 5;
-filter: drop-shadow(0 0 25px rgba(74, 158, 255, 0.5));
-animation: sticker-float 4s ease-in-out infinite;
-pointer-events: none;
+    position: absolute;
+    left: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 180px;
+    height: 180px;
+    z-index: 5;
+    filter: drop-shadow(0 0 25px rgba(74, 158, 255, 0.5));
+    animation: sticker-float 4s ease-in-out infinite;
+    pointer-events: none;
 }
+
 @keyframes sticker-float {
-0%, 100% { transform: translateY(-50%) scale(1); }
-50% { transform: translateY(-55%) scale(1.03); }
+    0%, 100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-55%) scale(1.03); }
 }
+
 .holo-sticker svg {
-width: 100%;
-height: 100%;
-display: block;
+    width: 100%;
+    height: 100%;
+    display: block;
 }
+
 .color0 { fill: none; }
 .color1 { fill: #8EABE5; }
 .color2 { fill: #BCACF3; }
@@ -64,160 +73,145 @@ display: block;
 .color4 { fill: #F8FCA8; }
 .color5 { fill: #B5DFC8; }
 .circle { fill: url(#multi-dots); }
-@media (max-width: 1100px) {
-.holo-sticker { left: 30px; width: 140px; height: 140px; }
-}
-@media (max-width: 850px) {
-.holo-sticker { left: 20px; width: 120px; height: 120px; }
-}
+
+@media (max-width: 1100px) { .holo-sticker { left: 30px; width: 140px; height: 140px; } }
+@media (max-width: 850px) { .holo-sticker { left: 20px; width: 120px; height: 120px; } }
+
 :root {
---metafy: url(https://assets.codepen.io/13471/metafy-repeat.png);
---grain: url(https://assets.codepen.io/13471/grain.webp);
---sunpillar-1: hsl(2, 100%, 73%);
---sunpillar-2: hsl(53, 100%, 69%);
---sunpillar-3: hsl(93, 100%, 69%);
---sunpillar-4: hsl(176, 100%, 76%);
---sunpillar-5: hsl(228, 100%, 74%);
---sunpillar-6: hsl(283, 100%, 73%);
---sunpillar-clr-1: var(--sunpillar-1);
---sunpillar-clr-2: var(--sunpillar-2);
---sunpillar-clr-3: var(--sunpillar-3);
---sunpillar-clr-4: var(--sunpillar-4);
---sunpillar-clr-5: var(--sunpillar-5);
---sunpillar-clr-6: var(--sunpillar-6);
---background-x: 50%;
---background-y: 50%;
+    --metafy: url(https://assets.codepen.io/13471/metafy-repeat.png);
+    --grain: url(https://assets.codepen.io/13471/grain.webp);
+    --sunpillar-1: hsl(2, 100%, 73%);
+    --sunpillar-2: hsl(53, 100%, 69%);
+    --sunpillar-3: hsl(93, 100%, 69%);
+    --sunpillar-4: hsl(176, 100%, 76%);
+    --sunpillar-5: hsl(228, 100%, 74%);
+    --sunpillar-6: hsl(283, 100%, 73%);
+    --sunpillar-clr-1: var(--sunpillar-1);
+    --sunpillar-clr-2: var(--sunpillar-2);
+    --sunpillar-clr-3: var(--sunpillar-3);
+    --sunpillar-clr-4: var(--sunpillar-4);
+    --sunpillar-clr-5: var(--sunpillar-5);
+    --sunpillar-clr-6: var(--sunpillar-6);
+    --background-x: 50%;
+    --background-y: 50%;
 }
+
 .rating-container {
-max-width: 650px;
-margin: 40px auto 40px auto;
-padding: 20px;
-background: rgba(10, 42, 107, 0.55);
-border: 1px solid rgba(74, 158, 255, 0.45);
-border-radius: 14px;
-box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-position: relative;
-z-index: 5;
-isolation: isolate;
-overflow: hidden;
+    max-width: 650px;
+    margin: 40px auto 40px auto;
+    padding: 20px;
+    background: rgba(10, 42, 107, 0.55);
+    border: 1px solid rgba(74, 158, 255, 0.45);
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 5;
+    isolation: isolate;
+    overflow: hidden;
 }
+
 .rating-holo {
-position: absolute;
-inset: 0;
-border-radius: inherit;
-overflow: hidden;
-pointer-events: none;
-z-index: 0;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
 }
+
 .rating-holo::before {
-content: "";
-position: absolute;
-inset: 0;
-border-radius: inherit;
-mask-image: var(--metafy);
-mask-mode: luminance;
-mask-repeat: repeat;
-mask-size: 150%;
-mask-position: top calc(200% - (var(--background-y) * 5)) left calc((100% - var(--background-x)));
-filter: brightness(0.85) contrast(1.5) saturate(0.5);
-animation: holo-bg 18s linear infinite;
-mix-blend-mode: color-dodge;
-background-image:
-repeating-linear-gradient(0deg,
-var(--sunpillar-clr-1) calc(5% * 1),
-var(--sunpillar-clr-2) calc(5% * 2),
-var(--sunpillar-clr-3) calc(5% * 3),
-var(--sunpillar-clr-4) calc(5% * 4),
-var(--sunpillar-clr-5) calc(5% * 5),
-var(--sunpillar-clr-6) calc(5% * 6),
-var(--sunpillar-clr-1) calc(5% * 7)
-),
-repeating-linear-gradient(-45deg,
-#0e152e 0%,
-hsl(180, 10%, 60%) 3.8%,
-hsl(180, 29%, 66%) 4.5%,
-hsl(180, 10%, 60%) 5.2%,
-#0e152e 10%,
-#0e152e 12%
-),
-radial-gradient(
-farthest-corner circle at 50% 50%,
-hsla(0, 0%, 0%, 0.1) 12%,
-hsla(0, 0%, 0%, 0.15) 20%,
-hsla(0, 0%, 0%, 0.25) 120%
-);
-background-position: 0% var(--background-y), 50% var(--background-y), center center;
-background-blend-mode: color, hard-light;
-background-size: 500% 500%, 300% 300%, 200% 200%;
-background-repeat: repeat;
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    mask-image: var(--metafy);
+    mask-mode: luminance;
+    mask-repeat: repeat;
+    mask-size: 150%;
+    mask-position: top calc(200% - (var(--background-y) * 5)) left calc((100% - var(--background-x)));
+    filter: brightness(0.85) contrast(1.5) saturate(0.5);
+    animation: holo-bg 18s linear infinite;
+    mix-blend-mode: color-dodge;
+    background-image:
+        repeating-linear-gradient(0deg, var(--sunpillar-clr-1) calc(5% * 1), var(--sunpillar-clr-2) calc(5% * 2), var(--sunpillar-clr-3) calc(5% * 3), var(--sunpillar-clr-4) calc(5% * 4), var(--sunpillar-clr-5) calc(5% * 5), var(--sunpillar-clr-6) calc(5% * 6), var(--sunpillar-clr-1) calc(5% * 7)),
+        repeating-linear-gradient(-45deg, #0e152e 0%, hsl(180, 10%, 60%) 3.8%, hsl(180, 29%, 66%) 4.5%, hsl(180, 10%, 60%) 5.2%, #0e152e 10%, #0e152e 12%),
+        radial-gradient(farthest-corner circle at 50% 50%, hsla(0, 0%, 0%, 0.1) 12%, hsla(0, 0%, 0%, 0.15) 20%, hsla(0, 0%, 0%, 0.25) 120%);
+    background-position: 0% var(--background-y), 50% var(--background-y), center center;
+    background-blend-mode: color, hard-light;
+    background-size: 500% 500%, 300% 300%, 200% 200%;
+    background-repeat: repeat;
 }
+
 .rating-holo::after {
-content: "";
-position: absolute;
-inset: 0;
-border-radius: inherit;
-background-image: radial-gradient(
-farthest-corner circle at 50% 30%,
-hsl(248, 25%, 80%) 5%,
-hsla(207, 40%, 30%, 0.8) 90%
-);
-mix-blend-mode: overlay;
-filter: brightness(0.7) contrast(1.2);
-opacity: 0.55;
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: radial-gradient(farthest-corner circle at 50% 30%, hsl(248, 25%, 80%) 5%, hsla(207, 40%, 30%, 0.8) 90%);
+    mix-blend-mode: overlay;
+    filter: brightness(0.7) contrast(1.2);
+    opacity: 0.55;
 }
+
 @keyframes holo-bg {
-0%   { background-position: 0% var(--background-y), 0% 0%, center center; }
-100% { background-position: 0% var(--background-y), 90% 90%, center center; }
+    0%   { background-position: 0% var(--background-y), 0% 0%, center center; }
+    100% { background-position: 0% var(--background-y), 90% 90%, center center; }
 }
-.rating-title,
-.rating-scroll,
-.rating-note,
-.btn-reset {
-position: relative;
-z-index: 1;
+
+.rating-title, .rating-scroll, .rating-note, .btn-reset {
+    position: relative;
+    z-index: 1;
 }
+
 .rating-title {
-color: #4a9eff;
-font-size: 20px;
-font-weight: 700;
-margin-bottom: 16px;
-text-transform: uppercase;
-letter-spacing: 1px;
-text-align: center;
-text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8), 0 0 12px rgba(74, 158, 255, 0.35);
+    color: #4a9eff;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8), 0 0 12px rgba(74, 158, 255, 0.35);
 }
+
 .rating-table-wrapper { display: flex; justify-content: center; margin: 0 auto; }
+
 .rating-scroll {
-max-height: 400px;
-overflow-y: auto;
-scrollbar-width: thin;
-scrollbar-color: rgba(74, 158, 255, 0.5) rgba(10, 42, 107, 0.3);
-border-radius: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(74, 158, 255, 0.5) rgba(10, 42, 107, 0.3);
+    border-radius: 8px;
 }
+
 .rating-scroll::-webkit-scrollbar { width: 8px; }
 .rating-scroll::-webkit-scrollbar-track { background: rgba(10, 42, 107, 0.3); border-radius: 4px; }
 .rating-scroll::-webkit-scrollbar-thumb { background: rgba(74, 158, 255, 0.5); border-radius: 4px; }
 .rating-scroll::-webkit-scrollbar-thumb:hover { background: rgba(74, 158, 255, 0.7); }
+
 .rating-table { width: 100%; border-collapse: collapse; color: #fff; table-layout: fixed; }
 .rating-table th, .rating-table td {
-padding: 0;
-border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-text-align: center;
-vertical-align: middle;
-background: rgba(10, 42, 107, 0.65);
-white-space: nowrap;
+    padding: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    text-align: center;
+    vertical-align: middle;
+    background: rgba(10, 42, 107, 0.65);
+    white-space: nowrap;
 }
+
 .cell-content { display: block; padding: 6px 16px; text-align: center; }
+
 .rating-table th {
-font-weight: 700;
-color: rgba(255, 255, 255, 0.95);
-text-transform: uppercase;
-font-size: 12px;
-letter-spacing: 0.5px;
-position: sticky;
-top: 0;
-z-index: 2;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
+
 .rating-table tbody tr:last-child td { border-bottom: none; }
 .pos-cell { width: 40px; font-weight: 800; font-size: 16px; color: rgba(255, 255, 255, 0.5); }
 .pos-cell.first { color: #ffd700; font-size: 18px; }
@@ -229,6 +223,7 @@ z-index: 2;
 .name-cell.third { color: #CD7F32; font-weight: 800; }
 .name-cell a { color: inherit; text-decoration: none; transition: text-decoration 0.2s; }
 .name-cell a:hover { text-decoration: underline; }
+
 .champ-cell, .finalist-cell, .points-cell { text-align: center; }
 .champ-cell { width: 90px; font-weight: 700; font-size: 15px; }
 .champ-cell.first { color: #ffd700; }
@@ -241,539 +236,789 @@ z-index: 2;
 .points-cell { width: 110px; font-weight: 700; color: #ffd700; font-size: 18px; }
 .points-cell.zero { color: rgba(255, 215, 0, 0.3); font-size: 14px; }
 .points-logo { width: 20px; height: 20px; border-radius: 50%; vertical-align: middle; margin-left: 6px; }
+
 .rating-empty { text-align: center; color: rgba(255, 255, 255, 0.35); font-size: 14px; padding: 24px; font-style: italic; }
+
 .rating-note {
-text-align: center;
-color: rgba(255, 255, 255, 0.55);
-font-size: 12px;
-margin-top: 12px;
-text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 12px;
+    margin-top: 12px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
+
 .btn-reset {
-display: none;
-margin: 20px auto 0 auto;
-padding: 12px 30px;
-font-size: 14px;
-font-weight: 700;
-color: #fff;
-background: linear-gradient(135deg, #c0392b, #e74c3c);
-border: 2px solid rgba(255,255,255,0.2);
-border-radius: 50px;
-cursor: pointer;
-font-family: 'Inter', sans-serif;
-transition: transform 0.2s, box-shadow 0.2s;
+    display: none;
+    margin: 20px auto 0 auto;
+    padding: 12px 30px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
+
 .btn-reset:hover {
-transform: translateY(-2px);
-box-shadow: 0 6px 22px rgba(192,57,43,0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 }
 .btn-reset.visible { display: block; }
-/* ================= THE MAGIC CLUTCH: 1700x600 ================= */
+
+/* ================= THE MAGIC CLUTCH MODAL ================= */
 .mc-show {
-position: fixed;
-inset: 0;
-z-index: 9999;
-display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
 }
 .mc-show.open { display: block; }
+
 .mc-backdrop {
-position: absolute;
-inset: 0;
-background: rgba(10, 14, 18, 0.75);
-animation: mcFade 0.5s ease;
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 14, 18, 0.85); /* Чуть темнее для контраста со светлой страницей */
+    animation: mcFade 0.5s ease;
 }
+
 @keyframes mcFade { from { opacity: 0; } to { opacity: 1; } }
+
 .mc-window {
-position: absolute;
-left: 50%;
-top: 50%;
-transform: translate(-50%, -50%);
-width: 1700px;
-height: 600px;
-max-width: calc(100vw - 32px);
-max-height: calc(100vh - 32px);
-background: #e9e7e0;
-border-radius: 6px;
-box-shadow: 0 30px 90px rgba(0,0,0,0.55);
-overflow: hidden;
-animation: mcZoom 0.55s cubic-bezier(0.2, 0.8, 0.25, 1);
-font-family: 'Inter', -apple-system, sans-serif;
-color: #23241f;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 1700px;
+    height: 600px;
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 32px);
+    background: transparent; /* Убрали фон окна, так как теперь он у контента */
+    border-radius: 6px;
+    box-shadow: 0 30px 90px rgba(0,0,0,0.55);
+    overflow: hidden;
+    animation: mcZoom 0.55s cubic-bezier(0.2, 0.8, 0.25, 1);
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: #23241f;
 }
+
 @keyframes mcZoom {
-from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
-to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
+
 .mc-window * { box-sizing: border-box; }
+
 .mc-topbar {
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 14px 32px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 32px 10px;
+    background: #e9e7e0;
+    position: relative;
+    z-index: 10;
 }
+
 .mc-topbar .brand {
-font-size: 11px;
-letter-spacing: 4px;
-font-weight: 600;
-color: #3a3b33;
+    font-size: 11px;
+    letter-spacing: 4px;
+    font-weight: 600;
+    color: #3a3b33;
 }
+
 .mc-topbar .counter {
-display: flex;
-align-items: center;
-gap: 20px;
-font-size: 11px;
-letter-spacing: 3px;
-color: #63645a;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #63645a;
 }
+
 .mc-count-cur { font-weight: 700; color: #2c2d27; }
+
 .mc-x {
-width: 34px; height: 34px;
-border-radius: 50%;
-border: 1px solid rgba(0,0,0,0.35);
-background: transparent;
-font-size: 14px;
-cursor: pointer;
-color: #23241f;
-margin-left: 16px;
-transition: all 0.2s;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.35);
+    background: transparent;
+    font-size: 14px;
+    cursor: pointer;
+    color: #23241f;
+    margin-left: 16px;
+    transition: all 0.2s;
 }
 .mc-x:hover { background: #23241f; color: #e9e7e0; }
+
 .mc-rule {
-margin: 0 32px;
-border: 0;
-border-top: 1px solid rgba(0,0,0,0.28);
+    margin: 0 32px;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,0.28);
+    background: #e9e7e0;
+    position: relative;
+    z-index: 10;
 }
-/* Страницы — теперь просто контейнер для одной картинки */
+
 .mc-pages {
-position: absolute;
-top: 54px;
-bottom: 18px;
-left: 0; right: 0;
-overflow: hidden;
-padding: 0;
-display: flex;
-align-items: center;
-justify-content: center;
+    position: absolute;
+    top: 54px;
+    bottom: 0;
+    left: 0; right: 0;
+    overflow: hidden;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.mc-page { display: none; }
-.mc-page.active { display: block; animation: mcPageIn 0.5s ease; width: 100%; height: 100%; }
+
+.mc-page { 
+    display: none; 
+    width: 100%;
+    height: 100%;
+}
+.mc-page.active { 
+    display: flex; /* Изменено на flex для корректного отображения wrapper */
+    animation: mcPageIn 0.5s ease; 
+}
+
 @keyframes mcPageIn {
-from { opacity: 0; transform: translateY(12px); }
-to   { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
-/* Картинка на всю презентацию */
-.mc-full-image {
-width: 100%;
-height: 100%;
-object-fit: contain;
-display: block;
-}
+
 .holo-sticker { pointer-events: auto; cursor: pointer; }
+
 .evap-layer {
-position: fixed;
-inset: 0;
-z-index: 9998;
-pointer-events: none;
-overflow: hidden;
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    overflow: hidden;
 }
 .evap-layer canvas { position: absolute; }
+
 .evap-flash {
-position: fixed;
-inset: 0;
-background: radial-gradient(circle,
-rgba(255,255,255,0.25) 0%,
-rgba(232, 231, 224, 0.14) 40%,
-transparent 70%);
-opacity: 0;
-z-index: 9997;
-pointer-events: none;
-transition: opacity 0.5s ease;
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, rgba(232, 231, 224, 0.14) 40%, transparent 70%);
+    opacity: 0;
+    z-index: 9997;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
 }
 .evap-flash.on { opacity: 1; }
+
 @media (max-width: 1760px) {
-.mc-window { width: calc(100vw - 32px); height: calc(100vh - 32px); }
+    .mc-window { width: calc(100vw - 32px); height: calc(100vh - 32px); }
 }
 @media (max-width: 760px) {
-.mc-topbar { padding: 10px 16px 8px; }
-.mc-rule { margin: 0 16px; }
-.mc-pages { top: 48px; }
+    .mc-topbar { padding: 10px 16px 8px; }
+    .mc-rule { margin: 0 16px; }
+    .mc-pages { top: 48px; }
+}
+
+/* ================= MAGIC / MIRAGE CONTENT STYLES (SCOPED) ================= */
+.magic-mirage-wrapper {
+    background-color: #e8e4de;
+    font-family: 'Inter', sans-serif;
+    color: #2a2a2a;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Позволяет прокручивать контент, если он не влезает в высоту окна */
+}
+
+.magic-mirage-wrapper .main-content {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 1fr;
+    gap: 40px;
+    padding: 60px 50px 40px;
+    flex: 1;
+    align-items: start;
+}
+
+.magic-mirage-wrapper .left-column { padding-top: 20px; }
+
+.magic-mirage-wrapper .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.magic-mirage-wrapper .main-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 38px;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 30px;
+    color: #1a1a1a;
+}
+
+.magic-mirage-wrapper .main-title .highlight {
+    color: #5a7a3a;
+    font-weight: 400;
+}
+
+.magic-mirage-wrapper .description {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 20px;
+    font-weight: 300;
+}
+
+.magic-mirage-wrapper .tagline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #5a7a3a;
+    margin-top: 30px;
+}
+
+.magic-mirage-wrapper .tagline svg {
+    width: 16px;
+    height: 16px;
+    fill: #5a7a3a;
+}
+
+.magic-mirage-wrapper .center-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.magic-mirage-wrapper .image-wrapper,
+.magic-mirage-wrapper .image-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.magic-mirage-wrapper .image-wrapper { background: #1a1a1a; }
+.magic-mirage-wrapper .image-container { background: #3a5a3a; }
+
+.magic-mirage-wrapper .image-wrapper img,
+.magic-mirage-wrapper .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.magic-mirage-wrapper .right-column { padding-top: 0; }
+.magic-mirage-wrapper .right-column .section-label { margin-bottom: 15px; }
+
+.magic-mirage-wrapper .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px 30px;
+    border-top: 1px solid #ccc;
+    margin: 0 50px;
+    flex-shrink: 0;
+}
+
+.magic-mirage-wrapper .footer-left,
+.magic-mirage-wrapper .footer-right {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #555;
+}
+
+.magic-mirage-wrapper .footer-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.magic-mirage-wrapper .footer-right svg {
+    width: 16px;
+    height: 16px;
+    stroke: #555;
+}
+
+@media (max-width: 1024px) {
+    .magic-mirage-wrapper .main-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 40px 30px;
+    }
+    .magic-mirage-wrapper .footer {
+        margin: 0 30px;
+        padding: 20px 0 30px;
+    }
 }
 </style>
 </head>
 <body>
+
 <img src="pngg/9kolo.png" class="bg-image" alt="Фон">
 <div id="header-placeholder" class="header-wrapper"></div>
+
 <div class="page-wrapper">
-<div class="holo-sticker">
-<svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
-<defs>
-<pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots" viewBox="12.5 -34 26 23" style="overflow:visible;">
-<g>
-<rect x="12.5" y="-34" width="26" height="23"/>
-<g><circle class="color1" cx="45" cy="-7.5" r="7.5"/></g>
-<g><circle class="color1" cx="19" cy="-7.5" r="7.5"/><circle class="color2" cx="29.5" cy="-10" r="7.5"/></g>
-<g><circle class="color3" cx="39.5" cy="-26" r="7.5"/><circle class="color1" cx="45" cy="-30.5" r="7.5"/><circle class="color4" cx="42.5" cy="-17" r="7.5"/></g>
-<g><circle class="color3" cx="13.5" cy="-26" r="7.5"/><circle class="color1" cx="19" cy="-30.5" r="7.5"/><circle class="color1" cx="33.5" cy="-16" r="7.5"/><circle class="color2" cx="23.5" cy="-12" r="7.5"/><circle class="color2" cx="29.5" cy="-33" r="7.5"/><circle class="color4" cx="16.5" cy="-17" r="7.5"/><circle class="color5" cx="37.5" cy="-26" r="7.5"/><circle class="color3" cx="27.5" cy="-23" r="7.5"/></g>
-<g><circle class="color1" cx="7.5" cy="-16" r="7.5"/><circle class="color5" cx="11.5" cy="-26" r="7.5"/></g>
-<g><circle class="color4" cx="42.5" cy="-40" r="7.5"/></g>
-<g><circle class="color1" cx="33.5" cy="-39" r="7.5"/><circle class="color2" cx="23.5" cy="-35" r="7.5"/><circle class="color4" cx="16.5" cy="-40" r="7.5"/></g>
-<g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
-</g>
-</pattern>
-<clipPath id="badge-clip">
-<circle cx="128" cy="128" r="120"/>
-</clipPath>
-<linearGradient id="holo-shine" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
-<stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
-<stop offset="40%" stop-color="#5cff7a" stop-opacity="0.6"/>
-<stop offset="60%" stop-color="#4de4ff" stop-opacity="0.7"/>
-<stop offset="80%" stop-color="#b96bff" stop-opacity="0.6"/>
-<stop offset="100%" stop-color="#ff4dd2" stop-opacity="0.7"/>
-</linearGradient>
-</defs>
-<circle class="circle" cx="128" cy="128" r="120"/>
-<circle cx="128" cy="128" r="120" fill="url(#holo-shine)" clip-path="url(#badge-clip)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
-<image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip)"/>
-<circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.35;"/>
-</svg>
+    <div class="holo-sticker">
+        <svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
+            <defs>
+                <pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots" viewBox="12.5 -34 26 23" style="overflow:visible;">
+                    <g>
+                        <rect x="12.5" y="-34" width="26" height="23"/>
+                        <g><circle class="color1" cx="45" cy="-7.5" r="7.5"/></g>
+                        <g><circle class="color1" cx="19" cy="-7.5" r="7.5"/><circle class="color2" cx="29.5" cy="-10" r="7.5"/></g>
+                        <g><circle class="color3" cx="39.5" cy="-26" r="7.5"/><circle class="color1" cx="45" cy="-30.5" r="7.5"/><circle class="color4" cx="42.5" cy="-17" r="7.5"/></g>
+                        <g><circle class="color3" cx="13.5" cy="-26" r="7.5"/><circle class="color1" cx="19" cy="-30.5" r="7.5"/><circle class="color1" cx="33.5" cy="-16" r="7.5"/><circle class="color2" cx="23.5" cy="-12" r="7.5"/><circle class="color2" cx="29.5" cy="-33" r="7.5"/><circle class="color4" cx="16.5" cy="-17" r="7.5"/><circle class="color5" cx="37.5" cy="-26" r="7.5"/><circle class="color3" cx="27.5" cy="-23" r="7.5"/></g>
+                        <g><circle class="color1" cx="7.5" cy="-16" r="7.5"/><circle class="color5" cx="11.5" cy="-26" r="7.5"/></g>
+                        <g><circle class="color4" cx="42.5" cy="-40" r="7.5"/></g>
+                        <g><circle class="color1" cx="33.5" cy="-39" r="7.5"/><circle class="color2" cx="23.5" cy="-35" r="7.5"/><circle class="color4" cx="16.5" cy="-40" r="7.5"/></g>
+                        <g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
+                    </g>
+                </pattern>
+                <clipPath id="badge-clip">
+                    <circle cx="128" cy="128" r="120"/>
+                </clipPath>
+                <linearGradient id="holo-shine" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
+                    <stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
+                    <stop offset="40%" stop-color="#5cff7a" stop-opacity="0.6"/>
+                    <stop offset="60%" stop-color="#4de4ff" stop-opacity="0.7"/>
+                    <stop offset="80%" stop-color="#b96bff" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#ff4dd2" stop-opacity="0.7"/>
+                </linearGradient>
+            </defs>
+            <circle class="circle" cx="128" cy="128" r="120"/>
+            <circle cx="128" cy="128" r="120" fill="url(#holo-shine)" clip-path="url(#badge-clip)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
+            <image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip)"/>
+            <circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.35;"/>
+        </svg>
+    </div>
+
+    <div class="rating-container">
+        <div class="rating-holo"></div>
+        <div class="rating-title">Турнирная таблица</div>
+        <div class="rating-scroll">
+            <div class="rating-table-wrapper">
+                <table class="rating-table">
+                    <thead>
+                        <tr>
+                            <th class="pos-cell"><span class="cell-content">#</span></th>
+                            <th><span class="cell-content">Игрок</span></th>
+                            <th class="champ-cell"><span class="cell-content">Чемпион</span></th>
+                            <th class="finalist-cell"><span class="cell-content">Финалист</span></th>
+                            <th class="points-cell"><span class="cell-content">Чак-чак</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="ratingBody">
+                        <tr>
+                            <td colspan="5" class="rating-empty">Итоги появятся после финала</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
+        <button class="btn-reset" id="btnReset">Сбросить чак-чаки</button>
+    </div>
 </div>
-<div class="rating-container">
-<div class="rating-holo"></div>
-<div class="rating-title">Турнирная таблица</div>
-<div class="rating-scroll">
-<div class="rating-table-wrapper">
-<table class="rating-table">
-<thead>
-<tr>
-<th class="pos-cell"><span class="cell-content">#</span></th>
-<th><span class="cell-content">Игрок</span></th>
-<th class="champ-cell"><span class="cell-content">Чемпион</span></th>
-<th class="finalist-cell"><span class="cell-content">Финалист</span></th>
-<th class="points-cell"><span class="cell-content">Чак-чак</span></th>
-</tr>
-</thead>
-<tbody id="ratingBody">
-<tr>
-<td colspan="5" class="rating-empty">Итоги появятся после финала</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
-<button class="btn-reset" id="btnReset">Сбросить чак-чаки</button>
-</div>
-</div>
-<!-- THE MAGIC CLUTCH: 1700x600 -->
+
+<!-- THE MAGIC CLUTCH MODAL -->
 <div class="mc-show" id="magicClutch">
-<div class="mc-backdrop" id="mcBackdrop"></div>
-<div class="mc-window">
-<div class="mc-topbar">
-<span class="brand">THE MAGIC CLUTCH</span>
-<span class="counter">
-<span><span class="mc-count-cur" id="mcCurrent">01</span> / <span id="mcTotal">01</span></span>
-<button class="mc-x" id="mcClose" title="Закрыть">&#10005;</button>
-</span>
+    <div class="mc-backdrop" id="mcBackdrop"></div>
+    <div class="mc-window">
+        <div class="mc-topbar">
+            <span class="brand">THE MAGIC CLUTCH</span>
+            <span class="counter">
+                <span><span class="mc-count-cur" id="mcCurrent">01</span> / <span id="mcTotal">01</span></span>
+                <button class="mc-x" id="mcClose" title="Закрыть">&#10005;</button>
+            </span>
+        </div>
+        <hr class="mc-rule">
+        <div class="mc-pages" id="mcPages">
+            
+            <!-- ✅ ЗДЕСЬ ТЕПЕРЬ ВАШ ПОЛНЫЙ КОД СТРАНИЦЫ MAGIC / MIRAGE -->
+            <div class="mc-page active">
+                <div class="magic-mirage-wrapper">
+                    <div class="main-content">
+                        <!-- Left Column -->
+                        <div class="left-column">
+                            <div class="section-label">02 / CONTEXT</div>
+                            <h1 class="main-title">
+                                <span class="highlight">Кухня, которую запомнили.</span>
+                            </h1>
+                            <p class="description">
+                                Раньше разработчики CS рисовали на картах граффити за крутые хайлайты с мейджоров,
+                                но давно забросили эту традицию. Клатч Маджикса стал идеальным поводом её воскресить.
+                            </p>
+                            <p class="description">
+                                И, хоть сделали это Valve необычным способом, факт остается фактом: впервые после
+                                выхода CS 2 в игре появилась отсылка на киберспортивный хайлайт.
+                            </p>
+                            <div class="tagline">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L14.09 8.26L20 9.27L15.55 13.97L16.91 20L12 16.9L7.09 20L8.45 13.97L4 9.27L9.91 8.26L12 2Z"/>
+                                </svg>
+                                A SECRET SAUCE FOR A LEGENDARY ROUND
+                            </div>
+                        </div>
+
+                        <!-- Center Column -->
+                        <div class="center-column">
+                            <div class="image-wrapper">
+                                <img src="png/magixx.png" alt="Magixx Highlight">
+                            </div>
+                        </div>
+
+                        <!-- Right Column -->
+                        <div class="right-column">
+                            <div class="section-label">03 / MAGIC</div>
+                            <div class="image-container">
+                                <img src="png/pomidor.png" alt="Magic Tomato Paste">
+                            </div>
+                            <p class="description">
+                                Разработчики CS 2 в ночном обновлении добавили кое-что необычное: в магазине на
+                                Mirage, который обычно называют кухней, теперь можно найти банки томатной пасты
+                                «Magic». На ней нарисован веселый помидор и есть подпись «Секретная заправка» на
+                                русском языке.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="footer">
+                        <div class="footer-left">Magic / Mirage</div>
+                        <div class="footer-right">
+                            Scroll to Remember
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ✅ КОНЕЦ КОДА СТРАНИЦЫ MAGIC / MIRAGE -->
+
+        </div>
+    </div>
 </div>
-<hr class="mc-rule">
-<div class="mc-pages" id="mcPages">
-<!-- ✅ ЕДИНСТВЕННАЯ СТРАНИЦА: одна картинка magic.png на весь размер -->
-<div class="mc-page active">
-<img src="png/magic.png" alt="The Magic Clutch" class="mc-full-image">
-</div>
-</div>
-</div>
-</div>
+
 <script>
 fetch('header.html')
 .then(response => response.text())
 .then(data => {
-document.getElementById('header-placeholder').innerHTML = data;
-const script = document.createElement('script');
-script.type = 'module';
-script.src = 'auth.js';
-document.body.appendChild(script);
+    document.getElementById('header-placeholder').innerHTML = data;
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = 'auth.js';
+    document.body.appendChild(script);
 })
 .catch(error => console.error('Ошибка загрузки шапки:', error));
 </script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script>
 (function() {
-var firebaseConfig = {
-apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
-authDomain: "ak4ak-8be45.firebaseapp.com",
-databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
-projectId: "ak4ak-8be45",
-storageBucket: "ak4ak-8be45.appspot.com",
-messagingSenderId: "408070680295",
-appId: "1:408070680295:web:77b9656094e330b803bc42"
-};
-firebase.initializeApp(firebaseConfig);
-var db = firebase.database();
-var auth = firebase.auth();
-var LOGO_URL = 'png/logo1.jpg';
-var isAdmin = false;
-function escapeHtml(t) {
-if (!t) return '';
-return String(t)
-.replace(/&/g, "&amp;")
-.replace(/</g, "&lt;")
-.replace(/>/g, "&gt;")
-.replace(/"/g, "&quot;")
-.replace(/'/g, "&#039;");
-}
-auth.onAuthStateChanged(function(user) {
-if (!user) return;
-db.ref('users/' + user.uid).once('value').then(function(snap) {
-if (!snap.exists()) return;
-var ud = snap.val();
-var myNick = ud.nick || (ud.email ? ud.email.split('@')[0] : null);
-if (!myNick) return;
-db.ref('playoff/adminNicks/' + myNick).once('value').then(function(adminSnap) {
-isAdmin = adminSnap.exists() && adminSnap.val() === true;
-if (isAdmin) {
-document.getElementById('btnReset').classList.add('visible');
-}
-});
-});
-});
-function renderRating(allResults) {
-var body = document.getElementById('ratingBody');
-var stats = {};
-allResults.forEach(function(finalResult) {
-if (!finalResult) return;
-var winners = finalResult.winners || [];
-var runnersUp = finalResult.runnersUp || [];
-winners.forEach(function(nick) {
-if (!nick) return;
-if (!stats[nick]) stats[nick] = { champ: 0, finalist: 0, points: 0 };
-stats[nick].champ++;
-stats[nick].points += 2;
-});
-runnersUp.forEach(function(nick) {
-if (!nick) return;
-if (!stats[nick]) stats[nick] = { champ: 0, finalist: 0, points: 0 };
-stats[nick].finalist++;
-stats[nick].points += 1;
-});
-});
-var hasData = Object.keys(stats).length > 0;
-if (!hasData) {
-body.innerHTML = '<tr><td colspan="5" class="rating-empty">Итоги появятся после финала</td></tr>';
-return;
-}
-var arr = Object.keys(stats).map(function(nick) {
-return { nick: nick, champ: stats[nick].champ, finalist: stats[nick].finalist, points: stats[nick].points };
-});
-arr.sort(function(a, b) {
-if (b.points !== a.points) return b.points - a.points;
-if (b.champ !== a.champ) return b.champ - a.champ;
-return b.finalist - a.finalist;
-});
-var html = '';
-arr.forEach(function(row, i) {
-var pos = i + 1;
-var posClass = '';
-var nameClass = '';
-var champClass = '';
-var finalistClass = '';
-if (pos === 1) { posClass = nameClass = champClass = finalistClass = ' first'; }
-else if (pos === 2) { posClass = nameClass = champClass = finalistClass = ' second'; }
-else if (pos === 3) { posClass = nameClass = champClass = finalistClass = ' third'; }
-var pointsClass = (row.points === 0) ? ' zero' : '';
-var logoHtml = (row.points > 0) ? (' <img src="' + LOGO_URL + '" class="points-logo" alt="Чак-чак">') : '';
-html += '<tr>'
-+ '<td class="pos-cell"><span class="cell-content">' + pos + '</span></td>'
-+ '<td><span class="cell-content"><span class="name-cell' + nameClass + '"><a href="profile.html?nick=' + encodeURIComponent(row.nick) + '" target="_top">' + escapeHtml(row.nick) + '</a></span></span></td>'
-+ '<td class="champ-cell"><span class="cell-content"><span class="champ-cell' + champClass + '">' + row.champ + '</span></span></td>'
-+ '<td class="finalist-cell"><span class="cell-content"><span class="finalist-cell' + finalistClass + '">' + row.finalist + '</span></span></td>'
-+ '<td class="points-cell"><span class="cell-content"><span class="points-cell' + pointsClass + '">' + row.points + logoHtml + '</span></span></td>'
-+ '</tr>';
-});
-body.innerHTML = html;
-}
-function loadAndRender() {
-db.ref('playoff/tournaments').on('value', function(snap) {
-var tournaments = snap.val() || {};
-var allResults = [];
-Object.keys(tournaments).forEach(function(tid) {
-if (tournaments[tid] && tournaments[tid].finalResult) {
-allResults.push(tournaments[tid].finalResult);
-}
-});
-renderRating(allResults);
-});
-}
-document.getElementById('btnReset').addEventListener('click', function() {
-if (!isAdmin) return;
-if (!confirm('Сбросить чак-чаки? Результаты всех финалов будут удалены.')) return;
-db.ref('playoff/tournaments').once('value').then(function(snap) {
-var tournaments = snap.val() || {};
-var updates = {};
-Object.keys(tournaments).forEach(function(tid) {
-if (tournaments[tid] && tournaments[tid].finalResult) {
-updates['playoff/tournaments/' + tid + '/finalResult'] = null;
-}
-});
-if (Object.keys(updates).length > 0) {
-db.ref().update(updates).then(function() {
-alert('Чак-чаки сброшены!');
-});
-} else {
-alert('Нет результатов для сброса.');
-}
-});
-});
-loadAndRender();
+    var firebaseConfig = {
+        apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
+        authDomain: "ak4ak-8be45.firebaseapp.com",
+        databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "ak4ak-8be45",
+        storageBucket: "ak4ak-8be45.appspot.com",
+        messagingSenderId: "408070680295",
+        appId: "1:408070680295:web:77b9656094e330b803bc42"
+    };
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.database();
+    var auth = firebase.auth();
+    var LOGO_URL = 'png/logo1.jpg';
+    var isAdmin = false;
+
+    function escapeHtml(t) {
+        if (!t) return '';
+        return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    auth.onAuthStateChanged(function(user) {
+        if (!user) return;
+        db.ref('users/' + user.uid).once('value').then(function(snap) {
+            if (!snap.exists()) return;
+            var ud = snap.val();
+            var myNick = ud.nick || (ud.email ? ud.email.split('@')[0] : null);
+            if (!myNick) return;
+            db.ref('playoff/adminNicks/' + myNick).once('value').then(function(adminSnap) {
+                isAdmin = adminSnap.exists() && adminSnap.val() === true;
+                if (isAdmin) {
+                    document.getElementById('btnReset').classList.add('visible');
+                }
+            });
+        });
+    });
+
+    function renderRating(allResults) {
+        var body = document.getElementById('ratingBody');
+        var stats = {};
+        allResults.forEach(function(finalResult) {
+            if (!finalResult) return;
+            var winners = finalResult.winners || [];
+            var runnersUp = finalResult.runnersUp || [];
+            winners.forEach(function(nick) {
+                if (!nick) return;
+                if (!stats[nick]) stats[nick] = { champ: 0, finalist: 0, points: 0 };
+                stats[nick].champ++;
+                stats[nick].points += 2;
+            });
+            runnersUp.forEach(function(nick) {
+                if (!nick) return;
+                if (!stats[nick]) stats[nick] = { champ: 0, finalist: 0, points: 0 };
+                stats[nick].finalist++;
+                stats[nick].points += 1;
+            });
+        });
+
+        var hasData = Object.keys(stats).length > 0;
+        if (!hasData) {
+            body.innerHTML = '<tr><td colspan="5" class="rating-empty">Итоги появятся после финала</td></tr>';
+            return;
+        }
+
+        var arr = Object.keys(stats).map(function(nick) {
+            return { nick: nick, champ: stats[nick].champ, finalist: stats[nick].finalist, points: stats[nick].points };
+        });
+
+        arr.sort(function(a, b) {
+            if (b.points !== a.points) return b.points - a.points;
+            if (b.champ !== a.champ) return b.champ - a.champ;
+            return b.finalist - a.finalist;
+        });
+
+        var html = '';
+        arr.forEach(function(row, i) {
+            var pos = i + 1;
+            var posClass = '', nameClass = '', champClass = '', finalistClass = '';
+            if (pos === 1) { posClass = nameClass = champClass = finalistClass = ' first'; }
+            else if (pos === 2) { posClass = nameClass = champClass = finalistClass = ' second'; }
+            else if (pos === 3) { posClass = nameClass = champClass = finalistClass = ' third'; }
+            
+            var pointsClass = (row.points === 0) ? ' zero' : '';
+            var logoHtml = (row.points > 0) ? (' <img src="' + LOGO_URL + '" class="points-logo" alt="Чак-чак">') : '';
+            
+            html += '<tr>'
+                + '<td class="pos-cell"><span class="cell-content">' + pos + '</span></td>'
+                + '<td><span class="cell-content"><span class="name-cell' + nameClass + '"><a href="profile.html?nick=' + encodeURIComponent(row.nick) + '" target="_top">' + escapeHtml(row.nick) + '</a></span></span></td>'
+                + '<td class="champ-cell"><span class="cell-content"><span class="champ-cell' + champClass + '">' + row.champ + '</span></span></td>'
+                + '<td class="finalist-cell"><span class="cell-content"><span class="finalist-cell' + finalistClass + '">' + row.finalist + '</span></span></td>'
+                + '<td class="points-cell"><span class="cell-content"><span class="points-cell' + pointsClass + '">' + row.points + logoHtml + '</span></span></td>'
+                + '</tr>';
+        });
+        body.innerHTML = html;
+    }
+
+    function loadAndRender() {
+        db.ref('playoff/tournaments').on('value', function(snap) {
+            var tournaments = snap.val() || {};
+            var allResults = [];
+            Object.keys(tournaments).forEach(function(tid) {
+                if (tournaments[tid] && tournaments[tid].finalResult) {
+                    allResults.push(tournaments[tid].finalResult);
+                }
+            });
+            renderRating(allResults);
+        });
+    }
+
+    document.getElementById('btnReset').addEventListener('click', function() {
+        if (!isAdmin) return;
+        if (!confirm('Сбросить чак-чаки? Результаты всех финалов будут удалены.')) return;
+        db.ref('playoff/tournaments').once('value').then(function(snap) {
+            var tournaments = snap.val() || {};
+            var updates = {};
+            Object.keys(tournaments).forEach(function(tid) {
+                if (tournaments[tid] && tournaments[tid].finalResult) {
+                    updates['playoff/tournaments/' + tid + '/finalResult'] = null;
+                }
+            });
+            if (Object.keys(updates).length > 0) {
+                db.ref().update(updates).then(function() {
+                    alert('Чак-чаки сброшены!');
+                });
+            } else {
+                alert('Нет результатов для сброса.');
+            }
+        });
+    });
+
+    loadAndRender();
 })();
 </script>
+
 <script>
 (function() {
-'use strict';
-var show = document.getElementById('magicClutch');
-var sticker = document.querySelector('.holo-sticker');
-if (!sticker) return;
-var running = false;
-sticker.addEventListener('click', function() {
-if (running) return;
-running = true;
-var rect = sticker.getBoundingClientRect();
-var svgImg = sticker.querySelector('image');
-var src = svgImg ? svgImg.getAttribute('href') : null;
-if (!src) { running = false; show.classList.add('open'); return; }
-sticker.style.visibility = 'hidden';
-sticker.style.animation = 'none';
-var layer = document.createElement('div');
-layer.className = 'evap-layer';
-var canvas = document.createElement('canvas');
-var scale = window.devicePixelRatio || 1;
-canvas.width = window.innerWidth * scale;
-canvas.height = window.innerHeight * scale;
-canvas.style.width = window.innerWidth + 'px';
-canvas.style.height = window.innerHeight + 'px';
-layer.appendChild(canvas);
-document.body.appendChild(layer);
-var flash = document.createElement('div');
-flash.className = 'evap-flash';
-document.body.appendChild(flash);
-var img = new Image();
-img.onload = function() { dissolve(img, rect, scale); };
-img.src = src;
-function dissolve(img, rect, scale) {
-var ctx = canvas.getContext('2d');
-ctx.scale(scale, scale);
-var W = Math.round(rect.width), H = Math.round(rect.height);
-var off = document.createElement('canvas');
-off.width = W; off.height = H;
-var octx = off.getContext('2d');
-octx.drawImage(img, 0, 0, W, H);
-var data;
-try { data = octx.getImageData(0, 0, W, H).data; }
-catch (e) { data = null; }
-var parts = [];
-if (data) {
-for (var y = 0; y < H; y += 2) {
-for (var x = 0; x < W; x += 2) {
-var idx = (y * W + x) * 4;
-var a = data[idx + 3];
-if (a < 40) continue;
-parts.push({
-x: rect.left + x, y: rect.top + y, s: 2,
-c: 'rgba(' + data[idx] + ',' + data[idx + 1] + ',' + data[idx + 2] + ',' + (a / 255).toFixed(2) + ')',
-d: Math.random() * 0.5,
-vx: (Math.random() - 0.5) * 26,
-vy: -(26 + Math.random() * 60),
-bl: 0
-});
-}
-}
-for (var j = 0; j < 26; j++) {
-parts.push({
-cloud: true,
-x: rect.left + Math.random() * W,
-y: rect.top + Math.random() * H,
-r: 14 + Math.random() * 34,
-c: 'rgba(' + (200 + Math.floor(Math.random() * 55)) + ',' + (205 + Math.floor(Math.random() * 50)) + ',' + (210 + Math.floor(Math.random() * 45)) + ',0.5)',
-d: 0.1 + Math.random() * 0.5,
-vx: (Math.random() - 0.5) * 18,
-vy: -(40 + Math.random() * 55),
-bl: 6 + Math.random() * 10
-});
-}
-} else {
-for (var k = 0; k < 260; k++) {
-parts.push({
-x: rect.left + Math.random() * rect.width,
-y: rect.top + Math.random() * rect.height,
-s: 3,
-c: 'rgba(102,192,244,0.9)',
-d: Math.random() * 0.5,
-vx: (Math.random() - 0.5) * 26,
-vy: -(30 + Math.random() * 60),
-bl: 0
-});
-}
-}
-var t0 = performance.now();
-function frame(t) {
-var el = t - t0;
-ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-var alive = 0;
-parts.forEach(function(p) {
-var lt = el / 1000 - p.d;
-if (lt < 0) {
-if (p.cloud) {
-ctx.save(); ctx.filter = 'blur(' + p.bl + 'px)';
-ctx.fillStyle = p.c; ctx.beginPath();
-ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill(); ctx.restore();
-} else {
-ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, p.s, p.s);
-}
-alive++; return;
-}
-if (lt > 1.3) return;
-alive++;
-var e = 1 - Math.pow(1 - Math.min(lt / 1.2, 1), 2);
-var px = p.x + p.vx * lt, py = p.y + p.vy * lt;
-ctx.globalAlpha = 1 - e;
-if (p.cloud) {
-ctx.save(); ctx.filter = 'blur(' + (p.bl + e * 14) + 'px)';
-ctx.fillStyle = p.c; ctx.beginPath();
-ctx.arc(px, py, p.r * (1 + e * 1.4), 0, 6.283); ctx.fill(); ctx.restore();
-} else {
-ctx.fillStyle = p.c;
-ctx.fillRect(px, py, Math.max(0.5, p.s * (1 - 0.5 * e)), Math.max(0.5, p.s * (1 - 0.5 * e)));
-}
-});
-ctx.globalAlpha = 1;
-if (el > 350 && el < 750) flash.classList.add('on');
-else if (el >= 750) flash.classList.remove('on');
-if (alive > 0 && el < 3300) {
-requestAnimationFrame(frame);
-} else {
-document.body.removeChild(layer);
-document.body.removeChild(flash);
-show.classList.add('open');
-running = false;
-}
-}
-requestAnimationFrame(frame);
-}
-});
-function closeShow() {
-show.classList.remove('open');
-sticker.style.visibility = 'visible';
-sticker.style.animation = '';
-}
-document.getElementById('mcClose').addEventListener('click', closeShow);
-document.getElementById('mcBackdrop').addEventListener('click', closeShow);
-document.addEventListener('keydown', function(e) {
-if (!show.classList.contains('open')) return;
-if (e.key === 'Escape') closeShow();
-});
+    'use strict';
+    var show = document.getElementById('magicClutch');
+    var sticker = document.querySelector('.holo-sticker');
+    if (!sticker) return;
+    var running = false;
+
+    sticker.addEventListener('click', function() {
+        if (running) return;
+        running = true;
+        var rect = sticker.getBoundingClientRect();
+        var svgImg = sticker.querySelector('image');
+        var src = svgImg ? svgImg.getAttribute('href') : null;
+        if (!src) { running = false; show.classList.add('open'); return; }
+
+        sticker.style.visibility = 'hidden';
+        sticker.style.animation = 'none';
+
+        var layer = document.createElement('div');
+        layer.className = 'evap-layer';
+        var canvas = document.createElement('canvas');
+        var scale = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * scale;
+        canvas.height = window.innerHeight * scale;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        layer.appendChild(canvas);
+        document.body.appendChild(layer);
+
+        var flash = document.createElement('div');
+        flash.className = 'evap-flash';
+        document.body.appendChild(flash);
+
+        var img = new Image();
+        img.onload = function() { dissolve(img, rect, scale); };
+        img.src = src;
+
+        function dissolve(img, rect, scale) {
+            var ctx = canvas.getContext('2d');
+            ctx.scale(scale, scale);
+            var W = Math.round(rect.width), H = Math.round(rect.height);
+            var off = document.createElement('canvas');
+            off.width = W; off.height = H;
+            var octx = off.getContext('2d');
+            octx.drawImage(img, 0, 0, W, H);
+            var data;
+            try { data = octx.getImageData(0, 0, W, H).data; }
+            catch (e) { data = null; }
+
+            var parts = [];
+            if (data) {
+                for (var y = 0; y < H; y += 2) {
+                    for (var x = 0; x < W; x += 2) {
+                        var idx = (y * W + x) * 4;
+                        var a = data[idx + 3];
+                        if (a < 40) continue;
+                        parts.push({
+                            x: rect.left + x, y: rect.top + y, s: 2,
+                            c: 'rgba(' + data[idx] + ',' + data[idx + 1] + ',' + data[idx + 2] + ',' + (a / 255).toFixed(2) + ')',
+                            d: Math.random() * 0.5,
+                            vx: (Math.random() - 0.5) * 26,
+                            vy: -(26 + Math.random() * 60),
+                            bl: 0
+                        });
+                    }
+                }
+                for (var j = 0; j < 26; j++) {
+                    parts.push({
+                        cloud: true,
+                        x: rect.left + Math.random() * W,
+                        y: rect.top + Math.random() * H,
+                        r: 14 + Math.random() * 34,
+                        c: 'rgba(' + (200 + Math.floor(Math.random() * 55)) + ',' + (205 + Math.floor(Math.random() * 50)) + ',' + (210 + Math.floor(Math.random() * 45)) + ',0.5)',
+                        d: 0.1 + Math.random() * 0.5,
+                        vx: (Math.random() - 0.5) * 18,
+                        vy: -(40 + Math.random() * 55),
+                        bl: 6 + Math.random() * 10
+                    });
+                }
+            } else {
+                for (var k = 0; k < 260; k++) {
+                    parts.push({
+                        x: rect.left + Math.random() * rect.width,
+                        y: rect.top + Math.random() * rect.height,
+                        s: 3,
+                        c: 'rgba(102,192,244,0.9)',
+                        d: Math.random() * 0.5,
+                        vx: (Math.random() - 0.5) * 26,
+                        vy: -(30 + Math.random() * 60),
+                        bl: 0
+                    });
+                }
+            }
+
+            var t0 = performance.now();
+            function frame(t) {
+                var el = t - t0;
+                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+                var alive = 0;
+                parts.forEach(function(p) {
+                    var lt = el / 1000 - p.d;
+                    if (lt < 0) {
+                        if (p.cloud) {
+                            ctx.save(); ctx.filter = 'blur(' + p.bl + 'px)';
+                            ctx.fillStyle = p.c; ctx.beginPath();
+                            ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill(); ctx.restore();
+                        } else {
+                            ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, p.s, p.s);
+                        }
+                        alive++; return;
+                    }
+                    if (lt > 1.3) return;
+                    alive++;
+                    var e = 1 - Math.pow(1 - Math.min(lt / 1.2, 1), 2);
+                    var px = p.x + p.vx * lt, py = p.y + p.vy * lt;
+                    ctx.globalAlpha = 1 - e;
+                    if (p.cloud) {
+                        ctx.save(); ctx.filter = 'blur(' + (p.bl + e * 14) + 'px)';
+                        ctx.fillStyle = p.c; ctx.beginPath();
+                        ctx.arc(px, py, p.r * (1 + e * 1.4), 0, 6.283); ctx.fill(); ctx.restore();
+                    } else {
+                        ctx.fillStyle = p.c;
+                        ctx.fillRect(px, py, Math.max(0.5, p.s * (1 - 0.5 * e)), Math.max(0.5, p.s * (1 - 0.5 * e)));
+                    }
+                });
+                ctx.globalAlpha = 1;
+                if (el > 350 && el < 750) flash.classList.add('on');
+                else if (el >= 750) flash.classList.remove('on');
+
+                if (alive > 0 && el < 3300) {
+                    requestAnimationFrame(frame);
+                } else {
+                    document.body.removeChild(layer);
+                    document.body.removeChild(flash);
+                    show.classList.add('open');
+                    running = false;
+                }
+            }
+            requestAnimationFrame(frame);
+        }
+    });
+
+    function closeShow() {
+        show.classList.remove('open');
+        sticker.style.visibility = 'visible';
+        sticker.style.animation = '';
+    }
+
+    document.getElementById('mcClose').addEventListener('click', closeShow);
+    document.getElementById('mcBackdrop').addEventListener('click', closeShow);
+    document.addEventListener('keydown', function(e) {
+        if (!show.classList.contains('open')) return;
+        if (e.key === 'Escape') closeShow();
+    });
 })();
 </script>
 </body>
