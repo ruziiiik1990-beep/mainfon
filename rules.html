@@ -100,172 +100,44 @@ background: #fcf8f2;
 border-radius: 12px 4px 4px 12px;
 border: 1px solid #e8dec9;
 }
-
-/* ============================================================ */
-/* ====== ПРЕМИАЛЬНАЯ КОЖАНАЯ ОБЛОЖКА (ПЕРЕДНЯЯ) ====== */
-/* ============================================================ */
 .front-cover-page {
-/* Базовый кожаный цвет */
 background-color: #5a0a0a;
-/* Многослойная текстура кожи */
 background-image:
-/* 1. Верхний блик (свет падает сверху-слева) */
 radial-gradient(ellipse at 25% 15%, rgba(255,200,180,0.18) 0%, transparent 50%),
-/* 2. Нижняя тень (глубина) */
 radial-gradient(ellipse at 75% 85%, rgba(0,0,0,0.55) 0%, transparent 55%),
-/* 3. Центральный блик */
 radial-gradient(ellipse at 50% 50%, rgba(120,20,20,0.3) 0%, transparent 70%),
-/* 4. Горизонтальные полосочки (швы/текстура кожи) */
-repeating-linear-gradient(
-0deg,
-transparent 0px,
-transparent 2px,
-rgba(0,0,0,0.08) 2px,
-rgba(0,0,0,0.08) 3px,
-transparent 3px,
-transparent 6px
-),
-/* 5. Вертикальные тонкие полосочки (волокна кожи) */
-repeating-linear-gradient(
-90deg,
-transparent 0px,
-transparent 1px,
-rgba(0,0,0,0.04) 1px,
-rgba(0,0,0,0.04) 2px,
-transparent 2px,
-transparent 5px
-),
-/* 6. Диагональные трещинки/потертости */
-repeating-linear-gradient(
-45deg,
-transparent 0px,
-transparent 8px,
-rgba(30,0,0,0.15) 8px,
-rgba(30,0,0,0.15) 9px,
-transparent 9px,
-transparent 20px
-),
-/* 7. Мелкий шум (зерно кожи) */
+repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 3px, transparent 3px, transparent 6px),
+repeating-linear-gradient(90deg, transparent 0px, transparent 1px, rgba(0,0,0,0.04) 1px, rgba(0,0,0,0.04) 2px, transparent 2px, transparent 5px),
+repeating-linear-gradient(45deg, transparent 0px, transparent 8px, rgba(30,0,0,0.15) 8px, rgba(30,0,0,0.15) 9px, transparent 9px, transparent 20px),
 radial-gradient(circle at 30% 40%, rgba(0,0,0,0.12) 0%, transparent 2px),
 radial-gradient(circle at 70% 60%, rgba(0,0,0,0.10) 0%, transparent 2px),
 radial-gradient(circle at 20% 80%, rgba(0,0,0,0.08) 0%, transparent 2px),
 radial-gradient(circle at 85% 25%, rgba(0,0,0,0.11) 0%, transparent 2px),
-/* 8. Основной градиент кожи (от темного к бордовому) */
 linear-gradient(135deg, #3a0505 0%, #6a0a0a 25%, #8b1010 50%, #5a0808 75%, #2a0303 100%);
-background-blend-mode: normal, normal, normal, normal, normal, normal, normal, normal, normal, normal;
-border-left: 8px solid #1a0000;
-border: 2px solid #4a0000;
-box-shadow:
-inset 0 0 60px rgba(0,0,0,0.6),
-inset 0 0 20px rgba(100,10,10,0.3);
-position: relative;
+border-left: 8px solid #2A0000;
+border: 2px solid #5A0000;
+box-shadow: inset 0 0 60px rgba(0,0,0,0.6), inset 0 0 20px rgba(100,10,10,0.3);
 }
-/* Золотая рамка тиснения по периметру */
-.front-cover-page::before {
-content: '';
-position: absolute;
-top: 18px;
-left: 18px;
-right: 18px;
-bottom: 18px;
-border: 1.5px solid rgba(212, 175, 55, 0.45);
-border-radius: 3px;
-pointer-events: none;
-box-shadow:
-inset 0 0 0 1px rgba(0,0,0,0.4),
-0 0 0 1px rgba(212, 175, 55, 0.25);
-}
-/* Вторая внутренняя рамка + угловые украшения */
-.front-cover-page::after {
-content: '';
-position: absolute;
-top: 28px;
-left: 28px;
-right: 28px;
-bottom: 28px;
-border: 1px solid rgba(212, 175, 55, 0.28);
-border-radius: 2px;
-pointer-events: none;
-box-shadow:
-inset 0 0 0 1px rgba(0,0,0,0.3);
-}
-
-/* ============================================================ */
-/* ====== ПРЕМИАЛЬНАЯ КОЖАНАЯ ОБЛОЖКА (ЗАДНЯЯ) ====== */
-/* ============================================================ */
 .back-cover-page {
 background-color: #4a0808;
 background-image:
 radial-gradient(ellipse at 30% 20%, rgba(255,200,180,0.12) 0%, transparent 45%),
 radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.55) 0%, transparent 55%),
-repeating-linear-gradient(
-0deg,
-transparent 0px,
-transparent 2px,
-rgba(0,0,0,0.08) 2px,
-rgba(0,0,0,0.08) 3px,
-transparent 3px,
-transparent 6px
-),
-repeating-linear-gradient(
-90deg,
-transparent 0px,
-transparent 1px,
-rgba(0,0,0,0.04) 1px,
-rgba(0,0,0,0.04) 2px,
-transparent 2px,
-transparent 5px
-),
-repeating-linear-gradient(
--45deg,
-transparent 0px,
-transparent 8px,
-rgba(30,0,0,0.15) 8px,
-rgba(30,0,0,0.15) 9px,
-transparent 9px,
-transparent 20px
-),
+repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 3px, transparent 3px, transparent 6px),
+repeating-linear-gradient(90deg, transparent 0px, transparent 1px, rgba(0,0,0,0.04) 1px, rgba(0,0,0,0.04) 2px, transparent 2px, transparent 5px),
+repeating-linear-gradient(-45deg, transparent 0px, transparent 8px, rgba(30,0,0,0.15) 8px, rgba(30,0,0,0.15) 9px, transparent 9px, transparent 20px),
 radial-gradient(circle at 40% 50%, rgba(0,0,0,0.10) 0%, transparent 2px),
 radial-gradient(circle at 65% 30%, rgba(0,0,0,0.09) 0%, transparent 2px),
 linear-gradient(135deg, #2a0303 0%, #5a0808 30%, #7a0d0d 55%, #4a0606 80%, #1a0101 100%);
-border-left: 8px solid #1a0000;
-border: 2px solid #4a0000;
-box-shadow:
-inset 0 0 60px rgba(0,0,0,0.6),
-inset 0 0 20px rgba(100,10,10,0.3);
+border-left: 8px solid #1A0000;
+box-shadow: inset 0 0 60px rgba(0,0,0,0.6), inset 0 0 20px rgba(100,10,10,0.3);
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
 text-align: center;
 padding: 20px;
-position: relative;
 }
-/* Золотая рамка на задней обложке */
-.back-cover-page::before {
-content: '';
-position: absolute;
-top: 18px;
-left: 18px;
-right: 18px;
-bottom: 18px;
-border: 1.5px solid rgba(212, 175, 55, 0.4);
-border-radius: 3px;
-pointer-events: none;
-box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4);
-}
-.back-cover-page::after {
-content: '';
-position: absolute;
-top: 28px;
-left: 28px;
-right: 28px;
-bottom: 28px;
-border: 1px solid rgba(212, 175, 55, 0.25);
-border-radius: 2px;
-pointer-events: none;
-}
-
 .back-cover-text {
 color: #D4AF37;
 font-family: 'Georgia', serif;
@@ -274,8 +146,6 @@ line-height: 1.5;
 font-weight: bold;
 margin-bottom: 20px;
 text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-position: relative;
-z-index: 2;
 }
 .back-cover-logo {
 width: 120px;
@@ -284,8 +154,6 @@ border-radius: 50%;
 border: 3px solid #D4AF37;
 object-fit: cover;
 box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-position: relative;
-z-index: 2;
 }
 .cover-design {
 display: flex;
@@ -297,17 +165,39 @@ color: #D4AF37;
 text-align: center;
 padding: 20px;
 position: relative;
-z-index: 2;
+}
+.cover-design::before {
+content: '';
+position: absolute;
+top: 14px;
+left: 14px;
+right: 14px;
+bottom: 14px;
+border: 1.5px solid rgba(212, 175, 55, 0.45);
+border-radius: 3px;
+pointer-events: none;
+box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4), 0 0 0 1px rgba(212, 175, 55, 0.25);
+}
+.cover-design::after {
+content: '';
+position: absolute;
+top: 24px;
+left: 24px;
+right: 24px;
+bottom: 24px;
+border: 1px solid rgba(212, 175, 55, 0.28);
+border-radius: 2px;
+pointer-events: none;
+box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3);
 }
 .cover-design h2 {
 font-family: 'Georgia', serif;
 font-size: 26px;
 letter-spacing: 3px;
 margin: 0;
-text-shadow: 0 2px 4px rgba(0,0,0,0.7), 0 0 15px rgba(212,175,55,0.25);
 }
 .gold-badge {
-background: linear-gradient(135deg, #D4AF37 0%, #B8860B 50%, #D4AF37 100%);
+background: #D4AF37;
 color: #4A0000;
 padding: 6px 20px;
 font-weight: bold;
@@ -315,15 +205,12 @@ font-size: 15px;
 margin: 15px 0;
 border-radius: 4px;
 letter-spacing: 2px;
-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
-text-shadow: 0 1px 0 rgba(255,255,255,0.3);
 }
 .cover-design p {
 font-size: 13px;
 color: #f0e6d2;
 font-style: italic;
 margin-bottom: 15px;
-text-shadow: 0 1px 3px rgba(0,0,0,0.6);
 }
 .front-cover-logo {
 width: 80px;
@@ -332,10 +219,10 @@ border-radius: 50%;
 border: 2px solid #D4AF37;
 object-fit: cover;
 margin-bottom: 20px;
-box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 20px rgba(212,175,55,0.3);
+box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 .open-book-btn {
-background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+background: #D4AF37;
 color: #4A0000;
 border: none;
 padding: 10px 20px;
@@ -344,13 +231,7 @@ font-weight: bold;
 border-radius: 20px;
 cursor: pointer;
 margin-top: 20px;
-box-shadow: 0 4px 10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
-text-shadow: 0 1px 0 rgba(255,255,255,0.2);
-transition: transform 0.2s, box-shadow 0.2s;
-}
-.open-book-btn:hover {
-transform: translateY(-2px);
-box-shadow: 0 6px 14px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 .back-to-start-btn {
 background: transparent;
@@ -480,12 +361,379 @@ font-style: italic;
 .b-page.flipped {
 transform: rotateY(-180deg);
 }
+
+/* ==========================================
+   СТИЛИ ДВУХ НЕЗАВИСИМЫХ СТИКЕРОВ
+   ========================================== */
+.holo-sticker {
+position: fixed;
+width: 180px;
+height: 180px;
+z-index: 100;
+filter: drop-shadow(0 0 25px rgba(74, 158, 255, 0.5));
+animation: sticker-float 4s ease-in-out infinite;
+pointer-events: auto;
+cursor: pointer;
+}
+/* Стикёр 1: правый, top: 250px, right: 150px */
+.holo-sticker-1 {
+top: 250px;
+right: 150px;
+}
+/* Стикёр 2: левый, top: 150px, left: 150px */
+.holo-sticker-2 {
+top: 150px;
+left: 150px;
+}
+@keyframes sticker-float {
+0%, 100% { transform: translateY(0) scale(1); }
+50% { transform: translateY(-10px) scale(1.03); }
+}
+.holo-sticker svg {
+width: 100%;
+height: 100%;
+display: block;
+}
+.color0 { fill: none; }
+.color1 { fill: #8EABE5; }
+.color2 { fill: #BCACF3; }
+.color3 { fill: #FAA9B2; }
+.color4 { fill: #F8FCA8; }
+.color5 { fill: #B5DFC8; }
+.circle { fill: url(#multi-dots); }
+
+@media (max-width: 1100px) {
+.holo-sticker { width: 140px; height: 140px; }
+.holo-sticker-1 { top: 30px; right: 30px; }
+.holo-sticker-2 { top: 30px; left: 30px; }
+}
+@media (max-width: 850px) {
+.holo-sticker { width: 120px; height: 120px; }
+.holo-sticker-1 { top: 20px; right: 20px; }
+.holo-sticker-2 { top: 20px; left: 20px; }
+}
+
+/* ==========================================
+   СТИЛИ МОДАЛЬНОГО ОКНА И ЭФФЕКТА ИСПАРЕНИЯ
+   ========================================== */
+.mc-show {
+position: fixed;
+inset: 0;
+z-index: 9999;
+display: none;
+}
+.mc-show.open { display: block; }
+.mc-backdrop {
+position: absolute;
+inset: 0;
+background: rgba(10, 14, 18, 0.85);
+animation: mcFade 0.5s ease;
+}
+@keyframes mcFade { from { opacity: 0; } to { opacity: 1; } }
+.mc-window {
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+width: 1700px;
+height: 600px;
+max-width: calc(100vw - 32px);
+max-height: calc(100vh - 32px);
+background: transparent;
+border-radius: 6px;
+box-shadow: 0 30px 90px rgba(0,0,0,0.55);
+overflow: hidden;
+animation: mcZoom 0.55s cubic-bezier(0.2, 0.8, 0.25, 1);
+font-family: 'Inter', -apple-system, sans-serif;
+color: #23241f;
+}
+@keyframes mcZoom {
+from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
+to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+.mc-window * { box-sizing: border-box; }
+.mc-topbar {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 14px 32px 10px;
+background: #e9e7e0;
+position: relative;
+z-index: 10;
+}
+.mc-topbar .brand {
+font-size: 11px;
+letter-spacing: 4px;
+font-weight: 600;
+color: #3a3b33;
+}
+.mc-topbar .counter {
+display: flex;
+align-items: center;
+gap: 20px;
+font-size: 11px;
+letter-spacing: 3px;
+color: #63645a;
+}
+.mc-count-cur { font-weight: 700; color: #2c2d27; }
+.mc-x {
+width: 34px; height: 34px;
+border-radius: 50%;
+border: 1px solid rgba(0,0,0,0.35);
+background: transparent;
+font-size: 14px;
+cursor: pointer;
+color: #23241f;
+margin-left: 16px;
+transition: all 0.2s;
+}
+.mc-x:hover { background: #23241f; color: #e9e7e0; }
+.mc-rule {
+margin: 0 32px;
+border: 0;
+border-top: 1px solid rgba(0,0,0,0.28);
+background: #e9e7e0;
+position: relative;
+z-index: 10;
+}
+.mc-pages {
+position: absolute;
+top: 54px;
+bottom: 0;
+left: 0; right: 0;
+overflow: hidden;
+padding: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.mc-page {
+display: none;
+width: 100%;
+height: 100%;
+}
+.mc-page.active {
+display: flex;
+animation: mcPageIn 0.5s ease;
+}
+@keyframes mcPageIn {
+from { opacity: 0; transform: translateY(12px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+.evap-layer {
+position: fixed;
+inset: 0;
+z-index: 9998;
+pointer-events: none;
+overflow: hidden;
+}
+.evap-layer canvas { position: absolute; }
+.evap-flash {
+position: fixed;
+inset: 0;
+background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, rgba(232, 231, 224, 0.14) 40%, transparent 70%);
+opacity: 0;
+z-index: 9997;
+pointer-events: none;
+transition: opacity 0.5s ease;
+}
+.evap-flash.on { opacity: 1; }
+
+@media (max-width: 1760px) {
+.mc-window { width: calc(100vw - 32px); height: calc(100vh - 32px); }
+}
+@media (max-width: 760px) {
+.mc-topbar { padding: 10px 16px 8px; }
+.mc-rule { margin: 0 16px; }
+.mc-pages { top: 48px; }
+}
+
+/* ==========================================
+   СТИЛИ ДЛЯ КОНТЕНТА СЛАЙДА (Magic / Mirage)
+   ========================================== */
+.magic-mirage-wrapper {
+background-color: #e8e4de;
+font-family: 'Inter', sans-serif;
+color: #2a2a2a;
+width: 100%;
+height: 100%;
+display: flex;
+flex-direction: column;
+overflow-y: auto;
+}
+.magic-mirage-wrapper .main-content {
+display: grid;
+grid-template-columns: 1fr 1.4fr 1fr;
+gap: 40px;
+padding: 60px 50px 40px;
+flex: 1;
+align-items: start;
+}
+.magic-mirage-wrapper .left-column { padding-top: 20px; }
+.magic-mirage-wrapper .section-label {
+font-family: 'Space Mono', monospace;
+font-size: 16px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #555;
+margin-bottom: 20px;
+}
+.magic-mirage-wrapper .main-title {
+font-family: 'Inter', sans-serif;
+font-size: 38px;
+font-weight: 300;
+line-height: 1.2;
+margin-bottom: 30px;
+color: #1a1a1a;
+}
+.magic-mirage-wrapper .main-title .highlight {
+color: #5a7a3a;
+font-weight: 400;
+}
+.magic-mirage-wrapper .description {
+font-size: 16px;
+line-height: 1.7;
+color: #555;
+margin-bottom: 20px;
+font-weight: 300;
+}
+.magic-mirage-wrapper .tagline {
+display: flex;
+align-items: center;
+gap: 10px;
+font-family: 'Space Mono', monospace;
+font-size: 16px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #5a7a3a;
+margin-top: 30px;
+}
+.magic-mirage-wrapper .tagline svg { width: 16px; height: 16px; fill: #5a7a3a; }
+.magic-mirage-wrapper .center-column { display: flex; flex-direction: column; }
+.magic-mirage-wrapper .image-wrapper,
+.magic-mirage-wrapper .image-container {
+width: 100%;
+aspect-ratio: 16/9;
+border-radius: 4px;
+overflow: hidden;
+margin-bottom: 20px;
+}
+.magic-mirage-wrapper .image-wrapper { background: #1a1a1a; }
+.magic-mirage-wrapper .image-container { background: #3a5a3a; }
+.magic-mirage-wrapper .image-wrapper img,
+.magic-mirage-wrapper .image-container img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.magic-mirage-wrapper .right-column { padding-top: 0; }
+.magic-mirage-wrapper .right-column .section-label { margin-bottom: 15px; }
+.magic-mirage-wrapper .footer {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 20px 50px 30px;
+border-top: 1px solid #ccc;
+margin: 0 50px;
+flex-shrink: 0;
+}
+.magic-mirage-wrapper .footer-left,
+.magic-mirage-wrapper .footer-right {
+font-family: 'Space Mono', monospace;
+font-size: 16px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #555;
+}
+.magic-mirage-wrapper .footer-right { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.magic-mirage-wrapper .footer-right svg { width: 16px; height: 16px; stroke: #555; }
+@media (max-width: 1024px) {
+.magic-mirage-wrapper .main-content { grid-template-columns: 1fr; gap: 40px; padding: 40px 30px; }
+.magic-mirage-wrapper .footer { margin: 0 30px; padding: 20px 0 30px; }
+}
 </style>
 </head>
 <body>
 <div class="rules-bg"></div>
 <canvas id="tubes-canvas"></canvas>
 <div id="header-placeholder" class="header-wrapper"></div>
+
+<!-- ==========================================
+     СТИКЕР 1: ПРАВЫЙ (top: 250px, right: 150px)
+     ========================================== -->
+<div class="holo-sticker holo-sticker-1" id="holoSticker1">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
+<defs>
+<pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-1" viewBox="12.5 -34 26 23" style="overflow:visible;">
+<g>
+<rect x="12.5" y="-34" width="26" height="23"/>
+<g><circle class="color1" cx="45" cy="-7.5" r="7.5"/></g>
+<g><circle class="color1" cx="19" cy="-7.5" r="7.5"/><circle class="color2" cx="29.5" cy="-10" r="7.5"/></g>
+<g><circle class="color3" cx="39.5" cy="-26" r="7.5"/><circle class="color1" cx="45" cy="-30.5" r="7.5"/><circle class="color4" cx="42.5" cy="-17" r="7.5"/></g>
+<g><circle class="color3" cx="13.5" cy="-26" r="7.5"/><circle class="color1" cx="19" cy="-30.5" r="7.5"/><circle class="color1" cx="33.5" cy="-16" r="7.5"/><circle class="color2" cx="23.5" cy="-12" r="7.5"/><circle class="color2" cx="29.5" cy="-33" r="7.5"/><circle class="color4" cx="16.5" cy="-17" r="7.5"/><circle class="color5" cx="37.5" cy="-26" r="7.5"/><circle class="color3" cx="27.5" cy="-23" r="7.5"/></g>
+<g><circle class="color1" cx="7.5" cy="-16" r="7.5"/><circle class="color5" cx="11.5" cy="-26" r="7.5"/></g>
+<g><circle class="color4" cx="42.5" cy="-40" r="7.5"/></g>
+<g><circle class="color1" cx="33.5" cy="-39" r="7.5"/><circle class="color2" cx="23.5" cy="-35" r="7.5"/><circle class="color4" cx="16.5" cy="-40" r="7.5"/></g>
+<g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
+</g>
+</pattern>
+<clipPath id="badge-clip-1">
+<circle cx="128" cy="128" r="120"/>
+</clipPath>
+<linearGradient id="holo-shine-1" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
+<stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
+<stop offset="40%" stop-color="#5cff7a" stop-opacity="0.6"/>
+<stop offset="60%" stop-color="#4de4ff" stop-opacity="0.7"/>
+<stop offset="80%" stop-color="#b96bff" stop-opacity="0.6"/>
+<stop offset="100%" stop-color="#ff4dd2" stop-opacity="0.7"/>
+</linearGradient>
+</defs>
+<circle class="circle" cx="128" cy="128" r="120" style="fill: url(#multi-dots-1);"/>
+<circle cx="128" cy="128" r="120" fill="url(#holo-shine-1)" clip-path="url(#badge-clip-1)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
+<image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip-1)"/>
+<circle class="circle" cx="128" cy="128" r="120" style="fill: url(#multi-dots-1); mix-blend-mode: screen; opacity: 0.35;"/>
+</svg>
+</div>
+
+<!-- ==========================================
+     СТИКЕР 2: ЛЕВЫЙ (top: 150px, left: 150px)
+     ========================================== -->
+<div class="holo-sticker holo-sticker-2" id="holoSticker2">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
+<defs>
+<pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-2" viewBox="12.5 -34 26 23" style="overflow:visible;">
+<g>
+<rect x="12.5" y="-34" width="26" height="23"/>
+<g><circle class="color1" cx="45" cy="-7.5" r="7.5"/></g>
+<g><circle class="color1" cx="19" cy="-7.5" r="7.5"/><circle class="color2" cx="29.5" cy="-10" r="7.5"/></g>
+<g><circle class="color3" cx="39.5" cy="-26" r="7.5"/><circle class="color1" cx="45" cy="-30.5" r="7.5"/><circle class="color4" cx="42.5" cy="-17" r="7.5"/></g>
+<g><circle class="color3" cx="13.5" cy="-26" r="7.5"/><circle class="color1" cx="19" cy="-30.5" r="7.5"/><circle class="color1" cx="33.5" cy="-16" r="7.5"/><circle class="color2" cx="23.5" cy="-12" r="7.5"/><circle class="color2" cx="29.5" cy="-33" r="7.5"/><circle class="color4" cx="16.5" cy="-17" r="7.5"/><circle class="color5" cx="37.5" cy="-26" r="7.5"/><circle class="color3" cx="27.5" cy="-23" r="7.5"/></g>
+<g><circle class="color1" cx="7.5" cy="-16" r="7.5"/><circle class="color5" cx="11.5" cy="-26" r="7.5"/></g>
+<g><circle class="color4" cx="42.5" cy="-40" r="7.5"/></g>
+<g><circle class="color1" cx="33.5" cy="-39" r="7.5"/><circle class="color2" cx="23.5" cy="-35" r="7.5"/><circle class="color4" cx="16.5" cy="-40" r="7.5"/></g>
+<g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
+</g>
+</pattern>
+<clipPath id="badge-clip-2">
+<circle cx="128" cy="128" r="120"/>
+</clipPath>
+<linearGradient id="holo-shine-2" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
+<stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
+<stop offset="40%" stop-color="#5cff7a" stop-opacity="0.6"/>
+<stop offset="60%" stop-color="#4de4ff" stop-opacity="0.7"/>
+<stop offset="80%" stop-color="#b96bff" stop-opacity="0.6"/>
+<stop offset="100%" stop-color="#ff4dd2" stop-opacity="0.7"/>
+</linearGradient>
+</defs>
+<circle class="circle" cx="128" cy="128" r="120" style="fill: url(#multi-dots-2);"/>
+<circle cx="128" cy="128" r="120" fill="url(#holo-shine-2)" clip-path="url(#badge-clip-2)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
+<image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip-2)"/>
+<circle class="circle" cx="128" cy="128" r="120" style="fill: url(#multi-dots-2); mix-blend-mode: screen; opacity: 0.35;"/>
+</svg>
+</div>
+
 <div class="book-viewport">
 <div class="book-wrapper" id="myBook">
 <!-- ЗАДНЯЯ ОБЛОЖКА -->
@@ -593,6 +841,60 @@ transform: rotateY(-180deg);
 </div>
 </div>
 </div>
+
+<!-- ==========================================
+     МОДАЛЬНОЕ ОКНО (СЛАЙД Magic / Mirage)
+     ========================================== -->
+<div class="mc-show" id="magicClutch">
+<div class="mc-backdrop" id="mcBackdrop"></div>
+<div class="mc-window">
+<div class="mc-topbar">
+<span class="brand">THE Coldzera CLUTCH</span>
+<span class="counter">
+<span><span class="mc-count-cur" id="mcCurrent">01</span> / <span id="mcTotal">01</span></span>
+<button class="mc-x" id="mcClose" title="Закрыть">&#10005;</button>
+</span>
+</div>
+<hr class="mc-rule">
+<div class="mc-pages" id="mcPages">
+<div class="mc-page active">
+<div class="magic-mirage-wrapper">
+<div class="main-content">
+<div class="left-column">
+<div class="section-label">CONTEXT</div>
+<h1 class="main-title"><span class="highlight">Крылатое AWP</span></h1>
+<p class="description">В полуфинале MLG Major Championship: Columbus 2016 его команда, Luminosity Gaming, играла против Team Liquid. При счете 9:15 бразильскому коллективу требовалось чудо, и coldzera его сотворил!</p>
+<p class="description">Игроки Liquid решили использовать старую, но проверенную тактику — зарашить В. Он практически в одиночку с AWP Asiimov в руках остановил выход пятерых противников.</p>
+<div class="tagline">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.09 8.26L20 9.27L15.55 13.97L16.91 20L12 16.9L7.09 20L8.45 13.97L4 9.27L9.91 8.26L12 2Z"/></svg>
+winged AWP
+</div>
+</div>
+<div class="center-column">
+<div class="image-wrapper">
+<img src="png/Coldzera.png" alt="Coldzera Highlight">
+</div>
+</div>
+<div class="right-column">
+<div class="section-label">Coldzera</div>
+<div class="image-container">
+<img src="png/flyAWP.png" alt="Fly AWP">
+</div>
+<p class="description">На карте Mirage за фургоном на точке В можно найти изображение AWP с крыльями и четверкой отметок над прицелом. Этот рисунок появился тоже не просто так. Виновником появления стал Марсело coldzera Давид.</p>
+</div>
+</div>
+<div class="footer">
+<div class="footer-left">Coldzera / Mirage</div>
+<div class="footer-right">
+<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 <script>
 fetch('header.html')
 .then(response => response.text())
@@ -605,6 +907,7 @@ document.body.appendChild(script);
 })
 .catch(error => console.error('Ошибка загрузки шапки:', error));
 </script>
+
 <script>
 function turnPage(pageId, direction) {
 const page = document.getElementById('p' + pageId);
@@ -646,6 +949,7 @@ p0.style.zIndex = 7;
 document.getElementById('backToStartBtn').style.display = 'none';
 }
 </script>
+
 <script type="module">
 import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
 const canvas = document.getElementById('tubes-canvas');
@@ -669,6 +973,162 @@ return new Array(count)
 .fill(0)
 .map(() => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
 }
+</script>
+
+<!-- ==========================================
+     JAVASCRIPT ДЛЯ ЭФФЕКТА ИСПАРЕНИЯ (ОБЩИЙ ДЛЯ ОБОИХ СТИКЕРОВ)
+     ========================================== -->
+<script>
+(function() {
+'use strict';
+var show = document.getElementById('magicClutch');
+var stickers = document.querySelectorAll('.holo-sticker');
+if (!stickers.length) return;
+var running = false;
+
+stickers.forEach(function(sticker) {
+sticker.addEventListener('click', function() {
+if (running) return;
+running = true;
+var rect = sticker.getBoundingClientRect();
+var svgImg = sticker.querySelector('image');
+var src = svgImg ? svgImg.getAttribute('href') : null;
+if (!src) { running = false; return; }
+sticker.style.visibility = 'hidden';
+sticker.style.animation = 'none';
+var layer = document.createElement('div');
+layer.className = 'evap-layer';
+var canvas = document.createElement('canvas');
+var scale = window.devicePixelRatio || 1;
+canvas.width = window.innerWidth * scale;
+canvas.height = window.innerHeight * scale;
+canvas.style.width = window.innerWidth + 'px';
+canvas.style.height = window.innerHeight + 'px';
+layer.appendChild(canvas);
+document.body.appendChild(layer);
+var flash = document.createElement('div');
+flash.className = 'evap-flash';
+document.body.appendChild(flash);
+var img = new Image();
+img.onload = function() { dissolve(img, rect, scale); };
+img.src = src;
+function dissolve(img, rect, scale) {
+var ctx = canvas.getContext('2d');
+ctx.scale(scale, scale);
+var W = Math.round(rect.width), H = Math.round(rect.height);
+var off = document.createElement('canvas');
+off.width = W; off.height = H;
+var octx = off.getContext('2d');
+octx.drawImage(img, 0, 0, W, H);
+var data;
+try { data = octx.getImageData(0, 0, W, H).data; }
+catch (e) { data = null; }
+var parts = [];
+if (data) {
+for (var y = 0; y < H; y += 2) {
+for (var x = 0; x < W; x += 2) {
+var idx = (y * W + x) * 4;
+var a = data[idx + 3];
+if (a < 40) continue;
+parts.push({
+x: rect.left + x, y: rect.top + y, s: 2,
+c: 'rgba(' + data[idx] + ',' + data[idx + 1] + ',' + data[idx + 2] + ',' + (a / 255).toFixed(2) + ')',
+d: Math.random() * 0.5,
+vx: (Math.random() - 0.5) * 26,
+vy: -(26 + Math.random() * 60),
+bl: 0
+});
+}
+}
+for (var j = 0; j < 26; j++) {
+parts.push({
+cloud: true,
+x: rect.left + Math.random() * W,
+y: rect.top + Math.random() * H,
+r: 14 + Math.random() * 34,
+c: 'rgba(' + (200 + Math.floor(Math.random() * 55)) + ',' + (205 + Math.floor(Math.random() * 50)) + ',' + (210 + Math.floor(Math.random() * 45)) + ',0.5)',
+d: 0.1 + Math.random() * 0.5,
+vx: (Math.random() - 0.5) * 18,
+vy: -(40 + Math.random() * 55),
+bl: 6 + Math.random() * 10
+});
+}
+} else {
+for (var k = 0; k < 260; k++) {
+parts.push({
+x: rect.left + Math.random() * rect.width,
+y: rect.top + Math.random() * rect.height,
+s: 3,
+c: 'rgba(102,192,244,0.9)',
+d: Math.random() * 0.5,
+vx: (Math.random() - 0.5) * 26,
+vy: -(30 + Math.random() * 60),
+bl: 0
+});
+}
+}
+var t0 = performance.now();
+function frame(t) {
+var el = t - t0;
+ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+var alive = 0;
+parts.forEach(function(p) {
+var lt = el / 1000 - p.d;
+if (lt < 0) {
+if (p.cloud) {
+ctx.save(); ctx.filter = 'blur(' + p.bl + 'px)';
+ctx.fillStyle = p.c; ctx.beginPath();
+ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill(); ctx.restore();
+} else {
+ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, p.s, p.s);
+}
+alive++; return;
+}
+if (lt > 1.3) return;
+alive++;
+var e = 1 - Math.pow(1 - Math.min(lt / 1.2, 1), 2);
+var px = p.x + p.vx * lt, py = p.y + p.vy * lt;
+ctx.globalAlpha = 1 - e;
+if (p.cloud) {
+ctx.save(); ctx.filter = 'blur(' + (p.bl + e * 14) + 'px)';
+ctx.fillStyle = p.c; ctx.beginPath();
+ctx.arc(px, py, p.r * (1 + e * 1.4), 0, 6.283); ctx.fill(); ctx.restore();
+} else {
+ctx.fillStyle = p.c;
+ctx.fillRect(px, py, Math.max(0.5, p.s * (1 - 0.5 * e)), Math.max(0.5, p.s * (1 - 0.5 * e)));
+}
+});
+ctx.globalAlpha = 1;
+if (el > 350 && el < 750) flash.classList.add('on');
+else if (el >= 750) flash.classList.remove('on');
+if (alive > 0 && el < 3300) {
+requestAnimationFrame(frame);
+} else {
+document.body.removeChild(layer);
+document.body.removeChild(flash);
+show.classList.add('open');
+running = false;
+}
+}
+requestAnimationFrame(frame);
+}
+});
+});
+
+function closeShow() {
+show.classList.remove('open');
+stickers.forEach(function(s) {
+s.style.visibility = 'visible';
+s.style.animation = '';
+});
+}
+document.getElementById('mcClose').addEventListener('click', closeShow);
+document.getElementById('mcBackdrop').addEventListener('click', closeShow);
+document.addEventListener('keydown', function(e) {
+if (!show.classList.contains('open')) return;
+if (e.key === 'Escape') closeShow();
+});
+})();
 </script>
 </body>
 </html>
