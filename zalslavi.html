@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -7,71 +6,44 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-<title>Зал славы - 4ak4ak</title>
+<title>Рейтинг турнира - 4ak4ak</title>
 <link rel="stylesheet" href="style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-* { box-sizing: border-box; }
-body {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+html, body {
 margin: 0;
 padding: 0;
-background: #05070f;
+background: transparent;
 font-family: 'Inter', sans-serif;
-color: #fff;
+overflow-y: auto;
 overflow-x: hidden;
-min-height: 100vh;
 }
-/* ===== ФОН ===== */
 .bg-image {
-position: fixed;
+position: absolute;
 top: 0;
 left: 0;
 width: 100%;
-height: 100%;
-object-fit: cover;
+height: auto;
 z-index: 0;
 pointer-events: none;
-opacity: 0.85;
 }
-.bg-overlay {
-position: fixed;
-top: 0;
-left: 0;
+.header-wrapper {
+position: relative;
+z-index: 10;
+}
+.page-wrapper {
+position: relative;
+min-height: 100vh;
 width: 100%;
-height: 100%;
-background:
-radial-gradient(circle at 50% 0%, rgba(10,42,107,0.4) 0%, rgba(5,7,15,0.9) 60%),
-linear-gradient(180deg, rgba(5,7,15,0.6) 0%, rgba(5,7,15,0.85) 100%);
-z-index: 1;
-pointer-events: none;
 }
-/* ===== ТРУБКИ-РАДУГА ===== */
-#tubes-canvas {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-z-index: 9;
-pointer-events: none;
-background-color: #000000 !important;
-mix-blend-mode: screen;
-}
-.header-wrapper { position: relative; z-index: 10; }
-
-/* ===== ГОЛОГРАФИЧЕСКИЙ СТИКЕР ===== */
 .holo-sticker {
-position: fixed;
-right: 50px;
+position: absolute;
+left: 60px;
 top: 50%;
 transform: translateY(-50%);
 width: 180px;
 height: 180px;
-z-index: 20;
+z-index: 5;
 filter: drop-shadow(0 0 25px rgba(74, 158, 255, 0.5));
 animation: sticker-float 4s ease-in-out infinite;
 pointer-events: auto;
@@ -94,13 +66,433 @@ display: block;
 .color5 { fill: #B5DFC8; }
 .circle { fill: url(#multi-dots); }
 @media (max-width: 1100px) {
-.holo-sticker { right: 30px; width: 140px; height: 140px; }
+.holo-sticker { left: 30px; width: 140px; height: 140px; }
 }
 @media (max-width: 850px) {
-.holo-sticker { right: 20px; width: 120px; height: 120px; }
+.holo-sticker { left: 20px; width: 120px; height: 120px; }
 }
-
-/* ===== ЭФФЕКТ ИСПАРЕНИЯ ===== */
+:root {
+--metafy: url(https://assets.codepen.io/13471/metafy-repeat.png);
+--grain: url(https://assets.codepen.io/13471/grain.webp);
+--sunpillar-1: hsl(2, 100%, 73%);
+--sunpillar-2: hsl(53, 100%, 69%);
+--sunpillar-3: hsl(93, 100%, 69%);
+--sunpillar-4: hsl(176, 100%, 76%);
+--sunpillar-5: hsl(228, 100%, 74%);
+--sunpillar-6: hsl(283, 100%, 73%);
+--sunpillar-clr-1: var(--sunpillar-1);
+--sunpillar-clr-2: var(--sunpillar-2);
+--sunpillar-clr-3: var(--sunpillar-3);
+--sunpillar-clr-4: var(--sunpillar-4);
+--sunpillar-clr-5: var(--sunpillar-5);
+--sunpillar-clr-6: var(--sunpillar-6);
+--background-x: 50%;
+--background-y: 50%;
+}
+.rating-container {
+max-width: 650px;
+margin: 40px auto 40px auto;
+padding: 20px;
+background: rgba(10, 42, 107, 0.55);
+border: 1px solid rgba(74, 158, 255, 0.45);
+border-radius: 14px;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+position: relative;
+z-index: 5;
+isolation: isolate;
+overflow: hidden;
+}
+.rating-holo {
+position: absolute;
+inset: 0;
+border-radius: inherit;
+overflow: hidden;
+pointer-events: none;
+z-index: 0;
+}
+.rating-holo::before {
+content: "";
+position: absolute;
+inset: 0;
+border-radius: inherit;
+mask-image: var(--metafy);
+mask-mode: luminance;
+mask-repeat: repeat;
+mask-size: 150%;
+mask-position: top calc(200% - (var(--background-y) * 5)) left calc((100% - var(--background-x)));
+filter: brightness(0.85) contrast(1.5) saturate(0.5);
+animation: holo-bg 18s linear infinite;
+mix-blend-mode: color-dodge;
+background-image:
+repeating-linear-gradient(0deg,
+var(--sunpillar-clr-1) calc(5% * 1),
+var(--sunpillar-clr-2) calc(5% * 2),
+var(--sunpillar-clr-3) calc(5% * 3),
+var(--sunpillar-clr-4) calc(5% * 4),
+var(--sunpillar-clr-5) calc(5% * 5),
+var(--sunpillar-clr-6) calc(5% * 6),
+var(--sunpillar-clr-1) calc(5% * 7)
+),
+repeating-linear-gradient(-45deg,
+#0e152e 0%,
+hsl(180, 10%, 60%) 3.8%,
+hsl(180, 29%, 66%) 4.5%,
+hsl(180, 10%, 60%) 5.2%,
+#0e152e 10%,
+#0e152e 12%
+),
+radial-gradient(
+farthest-corner circle at 50% 50%,
+hsla(0, 0%, 0%, 0.1) 12%,
+hsla(0, 0%, 0%, 0.15) 20%,
+hsla(0, 0%, 0%, 0.25) 120%
+);
+background-position: 0% var(--background-y), 50% var(--background-y), center center;
+background-blend-mode: color, hard-light;
+background-size: 500% 500%, 300% 300%, 200% 200%;
+background-repeat: repeat;
+}
+.rating-holo::after {
+content: "";
+position: absolute;
+inset: 0;
+border-radius: inherit;
+background-image: radial-gradient(
+farthest-corner circle at 50% 30%,
+hsl(248, 25%, 80%) 5%,
+hsla(207, 40%, 30%, 0.8) 90%
+);
+mix-blend-mode: overlay;
+filter: brightness(0.7) contrast(1.2);
+opacity: 0.55;
+}
+@keyframes holo-bg {
+0%   { background-position: 0% var(--background-y), 0% 0%, center center; }
+100% { background-position: 0% var(--background-y), 90% 90%, center center; }
+}
+.rating-title,
+.rating-scroll,
+.rating-note,
+.btn-reset {
+position: relative;
+z-index: 1;
+}
+.rating-title {
+color: #4a9eff;
+font-size: 20px;
+font-weight: 700;
+margin-bottom: 16px;
+text-transform: uppercase;
+letter-spacing: 1px;
+text-align: center;
+text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8), 0 0 12px rgba(74, 158, 255, 0.35);
+}
+.rating-table-wrapper { display: flex; justify-content: center; margin: 0 auto; }
+.rating-scroll {
+max-height: 400px;
+overflow-y: auto;
+scrollbar-width: thin;
+scrollbar-color: rgba(74, 158, 255, 0.5) rgba(10, 42, 107, 0.3);
+border-radius: 8px;
+}
+.rating-scroll::-webkit-scrollbar { width: 8px; }
+.rating-scroll::-webkit-scrollbar-track { background: rgba(10, 42, 107, 0.3); border-radius: 4px; }
+.rating-scroll::-webkit-scrollbar-thumb { background: rgba(74, 158, 255, 0.5); border-radius: 4px; }
+.rating-scroll::-webkit-scrollbar-thumb:hover { background: rgba(74, 158, 255, 0.7); }
+.rating-table { width: 100%; border-collapse: collapse; color: #fff; table-layout: fixed; }
+.rating-table th, .rating-table td {
+padding: 0;
+border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+text-align: center;
+vertical-align: middle;
+background: rgba(10, 42, 107, 0.65);
+white-space: nowrap;
+}
+.cell-content { display: block; padding: 6px 16px; text-align: center; }
+.rating-table th {
+font-weight: 700;
+color: rgba(255, 255, 255, 0.95);
+text-transform: uppercase;
+font-size: 12px;
+letter-spacing: 0.5px;
+position: sticky;
+top: 0;
+z-index: 2;
+}
+.rating-table tbody tr:last-child td { border-bottom: none; }
+.pos-cell { width: 40px; font-weight: 800; font-size: 16px; color: rgba(255, 255, 255, 0.5); }
+.pos-cell.first { color: #ffd700; font-size: 18px; }
+.pos-cell.second { color: #C0C0C0; font-size: 17px; }
+.pos-cell.third { color: #CD7F32; font-size: 16px; }
+.name-cell { font-weight: 600; font-size: 15px; }
+.name-cell.first { color: #ffd700; font-weight: 800; }
+.name-cell.second { color: #C0C0C0; font-weight: 800; }
+.name-cell.third { color: #CD7F32; font-weight: 800; }
+.name-cell a { color: inherit; text-decoration: none; transition: text-decoration 0.2s; }
+.name-cell a:hover { text-decoration: underline; }
+.champ-cell, .finalist-cell, .points-cell { text-align: center; }
+.champ-cell { width: 90px; font-weight: 700; font-size: 15px; }
+.champ-cell.first { color: #ffd700; }
+.champ-cell.second { color: #C0C0C0; }
+.champ-cell.third { color: #CD7F32; }
+.finalist-cell { width: 90px; font-weight: 700; font-size: 15px; }
+.finalist-cell.first { color: #ffd700; }
+.finalist-cell.second { color: #C0C0C0; }
+.finalist-cell.third { color: #CD7F32; }
+.points-cell { width: 110px; font-weight: 700; color: #ffd700; font-size: 18px; }
+.points-cell.zero { color: rgba(255, 215, 0, 0.3); font-size: 14px; }
+.points-logo { width: 20px; height: 20px; border-radius: 50%; vertical-align: middle; margin-left: 6px; }
+.rating-empty { text-align: center; color: rgba(255, 255, 255, 0.35); font-size: 14px; padding: 24px; font-style: italic; }
+.rating-note {
+text-align: center;
+color: rgba(255, 255, 255, 0.55);
+font-size: 12px;
+margin-top: 12px;
+text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+.btn-reset {
+display: none;
+margin: 20px auto 0 auto;
+padding: 12px 30px;
+font-size: 14px;
+font-weight: 700;
+color: #fff;
+background: linear-gradient(135deg, #c0392b, #e74c3c);
+border: 2px solid rgba(255,255,255,0.2);
+border-radius: 50px;
+cursor: pointer;
+font-family: 'Inter', sans-serif;
+transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-reset:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 22px rgba(192,57,43,0.5);
+}
+.btn-reset.visible { display: block; }
+/* ================= THE MAGIC CLUTCH: 1700x600 ================= */
+.mc-show {
+position: fixed;
+inset: 0;
+z-index: 9999;
+display: none;
+}
+.mc-show.open { display: block; }
+.mc-backdrop {
+position: absolute;
+inset: 0;
+background: rgba(10, 14, 18, 0.75);
+animation: mcFade 0.5s ease;
+}
+@keyframes mcFade { from { opacity: 0; } to { opacity: 1; } }
+.mc-window {
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+width: 1700px;
+height: 600px;
+max-width: calc(100vw - 32px);
+max-height: calc(100vh - 32px);
+background: #e9e7e0;
+border-radius: 6px;
+box-shadow: 0 30px 90px rgba(0,0,0,0.55);
+overflow: hidden;
+animation: mcZoom 0.55s cubic-bezier(0.2, 0.8, 0.25, 1);
+font-family: 'Inter', -apple-system, sans-serif;
+color: #23241f;
+}
+@keyframes mcZoom {
+from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
+to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+.mc-window * { box-sizing: border-box; }
+.mc-topbar {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 14px 32px 10px;
+}
+.mc-topbar .brand {
+font-size: 11px;
+letter-spacing: 4px;
+font-weight: 600;
+color: #3a3b33;
+}
+.mc-topbar .counter {
+display: flex;
+align-items: center;
+gap: 20px;
+font-size: 11px;
+letter-spacing: 3px;
+color: #63645a;
+}
+.mc-count-cur { font-weight: 700; color: #2c2d27; }
+.mc-x {
+width: 34px; height: 34px;
+border-radius: 50%;
+border: 1px solid rgba(0,0,0,0.35);
+background: transparent;
+font-size: 14px;
+cursor: pointer;
+color: #23241f;
+margin-left: 16px;
+transition: all 0.2s;
+}
+.mc-x:hover { background: #23241f; color: #e9e7e0; }
+.mc-rule {
+margin: 0 32px;
+border: 0;
+border-top: 1px solid rgba(0,0,0,0.28);
+}
+.mc-pages {
+position: absolute;
+top: 54px;
+bottom: 18px;
+left: 0; right: 0;
+overflow-y: auto;
+padding: 14px 32px 8px;
+}
+.mc-page { display: none; }
+.mc-page.active { display: block; animation: mcPageIn 0.5s ease; }
+@keyframes mcPageIn {
+from { opacity: 0; transform: translateY(12px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+/* ====== СТРАНИЦА 1: три колонки в ряд ====== */
+.mc-page-1 {
+display: flex;
+gap: 24px;
+align-items: stretch;
+height: 100%;
+}
+.mc-col-left {
+flex: 0 0 380px;
+display: flex;
+flex-direction: column;
+gap: 10px;
+padding-top: 10px;
+}
+.mc-col-center {
+flex: 1 1 620px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+position: relative;
+}
+.mc-col-center img {
+width: 100%;
+max-height: 420px;
+object-fit: cover;
+display: block;
+border: 1px solid #23241f;
+border-radius: 2px;
+}
+.mc-col-center .leg {
+position: absolute;
+bottom: 14px;
+font-size: 10px;
+letter-spacing: 2.5px;
+font-weight: 700;
+color: #f2f0e9;
+text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+.mc-col-center .leg.left { left: 12px; }
+.mc-col-center .leg.right { right: 12px; }
+.mc-col-right {
+flex: 0 0 420px;
+display: flex;
+flex-direction: column;
+gap: 8px;
+padding-top: 10px;
+}
+.mc-col-right img {
+width: 100%;
+height: 180px;
+object-fit: contain;
+display: block;
+background: #dfddd5;
+border: 1px solid rgba(0,0,0,0.15);
+border-radius: 3px;
+}
+.mc-num {
+font-size: 10px;
+letter-spacing: 3px;
+color: #63645a;
+margin-bottom: 4px;
+}
+.mc-caption {
+font-size: 11px;
+line-height: 1.55;
+color: #43443c;
+}
+.mc-caption b { color: #23241f; }
+.mc-h-display {
+font-size: 36px;
+line-height: 1.05;
+font-weight: 600;
+letter-spacing: -1px;
+color: #7d9c50;
+margin: 10px 0 8px;
+}
+.mc-body {
+font-size: 12px;
+line-height: 1.6;
+color: #43443c;
+margin: 0 0 8px;
+}
+.mc-body b { color: #23241f; }
+.mc-link {
+display: inline-block;
+margin-top: 6px;
+font-size: 10px;
+letter-spacing: 2px;
+font-weight: 700;
+color: #8a6d1d;
+text-transform: uppercase;
+border-bottom: 1px solid #c9b877;
+text-decoration: none;
+}
+.mc-link:hover { color: #23241f; border-color: #23241f; }
+.mc-h-page {
+font-size: 30px;
+line-height: 1.08;
+font-weight: 600;
+letter-spacing: -0.8px;
+color: #7d9c50;
+margin: 0 0 12px;
+max-width: 640px;
+}
+.mc-page-cols { display: flex; gap: 32px; }
+.mc-page-cols > div { flex: 1; }
+.mc-stat {
+background: #dfddd5;
+border: 1px solid rgba(0,0,0,0.15);
+border-radius: 4px;
+padding: 12px;
+margin-bottom: 10px;
+}
+.mc-stat .n { font-size: 22px; font-weight: 700; color: #23241f; }
+.mc-stat .l { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #63645a; margin-top: 2px; }
+.mc-arrows {
+position: absolute;
+bottom: 14px;
+right: 32px;
+display: flex;
+gap: 8px;
+z-index: 2;
+}
+.mc-arrow {
+width: 32px; height: 32px;
+border-radius: 50%;
+border: 1px solid rgba(0,0,0,0.35);
+background: transparent;
+font-size: 13px;
+cursor: pointer;
+color: #23241f;
+transition: all 0.2s;
+}
+.mc-arrow:hover { background: #23241f; color: #e9e7e0; }
 .evap-layer {
 position: fixed;
 inset: 0;
@@ -122,412 +514,29 @@ pointer-events: none;
 transition: opacity 0.5s ease;
 }
 .evap-flash.on { opacity: 1; }
-
-/* ===== HERO ===== */
-.hall-container {
-position: relative;
-z-index: 5;
-max-width: 1200px;
-margin: 40px auto 80px;
-padding: 0 20px;
+@media (max-width: 1760px) {
+.mc-window { width: calc(100vw - 32px); height: calc(100vh - 32px); }
+.mc-page-1 { flex-direction: column; overflow-y: auto; }
+.mc-col-left, .mc-col-right { flex: 0 0 auto; width: 100%; }
+.mc-col-center { flex: 0 0 auto; width: 100%; }
+.mc-col-center img { max-height: 280px; }
+.mc-h-display { font-size: 28px; }
 }
-.hall-hero {
-text-align: center;
-padding: 40px 20px 20px;
-position: relative;
-}
-.hall-trophy {
-font-size: 90px;
-line-height: 1;
-display: inline-block;
-animation: trophyPulse 2.6s ease-in-out infinite;
-filter: drop-shadow(0 0 30px rgba(255,215,0,0.6));
-}
-@keyframes trophyPulse {
-0%, 100% {
-transform: scale(1) rotate(-3deg);
-filter: drop-shadow(0 0 20px rgba(255,215,0,0.5));
-}
-50% {
-transform: scale(1.12) rotate(3deg);
-filter: drop-shadow(0 0 45px rgba(255,215,0,0.95));
-}
-}
-.hall-title {
-font-size: clamp(42px, 7vw, 76px);
-font-weight: 900;
-letter-spacing: 3px;
-text-transform: uppercase;
-margin: 10px 0 12px;
-background: linear-gradient(135deg, #ffd700 0%, #fff4b0 25%, #ffd700 50%, #ffed4e 75%, #ffd700 100%);
-background-size: 250% 250%;
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-animation: shimmer 4s ease-in-out infinite;
-filter: drop-shadow(0 0 25px rgba(255,215,0,0.35));
-}
-@keyframes shimmer {
-0%, 100% { background-position: 0% 50%; }
-50% { background-position: 100% 50%; }
-}
-.hall-subtitle {
-color: rgba(255,255,255,0.7);
-font-size: 16px;
-font-weight: 500;
-letter-spacing: 0.5px;
-max-width: 620px;
-margin: 0 auto;
-line-height: 1.6;
-}
-.hall-divider {
-width: 160px;
-height: 3px;
-margin: 24px auto 0;
-background: linear-gradient(90deg, transparent, #ffd700, transparent);
-border-radius: 2px;
-box-shadow: 0 0 20px rgba(255,215,0,0.5);
-animation: dividerGlow 3s ease-in-out infinite;
-}
-@keyframes dividerGlow {
-0%, 100% { box-shadow: 0 0 15px rgba(255,215,0,0.4); }
-50% { box-shadow: 0 0 35px rgba(255,215,0,0.9); }
-}
-/* ===== СТЕНД (без матовой пленки) ===== */
-.hall-stand {
-position: relative;
-margin-top: 40px;
-padding: 40px 30px;
-border-radius: 24px;
-background:
-linear-gradient(135deg, rgba(10,42,107,0.55) 0%, rgba(10,20,50,0.55) 100%);
-border: 2px solid rgba(255,215,0,0.25);
-box-shadow:
-0 20px 60px rgba(0,0,0,0.5),
-inset 0 1px 0 rgba(255,255,255,0.08);
-animation: standPulse 4s ease-in-out infinite;
-}
-@keyframes standPulse {
-0%, 100% {
-border-color: rgba(255,215,0,0.25);
-box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(255,215,0,0.08), inset 0 1px 0 rgba(255,255,255,0.08);
-}
-50% {
-border-color: rgba(255,215,0,0.55);
-box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 60px rgba(255,215,0,0.25), inset 0 1px 0 rgba(255,255,255,0.12);
-}
-}
-.stand-label {
-position: absolute;
-top: -18px;
-left: 50%;
-transform: translateX(-50%);
-padding: 8px 28px;
-background: linear-gradient(135deg, #b8860b, #ffd700, #b8860b);
-background-size: 200% 200%;
-animation: labelShimmer 3s ease-in-out infinite;
-border-radius: 30px;
-font-size: 13px;
-font-weight: 800;
-letter-spacing: 3px;
-text-transform: uppercase;
-color: #1a1a2e;
-box-shadow: 0 6px 20px rgba(255,215,0,0.5);
-white-space: nowrap;
-}
-@keyframes labelShimmer {
-0%, 100% { background-position: 0% 50%; }
-50% { background-position: 100% 50%; }
-}
-/* ===== СЕТКА КАРТОЧЕК ===== */
-.hall-grid {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-gap: 22px;
-}
-.hall-card {
-position: relative;
-display: flex;
-flex-direction: column;
-background: linear-gradient(160deg, rgba(20,30,60,0.85) 0%, rgba(10,20,45,0.9) 100%);
-border: 1px solid rgba(255,215,0,0.2);
-border-radius: 16px;
-padding: 22px 22px 18px;
-overflow: hidden;
-transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-border-color 0.3s, box-shadow 0.35s;
-animation: cardAppear 0.7s ease-out backwards;
-cursor: pointer;
-text-decoration: none;
-color: inherit;
-}
-.hall-card::before {
-content: '';
-position: absolute;
-top: 0; left: -100%;
-width: 100%; height: 100%;
-background: linear-gradient(90deg, transparent, rgba(255,215,0,0.08), transparent);
-transition: left 0.7s;
-pointer-events: none;
-}
-.hall-card:hover::before { left: 100%; }
-.hall-card:hover {
-transform: translateY(-8px);
-border-color: rgba(255,215,0,0.75);
-box-shadow:
-0 20px 40px rgba(0,0,0,0.5),
-0 0 40px rgba(255,215,0,0.25);
-}
-@keyframes cardAppear {
-from { opacity: 0; transform: translateY(30px) scale(0.95); }
-to { opacity: 1; transform: translateY(0) scale(1); }
-}
-.card-thumb {
-width: 100%;
-height: 150px;
-border-radius: 10px;
-overflow: hidden;
-margin-bottom: 16px;
-background: linear-gradient(135deg, #1a1a2e, #0a1428);
-display: flex;
-align-items: center;
-justify-content: center;
-position: relative;
-border: 1px solid rgba(255,255,255,0.08);
-}
-.card-thumb img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-display: block;
-}
-.card-thumb .yt-icon {
-width: 60px;
-height: 42px;
-background: #ff0000;
-border-radius: 10px;
-position: relative;
-box-shadow: 0 0 25px rgba(255,0,0,0.5);
-animation: ytPulse 2.4s ease-in-out infinite;
-}
-.card-thumb .yt-icon::after {
-content: '';
-position: absolute;
-top: 50%; left: 50%;
-transform: translate(-40%, -50%);
-border-style: solid;
-border-width: 10px 0 10px 16px;
-border-color: transparent transparent transparent #fff;
-}
-@keyframes ytPulse {
-0%, 100% { box-shadow: 0 0 20px rgba(255,0,0,0.4); }
-50% { box-shadow: 0 0 40px rgba(255,0,0,0.9); }
-}
-.card-title {
-font-size: 16px;
-font-weight: 700;
-color: #fff;
-margin: 0 0 8px;
-line-height: 1.35;
-display: -webkit-box;
--webkit-line-clamp: 2;
--webkit-box-orient: vertical;
-overflow: hidden;
-}
-.card-desc {
-font-size: 13px;
-color: rgba(255,255,255,0.6);
-line-height: 1.5;
-margin: 0 0 16px;
-flex: 1;
-display: -webkit-box;
--webkit-line-clamp: 3;
--webkit-box-orient: vertical;
-overflow: hidden;
-}
-.card-btn {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-gap: 8px;
-padding: 10px 18px;
-background: linear-gradient(135deg, #c0392b, #ff0000);
-color: #fff;
-border-radius: 30px;
-font-size: 13px;
-font-weight: 700;
-text-decoration: none;
-letter-spacing: 0.5px;
-transition: transform 0.2s, box-shadow 0.2s;
-align-self: flex-start;
-border: none;
-box-shadow: 0 4px 14px rgba(255,0,0,0.3);
-}
-.card-btn:hover {
-transform: translateY(-2px);
-box-shadow: 0 8px 22px rgba(255,0,0,0.55);
-}
-.card-btn .material-symbols-outlined { font-size: 18px; }
-/* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
-.hall-empty {
-text-align: center;
-padding: 60px 20px;
-color: rgba(255,255,255,0.35);
-font-size: 15px;
-font-style: italic;
-}
-.hall-empty .material-symbols-outlined {
-font-size: 54px;
-display: block;
-margin: 0 auto 14px;
-color: rgba(255,215,0,0.3);
-}
-/* ===== АДМИН-ПАНЕЛЬ ===== */
-.admin-panel {
-margin-top: 32px;
-padding: 26px;
-background: linear-gradient(135deg, rgba(10,42,107,0.5), rgba(5,15,35,0.7));
-border: 2px dashed rgba(255,215,0,0.35);
-border-radius: 18px;
-}
-.admin-panel h3 {
-margin: 0 0 18px;
-font-size: 17px;
-font-weight: 800;
-color: #ffd700;
-text-transform: uppercase;
-letter-spacing: 1.5px;
-display: flex;
-align-items: center;
-gap: 10px;
-}
-.admin-panel h3 .material-symbols-outlined { font-size: 24px; }
-.admin-form-row {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 14px;
-margin-bottom: 12px;
-}
-@media (max-width: 640px) {
-.admin-form-row { grid-template-columns: 1fr; }
-}
-.admin-input {
-width: 100%;
-padding: 12px 16px;
-background: rgba(0,0,0,0.4);
-border: 1px solid rgba(255,255,255,0.15);
-border-radius: 10px;
-color: #fff;
-font-size: 14px;
-font-family: 'Inter', sans-serif;
-outline: none;
-transition: border-color 0.2s, box-shadow 0.2s;
-}
-.admin-input::placeholder { color: rgba(255,255,255,0.35); }
-.admin-input:focus {
-border-color: #ffd700;
-box-shadow: 0 0 0 3px rgba(255,215,0,0.15);
-}
-.admin-actions {
-display: flex;
-gap: 12px;
-margin-top: 16px;
-flex-wrap: wrap;
-}
-.admin-btn {
-padding: 12px 28px;
-border: none;
-border-radius: 30px;
-font-size: 14px;
-font-weight: 700;
-font-family: 'Inter', sans-serif;
-cursor: pointer;
-letter-spacing: 0.5px;
-transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-display: inline-flex;
-align-items: center;
-gap: 8px;
-}
-.admin-btn .material-symbols-outlined { font-size: 20px; }
-.admin-btn:hover { transform: translateY(-2px); }
-.admin-btn.primary {
-background: linear-gradient(135deg, #27ae60, #2ecc71);
-color: #fff;
-box-shadow: 0 6px 18px rgba(39,174,96,0.4);
-}
-.admin-btn.primary:hover { box-shadow: 0 10px 26px rgba(39,174,96,0.6); }
-.admin-btn.danger {
-background: linear-gradient(135deg, #c0392b, #e74c3c);
-color: #fff;
-box-shadow: 0 6px 18px rgba(192,57,43,0.4);
-}
-.admin-btn.secondary {
-background: rgba(255,255,255,0.1);
-color: #fff;
-border: 1px solid rgba(255,255,255,0.2);
-}
-.admin-toggle-btn {
-display: inline-flex;
-align-items: center;
-gap: 8px;
-margin: 20px auto 0;
-padding: 12px 28px;
-background: linear-gradient(135deg, #b8860b, #ffd700);
-color: #1a1a2e;
-border: none;
-border-radius: 30px;
-font-size: 14px;
-font-weight: 800;
-font-family: 'Inter', sans-serif;
-cursor: pointer;
-letter-spacing: 0.5px;
-box-shadow: 0 6px 20px rgba(255,215,0,0.35);
-transition: transform 0.2s, box-shadow 0.2s;
-}
-.admin-toggle-btn:hover {
-transform: translateY(-2px);
-box-shadow: 0 10px 28px rgba(255,215,0,0.55);
-}
-.admin-toggle-wrap { text-align: center; margin-top: 32px; }
-.card-delete {
-position: absolute;
-top: 10px;
-right: 10px;
-width: 30px;
-height: 30px;
-border-radius: 50%;
-background: rgba(220,38,38,0.9);
-border: none;
-color: #fff;
-font-size: 16px;
-line-height: 1;
-cursor: pointer;
-display: none;
-align-items: center;
-justify-content: center;
-z-index: 5;
-transition: background 0.2s, transform 0.2s;
-box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-.hall-card:hover .card-delete.admin-visible { display: flex; }
-.card-delete:hover { background: #dc2626; transform: scale(1.1); }
-@media (max-width: 640px) {
-.hall-stand { padding: 32px 16px; }
-.hall-trophy { font-size: 64px; }
-.hall-container { margin: 20px auto 40px; }
+@media (max-width: 760px) {
+.mc-topbar { padding: 10px 16px 8px; }
+.mc-arrows { right: 16px; }
+.mc-rule { margin: 0 16px; }
+.mc-pages { padding: 12px 16px 6px; top: 48px; }
+.mc-page-cols { flex-direction: column; gap: 14px; }
+.mc-h-display { font-size: 24px; }
+.mc-h-page { font-size: 22px; }
 }
 </style>
 </head>
 <body>
-<!-- Фон -->
-<img src="pngg/10kolo.png" class="bg-image" alt="Фон зала славы">
-<div class="bg-overlay"></div>
-<!-- Канвас с трубками-радугой за курсором -->
-<canvas id="tubes-canvas"></canvas>
-<!-- Шапка -->
+<img src="pngg/9kolo.png" class="bg-image" alt="Фон">
 <div id="header-placeholder" class="header-wrapper"></div>
-
-<!-- ====== ГОЛОГРАФИЧЕСКИЙ СТИКЕР ====== -->
+<div class="page-wrapper">
 <div class="holo-sticker" id="holoSticker">
 <svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -562,64 +571,109 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 <circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
-
-<main class="hall-container">
-<!-- HERO -->
-<section class="hall-hero">
-<div class="hall-trophy">🏆</div>
-<h1 class="hall-title">Зал славы</h1>
-<p class="hall-subtitle">
-Легенды турниров 4ak4ak — лучшие моменты, яркие победы и незабываемые матчи.
-Смотри хайлайты и наслаждайся игрой.
-</p>
-<div class="hall-divider"></div>
-</section>
-<!-- Анимированный стенд -->
-<section class="hall-stand">
-<div class="stand-label">★ Выдающиеся моменты ★</div>
-<div class="hall-grid" id="hallGrid"></div>
-<div class="hall-empty" id="hallEmpty" style="display:none;">
-<span class="material-symbols-outlined">movie</span>
-Пока здесь пусто. Скоро появятся лучшие моменты турниров!
-</div>
-</section>
-<!-- Админ-панель -->
-<div class="admin-toggle-wrap" id="adminToggleWrap" style="display:none;">
-<button class="admin-toggle-btn" id="adminToggleBtn">
-<span class="material-symbols-outlined">add_circle</span>
-Добавить в зал славы
-</button>
-</div>
-<div class="admin-panel" id="adminPanel" style="display:none;">
-<h3>
-<span class="material-symbols-outlined">military_tech</span>
-Новая запись в зале славы
-</h3>
-<div class="admin-form-row">
-<input class="admin-input" id="newTitle" type="text" placeholder="Название (напр. Лучшие моменты турнира #3)" maxlength="80">
-<input class="admin-input" id="newChannel" type="text" placeholder="Канал / автор (напр. 4ak4ak Highlights)" maxlength="60">
-</div>
-<div class="admin-form-row">
-<input class="admin-input" id="newUrl" type="url" placeholder="Ссылка на YouTube (видео / плейлист / канал)" style="grid-column: 1 / -1;">
-</div>
-<div class="admin-form-row">
-<input class="admin-input" id="newThumb" type="url" placeholder="URL обложки (необязательно, если пусто — будет иконка YouTube)" style="grid-column: 1 / -1;">
-</div>
-<textarea class="admin-input" id="newDesc" rows="3" placeholder="Короткое описание (необязательно)" maxlength="300" style="resize:vertical;"></textarea>
-<div class="admin-actions">
-<button class="admin-btn primary" id="adminAddBtn">
-<span class="material-symbols-outlined">check</span> Добавить
-</button>
-<button class="admin-btn secondary" id="adminCancelBtn">
-<span class="material-symbols-outlined">close</span> Отмена
-</button>
+<div class="rating-container">
+<div class="rating-holo"></div>
+<div class="rating-title">Турнирная таблица</div>
+<div class="rating-scroll">
+<div class="rating-table-wrapper">
+<table class="rating-table">
+<thead>
+<tr>
+<th class="pos-cell"><span class="cell-content">#</span></th>
+<th><span class="cell-content">Игрок</span></th>
+<th class="champ-cell"><span class="cell-content">Чемпион</span></th>
+<th class="finalist-cell"><span class="cell-content">Финалист</span></th>
+<th class="points-cell"><span class="cell-content">Чак-чак</span></th>
+</tr>
+</thead>
+<tbody id="ratingBody">
+<tr>
+<td colspan="5" class="rating-empty">Итоги появятся после финала</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-</main>
-<!-- Загрузка шапки -->
+<div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
+<button class="btn-reset" id="btnReset">Сбросить чак-чаки</button>
+</div>
+</div>
+<!-- THE MAGIC CLUTCH: 1700x600 -->
+<div class="mc-show" id="magicClutch">
+<div class="mc-backdrop" id="mcBackdrop"></div>
+<div class="mc-window">
+<div class="mc-topbar">
+<span class="brand">THE MAGIC CLUTCH</span>
+<span class="counter">
+<span><span class="mc-count-cur" id="mcCurrent">01</span> / <span id="mcTotal">03</span></span>
+<button class="mc-x" id="mcClose" title="Закрыть">&#10005;</button>
+</span>
+</div>
+<hr class="mc-rule">
+<div class="mc-pages" id="mcPages">
+<!-- СТРАНИЦА 1: три колонки -->
+<div class="mc-page active mc-page-1">
+<div class="mc-col-left">
+<div class="mc-num">02</div>
+<div class="mc-caption">Разработчики CS2 в ночном обновлении добавили кое-что необычное: в магазине на Mirage, который обычно называют <b>кухней</b>, теперь можно найти банки томатной пасты «Magic». На ней нарисован веселый помидор и есть подпись «Секретная заправка» на русском языке.</div>
+</div>
+<div class="mc-col-center">
+<img src="png/magixx.png" alt="Момент клатча: реакция состава">
+<span class="leg left">THE MOMENT</span>
+<span class="leg right">01:24</span>
+</div>
+<div class="mc-col-right">
+<img src="png/pomidor.png" alt="Банка Magic на полке">
+<div class="mc-num">03 / CONTEXT</div>
+<h1 class="mc-h-display">Кухня,<br>которую<br>запомнили.</h1>
+<p class="mc-body">Раньше разработчики CS рисовали на картах граффити за крутые хайлайты с мейджоров, но давно забросили традицию. Клатч Мэджикса стал идеальным поводом ее воскресить.</p>
+<p class="mc-body">И, хоть сделали это Valve необычным способом, факт остается фактом: впервые после выхода CS 2 в игре появилась отсылка на киберспортивный хайлайт.</p>
+<a class="mc-link" href="javascript:void(0)">MAGIC: SECRET SAUCE · 399 · A LEGENDARY ROUND</a>
+</div>
+</div>
+<!-- СТРАНИЦА 2: только текст -->
+<div class="mc-page">
+<div class="mc-num">01 / THE PLAY</div>
+<h1 class="mc-h-page">Второй овертайм.<br>Дело пахнет жареным.</h1>
+<div class="mc-page-cols">
+<div>
+<p class="mc-body">Кёльн, четвертьфинал мейджора. Team Spirit против G2, карта Mirage, <b>матч-поинт в пользу G2</b>. После установки на B magixx остался один на кухне — у угла, которого по сценарию быть не должно.</p>
+<p class="mc-body">Четверо игроков G2 заходят на ретейк со стороны маркета. Капитан Spirit отвечает <b>одним зажимом из АК</b>: четыре фрага подряд, один за другим, как томаты в банку. Раунд взят, дальше Spirit дожимают карту и идут в полуфинал.</p>
+<p class="mc-body">Сам Борис после матча признался, что <b>не сразу понял, что произошло</b>. На репитах момент разнёс всю киберспортивную сцену.</p>
+</div>
+<div>
+<div class="mc-stat"><div class="n">1v4</div><div class="l">клатч</div></div>
+<div class="mc-stat"><div class="n">AK-47</div><div class="l">один зажим</div></div>
+<div class="mc-stat"><div class="n">Mirage</div><div class="l">кухня, точка B</div></div>
+</div>
+</div>
+</div>
+<!-- СТРАНИЦА 3: только текст -->
+<div class="mc-page">
+<div class="mc-num">03 / LEGACY</div>
+<h1 class="mc-h-page">Банки, которые<br>не убрать из истории.</h1>
+<div class="mc-page-cols">
+<div>
+<p class="mc-body"><b>1 июля 2026 года</b> Valve выпустила патч кёльнского мейджора — и тихо поставила на полку в кухне Mirage банки томатного соуса. Подпись: <b>«Magic: Secret Sauce»</b>, под ней метка <b>«4X»</b> — по числу фрагов в клатче.</p>
+<p class="mc-body">Это первый в истории CS2 tribute конкретному моменту мейджора. Прошлый раз такое случилось в 2017-м, когда Valve увековечила гранату Dosia в CS:GO. Банки даже можно разбить пулями — но раунд не вернуть: история осталась на полке Mirage навсегда.</p>
+</div>
+<div>
+<div class="mc-stat"><div class="n">1-й</div><div class="l">трибьют CS2</div></div>
+<div class="mc-stat"><div class="n">4 банки</div><div class="l">томатов на карте</div></div>
+<div class="mc-stat"><div class="n">2017</div><div class="l">прошлый раз (Dosia)</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mc-arrows">
+<button class="mc-arrow" id="mcPrev">&#10094;</button>
+<button class="mc-arrow" id="mcNext">&#10095;</button>
+</div>
+</div>
+</div>
 <script>
 fetch('header.html')
-.then(r => r.text())
+.then(response => response.text())
 .then(data => {
 document.getElementById('header-placeholder').innerHTML = data;
 const script = document.createElement('script');
@@ -627,9 +681,8 @@ script.type = 'module';
 script.src = 'auth.js';
 document.body.appendChild(script);
 })
-.catch(e => console.error('Ошибка загрузки шапки:', e));
+.catch(error => console.error('Ошибка загрузки шапки:', error));
 </script>
-<!-- Firebase (compat) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
@@ -647,8 +700,8 @@ appId: "1:408070680295:web:77b9656094e330b803bc42"
 firebase.initializeApp(firebaseConfig);
 var db = firebase.database();
 var auth = firebase.auth();
+var LOGO_URL = 'png/logo1.jpg';
 var isAdmin = false;
-var HOF_REF = 'hallOfFame';
 function escapeHtml(t) {
 if (!t) return '';
 return String(t)
@@ -658,21 +711,6 @@ return String(t)
 .replace(/"/g, "&quot;")
 .replace(/'/g, "&#039;");
 }
-function extractYouTubeId(url) {
-if (!url) return null;
-var m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
-return m ? m[1] : null;
-}
-function isYouTubeUrl(url) {
-if (!url) return false;
-return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//i.test(url);
-}
-function normalizeUrl(url) {
-if (!url) return '';
-url = url.trim();
-if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
-return url;
-}
 auth.onAuthStateChanged(function(user) {
 if (!user) return;
 db.ref('users/' + user.uid).once('value').then(function(snap) {
@@ -680,158 +718,137 @@ if (!snap.exists()) return;
 var ud = snap.val();
 var myNick = ud.nick || (ud.email ? ud.email.split('@')[0] : null);
 if (!myNick) return;
-db.ref('playoff/adminNicks/' + myNick).once('value').then(function(s) {
-isAdmin = s.exists() && s.val() === true;
+db.ref('playoff/adminNicks/' + myNick).once('value').then(function(adminSnap) {
+isAdmin = adminSnap.exists() && adminSnap.val() === true;
 if (isAdmin) {
-document.getElementById('adminToggleWrap').style.display = 'block';
-renderCards();
+document.getElementById('btnReset').classList.add('visible');
 }
 });
 });
 });
-var lastData = null;
-function renderCards() {
-var grid = document.getElementById('hallGrid');
-var empty = document.getElementById('hallEmpty');
-var data = lastData;
-grid.innerHTML = '';
-var entries = [];
-if (data) {
-Object.keys(data).forEach(function(id) {
-var e = data[id] || {};
-entries.push({
-id: id,
-title: e.title || 'Без названия',
-desc: e.desc || '',
-url: e.url || '',
-channel: e.channel || '',
-thumb: e.thumb || '',
-createdAt: e.createdAt || 0
+function renderRating(allResults) {
+var body = document.getElementById('ratingBody');
+var stats = {};
+allResults.forEach(function(finalResult) {
+if (!finalResult) return;
+var winners = finalResult.winners || [];
+var runnersUp = finalResult.runnersUp || [];
+winners.forEach(function(nick) {
+if (!nick) return;
+if (!stats[nick]) stats[nick] = { champ: 0, finalist: 0, points: 0 };
+stats[nick].champ++;
+stats[nick].points += 2;
+});
+runnersUp.forEach(function(nick) {
+if (!nick) return;
+if (!stats[nick]) stats[nick] = { champ: 0, finalist: 0, points: 0 };
+stats[nick].finalist++;
+stats[nick].points += 1;
 });
 });
-}
-if (entries.length === 0) {
-empty.style.display = 'block';
+var hasData = Object.keys(stats).length > 0;
+if (!hasData) {
+body.innerHTML = '<tr><td colspan="5" class="rating-empty">Итоги появятся после финала</td></tr>';
 return;
 }
-empty.style.display = 'none';
-entries.sort(function(a, b) { return b.createdAt - a.createdAt; });
-entries.forEach(function(e, idx) {
-var ytId = extractYouTubeId(e.url);
-var thumbUrl = e.thumb || (ytId ? 'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg' : '');
-var thumbHtml;
-if (thumbUrl) {
-thumbHtml = '<img src="' + escapeHtml(thumbUrl) + '" alt="" onerror="this.style.display=\'none\';this.parentNode.querySelector(\'.yt-icon\').style.display=\'block\';">' +
-'<div class="yt-icon" style="display:none;position:absolute;"></div>';
-} else {
-thumbHtml = '<div class="yt-icon"></div>';
+var arr = Object.keys(stats).map(function(nick) {
+return { nick: nick, champ: stats[nick].champ, finalist: stats[nick].finalist, points: stats[nick].points };
+});
+arr.sort(function(a, b) {
+if (b.points !== a.points) return b.points - a.points;
+if (b.champ !== a.champ) return b.champ - a.champ;
+return b.finalist - a.finalist;
+});
+var html = '';
+arr.forEach(function(row, i) {
+var pos = i + 1;
+var posClass = '';
+var nameClass = '';
+var champClass = '';
+var finalistClass = '';
+if (pos === 1) { posClass = nameClass = champClass = finalistClass = ' first'; }
+else if (pos === 2) { posClass = nameClass = champClass = finalistClass = ' second'; }
+else if (pos === 3) { posClass = nameClass = champClass = finalistClass = ' third'; }
+var pointsClass = (row.points === 0) ? ' zero' : '';
+var logoHtml = (row.points > 0) ? (' <img src="' + LOGO_URL + '" class="points-logo" alt="Чак-чак">') : '';
+html += '<tr>'
++ '<td class="pos-cell"><span class="cell-content">' + pos + '</span></td>'
++ '<td><span class="cell-content"><span class="name-cell' + nameClass + '"><a href="profile.html?nick=' + encodeURIComponent(row.nick) + '" target="_top">' + escapeHtml(row.nick) + '</a></span></span></td>'
++ '<td class="champ-cell"><span class="cell-content"><span class="champ-cell' + champClass + '">' + row.champ + '</span></span></td>'
++ '<td class="finalist-cell"><span class="cell-content"><span class="finalist-cell' + finalistClass + '">' + row.finalist + '</span></span></td>'
++ '<td class="points-cell"><span class="cell-content"><span class="points-cell' + pointsClass + '">' + row.points + logoHtml + '</span></span></td>'
++ '</tr>';
+});
+body.innerHTML = html;
 }
-var descHtml = e.desc ? '<p class="card-desc">' + escapeHtml(e.desc) + '</p>' : '<p class="card-desc"></p>';
-var channelHtml = e.channel ? '<div style="font-size:12px;color:rgba(255,215,0,0.75);font-weight:600;margin-bottom:10px;letter-spacing:0.5px;">' + escapeHtml(e.channel) + '</div>' : '';
-var delBtn = isAdmin
-? '<button class="card-delete admin-visible" data-id="' + escapeHtml(e.id) + '" title="Удалить">&times;</button>'
-: '';
-var safeUrl = e.url ? escapeHtml(normalizeUrl(e.url)) : '#';
-var card = document.createElement('a');
-card.className = 'hall-card';
-card.href = safeUrl;
-card.target = '_blank';
-card.rel = 'noopener noreferrer';
-card.style.animationDelay = (idx * 0.07) + 's';
-card.innerHTML =
-delBtn +
-'<div class="card-thumb">' + thumbHtml + '</div>' +
-'<h4 class="card-title">' + escapeHtml(e.title) + '</h4>' +
-channelHtml +
-descHtml +
-'<span class="card-btn"><span class="material-symbols-outlined">play_circle</span> Смотреть</span>';
-var del = card.querySelector('.card-delete');
-if (del) {
-del.addEventListener('click', function(ev) {
-ev.preventDefault();
-ev.stopPropagation();
-deleteEntry(e.id);
+function loadAndRender() {
+db.ref('playoff/tournaments').on('value', function(snap) {
+var tournaments = snap.val() || {};
+var allResults = [];
+Object.keys(tournaments).forEach(function(tid) {
+if (tournaments[tid] && tournaments[tid].finalResult) {
+allResults.push(tournaments[tid].finalResult);
+}
+});
+renderRating(allResults);
 });
 }
-grid.appendChild(card);
-});
-}
-db.ref(HOF_REF).on('value', function(snap) {
-lastData = snap.val();
-renderCards();
-});
-document.getElementById('adminToggleBtn').addEventListener('click', function() {
-var p = document.getElementById('adminPanel');
-p.style.display = (p.style.display === 'none' || !p.style.display) ? 'block' : 'none';
-});
-document.getElementById('adminCancelBtn').addEventListener('click', function() {
-document.getElementById('adminPanel').style.display = 'none';
-});
-document.getElementById('adminAddBtn').addEventListener('click', function() {
-if (!isAdmin) { alert('Только администратор может добавлять записи.'); return; }
-var title = document.getElementById('newTitle').value.trim();
-var channel = document.getElementById('newChannel').value.trim();
-var url = document.getElementById('newUrl').value.trim();
-var thumb = document.getElementById('newThumb').value.trim();
-var desc = document.getElementById('newDesc').value.trim();
-if (!title) { alert('Введите название.'); return; }
-if (!url) { alert('Введите ссылку на YouTube.'); return; }
-if (!isYouTubeUrl(url)) {
-if (!confirm('Ссылка не похожа на YouTube. Всё равно добавить?')) return;
-}
-db.ref(HOF_REF).push({
-title: title,
-channel: channel,
-url: normalizeUrl(url),
-thumb: thumb ? normalizeUrl(thumb) : '',
-desc: desc,
-createdAt: Date.now()
-}).then(function() {
-document.getElementById('newTitle').value = '';
-document.getElementById('newChannel').value = '';
-document.getElementById('newUrl').value = '';
-document.getElementById('newThumb').value = '';
-document.getElementById('newDesc').value = '';
-document.getElementById('adminPanel').style.display = 'none';
-}).catch(function(err) {
-alert('Ошибка сохранения: ' + err.message);
-});
-});
-function deleteEntry(id) {
+document.getElementById('btnReset').addEventListener('click', function() {
 if (!isAdmin) return;
-if (!confirm('Удалить эту запись из зала славы?')) return;
-db.ref(HOF_REF + '/' + id).remove();
+if (!confirm('Сбросить чак-чаки? Результаты всех финалов будут удалены.')) return;
+db.ref('playoff/tournaments').once('value').then(function(snap) {
+var tournaments = snap.val() || {};
+var updates = {};
+Object.keys(tournaments).forEach(function(tid) {
+if (tournaments[tid] && tournaments[tid].finalResult) {
+updates['playoff/tournaments/' + tid + '/finalResult'] = null;
 }
+});
+if (Object.keys(updates).length > 0) {
+db.ref().update(updates).then(function() {
+alert('Чак-чаки сброшены!');
+});
+} else {
+alert('Нет результатов для сброса.');
+}
+});
+});
+loadAndRender();
 })();
 </script>
-<!-- Трубки-радуга за курсором -->
-<script type="module">
-import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
-const canvas = document.getElementById('tubes-canvas');
-const app = TubesCursor(canvas, {
-tubes: {
-colors: ["#f967fb", "#53bc28", "#6958d5"],
-lights: {
-intensity: 200,
-colors: ["#83f36e", "#fe8a2e", "#ff008a", "#60aed5"]
-}
-}
-});
-document.body.addEventListener('click', () => {
-const colors = randomColors(3);
-const lightsColors = randomColors(4);
-app.tubes.setColors(colors);
-app.tubes.setLightsColors(lightsColors);
-});
-function randomColors(count) {
-return new Array(count)
-.fill(0)
-.map(() => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
-}
-</script>
-<!-- Эффект испарения стикера -->
 <script>
 (function() {
+'use strict';
+var show = document.getElementById('magicClutch');
+var pages = show.querySelectorAll('.mc-page');
+var current = 0;
+function pad(n) { return (n < 9 ? '0' : '') + (n + 1); }
+function go(n) {
+current = (n + pages.length) % pages.length;
+pages.forEach(function(p, i) { p.classList.toggle('active', i === current); });
+document.getElementById('mcCurrent').textContent = pad(current);
+document.querySelector('.mc-pages').scrollTop = 0;
+}
+document.getElementById('mcPrev').addEventListener('click', function() { go(current - 1); });
+document.getElementById('mcNext').addEventListener('click', function() { go(current + 1); });
+function openShow() { 
+console.log('Opening show...');
+show.classList.add('open'); 
+go(0); 
+}
+function closeShow() {
+show.classList.remove('open');
+sticker.style.visibility = 'visible';
+sticker.style.animation = '';
+}
+document.getElementById('mcClose').addEventListener('click', closeShow);
+document.getElementById('mcBackdrop').addEventListener('click', closeShow);
+document.addEventListener('keydown', function(e) {
+if (!show.classList.contains('open')) return;
+if (e.key === 'Escape') closeShow();
+if (e.key === 'ArrowRight') go(current + 1);
+if (e.key === 'ArrowLeft') go(current - 1);
+});
 var sticker = document.getElementById('holoSticker');
 if (!sticker) return;
 var running = false;
@@ -841,7 +858,12 @@ running = true;
 var rect = sticker.getBoundingClientRect();
 var svgImg = sticker.querySelector('image');
 var src = svgImg ? svgImg.getAttribute('href') : null;
-if (!src) { running = false; return; }
+if (!src) { 
+console.log('No src, opening show directly');
+running = false; 
+openShow(); 
+return; 
+}
 sticker.style.visibility = 'hidden';
 sticker.style.animation = 'none';
 var layer = document.createElement('div');
@@ -858,7 +880,10 @@ var flash = document.createElement('div');
 flash.className = 'evap-flash';
 document.body.appendChild(flash);
 var img = new Image();
-img.onload = function() { dissolve(img, rect, scale); };
+img.onload = function() { 
+console.log('Image loaded, starting dissolve');
+dissolve(img, rect, scale); 
+};
 img.src = src;
 function dissolve(img, rect, scale) {
 var ctx = canvas.getContext('2d');
@@ -870,7 +895,10 @@ var octx = off.getContext('2d');
 octx.drawImage(img, 0, 0, W, H);
 var data;
 try { data = octx.getImageData(0, 0, W, H).data; }
-catch (e) { data = null; }
+catch (e) { 
+console.log('CORS error, using fallback particles');
+data = null; 
+}
 var parts = [];
 if (data) {
 for (var y = 0; y < H; y += 2) {
@@ -952,10 +980,10 @@ else if (el >= 750) flash.classList.remove('on');
 if (alive > 0 && el < 3300) {
 requestAnimationFrame(frame);
 } else {
+console.log('Animation finished, opening show');
 document.body.removeChild(layer);
 document.body.removeChild(flash);
-sticker.style.visibility = 'visible';
-sticker.style.animation = '';
+openShow();
 running = false;
 }
 }
