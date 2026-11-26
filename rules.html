@@ -102,6 +102,7 @@ background: #fcf8f2;
 border-radius: 12px 4px 4px 12px;
 border: 1px solid #e8dec9;
 }
+/* ====== ПРЕМИАЛЬНАЯ ПЕРЕДНЯЯ ОБЛОЖКА ====== */
 .front-cover-page {
 background-color: #5a0a0a;
 background-image:
@@ -116,19 +117,17 @@ radial-gradient(circle at 70% 60%, rgba(0,0,0,0.10) 0%, transparent 2px),
 radial-gradient(circle at 20% 80%, rgba(0,0,0,0.08) 0%, transparent 2px),
 radial-gradient(circle at 85% 25%, rgba(0,0,0,0.11) 0%, transparent 2px),
 linear-gradient(135deg, #3a0505 0%, #6a0a0a 25%, #8b1010 50%, #5a0808 75%, #2a0303 100%);
-background-blend-mode: normal, normal, normal, normal, normal, normal, normal, normal, normal, normal;
-border-left: 8px solid #1a0000;
-border: 2px solid #4a0000;
+border-left: 8px solid #2A0000;
+border: 2px solid #5A0000;
 box-shadow: inset 0 0 60px rgba(0,0,0,0.6), inset 0 0 20px rgba(100,10,10,0.3);
-position: relative;
 }
 .front-cover-page::before {
 content: '';
 position: absolute;
-top: 18px;
-left: 18px;
-right: 18px;
-bottom: 18px;
+top: 14px;
+left: 14px;
+right: 14px;
+bottom: 14px;
 border: 1.5px solid rgba(212, 175, 55, 0.45);
 border-radius: 3px;
 pointer-events: none;
@@ -137,15 +136,16 @@ box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4), 0 0 0 1px rgba(212, 175, 55, 0.25);
 .front-cover-page::after {
 content: '';
 position: absolute;
-top: 28px;
-left: 28px;
-right: 28px;
-bottom: 28px;
+top: 24px;
+left: 24px;
+right: 24px;
+bottom: 24px;
 border: 1px solid rgba(212, 175, 55, 0.28);
 border-radius: 2px;
 pointer-events: none;
 box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3);
 }
+/* ====== ПРЕМИАЛЬНАЯ ЗАДНЯЯ ОБЛОЖКА ====== */
 .back-cover-page {
 background-color: #4a0808;
 background-image:
@@ -157,8 +157,7 @@ repeating-linear-gradient(-45deg, transparent 0px, transparent 8px, rgba(30,0,0,
 radial-gradient(circle at 40% 50%, rgba(0,0,0,0.10) 0%, transparent 2px),
 radial-gradient(circle at 65% 30%, rgba(0,0,0,0.09) 0%, transparent 2px),
 linear-gradient(135deg, #2a0303 0%, #5a0808 30%, #7a0d0d 55%, #4a0606 80%, #1a0101 100%);
-border-left: 8px solid #1a0000;
-border: 2px solid #4a0000;
+border-left: 8px solid #1A0000;
 box-shadow: inset 0 0 60px rgba(0,0,0,0.6), inset 0 0 20px rgba(100,10,10,0.3);
 display: flex;
 flex-direction: column;
@@ -166,15 +165,14 @@ justify-content: center;
 align-items: center;
 text-align: center;
 padding: 20px;
-position: relative;
 }
 .back-cover-page::before {
 content: '';
 position: absolute;
-top: 18px;
-left: 18px;
-right: 18px;
-bottom: 18px;
+top: 14px;
+left: 14px;
+right: 14px;
+bottom: 14px;
 border: 1.5px solid rgba(212, 175, 55, 0.4);
 border-radius: 3px;
 pointer-events: none;
@@ -183,10 +181,10 @@ box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4);
 .back-cover-page::after {
 content: '';
 position: absolute;
-top: 28px;
-left: 28px;
-right: 28px;
-bottom: 28px;
+top: 24px;
+left: 24px;
+right: 24px;
+bottom: 24px;
 border: 1px solid rgba(212, 175, 55, 0.25);
 border-radius: 2px;
 pointer-events: none;
@@ -406,7 +404,9 @@ font-style: italic;
 transform: rotateY(-180deg);
 }
 
-/* ===== СТИКЕРЫ ===== */
+/* ==========================================
+   СТИЛИ ДВУХ СТИКЕРОВ (ЛЕВЫЙ + ПРАВЫЙ)
+   ========================================== */
 .holo-sticker {
 position: fixed;
 width: 180px;
@@ -417,10 +417,12 @@ animation: sticker-float 4s ease-in-out infinite;
 pointer-events: auto;
 cursor: pointer;
 }
+/* Левый стикер: top 250px, left 150px */
 .holo-sticker-left {
 top: 250px;
 left: 150px;
 }
+/* Правый стикер: top 250px, right 150px */
 .holo-sticker-right {
 top: 250px;
 right: 150px;
@@ -442,6 +444,7 @@ display: block;
 .color5 { fill: #B5DFC8; }
 .circle-left { fill: url(#multi-dots-left); }
 .circle-right { fill: url(#multi-dots-right); }
+
 @media (max-width: 1100px) {
 .holo-sticker { width: 140px; height: 140px; }
 .holo-sticker-left { top: 30px; left: 30px; }
@@ -453,7 +456,9 @@ display: block;
 .holo-sticker-right { top: 20px; right: 20px; }
 }
 
-/* ===== МОДАЛКИ И ЭФФЕКТ ИСПАРЕНИЯ ===== */
+/* ==========================================
+   СТИЛИ МОДАЛКИ И ЭФФЕКТА ИСПАРЕНИЯ
+   ========================================== */
 .mc-show {
 position: fixed;
 inset: 0;
@@ -585,7 +590,9 @@ transition: opacity 0.5s ease;
 .mc-pages { top: 48px; }
 }
 
-/* ===== КОНТЕНТ СЛАЙДОВ ===== */
+/* ==========================================
+   СТИЛИ СЛАЙДА (Coldzera / Mirage)
+   ========================================== */
 .magic-mirage-wrapper {
 background-color: #e8e4de;
 font-family: 'Inter', sans-serif;
@@ -693,8 +700,8 @@ color: #555;
 <canvas id="tubes-canvas"></canvas>
 <div id="header-placeholder" class="header-wrapper"></div>
 
-<!-- ===== СТИКЕР 1: ЛЕВЫЙ (top: 250px, left: 150px) → открывает Coldzera ===== -->
-<div class="holo-sticker holo-sticker-left" id="holoStickerLeft" data-modal="mcColdzera">
+<!-- ===== СТИКЕР ЛЕВЫЙ (top: 250px, left: 150px) ===== -->
+<div class="holo-sticker holo-sticker-left" id="holoStickerLeft">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
 <pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-left" viewBox="12.5 -34 26 23" style="overflow:visible;">
@@ -729,8 +736,8 @@ color: #555;
 </svg>
 </div>
 
-<!-- ===== СТИКЕР 2: ПРАВЫЙ (top: 250px, right: 150px) → открывает Magic ===== -->
-<div class="holo-sticker holo-sticker-right" id="holoStickerRight" data-modal="mcMagic">
+<!-- ===== СТИКЕР ПРАВЫЙ (top: 250px, right: 150px) ===== -->
+<div class="holo-sticker holo-sticker-right" id="holoStickerRight">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
 <pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-right" viewBox="12.5 -34 26 23" style="overflow:visible;">
@@ -767,10 +774,12 @@ color: #555;
 
 <div class="book-viewport">
 <div class="book-wrapper" id="myBook">
+<!-- ЗАДНЯЯ ОБЛОЖКА -->
 <div class="b-page back-cover-page" style="z-index: 1;">
 <div class="back-cover-text">Спасибо за прочтение<br>и удача в погоне за <span style="white-space: nowrap;">Чак-Чак!</span></div>
 <img src="logo1.jpg" class="back-cover-logo" alt="Чак-Чак">
 </div>
+<!-- СТРАНИЦА 5: СПАСИБО -->
 <div class="b-page paper-page thanks-page" id="p5" style="z-index: 2;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -783,6 +792,7 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(5, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- СТРАНИЦА 4: ПРИЗЫ -->
 <div class="b-page paper-page" id="p4" style="z-index: 3;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -800,6 +810,7 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(4, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- СТРАНИЦА 3: АНТИЧИТ -->
 <div class="b-page paper-page" id="p3" style="z-index: 4;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -820,6 +831,7 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(3, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- СТРАНИЦА 2: ОСНОВНЫЕ ПРАВИЛА -->
 <div class="b-page paper-page" id="p2" style="z-index: 5;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -839,6 +851,7 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(2, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- СТРАНИЦА 1: ЗАСТАВКА -->
 <div class="b-page paper-page intro-page" id="p1" style="z-index: 6;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -851,6 +864,7 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(1, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- ПЕРЕДНЯЯ ОБЛОЖКА -->
 <div class="b-page front-cover-page" id="p0" style="z-index: 7;">
 <div class="page-side front-side">
 <div class="cover-design">
@@ -866,25 +880,25 @@ color: #555;
 </div>
 </div>
 
-<!-- ===== МОДАЛКА 1: COLDZERA / MIRAGE ===== -->
-<div class="mc-show" id="mcColdzera">
-<div class="mc-backdrop" data-close></div>
+<!-- ===== МОДАЛКА ===== -->
+<div class="mc-show" id="magicClutch">
+<div class="mc-backdrop" id="mcBackdrop"></div>
 <div class="mc-window">
 <div class="mc-topbar">
 <span class="brand">THE Coldzera CLUTCH</span>
 <span class="counter">
-<span><span class="mc-count-cur">01</span> / <span class="mc-total">01</span></span>
-<button class="mc-x" data-close title="Закрыть">&#10005;</button>
+<span><span class="mc-count-cur" id="mcCurrent">01</span> / <span id="mcTotal">01</span></span>
+<button class="mc-x" id="mcClose" title="Закрыть">&#10005;</button>
 </span>
 </div>
 <hr class="mc-rule">
-<div class="mc-pages">
+<div class="mc-pages" id="mcPages">
 <div class="mc-page active">
 <div class="magic-mirage-wrapper">
 <div class="main-content">
 <div class="left-column">
 <div class="section-label">CONTEXT</div>
-<h1 class="main-title"><span class="highlight">Крылатое AWP</span></h1>
+<h1 class="main-title"><span class="highlight">Крылатое AWP привет!</span></h1>
 <p class="description">В полуфинале MLG Major Championship: Columbus 2016 его команда, Luminosity Gaming, играла против Team Liquid. При счете 9:15 бразильскому коллективу требовалось чудо, и coldzera его сотворил!</p>
 <p class="description">Игроки Liquid решили использовать старую, но проверенную тактику — зарашить В. Он практически в одиночку с AWP Asiimov в руках остановил выход пятерых противников.</p>
 <div class="tagline">
@@ -907,57 +921,6 @@ winged AWP
 </div>
 <div class="footer">
 <div class="footer-left">Coldzera / Mirage</div>
-<div class="footer-right">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- ===== МОДАЛКА 2: MAGIC / MIRAGE ===== -->
-<div class="mc-show" id="mcMagic">
-<div class="mc-backdrop" data-close></div>
-<div class="mc-window">
-<div class="mc-topbar">
-<span class="brand">THE MAGIC CLUTCH</span>
-<span class="counter">
-<span><span class="mc-count-cur">01</span> / <span class="mc-total">01</span></span>
-<button class="mc-x" data-close title="Закрыть">&#10005;</button>
-</span>
-</div>
-<hr class="mc-rule">
-<div class="mc-pages">
-<div class="mc-page active">
-<div class="magic-mirage-wrapper">
-<div class="main-content">
-<div class="left-column">
-<div class="section-label">02 / CONTEXT</div>
-<h1 class="main-title"><span class="highlight">Кухня, которую запомнили.</span></h1>
-<p class="description">Раньше разработчики CS рисовали на картах граффити за крутые хайлайты с мейджоров, но давно забросили эту традицию. Клатч Маджикса стал идеальным поводом её воскресить.</p>
-<p class="description">И, хоть сделали это Valve необычным способом, факт остается фактом: впервые после выхода CS 2 в игре появилась отсылка на киберспортивный хайлайт.</p>
-<div class="tagline">
-<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.09 8.26L20 9.27L15.55 13.97L16.91 20L12 16.9L7.09 20L8.45 13.97L4 9.27L9.91 8.26L12 2Z"/></svg>
-A SECRET SAUCE FOR A LEGENDARY ROUND
-</div>
-</div>
-<div class="center-column">
-<div class="image-wrapper">
-<img src="png/magixx.png" alt="Magixx Highlight">
-</div>
-</div>
-<div class="right-column">
-<div class="section-label">03 / MAGIC</div>
-<div class="image-container">
-<img src="png/pomidor.png" alt="Magic Tomato Paste">
-</div>
-<p class="description">Разработчики CS 2 добавили кое-что необычное: в магазине на Mirage, который обычно называют кухней, теперь можно найти банки томатной пасты «Magic». На ней нарисован веселый помидор и есть подпись «Секретная заправка» на русском языке.</p>
-</div>
-</div>
-<div class="footer">
-<div class="footer-left">Magic / Mirage</div>
 <div class="footer-right">
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
 </div>
@@ -1046,33 +1009,25 @@ return new Array(count)
 }
 </script>
 
-<!-- ===== JS ИСПАРЕНИЯ (ОБЩИЙ ДЛЯ ОБОИХ СТИКЕРОВ, РАЗНЫЕ МОДАЛКИ) ===== -->
+<!-- ===== JS ИСПАРЕНИЯ (ОБЩИЙ ДЛЯ ОБОИХ СТИКЕРОВ) ===== -->
 <script>
 (function() {
 'use strict';
+var show = document.getElementById('magicClutch');
 var stickers = document.querySelectorAll('.holo-sticker');
 if (!stickers.length) return;
 var running = false;
-var currentShow = null;
-var currentSticker = null;
 
 stickers.forEach(function(sticker) {
 sticker.addEventListener('click', function() {
 if (running) return;
 running = true;
-currentSticker = sticker;
-
-var modalId = sticker.getAttribute('data-modal');
-currentShow = document.getElementById(modalId);
-
 var rect = sticker.getBoundingClientRect();
 var svgImg = sticker.querySelector('image');
 var src = svgImg ? svgImg.getAttribute('href') : null;
-if (!src) { running = false; if (currentShow) currentShow.classList.add('open'); return; }
-
+if (!src) { running = false; return; }
 sticker.style.visibility = 'hidden';
 sticker.style.animation = 'none';
-
 var layer = document.createElement('div');
 layer.className = 'evap-layer';
 var canvas = document.createElement('canvas');
@@ -1083,15 +1038,12 @@ canvas.style.width = window.innerWidth + 'px';
 canvas.style.height = window.innerHeight + 'px';
 layer.appendChild(canvas);
 document.body.appendChild(layer);
-
 var flash = document.createElement('div');
 flash.className = 'evap-flash';
 document.body.appendChild(flash);
-
 var img = new Image();
 img.onload = function() { dissolve(img, rect, scale); };
 img.src = src;
-
 function dissolve(img, rect, scale) {
 var ctx = canvas.getContext('2d');
 ctx.scale(scale, scale);
@@ -1103,7 +1055,6 @@ octx.drawImage(img, 0, 0, W, H);
 var data;
 try { data = octx.getImageData(0, 0, W, H).data; }
 catch (e) { data = null; }
-
 var parts = [];
 if (data) {
 for (var y = 0; y < H; y += 2) {
@@ -1148,7 +1099,6 @@ bl: 0
 });
 }
 }
-
 var t0 = performance.now();
 function frame(t) {
 var el = t - t0;
@@ -1188,7 +1138,7 @@ requestAnimationFrame(frame);
 } else {
 document.body.removeChild(layer);
 document.body.removeChild(flash);
-if (currentShow) currentShow.classList.add('open');
+show.classList.add('open');
 running = false;
 }
 }
@@ -1198,21 +1148,16 @@ requestAnimationFrame(frame);
 });
 
 function closeShow() {
-if (currentShow) currentShow.classList.remove('open');
+show.classList.remove('open');
 stickers.forEach(function(s) {
 s.style.visibility = 'visible';
 s.style.animation = '';
 });
-currentShow = null;
-currentSticker = null;
 }
-
-// Закрытие по крестику и фону в обеих модалках
-document.querySelectorAll('[data-close]').forEach(function(el) {
-el.addEventListener('click', closeShow);
-});
+document.getElementById('mcClose').addEventListener('click', closeShow);
+document.getElementById('mcBackdrop').addEventListener('click', closeShow);
 document.addEventListener('keydown', function(e) {
-if (!currentShow || !currentShow.classList.contains('open')) return;
+if (!show.classList.contains('open')) return;
 if (e.key === 'Escape') closeShow();
 });
 })();
