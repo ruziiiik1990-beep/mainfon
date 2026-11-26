@@ -84,11 +84,12 @@ body {
 
 /* ==========================================
    СТИЛИ ГОЛОГРАФИЧЕСКОГО СТИКЕРА (ПРАВЫЙ НИЖНИЙ УГОЛ)
+   Закреплён через position: fixed — не двигается при скролле
    ========================================== */
 .holo-sticker {
     position: fixed;
-    right: 150px;
-    bottom: 150px;
+    right: 50px;
+    bottom: 50px;
     width: 180px;
     height: 180px;
     z-index: 9990;
@@ -406,6 +407,7 @@ body {
 
 <!-- ==========================================
      ГОЛОГРАФИЧЕСКИЙ СТИКЕР (ТРИГГЕР)
+     Закреплён в правом нижнем углу, не двигается при скролле
      ========================================== -->
 <div class="holo-sticker" id="holoSticker">
     <svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
