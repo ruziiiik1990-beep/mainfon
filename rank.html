@@ -36,7 +36,6 @@ position: relative;
 min-height: 100vh;
 width: 100%;
 }
-/* ====== ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА ====== */
 .holo-sticker {
 position: absolute;
 left: 60px;
@@ -53,7 +52,11 @@ pointer-events: none;
 0%, 100% { transform: translateY(-50%) scale(1); }
 50% { transform: translateY(-55%) scale(1.03); }
 }
-.holo-sticker svg { width: 100%; height: 100%; display: block; }
+.holo-sticker svg {
+width: 100%;
+height: 100%;
+display: block;
+}
 .color0 { fill: none; }
 .color1 { fill: #8EABE5; }
 .color2 { fill: #BCACF3; }
@@ -67,7 +70,6 @@ pointer-events: none;
 @media (max-width: 850px) {
 .holo-sticker { left: 20px; width: 120px; height: 120px; }
 }
-/* ====== ПЕРЕМЕННЫЕ ГОЛОГРАММЫ ====== */
 :root {
 --metafy: url(https://assets.codepen.io/13471/metafy-repeat.png);
 --grain: url(https://assets.codepen.io/13471/grain.webp);
@@ -86,7 +88,6 @@ pointer-events: none;
 --background-x: 50%;
 --background-y: 50%;
 }
-/* ====== КОНТЕЙНЕР С ГОЛОГРАММОЙ (таблица — не тронута) ====== */
 .rating-container {
 max-width: 650px;
 margin: 40px auto 40px auto;
@@ -171,7 +172,10 @@ opacity: 0.55;
 .rating-title,
 .rating-scroll,
 .rating-note,
-.btn-reset { position: relative; z-index: 1; }
+.btn-reset {
+position: relative;
+z-index: 1;
+}
 .rating-title {
 color: #4a9eff;
 font-size: 20px;
@@ -264,9 +268,8 @@ transform: translateY(-2px);
 box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 }
 .btn-reset.visible { display: block; }
-</style>
-<style>
-/* ================= THE MAGIC CLUTCH: 1700x600, ОДНА страница с картинками ================= */
+
+/* ================= THE MAGIC CLUTCH: презентация 1700x600 ================= */
 .mc-show {
 position: fixed;
 inset: 0;
@@ -355,13 +358,15 @@ padding: 14px 32px 8px;
 from { opacity: 0; transform: translateY(12px); }
 to   { opacity: 1; transform: translateY(0); }
 }
-/* ====== СТРАНИЦА С КАРТИНКАМИ: magixx по центру, pomidor справа с надписями ====== */
+
+/* ====== ЕДИНСТВЕННАЯ СТРАНИЦА: magixx по центру, pomidor справа, текст слева ====== */
 .mc-page-1 {
 display: flex;
 gap: 24px;
 align-items: stretch;
 height: 100%;
 }
+/* Левая колонка — текст про разработчиков CS2 */
 .mc-col-left {
 flex: 0 0 380px;
 display: flex;
@@ -369,6 +374,7 @@ flex-direction: column;
 gap: 10px;
 padding-top: 10px;
 }
+/* Центральная колонка — magixx */
 .mc-col-center {
 flex: 1 1 620px;
 display: flex;
@@ -396,6 +402,7 @@ text-shadow: 0 1px 3px rgba(0,0,0,0.8);
 }
 .mc-col-center .leg.left { left: 12px; }
 .mc-col-center .leg.right { right: 12px; }
+/* Правая колонка — pomidor + заголовок + текст */
 .mc-col-right {
 flex: 0 0 420px;
 display: flex;
@@ -418,7 +425,7 @@ letter-spacing: 3px;
 color: #63645a;
 margin-bottom: 4px;
 }
-/* ✅ шрифт надписи про разработчиков = как у mc-body */
+/* ✅ Шрифт как у текста про граффити (mc-body стиль) */
 .mc-caption {
 font-size: 13.5px;
 line-height: 1.75;
@@ -437,7 +444,7 @@ margin: 10px 0 8px;
 font-size: 13.5px;
 line-height: 1.75;
 color: #43443c;
-margin: 0 0 14px;
+margin: 0 0 8px;
 }
 .mc-body b { color: #23241f; }
 .mc-link {
@@ -452,9 +459,28 @@ border-bottom: 1px solid #c9b877;
 text-decoration: none;
 }
 .mc-link:hover { color: #23241f; border-color: #23241f; }
-/* Наклейка кликабельна */
+
+.mc-arrows {
+position: absolute;
+bottom: 14px;
+right: 32px;
+display: none; /* скрыты, так как страница одна */
+gap: 8px;
+z-index: 2;
+}
+.mc-arrow {
+width: 32px; height: 32px;
+border-radius: 50%;
+border: 1px solid rgba(0,0,0,0.35);
+background: transparent;
+font-size: 13px;
+cursor: pointer;
+color: #23241f;
+transition: all 0.2s;
+}
+.mc-arrow:hover { background: #23241f; color: #e9e7e0; }
 .holo-sticker { pointer-events: auto; cursor: pointer; }
-/* ================= ИСПАРЕНИЕ ОБЛАКОМ ================= */
+
 .evap-layer {
 position: fixed;
 inset: 0;
@@ -476,6 +502,7 @@ pointer-events: none;
 transition: opacity 0.5s ease;
 }
 .evap-flash.on { opacity: 1; }
+
 @media (max-width: 1760px) {
 .mc-window { width: calc(100vw - 32px); height: calc(100vh - 32px); }
 .mc-page-1 { flex-direction: column; overflow-y: auto; }
@@ -486,18 +513,17 @@ transition: opacity 0.5s ease;
 }
 @media (max-width: 760px) {
 .mc-topbar { padding: 10px 16px 8px; }
+.mc-arrows { right: 16px; }
 .mc-rule { margin: 0 16px; }
 .mc-pages { padding: 12px 16px 6px; top: 48px; }
+.mc-h-display { font-size: 24px; }
 }
 </style>
 </head>
 <body>
-<!-- Фон (картинка в потоке) -->
 <img src="pngg/9kolo.png" class="bg-image" alt="Фон">
-<!-- Шапка -->
 <div id="header-placeholder" class="header-wrapper"></div>
 <div class="page-wrapper">
-<!-- ✅ ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА -->
 <div class="holo-sticker">
 <svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -532,7 +558,6 @@ transition: opacity 0.5s ease;
 <circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
-<!-- ====== ТАБЛИЦА РЕЙТИНГА (не тронута) ====== -->
 <div class="rating-container">
 <div class="rating-holo"></div>
 <div class="rating-title">Турнирная таблица</div>
@@ -561,31 +586,34 @@ transition: opacity 0.5s ease;
 </div>
 </div>
 
-<!-- THE MAGIC CLUTCH: ОДНА страница с картинками -->
+<!-- THE MAGIC CLUTCH: только страница с magixx и pomidor -->
 <div class="mc-show" id="magicClutch">
 <div class="mc-backdrop" id="mcBackdrop"></div>
 <div class="mc-window">
 <div class="mc-topbar">
 <span class="brand">THE MAGIC CLUTCH</span>
 <span class="counter">
-<span><span class="mc-count-cur">01</span> / <span>01</span></span>
+<span><span class="mc-count-cur" id="mcCurrent">01</span> / <span id="mcTotal">01</span></span>
 <button class="mc-x" id="mcClose" title="Закрыть">&#10005;</button>
 </span>
 </div>
 <hr class="mc-rule">
-<div class="mc-pages">
+<div class="mc-pages" id="mcPages">
 
-<!-- ✅ ЕДИНСТВЕННАЯ СТРАНИЦА: magixx по центру, pomidor справа с надписями -->
+<!-- ✅ ЕДИНСТВЕННАЯ СТРАНИЦА: magixx по центру, pomidor справа, текст слева -->
 <div class="mc-page active mc-page-1">
+<!-- Левая: текст про разработчиков CS2 -->
 <div class="mc-col-left">
 <div class="mc-num">02</div>
 <div class="mc-caption">Разработчики CS2 в ночном обновлении добавили кое-что необычное: в магазине на Mirage, который обычно называют <b>кухней</b>, теперь можно найти банки томатной пасты «Magic». На ней нарисован веселый помидор и есть подпись «Секретная заправка» на русском языке.</div>
 </div>
+<!-- Центр: magixx -->
 <div class="mc-col-center">
 <img src="png/magixx.png" alt="Момент клатча: реакция состава">
 <span class="leg left">THE MOMENT</span>
 <span class="leg right">01:24</span>
 </div>
+<!-- Правая: pomidor + заголовок + текст -->
 <div class="mc-col-right">
 <img src="png/pomidor.png" alt="Банка Magic на полке">
 <div class="mc-num">03 / CONTEXT</div>
@@ -749,7 +777,16 @@ loadAndRender();
 (function() {
 'use strict';
 var show = document.getElementById('magicClutch');
-function openShow() { show.classList.add('open'); }
+var pages = show.querySelectorAll('.mc-page');
+var current = 0;
+function pad(n) { return (n < 9 ? '0' : '') + (n + 1); }
+function go(n) {
+current = (n + pages.length) % pages.length;
+pages.forEach(function(p, i) { p.classList.toggle('active', i === current); });
+document.getElementById('mcCurrent').textContent = pad(current);
+document.querySelector('.mc-pages').scrollTop = 0;
+}
+function openShow() { show.classList.add('open'); go(0); }
 function closeShow() {
 show.classList.remove('open');
 sticker.style.visibility = 'visible';
