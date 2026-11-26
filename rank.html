@@ -269,7 +269,7 @@ box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 }
 .btn-reset.visible { display: block; }
 
-/* ================= THE MAGIC CLUTCH: 1700x600 ================= */
+/* ================= МОДАЛЬНОЕ ОКНО С КАРТИНКАМИ ================= */
 .mc-show {
 position: fixed;
 inset: 0;
@@ -300,19 +300,20 @@ overflow: hidden;
 animation: mcZoom 0.55s cubic-bezier(0.2, 0.8, 0.25, 1);
 font-family: 'Inter', -apple-system, sans-serif;
 color: #23241f;
+display: flex;
+flex-direction: column;
 }
 @keyframes mcZoom {
 from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
 to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 .mc-window * { box-sizing: border-box; }
-
-/* Верхняя панель */
 .mc-topbar {
 display: flex;
 align-items: center;
 justify-content: space-between;
 padding: 14px 32px 10px;
+flex: 0 0 auto;
 }
 .mc-topbar .brand {
 font-size: 11px;
@@ -320,15 +321,6 @@ letter-spacing: 4px;
 font-weight: 600;
 color: #3a3b33;
 }
-.mc-topbar .counter {
-display: flex;
-align-items: center;
-gap: 20px;
-font-size: 11px;
-letter-spacing: 3px;
-color: #63645a;
-}
-.mc-count-cur { font-weight: 700; color: #2c2d27; }
 .mc-x {
 width: 34px; height: 34px;
 border-radius: 50%;
@@ -337,7 +329,6 @@ background: transparent;
 font-size: 14px;
 cursor: pointer;
 color: #23241f;
-margin-left: 16px;
 transition: all 0.2s;
 }
 .mc-x:hover { background: #23241f; color: #e9e7e0; }
@@ -345,162 +336,36 @@ transition: all 0.2s;
 margin: 0 32px;
 border: 0;
 border-top: 1px solid rgba(0,0,0,0.28);
+flex: 0 0 auto;
 }
-
-/* Страницы */
-.mc-pages {
-position: absolute;
-top: 54px;
-bottom: 40px;
-left: 0; right: 0;
-overflow: hidden;
-padding: 14px 32px 8px;
-}
-.mc-page { display: none; }
-.mc-page.active { display: block; animation: mcPageIn 0.5s ease; }
-@keyframes mcPageIn {
-from { opacity: 0; transform: translateY(12px); }
-to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ====== СТРАНИЦА 1: три колонки горизонтально (как на скриншоте) ====== */
-.mc-page-1 {
+.mc-content {
+flex: 1 1 auto;
 display: flex;
-flex-direction: row;
-gap: 24px;
-align-items: stretch;
-height: 100%;
-}
-
-/* ЛЕВАЯ КОЛОНКА: заголовок + текст (как на скрине 02/CONTEXT) */
-.mc-col-left {
-flex: 0 0 380px;
-display: flex;
-flex-direction: column;
-gap: 10px;
-padding-top: 10px;
-}
-.mc-num {
-font-size: 10px;
-letter-spacing: 3px;
-color: #63645a;
-margin-bottom: 4px;
-}
-.mc-h-display {
-font-size: 36px;
-line-height: 1.05;
-font-weight: 600;
-letter-spacing: -1px;
-color: #7d9c50;
-margin: 10px 0 14px;
-}
-.mc-body {
-font-size: 12px;
-line-height: 1.6;
-color: #43443c;
-margin: 0 0 10px;
-}
-.mc-body b { color: #23241f; }
-.mc-link {
-display: inline-flex;
-align-items: center;
-gap: 8px;
-margin-top: 10px;
-font-size: 10px;
-letter-spacing: 2px;
-font-weight: 700;
-color: #7d9c50;
-text-transform: uppercase;
-text-decoration: none;
-}
-.mc-link::before {
-content: '✦';
-font-size: 12px;
-}
-.mc-link:hover { color: #23241f; }
-
-/* ЦЕНТРАЛЬНАЯ КОЛОНКА: magixx */
-.mc-col-center {
-flex: 1 1 500px;
-display: flex;
-flex-direction: column;
 align-items: center;
 justify-content: center;
-position: relative;
+gap: 24px;
+padding: 24px 32px;
+overflow: hidden;
 }
-.mc-col-center img {
-width: 100%;
-max-height: 420px;
-object-fit: cover;
-display: block;
+.mc-content img {
+max-width: 48%;
+max-height: 100%;
+object-fit: contain;
 border: 1px solid #23241f;
 border-radius: 2px;
-}
-.mc-col-center .leg {
-position: absolute;
-bottom: 14px;
-font-size: 10px;
-letter-spacing: 2.5px;
-font-weight: 700;
-color: #f2f0e9;
-text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-}
-.mc-col-center .leg.left { left: 12px; }
-.mc-col-center .leg.right { right: 12px; }
-
-/* ПРАВАЯ КОЛОНКА: pomidor + текст (как на скрине 03/MAGIC) */
-.mc-col-right {
-flex: 0 0 380px;
-display: flex;
-flex-direction: column;
-gap: 8px;
-padding-top: 10px;
-}
-.mc-col-right img {
-width: 100%;
-height: 200px;
-object-fit: contain;
 display: block;
-background: #dfddd5;
-border: 1px solid rgba(0,0,0,0.15);
-border-radius: 3px;
-margin-bottom: 8px;
-}
-.mc-caption {
-font-size: 11px;
-line-height: 1.55;
-color: #43443c;
-}
-.mc-caption b { color: #23241f; }
-
-/* Нижняя панель */
-.mc-bottombar {
-position: absolute;
-bottom: 0;
-left: 0;
-right: 0;
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 10px 32px;
-font-size: 10px;
-letter-spacing: 3px;
-color: #63645a;
-border-top: 1px solid rgba(0,0,0,0.15);
-}
-.mc-bottombar .left { font-weight: 600; }
-.mc-bottombar .right {
-display: flex;
-align-items: center;
-gap: 6px;
-}
-.mc-bottombar .right::after {
-content: '↗';
-font-size: 12px;
 }
 
+/* мобильная адаптация */
+@media (max-width: 760px) {
+.mc-topbar { padding: 10px 16px 8px; }
+.mc-rule { margin: 0 16px; }
+.mc-content { flex-direction: column; gap: 12px; padding: 12px 16px; }
+.mc-content img { max-width: 100%; max-height: 40%; }
+}
+
+/* испарение наклейки */
 .holo-sticker { pointer-events: auto; cursor: pointer; }
-
 .evap-layer {
 position: fixed;
 inset: 0;
@@ -522,14 +387,6 @@ pointer-events: none;
 transition: opacity 0.5s ease;
 }
 .evap-flash.on { opacity: 1; }
-
-@media (max-width: 760px) {
-.mc-topbar { padding: 10px 16px 8px; }
-.mc-rule { margin: 0 16px; }
-.mc-pages { padding: 12px 16px 6px; top: 48px; bottom: 36px; }
-.mc-bottombar { padding: 8px 16px; }
-.mc-h-display { font-size: 24px; }
-}
 </style>
 </head>
 <body>
@@ -598,56 +455,19 @@ transition: opacity 0.5s ease;
 </div>
 </div>
 
-<!-- THE MAGIC CLUTCH: 1700x600 -->
+<!-- МОДАЛЬНОЕ ОКНО С КАРТИНКАМИ -->
 <div class="mc-show" id="magicClutch">
 <div class="mc-backdrop" id="mcBackdrop"></div>
 <div class="mc-window">
 <div class="mc-topbar">
 <span class="brand">THE MAGIC CLUTCH</span>
-<span class="counter">
-<span><span class="mc-count-cur" id="mcCurrent">01</span> / <span id="mcTotal">01</span></span>
 <button class="mc-x" id="mcClose" title="Закрыть">&#10005;</button>
-</span>
 </div>
 <hr class="mc-rule">
-<div class="mc-pages" id="mcPages">
-
-<!-- ЕДИНСТВЕННАЯ СТРАНИЦА: как на скриншоте -->
-<div class="mc-page active mc-page-1">
-
-<!-- ЛЕВАЯ: заголовок + текст (02 / CONTEXT) -->
-<div class="mc-col-left">
-<div class="mc-num">02 / CONTEXT</div>
-<h1 class="mc-h-display">Кухня,<br>которую<br>запомнили.</h1>
-<p class="mc-body">Раньше разработчики CS рисовали на картах граффити за крутые хайлайты с мейджоров, но давно забросили традицию. Клатч Мэджикса стал идеальным поводом ее воскресить.</p>
-<p class="mc-body">И, хоть сделали это Valve необычным способом, факт остается фактом: впервые после выхода CS 2 в игре появилась отсылка на киберспортивный хайлайт.</p>
-<a class="mc-link" href="javascript:void(0)">A SECRET SAUCE FOR A LEGENDARY ROUND</a>
+<div class="mc-content">
+<img src="png/magixx.png" alt="Magixx">
+<img src="png/pomidor.png" alt="Pomidor">
 </div>
-
-<!-- ЦЕНТР: magixx -->
-<div class="mc-col-center">
-<img src="png/magixx.png" alt="Момент клатча: реакция состава">
-<span class="leg left">THE MOMENT</span>
-<span class="leg right">01:24</span>
-</div>
-
-<!-- ПРАВАЯ: pomidor + текст (03 / MAGIC) -->
-<div class="mc-col-right">
-<div class="mc-num">03 / MAGIC</div>
-<img src="png/pomidor.png" alt="Банка Magic на полке">
-<p class="mc-caption">Разработчики CS2 в ночном обновлении добавили кое-что необычное: в магазине на Mirage, который обычно называют <b>кухней</b>, теперь можно найти банки томатной пасты «Magic». На ней нарисован веселый помидор и есть подпись «Секретная заправка» на русском языке.</p>
-</div>
-
-</div>
-
-</div>
-
-<!-- Нижняя панель -->
-<div class="mc-bottombar">
-<span class="left">MAGIC / MIRAGE</span>
-<span class="right">SCROLL TO REMEMBER</span>
-</div>
-
 </div>
 </div>
 
@@ -800,6 +620,18 @@ loadAndRender();
 (function() {
 'use strict';
 var show = document.getElementById('magicClutch');
+function openShow() { show.classList.add('open'); }
+function closeShow() {
+show.classList.remove('open');
+sticker.style.visibility = 'visible';
+sticker.style.animation = '';
+}
+document.getElementById('mcClose').addEventListener('click', closeShow);
+document.getElementById('mcBackdrop').addEventListener('click', closeShow);
+document.addEventListener('keydown', function(e) {
+if (!show.classList.contains('open')) return;
+if (e.key === 'Escape') closeShow();
+});
 var sticker = document.querySelector('.holo-sticker');
 if (!sticker) return;
 var running = false;
@@ -809,7 +641,7 @@ running = true;
 var rect = sticker.getBoundingClientRect();
 var svgImg = sticker.querySelector('image');
 var src = svgImg ? svgImg.getAttribute('href') : null;
-if (!src) { running = false; show.classList.add('open'); return; }
+if (!src) { running = false; openShow(); return; }
 sticker.style.visibility = 'hidden';
 sticker.style.animation = 'none';
 var layer = document.createElement('div');
@@ -887,60 +719,4 @@ var t0 = performance.now();
 function frame(t) {
 var el = t - t0;
 ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-var alive = 0;
-parts.forEach(function(p) {
-var lt = el / 1000 - p.d;
-if (lt < 0) {
-if (p.cloud) {
-ctx.save(); ctx.filter = 'blur(' + p.bl + 'px)';
-ctx.fillStyle = p.c; ctx.beginPath();
-ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill(); ctx.restore();
-} else {
-ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, p.s, p.s);
-}
-alive++; return;
-}
-if (lt > 1.3) return;
-alive++;
-var e = 1 - Math.pow(1 - Math.min(lt / 1.2, 1), 2);
-var px = p.x + p.vx * lt, py = p.y + p.vy * lt;
-ctx.globalAlpha = 1 - e;
-if (p.cloud) {
-ctx.save(); ctx.filter = 'blur(' + (p.bl + e * 14) + 'px)';
-ctx.fillStyle = p.c; ctx.beginPath();
-ctx.arc(px, py, p.r * (1 + e * 1.4), 0, 6.283); ctx.fill(); ctx.restore();
-} else {
-ctx.fillStyle = p.c;
-ctx.fillRect(px, py, Math.max(0.5, p.s * (1 - 0.5 * e)), Math.max(0.5, p.s * (1 - 0.5 * e)));
-}
-});
-ctx.globalAlpha = 1;
-if (el > 350 && el < 750) flash.classList.add('on');
-else if (el >= 750) flash.classList.remove('on');
-if (alive > 0 && el < 3300) {
-requestAnimationFrame(frame);
-} else {
-document.body.removeChild(layer);
-document.body.removeChild(flash);
-show.classList.add('open');
-running = false;
-}
-}
-requestAnimationFrame(frame);
-}
-});
-function closeShow() {
-show.classList.remove('open');
-sticker.style.visibility = 'visible';
-sticker.style.animation = '';
-}
-document.getElementById('mcClose').addEventListener('click', closeShow);
-document.getElementById('mcBackdrop').addEventListener('click', closeShow);
-document.addEventListener('keydown', function(e) {
-if (!show.classList.contains('open')) return;
-if (e.key === 'Escape') closeShow();
-});
-})();
-</script>
-</body>
-</html>
+var alive
