@@ -1,489 +1,554 @@
-<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-  <title>Файлы - 4ak4ak</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-            body {
-            margin: 0;
-            padding: 0;
-            background: transparent;
-            font-family: 'Inter', sans-serif;
-            color: #fff;
-        }
-
-        .page-bg {
-            position: fixed;
-            top: 70px;
-            left: 0;
-            width: 100%;
-            height: calc(100% - 70px);
-            background-image: url('pngg/5kolo.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-
-    .page-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-image: url('pngg/3kolo.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      z-index: -1;
-      pointer-events: none;
-    }
-    .page-bg::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.55);
-    }
-
-    .files-container {
-      max-width: 1100px;
-      margin: 100px auto 40px auto;
-      padding: 20px;
-      position: relative;
-      z-index: 1;
-      flex: 1;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .files-title {
-      color: #4a9eff;
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 30px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-align: center;
-      text-shadow: 0 2px 10px rgba(74, 158, 255, 0.5);
-    }
-
-    /* ========================================= */
-    /* ЕДИНАЯ ТАБЛИЦА: ФОН NIKOLA TESLA (glass)  */
-    /* ========================================= */
-    .download-block {
-      background-color: #0a2240;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      border: 2px solid rgba(244, 231, 38, 0.35);
-      border-radius: 20px;
-      padding: 40px 30px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 40px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* ========================================= */
-    /* ЛЕВАЯ ЧАСТЬ: ТЕКСТ + ГОЛОГРАФИЧЕСКИЕ СЛОИ */
-    /* ========================================= */
-    .download-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      z-index: 2;
-      border-radius: 12px;
-      padding: 20px;
-    }
-
-    /* ::before — REVEAL LAYER (радужные facets) */
-    .download-content::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      border-radius: inherit;
-      background-image: var(--holo-facets-holo);
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-      mix-blend-mode: screen;
-      opacity: 0.5;
-      -webkit-mask-image: linear-gradient(105deg, transparent 34%, #000 45%, #000 55%, transparent 66%);
-      mask-image: linear-gradient(105deg, transparent 34%, #000 45%, #000 55%, transparent 66%);
-      -webkit-mask-size: 250% 100%;
-      mask-size: 250% 100%;
-      -webkit-mask-position: var(--holo-pos, 50%) 0;
-      mask-position: var(--holo-pos, 50%) 0;
-      -webkit-mask-repeat: no-repeat;
-      mask-repeat: no-repeat;
-      transition:
-        -webkit-mask-position 0.12s ease-out,
-        mask-position 0.12s ease-out,
-        opacity 0.25s ease;
-    }
-
-    /* ::after — БЕЛЫЙ БЛИК */
-    .download-content::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      border-radius: inherit;
-      background: linear-gradient(
-        110deg,
-        transparent 25%,
-        rgba(255, 255, 255, 0.16) 47%,
-        rgba(255, 255, 255, 0.04) 53%,
-        transparent 72%
-      );
-      background-size: 220% 100%;
-      background-position: var(--holo-pos, 78%) 0;
-      mix-blend-mode: screen;
-      transition: background-position 0.12s ease-out;
-    }
-
-    /* Idle glint — периодическая вспышка */
-    .download-content[data-glint="true"]::before {
-      animation: holo-glint-holo 1.6s ease-in-out;
-    }
-    .download-content[data-glint="true"]::after {
-      animation: holo-glint-sheen 1.6s ease-in-out;
-    }
-
-    @keyframes holo-glint-holo {
-      0%, 100% { opacity: 0.5; -webkit-mask-position: 50% 0; mask-position: 50% 0; }
-      50%      { opacity: 1; -webkit-mask-position: 20% 0; mask-position: 20% 0; }
-    }
-    @keyframes holo-glint-sheen {
-      0%, 100% { background-position: 78% 0; }
-      50%      { background-position: 24% 0; }
-    }
-
-    /* ========================================= */
-    /* ШРИФТ: Comic Neue для ВСЕГО контента      */
-    /* таблицы с античитом                       */
-    /* ========================================= */
-    .download-content,
-    .download-content * {
-      font-family: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
-    }
-
-    .download-icon {
-      font-size: 64px;
-      margin-bottom: 20px;
-      display: block;
-    }
-
-    .download-title {
-      color: #fff;
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-    }
-
-    .download-desc {
-      color: rgba(255, 255, 255, 0.85);
-      font-size: 15px;
-      line-height: 1.6;
-      max-width: 500px;
-      margin: 0 auto 30px auto;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
-    }
-
-    .download-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 18px 50px;
-      background: linear-gradient(135deg, #27ae60, #2ecc71);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 50px;
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 25px rgba(39, 174, 96, 0.5);
-      transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
-      cursor: pointer;
-    }
-    .download-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 35px rgba(39, 174, 96, 0.7);
-      background: linear-gradient(135deg, #2ecc71, #27ae60);
-    }
-    .download-btn:active {
-      transform: translateY(-1px);
-    }
-
-    .download-warning {
-      color: #ff2d2d;
-      font-size: 18px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-top: 20px;
-      margin-bottom: 10px;
-      text-shadow: 0 0 12px rgba(255, 45, 45, 0.8), 0 2px 6px rgba(0,0,0,0.8);
-      animation: warningPulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes warningPulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-
-    .download-note {
-      margin-top: 10px;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 13px;
-      font-style: italic;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
-    }
-
-    .download-arrow {
-      font-size: 22px;
-    }
-
-    /* ========================================= */
-    /* ПРАВАЯ ЧАСТЬ: ГОЛОГРАФИЧЕСКАЯ ПТИЧКА      */
-    /* ✅ КОД ПТИЧКИ 1-В-1 ИЗ ИСХОДНИКА           */
-    /* ========================================= */
-    .sparrow-holo {
-      flex: 0 0 280px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .sparrow-holo p {
-      color: #fff;
-      font-size: 16px;
-      font-weight: 700;
-      margin: 0 0 15px 0;
-      letter-spacing: 0.5px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-    }
-
-    /* Точные стили шейдера из исходного кода */
-    .shader {
-      position: relative;
-      overflow: hidden;
-      backface-visibility: hidden; /* Forces GPU */
-      border-radius: 12px;
-    }
-
-    .shader-layer {
-      background: black;
-      mix-blend-mode: multiply;
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      background-position: center;
-    }
-
-    .specular {
-      mix-blend-mode: color-dodge;
-      background-attachment: fixed;
-    }
-
-    .mask {
-      mix-blend-mode: multiply;
-    }
-
-    .gradient-sparrow {
-      background-image: linear-gradient(
-        0deg,
-        hsl(359, 60%, 40%),
-        hsl(16, 60%, 45%),
-        hsl(33, 60%, 50%),
-        hsl(45, 60%, 55%),
-        hsl(58, 60%, 60%),
-        hsl(58, 60%, 65%),
-        hsl(58, 60%, 70%),
-        hsl(96, 60%, 65%),
-        hsl(146, 60%, 60%),
-        hsl(183, 60%, 55%),
-        hsl(225, 60%, 50%),
-        hsl(265, 60%, 45%),
-        hsl(303, 60%, 40%)
-      );
-    }
-
-    @media (max-width: 900px) {
-      .download-block {
-        flex-direction: column;
-        gap: 30px;
-      }
-      .sparrow-holo {
-        flex: 0 0 auto;
-        width: 100%;
-        max-width: 300px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+<title>Правила - 4ak4ak</title>
+<link rel="stylesheet" href="style.css">
+<style>
+html, body {
+margin: 0;
+padding: 0;
+background: transparent !important;
+background-color: transparent !important;
+overflow-y: auto;
+overflow-x: hidden;
+}
+#tubes-canvas {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 5;
+pointer-events: none;
+background-color: #000000 !important;
+mix-blend-mode: screen;
+}
+.rules-bg {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-image: url('png/dust2B.jpg');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+z-index: -1;
+pointer-events: none;
+}
+.rules-bg::after {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.4);
+}
+.header-wrapper {
+position: relative;
+z-index: 10;
+}
+.book-viewport {
+perspective: 2000px;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 20px 0;
+background: transparent !important;
+min-height: 100vh;
+margin-top: 100px;
+position: relative;
+z-index: 1;
+}
+.book-wrapper {
+position: relative;
+width: 380px;
+height: 520px;
+transform-style: preserve-3d;
+transform: rotateX(15deg) rotateY(-5deg);
+}
+.b-page {
+position: absolute;
+width: 100%;
+height: 100%;
+top: 0;
+left: 0;
+transform-origin: left center;
+transform-style: preserve-3d;
+transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+border-radius: 4px 12px 12px 4px;
+}
+.page-side {
+position: absolute;
+width: 100%;
+height: 100%;
+top: 0;
+left: 0;
+backface-visibility: hidden;
+border-radius: 4px 12px 12px 4px;
+}
+.back-side {
+transform: rotateY(180deg);
+background: #fcf8f2;
+border-radius: 12px 4px 4px 12px;
+border: 1px solid #e8dec9;
+}
+.front-cover-page {
+background-color: #5a0a0a;
+background-image:
+radial-gradient(ellipse at 25% 15%, rgba(255,200,180,0.18) 0%, transparent 50%),
+radial-gradient(ellipse at 75% 85%, rgba(0,0,0,0.55) 0%, transparent 55%),
+radial-gradient(ellipse at 50% 50%, rgba(120,20,20,0.3) 0%, transparent 70%),
+repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 3px, transparent 3px, transparent 6px),
+repeating-linear-gradient(90deg, transparent 0px, transparent 1px, rgba(0,0,0,0.04) 1px, rgba(0,0,0,0.04) 2px, transparent 2px, transparent 5px),
+repeating-linear-gradient(45deg, transparent 0px, transparent 8px, rgba(30,0,0,0.15) 8px, rgba(30,0,0,0.15) 9px, transparent 9px, transparent 20px),
+radial-gradient(circle at 30% 40%, rgba(0,0,0,0.12) 0%, transparent 2px),
+radial-gradient(circle at 70% 60%, rgba(0,0,0,0.10) 0%, transparent 2px),
+radial-gradient(circle at 20% 80%, rgba(0,0,0,0.08) 0%, transparent 2px),
+radial-gradient(circle at 85% 25%, rgba(0,0,0,0.11) 0%, transparent 2px),
+linear-gradient(135deg, #3a0505 0%, #6a0a0a 25%, #8b1010 50%, #5a0808 75%, #2a0303 100%);
+border-left: 8px solid #2A0000;
+border: 2px solid #5A0000;
+box-shadow: inset 0 0 60px rgba(0,0,0,0.6), inset 0 0 20px rgba(100,10,10,0.3);
+}
+.back-cover-page {
+background-color: #4a0808;
+background-image:
+radial-gradient(ellipse at 30% 20%, rgba(255,200,180,0.12) 0%, transparent 45%),
+radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.55) 0%, transparent 55%),
+repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 3px, transparent 3px, transparent 6px),
+repeating-linear-gradient(90deg, transparent 0px, transparent 1px, rgba(0,0,0,0.04) 1px, rgba(0,0,0,0.04) 2px, transparent 2px, transparent 5px),
+repeating-linear-gradient(-45deg, transparent 0px, transparent 8px, rgba(30,0,0,0.15) 8px, rgba(30,0,0,0.15) 9px, transparent 9px, transparent 20px),
+radial-gradient(circle at 40% 50%, rgba(0,0,0,0.10) 0%, transparent 2px),
+radial-gradient(circle at 65% 30%, rgba(0,0,0,0.09) 0%, transparent 2px),
+linear-gradient(135deg, #2a0303 0%, #5a0808 30%, #7a0d0d 55%, #4a0606 80%, #1a0101 100%);
+border-left: 8px solid #1A0000;
+box-shadow: inset 0 0 60px rgba(0,0,0,0.6), inset 0 0 20px rgba(100,10,10,0.3);
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+padding: 20px;
+}
+.back-cover-text {
+color: #D4AF37;
+font-family: 'Georgia', serif;
+font-size: 22px;
+line-height: 1.5;
+font-weight: bold;
+margin-bottom: 20px;
+text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+.back-cover-logo {
+width: 120px;
+height: 120px;
+border-radius: 50%;
+border: 3px solid #D4AF37;
+object-fit: cover;
+box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+}
+.cover-design {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 100%;
+color: #D4AF37;
+text-align: center;
+padding: 20px;
+}
+.cover-design::before {
+content: '';
+position: absolute;
+top: 14px;
+left: 14px;
+right: 14px;
+bottom: 14px;
+border: 1.5px solid rgba(212, 175, 55, 0.45);
+border-radius: 3px;
+pointer-events: none;
+box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4), 0 0 0 1px rgba(212, 175, 55, 0.25);
+}
+.cover-design::after {
+content: '';
+position: absolute;
+top: 24px;
+left: 24px;
+right: 24px;
+bottom: 24px;
+border: 1px solid rgba(212, 175, 55, 0.28);
+border-radius: 2px;
+pointer-events: none;
+box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3);
+}
+.cover-design h2 {
+font-family: 'Georgia', serif;
+font-size: 26px;
+letter-spacing: 3px;
+margin: 0;
+}
+.gold-badge {
+background: #D4AF37;
+color: #4A0000;
+padding: 6px 20px;
+font-weight: bold;
+font-size: 15px;
+margin: 15px 0;
+border-radius: 4px;
+letter-spacing: 2px;
+}
+.cover-design p {
+font-size: 13px;
+color: #f0e6d2;
+font-style: italic;
+margin-bottom: 15px;
+}
+.front-cover-logo {
+width: 80px;
+height: 80px;
+border-radius: 50%;
+border: 2px solid #D4AF37;
+object-fit: cover;
+margin-bottom: 20px;
+box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+.open-book-btn {
+background: #D4AF37;
+color: #4A0000;
+border: none;
+padding: 10px 20px;
+font-size: 13px;
+font-weight: bold;
+border-radius: 20px;
+cursor: pointer;
+margin-top: 20px;
+box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.back-to-start-btn {
+background: transparent;
+color: #D4AF37;
+border: 1px solid #D4AF37;
+padding: 8px 16px;
+font-size: 12px;
+border-radius: 20px;
+cursor: pointer;
+margin-top: 10px;
+display: none;
+}
+.nav-arrow {
+position: absolute;
+bottom: 20px;
+background: #8B0000;
+color: #fff;
+border: none;
+padding: 6px 14px;
+font-size: 12px;
+border-radius: 4px;
+cursor: pointer;
+box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+z-index: 10;
+}
+.next-arrow { right: 20px; }
+.prev-arrow { left: 20px; }
+.paper-page {
+background: #fcf8f2;
+color: #2b2b2b;
+border: 1px solid #e8dec9;
+}
+.text-box {
+padding: 45px 25px 30px 45px;
+font-family: sans-serif;
+font-size: 13px;
+line-height: 1.6;
+}
+.text-box h3 {
+font-family: 'Georgia', serif;
+color: #8B0000;
+border-bottom: 2px solid #e8dec9;
+padding-bottom: 8px;
+margin-top: 0;
+font-size: 18px;
+}
+.text-box ul { padding-left: 15px; margin: 0; }
+.text-box li { margin-bottom: 12px; }
+.gif-container {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 100%;
+padding: 20px;
+box-sizing: border-box;
+}
+.page-gif {
+width: 100%;
+max-width: 100%;
+max-height: 380px;
+object-fit: contain;
+border-radius: 8px;
+border: 2px solid #e8dec9;
+box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+margin-bottom: 20px;
+}
+.gif-caption {
+font-family: 'Georgia', serif;
+color: #8B0000;
+font-size: 16px;
+font-weight: bold;
+text-align: center;
+font-style: italic;
+}
+.small-text-note {
+font-style: italic;
+font-size: 11px;
+color: #777;
+margin-top: 25px;
+text-align: center;
+border-top: 1px dashed #ddd;
+padding-top: 10px;
+}
+.thanks-page .text-box {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 100%;
+text-align: center;
+padding: 30px;
+}
+.thanks-page h3 {
+border: none;
+color: #8B0000;
+font-size: 24px;
+margin-bottom: 15px;
+}
+.thanks-page p {
+font-size: 16px;
+color: #333;
+margin-bottom: 30px;
+}
+.intro-page .text-box {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 100%;
+text-align: center;
+padding: 30px;
+}
+.intro-page h2 {
+border: none;
+color: #8B0000;
+font-size: 32px;
+font-family: 'Georgia', serif;
+margin-bottom: 20px;
+text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+.intro-page p {
+font-size: 18px;
+color: #555;
+font-style: italic;
+}
+.b-page.flipped {
+transform: rotateY(-180deg);
+}
+</style>
 </head>
 <body>
-
-  <div class="page-bg"></div>
-  <div id="header-placeholder" class="header-wrapper"></div>
-
-  <div class="files-container">
-    <div class="files-title">Файлы</div>
-
-    <div class="download-block" id="download-block">
-      <div class="download-content" id="download-content">
-        <span class="download-icon">🛡️</span>
-        <div class="download-title">Античит для турниров</div>
-        <div class="download-desc">
-          Скачайте античит <b>ruzikTastyAC</b> для участия в турнирах. 
-          Запустите его перед началом игры, чтобы подтвердить честность матча.
-        </div>
-
-        <a href="pngg/ruzikTastyAC.zip" download class="download-btn">
-          <span class="download-arrow">⬇️</span> Скачать Анти-чит
-        </a>
-
-        <div class="download-warning">
-          ОБЯЗАТЕЛЬНО ВЫКЛЮЧИТЬ АНТИВИРУС ПЕРЕД СКАЧИВАНИЕМ
-        </div>
-        <div class="download-note">
-          Файл скачивается напрямую с сайта. Введите его в игру перед матчем.
-        </div>
-      </div>
-
-      <!-- ✅ ПТИЧКА: разметка 1-в-1 из исходника -->
-      <div class="sparrow-holo">
-        <p>Fancy Sparrow ✨</p>
-        <div class="shader framed">
-          <img src="https://assets.codepen.io/2153413/sparrow-base.png" alt="Fancy Sparrow" width="280" style="max-width: 100%; height: auto;">
-          <div class="shader-layer specular gradient-sparrow">
-            <img class="shader-layer mask" src="https://assets.codepen.io/2153413/sparrow-mask.png" alt="" width="280" style="max-width: 100%; height: auto;">
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    fetch('header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-placeholder').innerHTML = data;
-        const script = document.createElement('script');
-        script.type = 'module';
-        script.src = 'auth.js';
-        document.body.appendChild(script);
-      })
-      .catch(error => console.error('Ошибка загрузки шапки:', error));
-
-    // ============================================================
-    // ГЕНЕРАЦИЯ ФОНА NIKOLA TESLA (variant: glass, seed: 42)
-    // Применяется ТОЛЬКО к .download-block и .download-content::before.
-    // Птичка (.sparrow-holo) НЕ трогается.
-    // ============================================================
-    (function() {
-      'use strict';
-
-      const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
-
-      function createSeededRandom(seed) {
-        return function() {
-          seed |= 0;
-          seed = (seed + 0x6d2b79f5) | 0;
-          let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-        };
-      }
-
-      function makeFacetPair(seed, base, holo) {
-        const W = 600, H = 880, cols = 7, rows = 11;
-        const rand = createSeededRandom(seed);
-        const pts = {};
-        for (let r = 0; r <= rows; r++) for (let c = 0; c <= cols; c++) {
-          const jx = (rand() * 2 - 1) * (W / cols) * 0.42;
-          const jy = (rand() * 2 - 1) * (H / rows) * 0.42;
-          const x = c === 0 ? 0 : c === cols ? W : (c * W) / cols + jx;
-          const y = r === 0 ? 0 : r === rows ? H : (r * H) / rows + jy;
-          pts[`${r},${c}`] = [clamp(x, 0, W), clamp(y, 0, H)];
-        }
-        const tris = [];
-        for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
-          const a = pts[`${r},${c}`], b = pts[`${r},${c + 1}`];
-          const cc = pts[`${r + 1},${c}`], d = pts[`${r + 1},${c + 1}`];
-          if (rand() < 0.5) tris.push([a, b, d], [a, d, cc]);
-          else tris.push([a, b, cc], [b, d, cc]);
-        }
-        const draw = (palette) => {
-          const polys = tris.map((t) => {
-            const fill = palette[Math.floor(rand() * palette.length)];
-            const p = t.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
-            return `<polygon points="${p}" fill="${fill}"/>`;
-          }).join("");
-          const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice">${polys}</svg>`;
-          return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
-        };
-        return { base: draw(base), holo: draw(holo) };
-      }
-
-      const NAVY_FACETS = ["#020a16","#020a16","#041020","#041020","#071a30","#0a2240","#0d2848","#103058","#15396a","#1b4480"];
-      const PRISM_FACETS = ["#ff3b5c","#ff7a1a","#ffd24d","#5cff7a","#4de4ff","#4d8cff","#b96bff","#ff4dd2","#ffffff"];
-
-      const tex = makeFacetPair(42, NAVY_FACETS, PRISM_FACETS);
-
-      const downloadBlock = document.getElementById('download-block');
-      const downloadContent = document.getElementById('download-content');
-
-      if (downloadBlock) {
-        downloadBlock.style.backgroundImage = tex.matte;
-      }
-      if (downloadContent) {
-        downloadContent.style.setProperty('--holo-facets-holo', tex.holo);
-      }
-      // ❌ .sparrow-holo НЕ трогаем
-
-      if (downloadContent && window.matchMedia && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        let glintTimer = 0;
-        const scheduleGlint = () => {
-          const delay = 2600 + Math.random() * 3200;
-          glintTimer = window.setTimeout(() => {
-            if (!document.hidden && downloadContent.getAttribute("data-glint") !== "true") {
-              downloadContent.setAttribute("data-glint", "true");
-              window.setTimeout(() => downloadContent.removeAttribute("data-glint"), 1700);
-            }
-            scheduleGlint();
-          }, delay);
-        };
-        scheduleGlint();
-        window.addEventListener('beforeunload', () => clearTimeout(glintTimer));
-      }
-
-      console.log('✦ Фон Nikola Tesla (glass, seed: 42) применён. Птичка — исходный код без изменений.');
-    })();
-  </script>
-
+<div class="rules-bg"></div>
+<canvas id="tubes-canvas"></canvas>
+<div id="header-placeholder" class="header-wrapper"></div>
+<div class="book-viewport">
+<div class="book-wrapper" id="myBook">
+<!-- ЗАДНЯЯ ОБЛОЖКА -->
+<div class="b-page back-cover-page" style="z-index: 1;">
+<div class="back-cover-text">Спасибо за прочтение<br>и удача в погоне за <span style="white-space: nowrap;">Чак-Чак!</span></div>
+<img src="logo1.jpg" class="back-cover-logo" alt="Чак-Чак">
+</div>
+<!-- СТРАНИЦА 5: СПАСИБО -->
+<div class="b-page paper-page thanks-page" id="p5" style="z-index: 2;">
+<div class="page-side front-side">
+<div class="text-box">
+<h3>Спасибо за прочтение!</h3>
+<p>Желаем удачи в турнире и только побед!</p>
+<button class="open-book-btn" onclick="closeBook()">Закрыть книгу 📕</button>
+</div>
+</div>
+<div class="page-side back-side">
+<button class="nav-arrow prev-arrow" onclick="turnPage(5, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- СТРАНИЦА 4: ПРИЗЫ -->
+<div class="b-page paper-page" id="p4" style="z-index: 3;">
+<div class="page-side front-side">
+<div class="text-box">
+<h3>🏆 Призы и Рейтинг</h3>
+<ul>
+<li><b>Финал матча:</b> Победители получают скины лучшего качества, проигравшие в финале — скины послабее. Призы отображаются в меню противостояния.</li>
+<li><b>Выдача скинов:</b> Админ добавляет вас в друзья в Steam, заносит в блокнот и передает скины сразу, как спадет временная блокировка обмена Steam.</li>
+<li><b>Рейтинг «Чак-Чак»:</b> За победу в турнире начисляется <b>2 чак-чака</b>, за участие в финале (2 место) — <b>1 чак-чак</b>.</li>
+</ul>
+<p class="small-text-note">Турнир создан ради эмоций и символических призов!</p>
+</div>
+<button class="nav-arrow next-arrow" onclick="turnPage(4, 'next')">Вперед ↪</button>
+</div>
+<div class="page-side back-side">
+<button class="nav-arrow prev-arrow" onclick="turnPage(4, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- СТРАНИЦА 3: АНТИЧИТ -->
+<div class="b-page paper-page" id="p3" style="z-index: 4;">
+<div class="page-side front-side">
+<div class="text-box">
+<h3>🛡️ Anti-cheat и Старт</h3>
+<ul>
+<li><b>Запуск:</b> Перед запуском игры <b>обязательно</b> включите античит <u>ruzikTastyAC</u>. Включение во время игры — тех. поражение всей команде, если вы зальете такой файл на сайт. Но если вы случайно запустили, после захода в игру, вы можете выйти из игры, остановить анти-чити запустить заново, файл переливается, в моих документах он всегда один</li>
+<li><b>Коннект к серверу:</b> После согласования времени в чате появится кнопка <b>Connected</b> для автовыхода на сервер CS2.</li>
+<li><b>Залив файла анти-чита:</b> После игры найдите в «Моих документах» файл <b>match_log</b> и загрузите его через <b>желтый плюс</b> в противостоянии матча.</li>
+</ul>
+</div>
+<button class="nav-arrow next-arrow" onclick="turnPage(3, 'next')">Вперед ↪</button>
+</div>
+<div class="page-side back-side">
+<div class="gif-container">
+<img src="gif/20261026_InexpensiveBlueSquirrelNotATK-tmAsxdSkeHp.gif" class="page-gif" alt="Призы">
+<div class="gif-caption">Ценные призы ждут победителей!</div>
+</div>
+<button class="nav-arrow prev-arrow" onclick="turnPage(3, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- СТРАНИЦА 2: ОСНОВНЫЕ ПРАВИЛА -->
+<div class="b-page paper-page" id="p2" style="z-index: 5;">
+<div class="page-side front-side">
+<div class="text-box">
+<h3>📝 Основные правила</h3>
+<ul>
+<li><b>Формат:</b> Сетка плей-офф 5х5. Турнир проходит раз в 2 недели (с пятницы по воскресенье). Регистрация открывается 1-го числа.</li>
+<li><b>Рандом:</b> Участники распределяются по командам случайно. Победители этапа снова перемешиваются в новые команды для следующей стадии.</li>
+</ul>
+</div>
+<button class="nav-arrow next-arrow" onclick="turnPage(2, 'next')">Вперед ↪</button>
+</div>
+<div class="page-side back-side">
+<div class="gif-container">
+<img src="gif/20261026_SuccessfulEagerPastaArsonNoSexy-gUbG2z5bg.gif" class="page-gif" alt="Античит">
+<div class="gif-caption">Следи за статусом античита!</div>
+</div>
+<button class="nav-arrow prev-arrow" onclick="turnPage(2, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- СТРАНИЦА 1: ЗАСТАВКА "ЧИТАЙ ВНИМАТЕЛЬНО" -->
+<div class="b-page paper-page intro-page" id="p1" style="z-index: 6;">
+<div class="page-side front-side">
+<div class="text-box">
+<h2>Читай<br>внимательно!</h2>
+<p>Здесь собраны все важные правила турнира.</p>
+</div>
+<button class="nav-arrow next-arrow" onclick="turnPage(1, 'next')">Вперед ↪</button>
+</div>
+<div class="page-side back-side">
+<button class="nav-arrow prev-arrow" onclick="turnPage(1, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- ПЕРЕДНЯЯ ОБЛОЖКА — Z-INDEX 100, ПОВЕРХ ВСЕХ СТРАНИЦ -->
+<div class="b-page front-cover-page" id="p0" style="z-index: 100;">
+<div class="page-side front-side">
+<div class="cover-design">
+<img src="logo1.jpg" class="front-cover-logo" alt="Логотип">
+<h2>РУКОВОДСТВО</h2>
+<div class="gold-badge">ЧАК-ЧАК</div>
+<p>Официальные правила турниров CS2</p>
+<button class="open-book-btn" onclick="turnPage(0, 'next')">Открыть книгу 📖</button>
+<button class="back-to-start-btn" id="backToStartBtn" onclick="closeBook()">Вернуться на обложку</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+fetch('header.html')
+.then(response => response.text())
+.then(data => {
+document.getElementById('header-placeholder').innerHTML = data;
+const script = document.createElement('script');
+script.type = 'module';
+script.src = 'auth.js';
+document.body.appendChild(script);
+})
+.catch(error => console.error('Ошибка загрузки шапки:', error));
+</script>
+<script>
+function turnPage(pageId, direction) {
+const page = document.getElementById('p' + pageId);
+if (direction === 'next') {
+page.classList.add('flipped');
+setTimeout(() => { page.style.zIndex = pageId; }, 300);
+if (pageId === 0) {
+document.getElementById('backToStartBtn').style.display = 'inline-block';
+}
+} else if (direction === 'prev') {
+page.style.zIndex = 100;
+setTimeout(() => { page.classList.remove('flipped'); }, 10);
+setTimeout(() => {
+if (pageId === 1) page.style.zIndex = 6;
+else if (pageId === 2) page.style.zIndex = 5;
+else if (pageId === 3) page.style.zIndex = 4;
+else if (pageId === 4) page.style.zIndex = 3;
+else if (pageId === 5) page.style.zIndex = 2;
+}, 800);
+}
+}
+function closeBook() {
+[1, 2, 3, 4, 5].forEach(i => {
+const page = document.getElementById('p' + i);
+if (page) {
+page.classList.remove('flipped');
+if (i === 1) page.style.zIndex = 6;
+else if (i === 2) page.style.zIndex = 5;
+else if (i === 3) page.style.zIndex = 4;
+else if (i === 4) page.style.zIndex = 3;
+else if (i === 5) page.style.zIndex = 2;
+}
+});
+const p0 = document.getElementById('p0');
+setTimeout(() => {
+p0.classList.remove('flipped');
+p0.style.zIndex = 100;
+}, 100);
+document.getElementById('backToStartBtn').style.display = 'none';
+}
+</script>
+<script type="module">
+import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
+const canvas = document.getElementById('tubes-canvas');
+const app = TubesCursor(canvas, {
+tubes: {
+colors: ["#f967fb", "#53bc28", "#6958d5"],
+lights: {
+intensity: 200,
+colors: ["#83f36e", "#fe8a2e", "#ff008a", "#60aed5"]
+}
+}
+});
+document.body.addEventListener('click', () => {
+const colors = randomColors(3);
+const lightsColors = randomColors(4);
+app.tubes.setColors(colors);
+app.tubes.setLightsColors(lightsColors);
+});
+function randomColors(count) {
+return new Array(count)
+.fill(0)
+.map(() => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
+}
+</script>
 </body>
 </html>
