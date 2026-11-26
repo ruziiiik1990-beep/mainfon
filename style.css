@@ -3,56 +3,44 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
 }
 body, html {
     width: 100%;
 }
-
 /* Стили для картинки-фона */
 .bg-image {
     width: 100%;
     height: auto;
     display: block;
 }
-
 /* Шапка */
 .header-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     z-index: 10;
-    background: #ffffff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-
 /* Элементы шапки */
-.header-container { 
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between; 
-    padding: 10px 30px; 
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
 }
-
-.header-left { 
-    display: flex; 
-    align-items: center; 
+.header-left {
+    display: flex;
+    align-items: center;
     gap: 40px;
 }
-
 /* Стили для логотипа */
-.logo-image { 
+.logo-image {
     height: 65px;
-    width: auto; 
-    display: block; 
+    width: auto;
+    display: block;
     transition: transform 0.3s ease;
 }
-
 .logo-image:hover {
     transform: scale(1.05);
 }
-
 /* Стилизация меню */
 .nav-list {
     display: flex;
@@ -61,36 +49,31 @@ body, html {
     margin: 0;
     padding: 0;
 }
-
 .nav-link {
-    color: #333; 
+    color: #333;
     text-decoration: none;
     font-size: 18px;
     font-weight: 500;
-    transition: color 0.3s ease; 
+    transition: color 0.3s ease;
 }
-
 .nav-link:hover {
-    color: #007bff; 
+    color: #007bff;
 }
-
 /* Правая часть (кнопки) */
-.header-auth-block { 
-    margin-left: auto !important; 
-    order: 99 !important; 
-    white-space: nowrap; 
+.header-auth-block {
+    margin-left: auto !important;
+    order: 99 !important;
+    white-space: nowrap;
 }
-
 /* Мобильная адаптация */
-@media (max-width: 1024px) { 
-    .header-left { margin-left: 0 !important; } 
+@media (max-width: 1024px) {
+    .header-left { margin-left: 0 !important; }
 }
-
-@media (max-width: 768px) { 
-    .logo-image { height: 50px; } 
+@media (max-width: 768px) {
+    .logo-image { height: 50px; }
     .header-left { gap: 20px; }
     .nav-list { gap: 15px; }
     .nav-link { font-size: 16px; }
-    .auth-links { display: none; } 
+    .auth-links { display: none; }
     .header-container { padding: 10px 15px; }
 }
