@@ -17,6 +17,7 @@ background-color: transparent !important;
 overflow-y: auto;
 overflow-x: hidden;
 }
+/* Канвас с трубками: ПОВЕРХ книги, ПОД шапкой */
 #tubes-canvas {
 position: fixed;
 top: 0;
@@ -28,6 +29,7 @@ pointer-events: none;
 background-color: #000000 !important;
 mix-blend-mode: screen;
 }
+/* Фон страницы правил */
 .rules-bg {
 position: fixed;
 top: 0;
@@ -50,10 +52,12 @@ width: 100%;
 height: 100%;
 background: rgba(0, 0, 0, 0.4);
 }
+/* Шапка должна быть НАД канвасом */
 .header-wrapper {
 position: relative;
 z-index: 10;
 }
+/* Отступ сверху, чтобы шапка не перекрывала книгу */
 .book-viewport {
 perspective: 2000px;
 display: flex;
@@ -101,100 +105,19 @@ border-radius: 12px 4px 4px 12px;
 border: 1px solid #e8dec9;
 }
 .front-cover-page {
-background-color: #5a0a0a;
-background-image:
-radial-gradient(ellipse at 25% 15%, rgba(255,200,180,0.18) 0%, transparent 50%),
-radial-gradient(ellipse at 75% 85%, rgba(0,0,0,0.55) 0%, transparent 55%),
-radial-gradient(ellipse at 50% 50%, rgba(120,20,20,0.3) 0%, transparent 70%),
-repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 3px, transparent 3px, transparent 6px),
-repeating-linear-gradient(90deg, transparent 0px, transparent 1px, rgba(0,0,0,0.04) 1px, rgba(0,0,0,0.04) 2px, transparent 2px, transparent 5px),
-repeating-linear-gradient(45deg, transparent 0px, transparent 8px, rgba(30,0,0,0.15) 8px, rgba(30,0,0,0.15) 9px, transparent 9px, transparent 20px),
-radial-gradient(circle at 30% 40%, rgba(0,0,0,0.12) 0%, transparent 2px),
-radial-gradient(circle at 70% 60%, rgba(0,0,0,0.10) 0%, transparent 2px),
-radial-gradient(circle at 20% 80%, rgba(0,0,0,0.08) 0%, transparent 2px),
-radial-gradient(circle at 85% 25%, rgba(0,0,0,0.11) 0%, transparent 2px),
-linear-gradient(135deg, #3a0505 0%, #6a0a0a 25%, #8b1010 50%, #5a0808 75%, #2a0303 100%);
-background-blend-mode: normal, normal, normal, normal, normal, normal, normal, normal, normal, normal;
-border-left: 8px solid #1a0000;
-border: 2px solid #4a0000;
-box-shadow:
-inset 0 0 60px rgba(0,0,0,0.6),
-inset 0 0 20px rgba(100,10,10,0.3);
-position: relative;
-}
-.front-cover-page::before {
-content: '';
-position: absolute;
-top: 18px;
-left: 18px;
-right: 18px;
-bottom: 18px;
-border: 1.5px solid rgba(212, 175, 55, 0.45);
-border-radius: 3px;
-pointer-events: none;
-box-shadow:
-inset 0 0 0 1px rgba(0,0,0,0.4),
-0 0 0 1px rgba(212, 175, 55, 0.25);
-}
-.front-cover-page::after {
-content: '';
-position: absolute;
-top: 28px;
-left: 28px;
-right: 28px;
-bottom: 28px;
-border: 1px solid rgba(212, 175, 55, 0.28);
-border-radius: 2px;
-pointer-events: none;
-box-shadow:
-inset 0 0 0 1px rgba(0,0,0,0.3);
+background: linear-gradient(135deg, #8B0000 0%, #4A0000 100%);
+border-left: 8px solid #2A0000;
+border: 2px solid #5A0000;
 }
 .back-cover-page {
-background-color: #4a0808;
-background-image:
-radial-gradient(ellipse at 30% 20%, rgba(255,200,180,0.12) 0%, transparent 45%),
-radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.55) 0%, transparent 55%),
-repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 3px, transparent 3px, transparent 6px),
-repeating-linear-gradient(90deg, transparent 0px, transparent 1px, rgba(0,0,0,0.04) 1px, rgba(0,0,0,0.04) 2px, transparent 2px, transparent 5px),
-repeating-linear-gradient(-45deg, transparent 0px, transparent 8px, rgba(30,0,0,0.15) 8px, rgba(30,0,0,0.15) 9px, transparent 9px, transparent 20px),
-radial-gradient(circle at 40% 50%, rgba(0,0,0,0.10) 0%, transparent 2px),
-radial-gradient(circle at 65% 30%, rgba(0,0,0,0.09) 0%, transparent 2px),
-linear-gradient(135deg, #2a0303 0%, #5a0808 30%, #7a0d0d 55%, #4a0606 80%, #1a0101 100%);
-border-left: 8px solid #1a0000;
-border: 2px solid #4a0000;
-box-shadow:
-inset 0 0 60px rgba(0,0,0,0.6),
-inset 0 0 20px rgba(100,10,10,0.3);
+background: linear-gradient(135deg, #4A0000 0%, #2A0000 100%);
+border-left: 8px solid #1A0000;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
 text-align: center;
 padding: 20px;
-position: relative;
-}
-.back-cover-page::before {
-content: '';
-position: absolute;
-top: 18px;
-left: 18px;
-right: 18px;
-bottom: 18px;
-border: 1.5px solid rgba(212, 175, 55, 0.4);
-border-radius: 3px;
-pointer-events: none;
-box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4);
-}
-.back-cover-page::after {
-content: '';
-position: absolute;
-top: 28px;
-left: 28px;
-right: 28px;
-bottom: 28px;
-border: 1px solid rgba(212, 175, 55, 0.25);
-border-radius: 2px;
-pointer-events: none;
 }
 .back-cover-text {
 color: #D4AF37;
@@ -204,8 +127,6 @@ line-height: 1.5;
 font-weight: bold;
 margin-bottom: 20px;
 text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-position: relative;
-z-index: 2;
 }
 .back-cover-logo {
 width: 120px;
@@ -214,8 +135,6 @@ border-radius: 50%;
 border: 3px solid #D4AF37;
 object-fit: cover;
 box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-position: relative;
-z-index: 2;
 }
 .cover-design {
 display: flex;
@@ -226,18 +145,15 @@ height: 100%;
 color: #D4AF37;
 text-align: center;
 padding: 20px;
-position: relative;
-z-index: 2;
 }
 .cover-design h2 {
 font-family: 'Georgia', serif;
 font-size: 26px;
 letter-spacing: 3px;
 margin: 0;
-text-shadow: 0 2px 4px rgba(0,0,0,0.7), 0 0 15px rgba(212,175,55,0.25);
 }
 .gold-badge {
-background: linear-gradient(135deg, #D4AF37 0%, #B8860B 50%, #D4AF37 100%);
+background: #D4AF37;
 color: #4A0000;
 padding: 6px 20px;
 font-weight: bold;
@@ -245,15 +161,12 @@ font-size: 15px;
 margin: 15px 0;
 border-radius: 4px;
 letter-spacing: 2px;
-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
-text-shadow: 0 1px 0 rgba(255,255,255,0.3);
 }
 .cover-design p {
 font-size: 13px;
 color: #f0e6d2;
 font-style: italic;
 margin-bottom: 15px;
-text-shadow: 0 1px 3px rgba(0,0,0,0.6);
 }
 .front-cover-logo {
 width: 80px;
@@ -262,10 +175,10 @@ border-radius: 50%;
 border: 2px solid #D4AF37;
 object-fit: cover;
 margin-bottom: 20px;
-box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 20px rgba(212,175,55,0.3);
+box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 .open-book-btn {
-background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+background: #D4AF37;
 color: #4A0000;
 border: none;
 padding: 10px 20px;
@@ -274,13 +187,7 @@ font-weight: bold;
 border-radius: 20px;
 cursor: pointer;
 margin-top: 20px;
-box-shadow: 0 4px 10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
-text-shadow: 0 1px 0 rgba(255,255,255,0.2);
-transition: transform 0.2s, box-shadow 0.2s;
-}
-.open-book-btn:hover {
-transform: translateY(-2px);
-box-shadow: 0 6px 14px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 .back-to-start-btn {
 background: transparent;
@@ -411,7 +318,7 @@ font-style: italic;
 transform: rotateY(-180deg);
 }
 
-/* ===== СТИКЕР ===== */
+/* ===== СТИКЕР: top 250px, right 150px ===== */
 .holo-sticker {
 position: fixed;
 top: 250px;
@@ -663,11 +570,14 @@ color: #555;
 </style>
 </head>
 <body>
+<!-- Фон -->
 <div class="rules-bg"></div>
+<!-- Канвас с трубками-радугой за курсором -->
 <canvas id="tubes-canvas"></canvas>
+<!-- Шапка -->
 <div id="header-placeholder" class="header-wrapper"></div>
 
-<!-- СТИКЕР -->
+<!-- ===== СТИКЕР ===== -->
 <div class="holo-sticker" id="holoSticker">
 <svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -705,10 +615,12 @@ color: #555;
 
 <div class="book-viewport">
 <div class="book-wrapper" id="myBook">
+<!-- ЗАДНЯЯ ОБЛОЖКА -->
 <div class="b-page back-cover-page" style="z-index: 1;">
 <div class="back-cover-text">Спасибо за прочтение<br>и удача в погоне за <span style="white-space: nowrap;">Чак-Чак!</span></div>
 <img src="logo1.jpg" class="back-cover-logo" alt="Чак-Чак">
 </div>
+<!-- СТРАНИЦА 5: СПАСИБО -->
 <div class="b-page paper-page thanks-page" id="p5" style="z-index: 2;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -721,6 +633,7 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(5, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- СТРАНИЦА 4: ПРИЗЫ -->
 <div class="b-page paper-page" id="p4" style="z-index: 3;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -738,6 +651,7 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(4, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- СТРАНИЦА 3: АНТИЧИТ -->
 <div class="b-page paper-page" id="p3" style="z-index: 4;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -758,6 +672,7 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(3, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- СТРАНИЦА 2: ОСНОВНЫЕ ПРАВИЛА -->
 <div class="b-page paper-page" id="p2" style="z-index: 5;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -777,6 +692,7 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(2, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- СТРАНИЦА 1: ЗАСТАВКА "ЧИТАЙ ВНИМАТЕЛЬНО" -->
 <div class="b-page paper-page intro-page" id="p1" style="z-index: 6;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -789,6 +705,7 @@ color: #555;
 <button class="nav-arrow prev-arrow" onclick="turnPage(1, 'prev')">↩ Назад</button>
 </div>
 </div>
+<!-- ПЕРЕДНЯЯ ОБЛОЖКА -->
 <div class="b-page front-cover-page" id="p0" style="z-index: 7;">
 <div class="page-side front-side">
 <div class="cover-design">
@@ -804,7 +721,7 @@ color: #555;
 </div>
 </div>
 
-<!-- МОДАЛКА -->
+<!-- ===== МОДАЛКА ===== -->
 <div class="mc-show" id="magicClutch">
 <div class="mc-backdrop" id="mcBackdrop"></div>
 <div class="mc-window">
@@ -933,7 +850,7 @@ return new Array(count)
 }
 </script>
 
-<!-- JS ДЛЯ ЭФФЕКТА ИСПАРЕНИЯ -->
+<!-- ===== JS ИСПАРЕНИЯ ===== -->
 <script>
 (function() {
 'use strict';
