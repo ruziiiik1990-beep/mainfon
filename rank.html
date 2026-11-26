@@ -359,25 +359,25 @@ from { opacity: 0; transform: translateY(12px); }
 to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ====== СТРАНИЦА 1: три колонки В ОДНУ СТРОКУ (слева направо) ====== */
+/* ====== ОДНА СТРАНИЦА: три колонки в ряд (ВСЕГДА горизонтально) ====== */
 .mc-page-1 {
 display: flex;
-flex-direction: row; /* ВСЕГДА горизонтально */
+flex-direction: row;
 gap: 20px;
 align-items: stretch;
 height: 100%;
 }
-/* Левая колонка — мелкий текст про разработчиков CS2 */
+/* Левая колонка — текст */
 .mc-col-left {
-flex: 0 0 340px;
+flex: 0 0 320px;
 display: flex;
 flex-direction: column;
-gap: 10px;
+gap: 8px;
 padding-top: 10px;
 }
-/* Центральная колонка — magixx */
+/* Центральная колонка — magixx (уменьшена) */
 .mc-col-center {
-flex: 1 1 500px;
+flex: 1 1 480px;
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -385,12 +385,10 @@ justify-content: center;
 position: relative;
 }
 .mc-col-center img {
-width: 100%;
-max-height: 420px;
-object-fit: cover;
+width: 80%;
+max-height: 380px;
+object-fit: contain;
 display: block;
-border: 1px solid #23241f;
-border-radius: 2px;
 }
 .mc-col-center .leg {
 position: absolute;
@@ -405,7 +403,7 @@ text-shadow: 0 1px 3px rgba(0,0,0,0.8);
 .mc-col-center .leg.right { right: 12px; }
 /* Правая колонка — pomidor + заголовок + текст */
 .mc-col-right {
-flex: 0 0 380px;
+flex: 0 0 360px;
 display: flex;
 flex-direction: column;
 gap: 8px;
@@ -413,7 +411,7 @@ padding-top: 10px;
 }
 .mc-col-right img {
 width: 100%;
-height: 160px;
+height: 140px;
 object-fit: contain;
 display: block;
 background: #dfddd5;
@@ -427,13 +425,13 @@ color: #63645a;
 margin-bottom: 4px;
 }
 .mc-caption {
-font-size: 11px;
-line-height: 1.55;
+font-size: 12px;
+line-height: 1.6;
 color: #43443c;
 }
 .mc-caption b { color: #23241f; }
 .mc-h-display {
-font-size: 32px;
+font-size: 30px;
 line-height: 1.05;
 font-weight: 600;
 letter-spacing: -1px;
@@ -464,7 +462,7 @@ text-decoration: none;
 position: absolute;
 bottom: 14px;
 right: 32px;
-display: none; /* скрыты, так как страница одна */
+display: none;
 gap: 8px;
 z-index: 2;
 }
@@ -503,9 +501,10 @@ transition: opacity 0.5s ease;
 }
 .evap-flash.on { opacity: 1; }
 
-/* Адаптив только для совсем маленьких экранов */
+/* Только для совсем маленьких экранов */
 @media (max-width: 760px) {
 .mc-topbar { padding: 10px 16px 8px; }
+.mc-arrows { right: 16px; }
 .mc-rule { margin: 0 16px; }
 .mc-pages { padding: 12px 16px 6px; top: 48px; }
 .mc-h-display { font-size: 24px; }
@@ -592,22 +591,19 @@ transition: opacity 0.5s ease;
 <hr class="mc-rule">
 <div class="mc-pages" id="mcPages">
 
-<!-- ЕДИНСТВЕННАЯ СТРАНИЦА: три колонки в одну строку -->
+<!-- ЕДИНСТВЕННАЯ СТРАНИЦА: три колонки в ряд -->
 <div class="mc-page active mc-page-1">
-
-<!-- СЛЕВА: мелкий текст про разработчиков CS2 -->
+<!-- СЛЕВА: текст -->
 <div class="mc-col-left">
 <div class="mc-num">02</div>
 <div class="mc-caption">Разработчики CS2 в ночном обновлении добавили кое-что необычное: в магазине на Mirage, который обычно называют <b>кухней</b>, теперь можно найти банки томатной пасты «Magic». На ней нарисован веселый помидор и есть подпись «Секретная заправка» на русском языке.</div>
 </div>
-
-<!-- ПО ЦЕНТРУ: magixx -->
+<!-- ПО ЦЕНТРУ: magixx (уменьшена) -->
 <div class="mc-col-center">
 <img src="png/magixx.png" alt="Момент клатча: реакция состава">
 <span class="leg left">THE MOMENT</span>
 <span class="leg right">01:24</span>
 </div>
-
 <!-- СПРАВА: pomidor + заголовок + текст -->
 <div class="mc-col-right">
 <img src="png/pomidor.png" alt="Банка Magic на полке">
@@ -617,13 +613,8 @@ transition: opacity 0.5s ease;
 <p class="mc-body">И, хоть сделали это Valve необычным способом, факт остается фактом: впервые после выхода CS 2 в игре появилась отсылка на киберспортивный хайлайт.</p>
 <a class="mc-link" href="javascript:void(0)">MAGIC: SECRET SAUCE · 399 · A LEGENDARY ROUND</a>
 </div>
-
 </div>
 
-</div>
-<div class="mc-arrows">
-<button class="mc-arrow" id="mcPrev">&#10094;</button>
-<button class="mc-arrow" id="mcNext">&#10095;</button>
 </div>
 </div>
 </div>
@@ -786,8 +777,6 @@ pages.forEach(function(p, i) { p.classList.toggle('active', i === current); });
 document.getElementById('mcCurrent').textContent = pad(current);
 document.querySelector('.mc-pages').scrollTop = 0;
 }
-document.getElementById('mcPrev').addEventListener('click', function() { go(current - 1); });
-document.getElementById('mcNext').addEventListener('click', function() { go(current + 1); });
 function openShow() { show.classList.add('open'); go(0); }
 function closeShow() {
 show.classList.remove('open');
@@ -799,8 +788,6 @@ document.getElementById('mcBackdrop').addEventListener('click', closeShow);
 document.addEventListener('keydown', function(e) {
 if (!show.classList.contains('open')) return;
 if (e.key === 'Escape') closeShow();
-if (e.key === 'ArrowRight') go(current + 1);
-if (e.key === 'ArrowLeft') go(current - 1);
 });
 var sticker = document.querySelector('.holo-sticker');
 if (!sticker) return;
