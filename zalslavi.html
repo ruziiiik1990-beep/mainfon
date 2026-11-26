@@ -27,8 +27,8 @@ min-height: 100vh;
 }
 /* ===== ФОН ===== */
 .bg-image {
-position: absolute;
-top: 50px;
+position: fixed;
+top: 0;
 left: 0;
 width: 100%;
 height: 100%;
@@ -36,18 +36,6 @@ object-fit: cover;
 z-index: 0;
 pointer-events: none;
 opacity: 0.85;
-}
-.bg-overlay {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background:
-radial-gradient(circle at 50% 0%, rgba(10,42,107,0.4) 0%, rgba(5,7,15,0.9) 60%),
-linear-gradient(180deg, rgba(5,7,15,0.6) 0%, rgba(5,7,15,0.85) 100%);
-z-index: 1;
-pointer-events: none;
 }
 /* ===== ТРУБКИ-РАДУГА ===== */
 #tubes-canvas {
@@ -111,9 +99,9 @@ filter: drop-shadow(0 0 25px rgba(255,215,0,0.35));
 50% { background-position: 100% 50%; }
 }
 .hall-subtitle {
-color: #ff8c00;
+color: rgba(255,255,255,0.7);
 font-size: 16px;
-font-weight: 700;
+font-weight: 500;
 letter-spacing: 0.5px;
 max-width: 620px;
 margin: 0 auto;
@@ -464,7 +452,6 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 <body>
 <!-- Фон -->
 <img src="pngg/10kolo.png" class="bg-image" alt="Фон зала славы">
-<div class="bg-overlay"></div>
 <!-- Канвас с трубками-радугой за курсором -->
 <canvas id="tubes-canvas"></canvas>
 <!-- Шапка -->
