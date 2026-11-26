@@ -41,11 +41,8 @@
       background: rgba(0,0,0,0.55);
     }
 
-    /* ========================================= */
-    /* Общий контейнер: таблица + птичка справа  */
-    /* ========================================= */
     .files-container {
-      max-width: 1300px;
+      max-width: 1100px;
       margin: 100px auto 40px auto;
       padding: 20px;
       position: relative;
@@ -53,15 +50,9 @@
       flex: 1;
       width: 100%;
       box-sizing: border-box;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 40px;
-      flex-wrap: wrap;
     }
 
     .files-title {
-      width: 100%;
       color: #4a9eff;
       font-size: 28px;
       font-weight: 800;
@@ -72,7 +63,9 @@
       text-shadow: 0 2px 10px rgba(74, 158, 255, 0.5);
     }
 
-    /* Центральная "таблица" с кнопкой скачивания */
+    /* ========================================= */
+    /* ЕДИНАЯ ТАБЛИЦА: общий фон для всего       */
+    /* ========================================= */
     .download-block {
       background: rgba(10, 42, 107, 0.6);
       backdrop-filter: blur(12px);
@@ -80,10 +73,22 @@
       border: 1px solid rgba(74, 158, 255, 0.5);
       border-radius: 20px;
       padding: 40px 30px;
-      text-align: center;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-      flex: 0 1 600px;
-      min-width: 320px;
+      
+      /* Выстраиваем содержимое в одну линию: текст слева, птичка справа */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      text-align: center;
+    }
+
+    /* Левая часть с текстом и кнопкой */
+    .download-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .download-icon {
@@ -104,7 +109,7 @@
       color: rgba(255, 255, 255, 0.7);
       font-size: 15px;
       line-height: 1.6;
-      max-width: 600px;
+      max-width: 500px;
       margin: 0 auto 30px auto;
     }
 
@@ -136,7 +141,7 @@
 
     .download-warning {
       color: #ff2d2d;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -163,37 +168,34 @@
     }
 
     /* ========================================= */
-    /* Блок Fancy Sparrow — справа от таблицы    */
+    /* Правая часть: Голографическая птичка      */
+    /* (без собственного фона, использует общий)  */
     /* ========================================= */
-    .sparrow-block {
-      flex: 0 0 320px;
-      background: rgba(10, 42, 107, 0.6);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(74, 158, 255, 0.4);
-      border-radius: 20px;
-      padding: 25px 20px;
-      text-align: center;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-      color: #fff;
+    .sparrow-holo {
+      flex: 0 0 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .sparrow-block p {
-      margin: 0 0 15px 0;
+    .sparrow-holo p {
+      color: #fff;
       font-size: 16px;
       font-weight: 700;
-      color: #fff;
+      margin: 0 0 15px 0;
       letter-spacing: 0.5px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
     }
 
-    .sparrow-block .shader {
+    /* Точные стили шейдера из исходного кода */
+    .shader {
       position: relative;
       overflow: hidden;
-      backface-visibility: hidden;
+      backface-visibility: hidden; /* Forces GPU */
       border-radius: 12px;
     }
 
-    .sparrow-block .shader-layer {
+    .shader-layer {
       background: black;
       mix-blend-mode: multiply;
       position: absolute;
@@ -203,20 +205,13 @@
       background-position: center;
     }
 
-    .sparrow-block .specular {
+    .specular {
       mix-blend-mode: color-dodge;
       background-attachment: fixed;
     }
 
-    .sparrow-block .mask {
+    .mask {
       mix-blend-mode: multiply;
-    }
-
-    .sparrow-block img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 12px;
     }
 
     .gradient-sparrow {
@@ -238,14 +233,16 @@
       );
     }
 
-    /* Адаптив: на узких экранах птичка уходит под таблицу */
-    @media (max-width: 1050px) {
-      .files-container {
+    /* Адаптивность: на мобильных устройствах птичка встанет под текстом */
+    @media (max-width: 900px) {
+      .download-block {
         flex-direction: column;
         gap: 30px;
       }
-      .sparrow-block {
-        flex: 0 1 320px;
+      .sparrow-holo {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 300px;
       }
     }
   </style>
@@ -258,40 +255,44 @@
   <!-- Шапка -->
   <div id="header-placeholder" class="header-wrapper"></div>
 
-  <!-- Общий контейнер: таблица + птичка -->
   <div class="files-container">
     <div class="files-title">Файлы</div>
 
-    <!-- Центральная таблица с кнопкой скачивания -->
+    <!-- ЕДИНАЯ ТАБЛИЦА: общий фон, рамка и размытие применяются один раз -->
     <div class="download-block">
-      <span class="download-icon">🛡️</span>
-      <div class="download-title">Античит для турниров</div>
-      <div class="download-desc">
-        Скачайте античит <b>ruzikTastyAC</b> для участия в турнирах. 
-        Запустите его перед началом игры, чтобы подтвердить честность матча.
-      </div>
+      
+      <!-- ЛЕВАЯ СТОРОНА: Текст и кнопка -->
+      <div class="download-content">
+        <span class="download-icon">🛡️</span>
+        <div class="download-title">Античит для турниров</div>
+        <div class="download-desc">
+          Скачайте античит <b>ruzikTastyAC</b> для участия в турнирах. 
+          Запустите его перед началом игры, чтобы подтвердить честность матча.
+        </div>
 
-      <a href="pngg/ruzikTastyAC.zip" download class="download-btn">
-        <span class="download-arrow">⬇️</span> Скачать Анти-чит
-      </a>
+        <a href="pngg/ruzikTastyAC.zip" download class="download-btn">
+          <span class="download-arrow">⬇️</span> Скачать Анти-чит
+        </a>
 
-      <div class="download-warning">
-        ОБЯЗАТЕЛЬНО ВЫКЛЮЧИТЬ АНТИВИРУС ПЕРЕД СКАЧИВАНИЕМ
-      </div>
-      <div class="download-note">
-        Файл скачивается напрямую с сайта. Введите его в игру перед матчем.
-      </div>
-    </div>
-
-    <!-- Fancy Sparrow справа от таблицы -->
-    <div class="sparrow-block">
-      <p>Fancy Sparrow ✨</p>
-      <div class="shader">
-        <img src="https://assets.codepen.io/2153413/sparrow-base.png" alt="Fancy Sparrow" width="280">
-        <div class="shader-layer specular gradient-sparrow">
-          <img class="shader-layer mask" src="https://assets.codepen.io/2153413/sparrow-mask.png" alt="" width="280">
+        <div class="download-warning">
+          ОБЯЗАТЕЛЬНО ВЫКЛЮЧИТЬ АНТИВИРУС ПЕРЕД СКАЧИВАНИЕМ
+        </div>
+        <div class="download-note">
+          Файл скачивается напрямую с сайта. Введите его в игру перед матчем.
         </div>
       </div>
+
+      <!-- ПРАВАЯ СТОРОНА: Голографическая птичка -->
+      <div class="sparrow-holo">
+        <p>Fancy Sparrow ✨</p>
+        <div class="shader framed">
+          <img src="https://assets.codepen.io/2153413/sparrow-base.png" alt="Fancy Sparrow" width="280" style="max-width: 100%; height: auto;">
+          <div class="shader-layer specular gradient-sparrow">
+            <img class="shader-layer mask" src="https://assets.codepen.io/2153413/sparrow-mask.png" alt="" width="280" style="max-width: 100%; height: auto;">
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
