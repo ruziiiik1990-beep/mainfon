@@ -61,7 +61,9 @@ body {
     text-shadow: 0 2px 4px rgba(0,0,0,0.6);
     font-weight: 700;
 }
-.archive-icon-wrapper a { display: block; }
+.archive-icon-wrapper a {
+    display: block;
+}
 .archive-icon-wrapper img {
     height: 168px;
     width: auto;
@@ -69,7 +71,9 @@ body {
     cursor: pointer;
     transition: transform 0.3s ease;
 }
-.archive-icon-wrapper img:hover { transform: scale(1.05); }
+.archive-icon-wrapper img:hover {
+    transform: scale(1.05);
+}
 
 /* Iframe с турнирной сеткой */
 .tournament-frame {
@@ -83,8 +87,9 @@ body {
 }
 
 /* ==========================================
-   СТИЛИ ГОЛОГРАФИЧЕСКОГО СТИКЕРА (ПРАВЫЙ НИЖНИЙ УГОЛ)
+   СТИЛИ ГОЛОГРАФИЧЕСКОГО СТИКЕРА
    Закреплён через position: fixed — не двигается при скролле
+   Вынесен из контейнеров для корректной работы
    ========================================== */
 .holo-sticker {
     position: fixed;
@@ -407,7 +412,7 @@ body {
 
 <!-- ==========================================
      ГОЛОГРАФИЧЕСКИЙ СТИКЕР (ТРИГГЕР)
-     Закреплён в правом нижнем углу, не двигается при скролле
+     ВЫНЕСЕН ИЗ КОНТЕЙНЕРОВ — закреплён в правом нижнем углу
      ========================================== -->
 <div class="holo-sticker" id="holoSticker">
     <svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
