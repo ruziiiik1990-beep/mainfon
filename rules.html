@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -9,8 +10,6 @@
 <title>Правила - 4ak4ak</title>
 <link rel="stylesheet" href="style.css">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
-
 html, body {
 margin: 0;
 padding: 0;
@@ -18,9 +17,7 @@ background: transparent !important;
 background-color: transparent !important;
 overflow-y: auto;
 overflow-x: hidden;
-font-family: 'Inter', sans-serif;
 }
-
 #tubes-canvas {
 position: fixed;
 top: 0;
@@ -32,7 +29,6 @@ pointer-events: none;
 background-color: #000000 !important;
 mix-blend-mode: screen;
 }
-
 .rules-bg {
 position: fixed;
 top: 0;
@@ -46,7 +42,6 @@ background-repeat: no-repeat;
 z-index: -1;
 pointer-events: none;
 }
-
 .rules-bg::after {
 content: '';
 position: absolute;
@@ -56,21 +51,10 @@ width: 100%;
 height: 100%;
 background: rgba(0, 0, 0, 0.4);
 }
-
 .header-wrapper {
 position: relative;
 z-index: 10;
 }
-
-/* ==========================================
-   PAGE WRAPPER — позиционный контекст для стикеров
-   ========================================== */
-.page-wrapper {
-position: relative;
-min-height: 100vh;
-width: 100%;
-}
-
 .book-viewport {
 perspective: 2000px;
 display: flex;
@@ -83,7 +67,6 @@ margin-top: 100px;
 position: relative;
 z-index: 1;
 }
-
 .book-wrapper {
 position: relative;
 width: 380px;
@@ -91,7 +74,6 @@ height: 520px;
 transform-style: preserve-3d;
 transform: rotateX(15deg) rotateY(-5deg);
 }
-
 .b-page {
 position: absolute;
 width: 100%;
@@ -104,7 +86,6 @@ transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 border-radius: 4px 12px 12px 4px;
 }
-
 .page-side {
 position: absolute;
 width: 100%;
@@ -114,14 +95,12 @@ left: 0;
 backface-visibility: hidden;
 border-radius: 4px 12px 12px 4px;
 }
-
 .back-side {
 transform: rotateY(180deg);
 background: #fcf8f2;
 border-radius: 12px 4px 4px 12px;
 border: 1px solid #e8dec9;
 }
-
 .front-cover-page {
 background-color: #5a0a0a;
 background-image:
@@ -136,11 +115,41 @@ radial-gradient(circle at 70% 60%, rgba(0,0,0,0.10) 0%, transparent 2px),
 radial-gradient(circle at 20% 80%, rgba(0,0,0,0.08) 0%, transparent 2px),
 radial-gradient(circle at 85% 25%, rgba(0,0,0,0.11) 0%, transparent 2px),
 linear-gradient(135deg, #3a0505 0%, #6a0a0a 25%, #8b1010 50%, #5a0808 75%, #2a0303 100%);
-border-left: 8px solid #2A0000;
-border: 2px solid #5A0000;
-box-shadow: inset 0 0 60px rgba(0,0,0,0.6), inset 0 0 20px rgba(100,10,10,0.3);
+background-blend-mode: normal, normal, normal, normal, normal, normal, normal, normal, normal, normal;
+border-left: 8px solid #1a0000;
+border: 2px solid #4a0000;
+box-shadow:
+inset 0 0 60px rgba(0,0,0,0.6),
+inset 0 0 20px rgba(100,10,10,0.3);
+position: relative;
 }
-
+.front-cover-page::before {
+content: '';
+position: absolute;
+top: 18px;
+left: 18px;
+right: 18px;
+bottom: 18px;
+border: 1.5px solid rgba(212, 175, 55, 0.45);
+border-radius: 3px;
+pointer-events: none;
+box-shadow:
+inset 0 0 0 1px rgba(0,0,0,0.4),
+0 0 0 1px rgba(212, 175, 55, 0.25);
+}
+.front-cover-page::after {
+content: '';
+position: absolute;
+top: 28px;
+left: 28px;
+right: 28px;
+bottom: 28px;
+border: 1px solid rgba(212, 175, 55, 0.28);
+border-radius: 2px;
+pointer-events: none;
+box-shadow:
+inset 0 0 0 1px rgba(0,0,0,0.3);
+}
 .back-cover-page {
 background-color: #4a0808;
 background-image:
@@ -152,16 +161,42 @@ repeating-linear-gradient(-45deg, transparent 0px, transparent 8px, rgba(30,0,0,
 radial-gradient(circle at 40% 50%, rgba(0,0,0,0.10) 0%, transparent 2px),
 radial-gradient(circle at 65% 30%, rgba(0,0,0,0.09) 0%, transparent 2px),
 linear-gradient(135deg, #2a0303 0%, #5a0808 30%, #7a0d0d 55%, #4a0606 80%, #1a0101 100%);
-border-left: 8px solid #1A0000;
-box-shadow: inset 0 0 60px rgba(0,0,0,0.6), inset 0 0 20px rgba(100,10,10,0.3);
+border-left: 8px solid #1a0000;
+border: 2px solid #4a0000;
+box-shadow:
+inset 0 0 60px rgba(0,0,0,0.6),
+inset 0 0 20px rgba(100,10,10,0.3);
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
 text-align: center;
 padding: 20px;
+position: relative;
 }
-
+.back-cover-page::before {
+content: '';
+position: absolute;
+top: 18px;
+left: 18px;
+right: 18px;
+bottom: 18px;
+border: 1.5px solid rgba(212, 175, 55, 0.4);
+border-radius: 3px;
+pointer-events: none;
+box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4);
+}
+.back-cover-page::after {
+content: '';
+position: absolute;
+top: 28px;
+left: 28px;
+right: 28px;
+bottom: 28px;
+border: 1px solid rgba(212, 175, 55, 0.25);
+border-radius: 2px;
+pointer-events: none;
+}
 .back-cover-text {
 color: #D4AF37;
 font-family: 'Georgia', serif;
@@ -170,8 +205,9 @@ line-height: 1.5;
 font-weight: bold;
 margin-bottom: 20px;
 text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+position: relative;
+z-index: 2;
 }
-
 .back-cover-logo {
 width: 120px;
 height: 120px;
@@ -179,8 +215,9 @@ border-radius: 50%;
 border: 3px solid #D4AF37;
 object-fit: cover;
 box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+position: relative;
+z-index: 2;
 }
-
 .cover-design {
 display: flex;
 flex-direction: column;
@@ -191,43 +228,17 @@ color: #D4AF37;
 text-align: center;
 padding: 20px;
 position: relative;
+z-index: 2;
 }
-
-.cover-design::before {
-content: '';
-position: absolute;
-top: 14px;
-left: 14px;
-right: 14px;
-bottom: 14px;
-border: 1.5px solid rgba(212, 175, 55, 0.45);
-border-radius: 3px;
-pointer-events: none;
-box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4), 0 0 0 1px rgba(212, 175, 55, 0.25);
-}
-
-.cover-design::after {
-content: '';
-position: absolute;
-top: 24px;
-left: 24px;
-right: 24px;
-bottom: 24px;
-border: 1px solid rgba(212, 175, 55, 0.28);
-border-radius: 2px;
-pointer-events: none;
-box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3);
-}
-
 .cover-design h2 {
 font-family: 'Georgia', serif;
 font-size: 26px;
 letter-spacing: 3px;
 margin: 0;
+text-shadow: 0 2px 4px rgba(0,0,0,0.7), 0 0 15px rgba(212,175,55,0.25);
 }
-
 .gold-badge {
-background: #D4AF37;
+background: linear-gradient(135deg, #D4AF37 0%, #B8860B 50%, #D4AF37 100%);
 color: #4A0000;
 padding: 6px 20px;
 font-weight: bold;
@@ -235,15 +246,16 @@ font-size: 15px;
 margin: 15px 0;
 border-radius: 4px;
 letter-spacing: 2px;
+box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+text-shadow: 0 1px 0 rgba(255,255,255,0.3);
 }
-
 .cover-design p {
 font-size: 13px;
 color: #f0e6d2;
 font-style: italic;
 margin-bottom: 15px;
+text-shadow: 0 1px 3px rgba(0,0,0,0.6);
 }
-
 .front-cover-logo {
 width: 80px;
 height: 80px;
@@ -251,11 +263,10 @@ border-radius: 50%;
 border: 2px solid #D4AF37;
 object-fit: cover;
 margin-bottom: 20px;
-box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 20px rgba(212,175,55,0.3);
 }
-
 .open-book-btn {
-background: #D4AF37;
+background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
 color: #4A0000;
 border: none;
 padding: 10px 20px;
@@ -264,9 +275,14 @@ font-weight: bold;
 border-radius: 20px;
 cursor: pointer;
 margin-top: 20px;
-box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+box-shadow: 0 4px 10px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+transition: transform 0.2s, box-shadow 0.2s;
 }
-
+.open-book-btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 14px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+}
 .back-to-start-btn {
 background: transparent;
 color: #D4AF37;
@@ -278,7 +294,6 @@ cursor: pointer;
 margin-top: 10px;
 display: none;
 }
-
 .nav-arrow {
 position: absolute;
 bottom: 20px;
@@ -292,23 +307,19 @@ cursor: pointer;
 box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 z-index: 10;
 }
-
 .next-arrow { right: 20px; }
 .prev-arrow { left: 20px; }
-
 .paper-page {
 background: #fcf8f2;
 color: #2b2b2b;
 border: 1px solid #e8dec9;
 }
-
 .text-box {
 padding: 45px 25px 30px 45px;
 font-family: sans-serif;
 font-size: 13px;
 line-height: 1.6;
 }
-
 .text-box h3 {
 font-family: 'Georgia', serif;
 color: #8B0000;
@@ -317,10 +328,8 @@ padding-bottom: 8px;
 margin-top: 0;
 font-size: 18px;
 }
-
 .text-box ul { padding-left: 15px; margin: 0; }
 .text-box li { margin-bottom: 12px; }
-
 .gif-container {
 display: flex;
 flex-direction: column;
@@ -330,7 +339,6 @@ height: 100%;
 padding: 20px;
 box-sizing: border-box;
 }
-
 .page-gif {
 width: 100%;
 max-width: 100%;
@@ -341,7 +349,6 @@ border: 2px solid #e8dec9;
 box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 margin-bottom: 20px;
 }
-
 .gif-caption {
 font-family: 'Georgia', serif;
 color: #8B0000;
@@ -350,7 +357,6 @@ font-weight: bold;
 text-align: center;
 font-style: italic;
 }
-
 .small-text-note {
 font-style: italic;
 font-size: 11px;
@@ -360,7 +366,6 @@ text-align: center;
 border-top: 1px dashed #ddd;
 padding-top: 10px;
 }
-
 .thanks-page .text-box {
 display: flex;
 flex-direction: column;
@@ -370,20 +375,17 @@ height: 100%;
 text-align: center;
 padding: 30px;
 }
-
 .thanks-page h3 {
 border: none;
 color: #8B0000;
 font-size: 24px;
 margin-bottom: 15px;
 }
-
 .thanks-page p {
 font-size: 16px;
 color: #333;
 margin-bottom: 30px;
 }
-
 .intro-page .text-box {
 display: flex;
 flex-direction: column;
@@ -393,7 +395,6 @@ height: 100%;
 text-align: center;
 padding: 30px;
 }
-
 .intro-page h2 {
 border: none;
 color: #8B0000;
@@ -402,55 +403,47 @@ font-family: 'Georgia', serif;
 margin-bottom: 20px;
 text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
-
 .intro-page p {
 font-size: 18px;
 color: #555;
 font-style: italic;
 }
-
 .b-page.flipped {
 transform: rotateY(-180deg);
 }
 
 /* ==========================================
-   СТИЛИ ГОЛОГРАФИЧЕСКИХ СТИКЕРОВ
-   Закреплены через position: absolute внутри .page-wrapper
-   ========================================== */
+СТИЛИ ГОЛОГРАФИЧЕСКИХ СТИКЕРОВ
+========================================== */
 .holo-sticker {
-position: absolute;
+position: fixed;
 width: 180px;
 height: 180px;
-z-index: 5;
+z-index: 100;
 filter: drop-shadow(0 0 25px rgba(74, 158, 255, 0.5));
 animation: sticker-float 4s ease-in-out infinite;
 pointer-events: auto;
 cursor: pointer;
 }
-
-/* Правый верхний угол — top: 150px, right: 150px */
-.holo-sticker--right-top {
-top: 150px;
+/* Правый стикер: right: 150px, top: 250px */
+.holo-sticker-right {
 right: 150px;
+top: 250px;
 }
-
-/* Левый верхний угол — top: 50px, left: 150px */
-.holo-sticker--left-top {
-top: 50px;
+/* Левый стикер: left: 150px, top: 100px */
+.holo-sticker-left {
 left: 150px;
+top: 100px;
 }
-
 @keyframes sticker-float {
 0%, 100% { transform: translateY(0) scale(1); }
 50% { transform: translateY(-10px) scale(1.03); }
 }
-
 .holo-sticker svg {
 width: 100%;
 height: 100%;
 display: block;
 }
-
 .color0 { fill: none; }
 .color1 { fill: #8EABE5; }
 .color2 { fill: #BCACF3; }
@@ -459,21 +452,9 @@ display: block;
 .color5 { fill: #B5DFC8; }
 .circle { fill: url(#multi-dots); }
 
-@media (max-width: 1100px) {
-.holo-sticker { width: 140px; height: 140px; }
-.holo-sticker--right-top { top: 30px; right: 30px; }
-.holo-sticker--left-top { top: 30px; left: 30px; }
-}
-
-@media (max-width: 850px) {
-.holo-sticker { width: 120px; height: 120px; }
-.holo-sticker--right-top { top: 20px; right: 20px; }
-.holo-sticker--left-top { top: 20px; left: 20px; }
-}
-
 /* ==========================================
-   СТИЛИ МОДАЛЬНОГО ОКНА И ЭФФЕКТА ИСПАРЕНИЯ
-   ========================================== */
+СТИЛИ МОДАЛЬНОГО ОКНА И ЭФФЕКТА ИСПАРЕНИЯ
+========================================== */
 .mc-show {
 position: fixed;
 inset: 0;
@@ -481,16 +462,13 @@ z-index: 9999;
 display: none;
 }
 .mc-show.open { display: block; }
-
 .mc-backdrop {
 position: absolute;
 inset: 0;
 background: rgba(10, 14, 18, 0.85);
 animation: mcFade 0.5s ease;
 }
-
 @keyframes mcFade { from { opacity: 0; } to { opacity: 1; } }
-
 .mc-window {
 position: absolute;
 left: 50%;
@@ -508,14 +486,11 @@ animation: mcZoom 0.55s cubic-bezier(0.2, 0.8, 0.25, 1);
 font-family: 'Inter', -apple-system, sans-serif;
 color: #23241f;
 }
-
 @keyframes mcZoom {
 from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
 to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
-
 .mc-window * { box-sizing: border-box; }
-
 .mc-topbar {
 display: flex;
 align-items: center;
@@ -525,14 +500,12 @@ background: #e9e7e0;
 position: relative;
 z-index: 10;
 }
-
 .mc-topbar .brand {
 font-size: 11px;
 letter-spacing: 4px;
 font-weight: 600;
 color: #3a3b33;
 }
-
 .mc-topbar .counter {
 display: flex;
 align-items: center;
@@ -541,9 +514,7 @@ font-size: 11px;
 letter-spacing: 3px;
 color: #63645a;
 }
-
 .mc-count-cur { font-weight: 700; color: #2c2d27; }
-
 .mc-x {
 width: 34px; height: 34px;
 border-radius: 50%;
@@ -556,7 +527,6 @@ margin-left: 16px;
 transition: all 0.2s;
 }
 .mc-x:hover { background: #23241f; color: #e9e7e0; }
-
 .mc-rule {
 margin: 0 32px;
 border: 0;
@@ -565,7 +535,6 @@ background: #e9e7e0;
 position: relative;
 z-index: 10;
 }
-
 .mc-pages {
 position: absolute;
 top: 54px;
@@ -577,7 +546,6 @@ display: flex;
 align-items: center;
 justify-content: center;
 }
-
 .mc-page {
 display: none;
 width: 100%;
@@ -587,12 +555,10 @@ height: 100%;
 display: flex;
 animation: mcPageIn 0.5s ease;
 }
-
 @keyframes mcPageIn {
 from { opacity: 0; transform: translateY(12px); }
 to   { opacity: 1; transform: translateY(0); }
 }
-
 .evap-layer {
 position: fixed;
 inset: 0;
@@ -601,7 +567,6 @@ pointer-events: none;
 overflow: hidden;
 }
 .evap-layer canvas { position: absolute; }
-
 .evap-flash {
 position: fixed;
 inset: 0;
@@ -620,250 +585,21 @@ transition: opacity 0.5s ease;
 .mc-topbar { padding: 10px 16px 8px; }
 .mc-rule { margin: 0 16px; }
 .mc-pages { top: 48px; }
-}
-
-/* ==========================================
-   СТИЛИ ДЛЯ КОНТЕНТА СЛАЙДА (Magic / Mirage)
-   ========================================== */
-.magic-mirage-wrapper {
-background-color: #e8e4de;
-font-family: 'Inter', sans-serif;
-color: #2a2a2a;
-width: 100%;
-height: 100%;
-display: flex;
-flex-direction: column;
-overflow-y: auto;
-}
-.magic-mirage-wrapper .main-content {
-display: grid;
-grid-template-columns: 1fr 1.4fr 1fr;
-gap: 40px;
-padding: 60px 50px 40px;
-flex: 1;
-align-items: start;
-}
-.magic-mirage-wrapper .left-column { padding-top: 20px; }
-.magic-mirage-wrapper .section-label {
-font-family: 'Space Mono', monospace;
-font-size: 16px;
-letter-spacing: 2px;
-text-transform: uppercase;
-color: #555;
-margin-bottom: 20px;
-}
-.magic-mirage-wrapper .main-title {
-font-family: 'Inter', sans-serif;
-font-size: 38px;
-font-weight: 300;
-line-height: 1.2;
-margin-bottom: 30px;
-color: #1a1a1a;
-}
-.magic-mirage-wrapper .main-title .highlight {
-color: #5a7a3a;
-font-weight: 400;
-}
-.magic-mirage-wrapper .description {
-font-size: 16px;
-line-height: 1.7;
-color: #555;
-margin-bottom: 20px;
-font-weight: 300;
-}
-.magic-mirage-wrapper .tagline {
-display: flex;
-align-items: center;
-gap: 10px;
-font-family: 'Space Mono', monospace;
-font-size: 16px;
-letter-spacing: 2px;
-text-transform: uppercase;
-color: #5a7a3a;
-margin-top: 30px;
-}
-.magic-mirage-wrapper .tagline svg { width: 16px; height: 16px; fill: #5a7a3a; }
-.magic-mirage-wrapper .center-column { display: flex; flex-direction: column; }
-.magic-mirage-wrapper .image-wrapper,
-.magic-mirage-wrapper .image-container {
-width: 100%;
-aspect-ratio: 16/9;
-border-radius: 4px;
-overflow: hidden;
-margin-bottom: 20px;
-}
-.magic-mirage-wrapper .image-wrapper { background: #1a1a1a; }
-.magic-mirage-wrapper .image-container { background: #3a5a3a; }
-.magic-mirage-wrapper .image-wrapper img,
-.magic-mirage-wrapper .image-container img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-}
-.magic-mirage-wrapper .right-column { padding-top: 0; }
-.magic-mirage-wrapper .right-column .section-label { margin-bottom: 15px; }
-.magic-mirage-wrapper .footer {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 20px 50px 30px;
-border-top: 1px solid #ccc;
-margin: 0 50px;
-flex-shrink: 0;
-}
-.magic-mirage-wrapper .footer-left,
-.magic-mirage-wrapper .footer-right {
-font-family: 'Space Mono', monospace;
-font-size: 16px;
-letter-spacing: 2px;
-text-transform: uppercase;
-color: #555;
-}
-.magic-mirage-wrapper .footer-right { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-.magic-mirage-wrapper .footer-right svg { width: 16px; height: 16px; stroke: #555; }
-@media (max-width: 1024px) {
-.magic-mirage-wrapper .main-content { grid-template-columns: 1fr; gap: 40px; padding: 40px 30px; }
-.magic-mirage-wrapper .footer { margin: 0 30px; padding: 20px 0 30px; }
+.holo-sticker { width: 140px; height: 140px; }
+.holo-sticker-right { right: 30px; top: 30px; }
+.holo-sticker-left { left: 30px; top: 30px; }
 }
 </style>
 </head>
 <body>
-
-<!-- Фон -->
 <div class="rules-bg"></div>
-
-<!-- Канвас с трубками-радугой за курсором -->
 <canvas id="tubes-canvas"></canvas>
-
-<!-- Шапка -->
 <div id="header-placeholder" class="header-wrapper"></div>
 
 <!-- ==========================================
-     PAGE WRAPPER — содержит книгу и оба стикера
-     ========================================== -->
-<div class="page-wrapper">
-
-<!-- Книга -->
-<div class="book-viewport">
-<div class="book-wrapper" id="myBook">
-
-<!-- ЗАДНЯЯ ОБЛОЖКА -->
-<div class="b-page back-cover-page" style="z-index: 1;">
-<div class="back-cover-text">Спасибо за прочтение<br>и удача в погоне за <span style="white-space: nowrap;">Чак-Чак!</span></div>
-<img src="logo1.jpg" class="back-cover-logo" alt="Чак-Чак">
-</div>
-
-<!-- СТРАНИЦА 5: СПАСИБО -->
-<div class="b-page paper-page thanks-page" id="p5" style="z-index: 2;">
-<div class="page-side front-side">
-<div class="text-box">
-<h3>Спасибо за прочтение!</h3>
-<p>Желаем удачи в турнире и только побед!</p>
-<button class="open-book-btn" onclick="closeBook()">Закрыть книгу 📕</button>
-</div>
-</div>
-<div class="page-side back-side">
-<button class="nav-arrow prev-arrow" onclick="turnPage(5, 'prev')">↩ Назад</button>
-</div>
-</div>
-
-<!-- СТРАНИЦА 4: ПРИЗЫ -->
-<div class="b-page paper-page" id="p4" style="z-index: 3;">
-<div class="page-side front-side">
-<div class="text-box">
-<h3>🏆 Призы и Рейтинг</h3>
-<ul>
-<li><b>Финал матча:</b> Победители получают скины лучшего качества, проигравшие в финале — скины послабее. Призы отображаются в меню противостояния.</li>
-<li><b>Выдача скинов:</b> Админ добавляет вас в друзья в Steam, заносит в блокнот и передает скины сразу, как спадет временная блокировка обмена Steam.</li>
-<li><b>Рейтинг «Чак-Чак»:</b> За победу в турнире начисляется <b>2 чак-чака</b>, за участие в финале (2 место) — <b>1 чак-чак</b>.</li>
-</ul>
-<p class="small-text-note">Турнир создан ради эмоций и символических призов!</p>
-</div>
-<button class="nav-arrow next-arrow" onclick="turnPage(4, 'next')">Вперед ↪</button>
-</div>
-<div class="page-side back-side">
-<button class="nav-arrow prev-arrow" onclick="turnPage(4, 'prev')">↩ Назад</button>
-</div>
-</div>
-
-<!-- СТРАНИЦА 3: АНТИЧИТ -->
-<div class="b-page paper-page" id="p3" style="z-index: 4;">
-<div class="page-side front-side">
-<div class="text-box">
-<h3>🛡️ Anti-cheat и Старт</h3>
-<ul>
-<li><b>Запуск:</b> Перед запуском игры <b>обязательно</b> включите античит <u>ruzikTastyAC</u>. Включение во время игры — тех. поражение всей команде, если вы зальете такой файл на сайт. Но если вы случайно запустили, после захода в игру, вы можете выйти из игры, остановить анти-чити запустить заново, файл переливается, в моих документах он всегда один</li>
-<li><b>Коннект к серверу:</b> После согласования времени в чате появится кнопка <b>Connected</b> для автовыхода на сервер CS2.</li>
-<li><b>Залив файла анти-чита:</b> После игры найдите в «Моих документах» файл <b>match_log</b> и загрузите его через <b>желтый плюс</b> в противостоянии матча.</li>
-</ul>
-</div>
-<button class="nav-arrow next-arrow" onclick="turnPage(3, 'next')">Вперед ↪</button>
-</div>
-<div class="page-side back-side">
-<div class="gif-container">
-<img src="gif/20261026_InexpensiveBlueSquirrelNotATK-tmAsxdSkeHp.gif" class="page-gif" alt="Призы">
-<div class="gif-caption">Ценные призы ждут победителей!</div>
-</div>
-<button class="nav-arrow prev-arrow" onclick="turnPage(3, 'prev')">↩ Назад</button>
-</div>
-</div>
-
-<!-- СТРАНИЦА 2: ОСНОВНЫЕ ПРАВИЛА -->
-<div class="b-page paper-page" id="p2" style="z-index: 5;">
-<div class="page-side front-side">
-<div class="text-box">
-<h3>📝 Основные правила</h3>
-<ul>
-<li><b>Формат:</b> Сетка плей-офф 5х5. Турнир проходит раз в 2 недели (с пятницы по воскресенье). Регистрация открывается 1-го числа.</li>
-<li><b>Рандом:</b> Участники распределяются по командам случайно. Победители этапа снова перемешиваются в новые команды для следующей стадии.</li>
-</ul>
-</div>
-<button class="nav-arrow next-arrow" onclick="turnPage(2, 'next')">Вперед ↪</button>
-</div>
-<div class="page-side back-side">
-<div class="gif-container">
-<img src="gif/20261026_SuccessfulEagerPastaArsonNoSexy-gUbG2z5bg.gif" class="page-gif" alt="Античит">
-<div class="gif-caption">Следи за статусом античита!</div>
-</div>
-<button class="nav-arrow prev-arrow" onclick="turnPage(2, 'prev')">↩ Назад</button>
-</div>
-</div>
-
-<!-- СТРАНИЦА 1: ЗАСТАВКА "ЧИТАЙ ВНИМАТЕЛЬНО" -->
-<div class="b-page paper-page intro-page" id="p1" style="z-index: 6;">
-<div class="page-side front-side">
-<div class="text-box">
-<h2>Читай<br>внимательно!</h2>
-<p>Здесь собраны все важные правила турнира.</p>
-</div>
-<button class="nav-arrow next-arrow" onclick="turnPage(1, 'next')">Вперед ↪</button>
-</div>
-<div class="page-side back-side">
-<button class="nav-arrow prev-arrow" onclick="turnPage(1, 'prev')">↩ Назад</button>
-</div>
-</div>
-
-<!-- ПЕРЕДНЯЯ ОБЛОЖКА -->
-<div class="b-page front-cover-page" id="p0" style="z-index: 7;">
-<div class="page-side front-side">
-<div class="cover-design">
-<img src="logo1.jpg" class="front-cover-logo" alt="Логотип">
-<h2>РУКОВОДСТВО</h2>
-<div class="gold-badge">ЧАК-ЧАК</div>
-<p>Официальные правила турниров CS2</p>
-<button class="open-book-btn" onclick="turnPage(0, 'next')">Открыть книгу 📖</button>
-<button class="back-to-start-btn" id="backToStartBtn" onclick="closeBook()">Вернуться на обложку</button>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-
-<!-- ==========================================
-     СТИКЕР 1: ПРАВЫЙ ВЕРХНИЙ УГОЛ (top: 150px, right: 150px)
-     ========================================== -->
-<div class="holo-sticker holo-sticker--right-top" id="holoStickerRight">
+СТИКЕР 1: ПРАВЫЙ (right: 150px, top: 250px)
+========================================== -->
+<div class="holo-sticker holo-sticker-right" id="holoStickerRight">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
 <pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-right" viewBox="12.5 -34 26 23" style="overflow:visible;">
@@ -899,9 +635,9 @@ color: #555;
 </div>
 
 <!-- ==========================================
-     СТИКЕР 2: ЛЕВЫЙ ВЕРХНИЙ УГОЛ (top: 50px, left: 150px)
-     ========================================== -->
-<div class="holo-sticker holo-sticker--left-top" id="holoStickerLeft">
+СТИКЕР 2: ЛЕВЫЙ (left: 150px, top: 100px)
+========================================== -->
+<div class="holo-sticker holo-sticker-left" id="holoStickerLeft">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
 <pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-left" viewBox="12.5 -34 26 23" style="overflow:visible;">
@@ -936,64 +672,114 @@ color: #555;
 </svg>
 </div>
 
+<div class="book-viewport">
+<div class="book-wrapper" id="myBook">
+<!-- ЗАДНЯЯ ОБЛОЖКА -->
+<div class="b-page back-cover-page" style="z-index: 1;">
+<div class="back-cover-text">Спасибо за прочтение<br>и удача в погоне за <span style="white-space: nowrap;">Чак-Чак!</span></div>
+<img src="logo1.jpg" class="back-cover-logo" alt="Чак-Чак">
 </div>
-<!-- /page-wrapper -->
+<!-- СТРАНИЦА 5: СПАСИБО -->
+<div class="b-page paper-page thanks-page" id="p5" style="z-index: 2;">
+<div class="page-side front-side">
+<div class="text-box">
+<h3>Спасибо за прочтение!</h3>
+<p>Желаем удачи в турнире и только побед!</p>
+<button class="open-book-btn" onclick="closeBook()">Закрыть книгу 📕</button>
+</div>
+</div>
+<div class="page-side back-side">
+<button class="nav-arrow prev-arrow" onclick="turnPage(5, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- СТРАНИЦА 4: ПРИЗЫ -->
+<div class="b-page paper-page" id="p4" style="z-index: 3;">
+<div class="page-side front-side">
+<div class="text-box">
+<h3>🏆 Призы и Рейтинг</h3>
+<ul>
+<li><b>Финал матча:</b> Победители получают скины лучшего качества, проигравшие в финале — скины послабее. Призы отображаются в меню противостояния.</li>
+<li><b>Выдача скинов:</b> Админ добавляет вас в друзья в Steam, заносит в блокнот и передает скины сразу, как спадет временная блокировка обмена Steam.</li>
+<li><b>Рейтинг «Чак-Чак»:</b> За победу в турнире начисляется <b>2 чак-чака</b>, за участие в финале (2 место) — <b>1 чак-чак</b>.</li>
+</ul>
+<p class="small-text-note">Турнир создан ради эмоций и символических призов!</p>
+</div>
+<button class="nav-arrow next-arrow" onclick="turnPage(4, 'next')">Вперед ↪</button>
+</div>
+<div class="page-side back-side">
+<button class="nav-arrow prev-arrow" onclick="turnPage(4, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- СТРАНИЦА 3: АНТИЧИТ -->
+<div class="b-page paper-page" id="p3" style="z-index: 4;">
+<div class="page-side front-side">
+<div class="text-box">
+<h3>🛡️ Anti-cheat и Старт</h3>
+<ul>
+<li><b>Запуск:</b> Перед запуском игры <b>обязательно</b> включите античит <u>ruzikTastyAC</u>. Включение во время игры — тех. поражение всей команде, если вы зальете такой файл на сайт. Но если вы случайно запустили, после захода в игру, вы можете выйти из игры, остановить анти-чити запустить заново, файл переливается, в моих документах он всегда один</li>
+<li><b>Коннект к серверу:</b> После согласования времени в чате появится кнопка <b>Connected</b> для автовыхода на сервер CS2.</li>
+<li><b>Залив файла анти-чита:</b> После игры найдите в «Моих документах» файл <b>match_log</b> и загрузите его через <b>желтый плюс</b> в противостоянии матча.</li>
+</ul>
+</div>
+<button class="nav-arrow next-arrow" onclick="turnPage(3, 'next')">Вперед ↪</button>
+</div>
+<div class="page-side back-side">
+<div class="gif-container">
+<img src="gif/20261026_InexpensiveBlueSquirrelNotATK-tmAsxdSkeHp.gif" class="page-gif" alt="Призы">
+<div class="gif-caption">Ценные призы ждут победителей!</div>
+</div>
+<button class="nav-arrow prev-arrow" onclick="turnPage(3, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- СТРАНИЦА 2: ОСНОВНЫЕ ПРАВИЛА -->
+<div class="b-page paper-page" id="p2" style="z-index: 5;">
+<div class="page-side front-side">
+<div class="text-box">
+<h3>📝 Основные правила</h3>
+<ul>
+<li><b>Формат:</b> Сетка плей-офф 5х5. Турнир проходит раз в 2 недели (с пятницы по воскресенье). Регистрация открывается 1-го числа.</li>
+<li><b>Рандом:</b> Участники распределяются по командам случайно. Победители этапа снова перемешиваются в новые команды для следующей стадии.</li>
+</ul>
+</div>
+<button class="nav-arrow next-arrow" onclick="turnPage(2, 'next')">Вперед ↪</button>
+</div>
+<div class="page-side back-side">
+<div class="gif-container">
+<img src="gif/20261026_SuccessfulEagerPastaArsonNoSexy-gUbG2z5bg.gif" class="page-gif" alt="Античит">
+<div class="gif-caption">Следи за статусом античита!</div>
+</div>
+<button class="nav-arrow prev-arrow" onclick="turnPage(2, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- СТРАНИЦА 1: ЗАСТАВКА "ЧИТАЙ ВНИМАТЕЛЬНО" -->
+<div class="b-page paper-page intro-page" id="p1" style="z-index: 6;">
+<div class="page-side front-side">
+<div class="text-box">
+<h2>Читай<br>внимательно!</h2>
+<p>Здесь собраны все важные правила турнира.</p>
+</div>
+<button class="nav-arrow next-arrow" onclick="turnPage(1, 'next')">Вперед ↪</button>
+</div>
+<div class="page-side back-side">
+<button class="nav-arrow prev-arrow" onclick="turnPage(1, 'prev')">↩ Назад</button>
+</div>
+</div>
+<!-- ПЕРЕДНЯЯ ОБЛОЖКА -->
+<div class="b-page front-cover-page" id="p0" style="z-index: 7;">
+<div class="page-side front-side">
+<div class="cover-design">
+<img src="logo1.jpg" class="front-cover-logo" alt="Логотип">
+<h2>РУКОВОДСТВО</h2>
+<div class="gold-badge">ЧАК-ЧАК</div>
+<p>Официальные правила турниров CS2</p>
+<button class="open-book-btn" onclick="turnPage(0, 'next')">Открыть книгу 📖</button>
+<button class="back-to-start-btn" id="backToStartBtn" onclick="closeBook()">Вернуться на обложку</button>
+</div>
+</div>
+</div>
+</div>
+</div>
 
-<!-- ==========================================
-     МОДАЛЬНОЕ ОКНО (СЛАЙД Magic / Mirage)
-     ========================================== -->
-<div class="mc-show" id="magicClutch">
-<div class="mc-backdrop" id="mcBackdrop"></div>
-<div class="mc-window">
-<div class="mc-topbar">
-<span class="brand">THE Coldzera CLUTCH</span>
-<span class="counter">
-<span><span class="mc-count-cur" id="mcCurrent">01</span> / <span id="mcTotal">01</span></span>
-<button class="mc-x" id="mcClose" title="Закрыть">&#10005;</button>
-</span>
-</div>
-<hr class="mc-rule">
-<div class="mc-pages" id="mcPages">
-<div class="mc-page active">
-<div class="magic-mirage-wrapper">
-<div class="main-content">
-<div class="left-column">
-<div class="section-label">CONTEXT</div>
-<h1 class="main-title"><span class="highlight">Крылатое AWP</span></h1>
-<p class="description">В полуфинале MLG Major Championship: Columbus 2016 его команда, Luminosity Gaming, играла против Team Liquid. При счете 9:15 бразильскому коллективу требовалось чудо, и coldzera его сотворил!  </p>
-<p class="description">Игроки Liquid решили использовать старую, но проверенную тактику — зарашить В.  Он практически в одиночку с AWP Asiimov в руках остановил выход пятерых противников.</p>
-<div class="tagline">
-<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.09 8.26L20 9.27L15.55 13.97L16.91 20L12 16.9L7.09 20L8.45 13.97L4 9.27L9.91 8.26L12 2Z"/></svg>
-winged AWP
-</div>
-</div>
-<div class="center-column">
-<div class="image-wrapper">
-<img src="png/Coldzera.png" alt="Magixx Highlight">
-</div>
-</div>
-<div class="right-column">
-<div class="section-label">Coldzera</div>
-<div class="image-container">
-<img src="png/flyAWP.png" alt="Magic Tomato Paste">
-</div>
-<p class="description">На карте Mirage за фургоном на точке В можно найти изображение AWP с крыльями и четверкой отметок над прицелом. Этот рисунок появился тоже не просто так. Виновником появления стал Марсело coldzera Давид.</p>
-</div>
-</div>
-<div class="footer">
-<div class="footer-left">Coldzera / Mirage</div>
-<div class="footer-right">
-
-<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- Скрипт загрузки шапки -->
 <script>
 fetch('header.html')
 .then(response => response.text())
@@ -1007,7 +793,6 @@ document.body.appendChild(script);
 .catch(error => console.error('Ошибка загрузки шапки:', error));
 </script>
 
-<!-- Скрипт книги -->
 <script>
 function turnPage(pageId, direction) {
 const page = document.getElementById('p' + pageId);
@@ -1050,7 +835,6 @@ document.getElementById('backToStartBtn').style.display = 'none';
 }
 </script>
 
-<!-- Трубки-радуга за курсором -->
 <script type="module">
 import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
 const canvas = document.getElementById('tubes-canvas');
@@ -1077,25 +861,29 @@ return new Array(count)
 </script>
 
 <!-- ==========================================
-     JAVASCRIPT ДЛЯ ЭФФЕКТА ИСПАРЕНИЯ (ОБЩИЙ ДЛЯ ОБОИХ СТИКЕРОВ)
-     ========================================== -->
+JAVASCRIPT ДЛЯ ЭФФЕКТА ИСПАРЕНИЯ (ОБЩИЙ ДЛЯ ОБОИХ СТИКЕРОВ)
+========================================== -->
 <script>
 (function() {
 'use strict';
-var show = document.getElementById('magicClutch');
 var stickers = document.querySelectorAll('.holo-sticker');
 if (!stickers.length) return;
+
 var running = false;
 
 stickers.forEach(function(sticker) {
 sticker.addEventListener('click', function() {
 if (running) return;
 running = true;
+
 var rect = sticker.getBoundingClientRect();
 var svgImg = sticker.querySelector('image');
 var src = svgImg ? svgImg.getAttribute('href') : null;
 
-if (!src) { running = false; show.classList.add('open'); return; }
+if (!src) { 
+running = false; 
+return; 
+}
 
 sticker.style.visibility = 'hidden';
 sticker.style.animation = 'none';
@@ -1122,16 +910,19 @@ img.src = src;
 function dissolve(img, rect, scale) {
 var ctx = canvas.getContext('2d');
 ctx.scale(scale, scale);
+
 var W = Math.round(rect.width), H = Math.round(rect.height);
 var off = document.createElement('canvas');
 off.width = W; off.height = H;
 var octx = off.getContext('2d');
 octx.drawImage(img, 0, 0, W, H);
+
 var data;
 try { data = octx.getImageData(0, 0, W, H).data; }
 catch (e) { data = null; }
 
 var parts = [];
+
 if (data) {
 for (var y = 0; y < H; y += 2) {
 for (var x = 0; x < W; x += 2) {
@@ -1148,6 +939,7 @@ bl: 0
 });
 }
 }
+
 for (var j = 0; j < 26; j++) {
 parts.push({
 cloud: true,
@@ -1180,6 +972,7 @@ var t0 = performance.now();
 function frame(t) {
 var el = t - t0;
 ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
 var alive = 0;
 parts.forEach(function(p) {
 var lt = el / 1000 - p.d;
@@ -1195,9 +988,11 @@ alive++; return;
 }
 if (lt > 1.3) return;
 alive++;
+
 var e = 1 - Math.pow(1 - Math.min(lt / 1.2, 1), 2);
 var px = p.x + p.vx * lt, py = p.y + p.vy * lt;
 ctx.globalAlpha = 1 - e;
+
 if (p.cloud) {
 ctx.save(); ctx.filter = 'blur(' + (p.bl + e * 14) + 'px)';
 ctx.fillStyle = p.c; ctx.beginPath();
@@ -1207,6 +1002,7 @@ ctx.fillStyle = p.c;
 ctx.fillRect(px, py, Math.max(0.5, p.s * (1 - 0.5 * e)), Math.max(0.5, p.s * (1 - 0.5 * e)));
 }
 });
+
 ctx.globalAlpha = 1;
 
 if (el > 350 && el < 750) flash.classList.add('on');
@@ -1217,28 +1013,12 @@ requestAnimationFrame(frame);
 } else {
 document.body.removeChild(layer);
 document.body.removeChild(flash);
-show.classList.add('open');
 running = false;
 }
 }
 requestAnimationFrame(frame);
 }
 });
-});
-
-function closeShow() {
-show.classList.remove('open');
-stickers.forEach(function(s) {
-s.style.visibility = 'visible';
-s.style.animation = '';
-});
-}
-
-document.getElementById('mcClose').addEventListener('click', closeShow);
-document.getElementById('mcBackdrop').addEventListener('click', closeShow);
-document.addEventListener('keydown', function(e) {
-if (!show.classList.contains('open')) return;
-if (e.key === 'Escape') closeShow();
 });
 })();
 </script>
