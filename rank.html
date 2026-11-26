@@ -18,7 +18,6 @@ font-family: 'Inter', sans-serif;
 overflow-y: auto;
 overflow-x: hidden;
 }
-/* Фон — обычная картинка в потоке, как на главной */
 .bg-image {
 position: absolute;
 top: 0;
@@ -28,20 +27,15 @@ height: auto;
 z-index: 0;
 pointer-events: none;
 }
-/* Шапка поверх фона */
 .header-wrapper {
 position: relative;
 z-index: 10;
 }
-
-/* ====== ОБЁРТКА СТРАНИЦЫ: фиксирует наклейку по центру фона ====== */
 .page-wrapper {
 position: relative;
 min-height: 100vh;
 width: 100%;
 }
-
-/* ====== ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА — зафиксирована по центру фона слева ====== */
 .holo-sticker {
 position: absolute;
 left: 60px;
@@ -63,7 +57,6 @@ width: 100%;
 height: 100%;
 display: block;
 }
-/* Цвета для голографического паттерна */
 .color0 { fill: none; }
 .color1 { fill: #8EABE5; }
 .color2 { fill: #BCACF3; }
@@ -71,26 +64,12 @@ display: block;
 .color4 { fill: #F8FCA8; }
 .color5 { fill: #B5DFC8; }
 .circle { fill: url(#multi-dots); }
-
-/* Адаптив: на планшетах уменьшаем отступ */
 @media (max-width: 1100px) {
-.holo-sticker {
-left: 30px;
-width: 140px;
-height: 140px;
+.holo-sticker { left: 30px; width: 140px; height: 140px; }
 }
-}
-/* На мобильных — тоже по центру слева, но меньше */
 @media (max-width: 850px) {
-.holo-sticker {
-left: 20px;
-width: 120px;
-height: 120px;
+.holo-sticker { left: 20px; width: 120px; height: 120px; }
 }
-}
-/* ========================================================== */
-
-/* ====== ПЕРЕМЕННЫЕ ГОЛОГРАММЫ (для фона таблицы) ====== */
 :root {
 --metafy: url(https://assets.codepen.io/13471/metafy-repeat.png);
 --grain: url(https://assets.codepen.io/13471/grain.webp);
@@ -109,7 +88,6 @@ height: 120px;
 --background-x: 50%;
 --background-y: 50%;
 }
-/* ====== КОНТЕЙНЕР С ГОЛОГРАММОЙ ====== */
 .rating-container {
 max-width: 650px;
 margin: 40px auto 40px auto;
@@ -123,7 +101,6 @@ z-index: 5;
 isolation: isolate;
 overflow: hidden;
 }
-/* Слой голограммы — под таблицей */
 .rating-holo {
 position: absolute;
 inset: 0;
@@ -132,7 +109,6 @@ overflow: hidden;
 pointer-events: none;
 z-index: 0;
 }
-/* shine — переливающиеся полосы (анимированный) */
 .rating-holo::before {
 content: "";
 position: absolute;
@@ -175,7 +151,6 @@ background-blend-mode: color, hard-light;
 background-size: 500% 500%, 300% 300%, 200% 200%;
 background-repeat: repeat;
 }
-/* glare — мягкий статичный блик по центру */
 .rating-holo::after {
 content: "";
 position: absolute;
@@ -194,7 +169,6 @@ opacity: 0.55;
 0%   { background-position: 0% var(--background-y), 0% 0%, center center; }
 100% { background-position: 0% var(--background-y), 90% 90%, center center; }
 }
-/* ====== КОНТЕНТ ПОВЕРХ ГОЛОГРАММЫ ====== */
 .rating-title,
 .rating-scroll,
 .rating-note,
@@ -275,7 +249,6 @@ font-size: 12px;
 margin-top: 12px;
 text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
-/* Кнопка сброса — только для админа */
 .btn-reset {
 display: none;
 margin: 20px auto 0 auto;
@@ -295,270 +268,280 @@ transform: translateY(-2px);
 box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 }
 .btn-reset.visible { display: block; }
-</style>
-<style>
-/* ================= THE MAGIC CLUTCH: презентация-макет ================= */
+
+/* ================= THE MAGIC CLUTCH: презентация 1300x500 ================= */
 .mc-show {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: none;
+position: fixed;
+inset: 0;
+z-index: 9999;
+display: none;
 }
 .mc-show.open { display: block; }
-
 .mc-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(10, 14, 18, 0.75);
-    animation: mcFade 0.5s ease;
+position: absolute;
+inset: 0;
+background: rgba(10, 14, 18, 0.75);
+animation: mcFade 0.5s ease;
 }
 @keyframes mcFade { from { opacity: 0; } to { opacity: 1; } }
-
 .mc-window {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: min(1060px, calc(100vw - 32px));
-    height: min(880px, calc(100vh - 32px));
-    background: #e9e7e0;
-    border-radius: 6px;
-    box-shadow: 0 30px 90px rgba(0,0,0,0.55);
-    overflow: hidden;
-    animation: mcZoom 0.55s cubic-bezier(0.2, 0.8, 0.25, 1);
-    font-family: 'Inter', -apple-system, sans-serif;
-    color: #23241f;
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+width: 1300px;
+height: 500px;
+max-width: calc(100vw - 32px);
+max-height: calc(100vh - 32px);
+background: #e9e7e0;
+border-radius: 6px;
+box-shadow: 0 30px 90px rgba(0,0,0,0.55);
+overflow: hidden;
+animation: mcZoom 0.55s cubic-bezier(0.2, 0.8, 0.25, 1);
+font-family: 'Inter', -apple-system, sans-serif;
+color: #23241f;
 }
 @keyframes mcZoom {
-    from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
-    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
+to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
-
 .mc-window * { box-sizing: border-box; }
-
-/* Верхняя плашка */
 .mc-topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 22px 48px 18px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 14px 32px 10px;
 }
 .mc-topbar .brand {
-    font-size: 12px;
-    letter-spacing: 4px;
-    font-weight: 600;
-    color: #3a3b33;
+font-size: 11px;
+letter-spacing: 4px;
+font-weight: 600;
+color: #3a3b33;
 }
 .mc-topbar .counter {
-    display: flex;
-    align-items: center;
-    gap: 26px;
-    font-size: 12px;
-    letter-spacing: 3px;
-    color: #63645a;
+display: flex;
+align-items: center;
+gap: 20px;
+font-size: 11px;
+letter-spacing: 3px;
+color: #63645a;
 }
 .mc-count-cur { font-weight: 700; color: #2c2d27; }
 .mc-x {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    border: 1px solid rgba(0,0,0,0.35);
-    background: transparent;
-    font-size: 16px;
-    cursor: pointer;
-    color: #23241f;
-    margin-left: 20px;
-    transition: all 0.2s;
+width: 34px; height: 34px;
+border-radius: 50%;
+border: 1px solid rgba(0,0,0,0.35);
+background: transparent;
+font-size: 14px;
+cursor: pointer;
+color: #23241f;
+margin-left: 16px;
+transition: all 0.2s;
 }
 .mc-x:hover { background: #23241f; color: #e9e7e0; }
 .mc-rule {
-    margin: 0 48px;
-    border: 0;
-    border-top: 1px solid rgba(0,0,0,0.28);
+margin: 0 32px;
+border: 0;
+border-top: 1px solid rgba(0,0,0,0.28);
 }
-
-/* Страницы */
 .mc-pages {
-    position: absolute;
-    top: 86px;
-    bottom: 26px;
-    left: 0; right: 0;
-    overflow-y: auto;
-    padding: 26px 48px 10px;
+position: absolute;
+top: 54px;
+bottom: 18px;
+left: 0; right: 0;
+overflow-y: auto;
+padding: 14px 32px 8px;
 }
 .mc-page { display: none; }
 .mc-page.active { display: block; animation: mcPageIn 0.5s ease; }
 @keyframes mcPageIn {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
+from { opacity: 0; transform: translateY(12px); }
+to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Страница 1 — как на макете */
+/* Страница 1: magixx по центру, pomidor + текст справа */
+.mc-page-1 {
+display: flex;
+flex-direction: column;
+gap: 10px;
+height: 100%;
+}
 .mc-hero {
-    position: relative;
-    width: min(720px, 100%);
-    margin: 0 auto 40px;
+position: relative;
+width: 100%;
+max-width: 720px;
+margin: 0 auto;
+flex-shrink: 0;
 }
 .mc-hero img {
-    width: 100%;
-    display: block;
-    border: 1px solid #23241f;
+width: 100%;
+height: 200px;
+object-fit: cover;
+display: block;
+border: 1px solid #23241f;
 }
 .mc-hero .leg {
-    position: absolute;
-    bottom: 10px;
-    font-size: 11px;
-    letter-spacing: 2.5px;
-    font-weight: 700;
-    color: #f2f0e9;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+position: absolute;
+bottom: 8px;
+font-size: 10px;
+letter-spacing: 2.5px;
+font-weight: 700;
+color: #f2f0e9;
+text-shadow: 0 1px 3px rgba(0,0,0,0.8);
 }
-.mc-hero .leg.left { left: 14px; }
-.mc-hero .leg.right { right: 14px; }
-
+.mc-hero .leg.left { left: 12px; }
+.mc-hero .leg.right { right: 12px; }
 .mc-cols {
-    display: flex;
-    gap: 56px;
-    align-items: flex-start;
+display: flex;
+gap: 28px;
+align-items: flex-start;
+flex: 1;
+min-height: 0;
 }
-.mc-col-left { flex: 1 1 38%; }
-.mc-col-right { flex: 1 1 62%; }
-
+.mc-col-left {
+flex: 0 0 260px;
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+.mc-col-right {
+flex: 1;
+display: flex;
+flex-direction: column;
+gap: 6px;
+}
 .mc-num {
-    font-size: 12px;
-    letter-spacing: 3px;
-    color: #63645a;
-    margin-bottom: 14px;
+font-size: 10px;
+letter-spacing: 3px;
+color: #63645a;
+margin-bottom: 4px;
 }
 .mc-col-left img {
-    width: 100%;
-    display: block;
+width: 100%;
+height: 130px;
+object-fit: contain;
+display: block;
+background: #dfddd5;
+border: 1px solid rgba(0,0,0,0.15);
+border-radius: 3px;
 }
 .mc-caption {
-    margin-top: 14px;
-    font-size: 12.5px;
-    line-height: 1.7;
-    color: #43443c;
+font-size: 11px;
+line-height: 1.55;
+color: #43443c;
 }
 .mc-caption b { color: #23241f; }
-
 .mc-h-display {
-    font-size: 56px;
-    line-height: 1.02;
-    font-weight: 600;
-    letter-spacing: -1.5px;
-    color: #7d9c50;
-    margin: 0 0 22px;
+font-size: 38px;
+line-height: 1.05;
+font-weight: 600;
+letter-spacing: -1px;
+color: #7d9c50;
+margin: 0 0 10px;
 }
 .mc-body {
-    font-size: 13.5px;
-    line-height: 1.75;
-    color: #43443c;
-    margin: 0 0 14px;
+font-size: 12px;
+line-height: 1.6;
+color: #43443c;
+margin: 0 0 8px;
 }
 .mc-body b { color: #23241f; }
 .mc-link {
-    display: inline-block;
-    margin-top: 10px;
-    font-size: 12px;
-    letter-spacing: 2px;
-    font-weight: 700;
-    color: #8a6d1d;
-    text-transform: uppercase;
-    border-bottom: 1px solid #c9b877;
-    text-decoration: none;
+display: inline-block;
+margin-top: 6px;
+font-size: 10px;
+letter-spacing: 2px;
+font-weight: 700;
+color: #8a6d1d;
+text-transform: uppercase;
+border-bottom: 1px solid #c9b877;
+text-decoration: none;
 }
 .mc-link:hover { color: #23241f; border-color: #23241f; }
 
-/* Страницы 2 и 3 — тот же стиль */
+/* Страницы 2 и 3 — только текст, без фото */
 .mc-h-page {
-    font-size: 40px;
-    line-height: 1.05;
-    font-weight: 600;
-    letter-spacing: -1px;
-    color: #7d9c50;
-    margin: 0 0 20px;
-    max-width: 640px;
+font-size: 30px;
+line-height: 1.08;
+font-weight: 600;
+letter-spacing: -0.8px;
+color: #7d9c50;
+margin: 0 0 12px;
+max-width: 640px;
 }
-.mc-page-cols { display: flex; gap: 56px; }
+.mc-page-cols { display: flex; gap: 32px; }
 .mc-page-cols > div { flex: 1; }
 .mc-stat {
-    background: #dfddd5;
-    border: 1px solid rgba(0,0,0,0.15);
-    border-radius: 4px;
-    padding: 16px;
-    margin-bottom: 14px;
+background: #dfddd5;
+border: 1px solid rgba(0,0,0,0.15);
+border-radius: 4px;
+padding: 12px;
+margin-bottom: 10px;
 }
-.mc-stat .n { font-size: 26px; font-weight: 700; color: #23241f; }
-.mc-stat .l { font-size: 10.5px; letter-spacing: 2px; text-transform: uppercase; color: #63645a; margin-top: 2px; }
-
-/* Стрелки страниц */
+.mc-stat .n { font-size: 22px; font-weight: 700; color: #23241f; }
+.mc-stat .l { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #63645a; margin-top: 2px; }
 .mc-arrows {
-    position: absolute;
-    bottom: 22px;
-    right: 48px;
-    display: flex;
-    gap: 10px;
-    z-index: 2;
+position: absolute;
+bottom: 14px;
+right: 32px;
+display: flex;
+gap: 8px;
+z-index: 2;
 }
 .mc-arrow {
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    border: 1px solid rgba(0,0,0,0.35);
-    background: transparent;
-    font-size: 15px;
-    cursor: pointer;
-    color: #23241f;
-    transition: all 0.2s;
+width: 32px; height: 32px;
+border-radius: 50%;
+border: 1px solid rgba(0,0,0,0.35);
+background: transparent;
+font-size: 13px;
+cursor: pointer;
+color: #23241f;
+transition: all 0.2s;
 }
 .mc-arrow:hover { background: #23241f; color: #e9e7e0; }
-
-/* Наклейка становится кликабельной */
 .holo-sticker { pointer-events: auto; cursor: pointer; }
 
-/* ================= ИСПАРЕНИЕ ОБЛАКОМ ================= */
 .evap-layer {
-    position: fixed;
-    inset: 0;
-    z-index: 9998;
-    pointer-events: none;
-    overflow: hidden;
+position: fixed;
+inset: 0;
+z-index: 9998;
+pointer-events: none;
+overflow: hidden;
 }
 .evap-layer canvas { position: absolute; }
 .evap-flash {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle,
-        rgba(255,255,255,0.25) 0%,
-        rgba(232, 231, 224, 0.14) 40%,
-        transparent 70%);
-    opacity: 0;
-    z-index: 9997;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
+position: fixed;
+inset: 0;
+background: radial-gradient(circle,
+rgba(255,255,255,0.25) 0%,
+rgba(232, 231, 224, 0.14) 40%,
+transparent 70%);
+opacity: 0;
+z-index: 9997;
+pointer-events: none;
+transition: opacity 0.5s ease;
 }
 .evap-flash.on { opacity: 1; }
-
+@media (max-width: 1360px) {
+.mc-window { width: calc(100vw - 32px); }
+}
 @media (max-width: 760px) {
-    .mc-topbar, .mc-arrows { padding-left: 16px; padding-right: 16px; }
-    .mc-arrows { right: 16px; left: auto; }
-    .mc-rule { margin: 0 16px; }
-    .mc-pages { padding: 20px 16px; }
-    .mc-cols, .mc-page-cols { flex-direction: column; gap: 26px; }
-    .mc-h-display { font-size: 34px; }
-    .mc-h-page { font-size: 30px; }
+.mc-topbar { padding: 10px 16px 8px; }
+.mc-arrows { right: 16px; }
+.mc-rule { margin: 0 16px; }
+.mc-pages { padding: 12px 16px 6px; top: 48px; }
+.mc-cols, .mc-page-cols { flex-direction: column; gap: 14px; }
+.mc-col-left { flex: 0 0 auto; }
+.mc-h-display { font-size: 24px; }
+.mc-h-page { font-size: 22px; }
+.mc-hero img { height: 140px; }
 }
 </style>
 </head>
 <body>
-<!-- Фон (картинка в потоке) -->
 <img src="pngg/9kolo.png" class="bg-image" alt="Фон">
-<!-- Шапка -->
 <div id="header-placeholder" class="header-wrapper"></div>
-
-<!-- ====== ОБЁРТКА СТРАНИЦЫ ====== -->
 <div class="page-wrapper">
-
-<!-- ✅ ГОЛОГРАФИЧЕСКАЯ НАКЛЕЙКА — зафиксирована по центру фона слева -->
 <div class="holo-sticker">
 <svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -587,22 +570,12 @@ box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 <stop offset="100%" stop-color="#ff4dd2" stop-opacity="0.7"/>
 </linearGradient>
 </defs>
-
-<!-- 1. Голографический фон (паттерн) -->
 <circle class="circle" cx="128" cy="128" r="120"/>
-
-<!-- 2. Голографический градиент -->
 <circle cx="128" cy="128" r="120" fill="url(#holo-shine)" clip-path="url(#badge-clip)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
-
-<!-- 3. Картинка mirage.png ПОВЕРХ голографии -->
 <image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip)"/>
-
-<!-- 4. Второй слой паттерна для усиления блеска -->
 <circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
-
-<!-- ====== ТАБЛИЦА РЕЙТИНГА (не тронута) ====== -->
 <div class="rating-container">
 <div class="rating-holo"></div>
 <div class="rating-title">Турнирная таблица</div>
@@ -629,7 +602,86 @@ box-shadow: 0 6px 22px rgba(192,57,43,0.5);
 <div class="rating-note">Победитель финала +2 чак-чака &middot; Финалист +1 чак-чак</div>
 <button class="btn-reset" id="btnReset">Сбросить чак-чаки</button>
 </div>
+</div>
 
+<!-- THE MAGIC CLUTCH: презентация 1300x500 -->
+<div class="mc-show" id="magicClutch">
+<div class="mc-backdrop" id="mcBackdrop"></div>
+<div class="mc-window">
+<div class="mc-topbar">
+<span class="brand">THE MAGIC CLUTCH</span>
+<span class="counter">
+<span><span class="mc-count-cur" id="mcCurrent">01</span> / <span id="mcTotal">03</span></span>
+<button class="mc-x" id="mcClose" title="Закрыть">&#10005;</button>
+</span>
+</div>
+<hr class="mc-rule">
+<div class="mc-pages" id="mcPages">
+
+<!-- СТРАНИЦА 1: magixx по центру, pomidor + текст справа -->
+<div class="mc-page active mc-page-1">
+<div class="mc-hero">
+<img src="png/magixx.png" alt="Момент клатча: реакция состава">
+<span class="leg left">THE MOMENT</span>
+<span class="leg right">01:24</span>
+</div>
+<div class="mc-cols">
+<div class="mc-col-left">
+<div class="mc-num">02</div>
+<img src="png/pomidor.png" alt="Банка Magic на полке">
+<div class="mc-caption">Разработчики CS2 в ночном обновлении добавили кое-что необычное: в магазине на Mirage, который обычно называют кухней, теперь можно найти банки томатной пасты «Magic». На ней нарисован веселый помидор и есть подпись «Секретная заправка» на русском языке.</div>
+</div>
+<div class="mc-col-right">
+<div class="mc-num">03 / CONTEXT</div>
+<h1 class="mc-h-display">Кухня,<br>которую<br>запомнили.</h1>
+<p class="mc-body">Раньше разработчики CS рисовали на картах граффити за крутые хайлайты с мейджоров, но давно забросили традицию. Клатч Мэджикса стал идеальным поводом ее воскресить.</p>
+<p class="mc-body">И, хоть сделали это Valve необычным способом, факт остается фактом: впервые после выхода CS 2 в игре появилась отсылка на киберспортивный хайлайт.</p>
+<a class="mc-link" href="javascript:void(0)">MAGIC: SECRET SAUCE · 399 · A LEGENDARY ROUND</a>
+</div>
+</div>
+</div>
+
+<!-- СТРАНИЦА 2: только текст, без фото -->
+<div class="mc-page">
+<div class="mc-num">01 / THE PLAY</div>
+<h1 class="mc-h-page">Второй овертайм.<br>Дело пахнет жареным.</h1>
+<div class="mc-page-cols">
+<div>
+<p class="mc-body">Кёльн, четвертьфинал мейджора. Team Spirit против G2, карта Mirage, <b>матч-поинт в пользу G2</b>. После установки на B magixx остался один на кухне — у угла, которого по сценарию быть не должно.</p>
+<p class="mc-body">Четверо игроков G2 заходят на ретейк со стороны маркета. Капитан Spirit отвечает <b>одним зажимом из АК</b>: четыре фрага подряд, один за другим, как томаты в банку. Раунд взят, дальше Spirit дожимают карту и идут в полуфинал.</p>
+<p class="mc-body">Сам Борис после матча признался, что <b>не сразу понял, что произошло</b>. На репитах момент разнёс всю киберспортивную сцену.</p>
+</div>
+<div>
+<div class="mc-stat"><div class="n">1v4</div><div class="l">клатч</div></div>
+<div class="mc-stat"><div class="n">AK-47</div><div class="l">один зажим</div></div>
+<div class="mc-stat"><div class="n">Mirage</div><div class="l">кухня, точка B</div></div>
+</div>
+</div>
+</div>
+
+<!-- СТРАНИЦА 3: только текст, без фото -->
+<div class="mc-page">
+<div class="mc-num">03 / LEGACY</div>
+<h1 class="mc-h-page">Банки, которые<br>не убрать из истории.</h1>
+<div class="mc-page-cols">
+<div>
+<p class="mc-body"><b>1 июля 2026 года</b> Valve выпустила патч кёльнского мейджора — и тихо поставила на полку в кухне Mirage банки томатного соуса. Подпись: <b>«Magic: Secret Sauce»</b>, под ней метка <b>«4X»</b> — по числу фрагов в клатче.</p>
+<p class="mc-body">Это первый в истории CS2 tribute конкретному моменту мейджора. Прошлый раз такое случилось в 2017-м, когда Valve увековечила гранату Dosia в CS:GO. Банки даже можно разбить пулями — но раунд не вернуть: история осталась на полке Mirage навсегда.</p>
+</div>
+<div>
+<div class="mc-stat"><div class="n">1-й</div><div class="l">трибьют CS2</div></div>
+<div class="mc-stat"><div class="n">4 банки</div><div class="l">томатов на карте</div></div>
+<div class="mc-stat"><div class="n">2017</div><div class="l">прошлый раз (Dosia)</div></div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="mc-arrows">
+<button class="mc-arrow" id="mcPrev">&#10094;</button>
+<button class="mc-arrow" id="mcNext">&#10095;</button>
+</div>
+</div>
 </div>
 
 <script>
@@ -777,275 +829,164 @@ alert('Нет результатов для сброса.');
 loadAndRender();
 })();
 </script>
-<!-- THE MAGIC CLUTCH: презентация-макет -->
-<div class="mc-show" id="magicClutch">
-    <div class="mc-backdrop" id="mcBackdrop"></div>
-    <div class="mc-window">
-        <div class="mc-topbar">
-            <span class="brand">THE MAGIC CLUTCH</span>
-            <span class="counter">
-                <span><span class="mc-count-cur" id="mcCurrent">01</span> / <span id="mcTotal">03</span></span>
-                <button class="mc-x" id="mcClose" title="Закрыть">&#10005;</button>
-            </span>
-        </div>
-        <hr class="mc-rule">
-
-        <div class="mc-pages" id="mcPages">
-
-            <!-- СТРАНИЦА 1 -->
-            <div class="mc-page active">
-                <div class="mc-hero">
-                    <img src="png/magixx.png" alt="Момент клатча: реакция состава">
-                    <span class="leg left">THE MOMENT</span>
-                    <span class="leg right">01:24</span>
-                </div>
-                <div class="mc-cols">
-                    <div class="mc-col-left">
-                        <div class="mc-num">02</div>
-                        <img src="png/pomidor.png" alt="Банка Magic на полке">
-                        <div class="mc-caption">Разработчики CS2 в ночном обновлении добавили кое-что необычное: в магазине на Mirage, который обычно называют кухней, теперь можно найти банки томатной пасты «Magic». На ней нарисован веселый помидор и есть подпись «Секретная заправка» на русском языке.</div>
-                    </div>
-                    <div class="mc-col-right">
-                        <div class="mc-num">03 / CONTEXT</div>
-                        <h1 class="mc-h-display">Кухня,<br>которую<br>запомнили.</h1>
-                        <p class="mc-body">Раньше разработчики CS рисовали на картах граффити за крутые хайлайты с мейджоров, но давно забросили традицию. Клатч Мэджикса стал идеальным поводом ее воскресить.</p>
-                        <p class="mc-body">И, хоть сделали это Valve необычным способом, факт остается фактом: впервые после выхода CS 2 в игре появилась отсылка на киберспортивный хайлайт.</p>
-                        <a class="mc-link" href="javascript:void(0)">MAGIC: SECRET SAUCE · 399 · A LEGENDARY ROUND</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- СТРАНИЦА 2 -->
-            <div class="mc-page">
-                <div class="mc-num">01 / THE PLAY</div>
-                <h1 class="mc-h-page">Второй овертайм.<br>Дело пахнет жареным.</h1>
-                <div class="mc-page-cols">
-                    <div>
-                        <p class="mc-body">Кёльн, четвертьфинал мейджора. Team Spirit против G2, карта Mirage, <b>матч-поинт в пользу G2</b>. После установки на B magixx остался один на кухне — у угла, которого по сценарию быть не должно.</p>
-                        <p class="mc-body">Четверо игроков G2 заходят на ретейк со стороны маркета. Капитан Spirit отвечает <b>одним зажимом из АК</b>: четыре фрага подряд, один за другим, как томаты в банку. Раунд взят, дальше Spirit дожимают карту и идут в полуфинал.</p>
-                        <p class="mc-body">Сам Борис после матча признался, что <b>не сразу понял, что произошло</b>. На репитах момент разнёс всю киберспортивную сцену.</p>
-                    </div>
-                    <div class="mc-stats-col">
-                        <div class="mc-stat"><div class="n">1v4</div><div class="l">клатч</div></div>
-                        <div class="mc-stat"><div class="n">AK-47</div><div class="l">один зажим</div></div>
-                        <div class="mc-stat"><div class="n">Mirage</div><div class="l">кухня, точка B</div></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- СТРАНИЦА 3 -->
-            <div class="mc-page">
-                <div class="mc-num">03 / LEGACY</div>
-                <h1 class="mc-h-page">Банки, которые<br>не убрать из истории.</h1>
-                <div class="mc-page-cols">
-                    <div>
-                        <p class="mc-body"><b>1 июля 2026 года</b> Valve выпустила патч кёльнского мейджора — и тихо поставила на полку в кухне Mirage банки томатного соуса. Подпись: <b>«Magic: Secret Sauce»</b>, под ней метка <b>«4X»</b> — по числу фрагов в клатче.</p>
-                        <p class="mc-body">Это первый в истории CS2 tribute конкретному моменту мейджора. Прошлый раз такое случилось в 2017-м, когда Valve увековечила гранату Dosia в CS:GO. Банки даже можно разбить пулями — но раунд не вернуть: история осталась на полке Mirage навсегда.</p>
-                    </div>
-                    <div class="mc-stats-col">
-                        <div class="mc-stat"><div class="n">1-й</div><div class="l">трибьют CS2</div></div>
-                        <div class="mc-stat"><div class="n">4 банки</div><div class="l">томатов на карте</div></div>
-                        <div class="mc-stat"><div class="n">2017</div><div class="l">прошлый раз (Dosia)</div></div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="mc-arrows">
-            <button class="mc-arrow" id="mcPrev">&#10094;</button>
-            <button class="mc-arrow" id="mcNext">&#10095;</button>
-        </div>
-    </div>
-</div>
-
 <script>
 (function() {
-  'use strict';
-
-  var show = document.getElementById('magicClutch');
-  var pages = show.querySelectorAll('.mc-page');
-  var current = 0;
-
-  function pad(n) { return (n < 9 ? '0' : '') + (n + 1); }
-
-  function go(n) {
-    current = (n + pages.length) % pages.length;
-    pages.forEach(function(p, i) { p.classList.toggle('active', i === current); });
-    document.getElementById('mcCurrent').textContent = pad(current);
-    document.querySelector('.mc-pages').scrollTop = 0;
-  }
-  document.getElementById('prevBtn_mc') && null; /* no-op */
-  document.getElementById('mcPrev').addEventListener('click', function() { go(current - 1); });
-  document.getElementById('mcNext').addEventListener('click', function() { go(current + 1); });
-
-  function openShow() { show.classList.add('open'); go(0); }
-  function closeShow() {
-    show.classList.remove('open');
-    sticker.style.visibility = 'visible';
-    sticker.style.animation = '';
-  }
-
-  document.getElementById('mcClose').addEventListener('click', closeShow);
-  document.getElementById('mcBackdrop').addEventListener('click', closeShow);
-  document.addEventListener('keydown', function(e) {
-    if (!show.classList.contains('open')) return;
-    if (e.key === 'Escape') closeShow();
-    if (e.key === 'ArrowRight') go(current + 1);
-    if (e.key === 'ArrowLeft') go(current - 1);
-  });
-
-  /* Наклейка: img#mirageSticker или голографический бейдж .holo-sticker (png/mirage.png) */
-  var sticker = document.getElementById('mirageSticker') || document.querySelector('.holo-sticker');
-  if (!sticker) return;
-  var running = false;
-
-  sticker.addEventListener('click', function() {
-    if (running) return;
-    running = true;
-
-    var rect = sticker.getBoundingClientRect();
-    var src;
-    if (sticker.tagName === 'IMG') src = sticker.currentSrc || sticker.src;
-    else {
-      var svgImg = sticker.querySelector('image');
-      src = svgImg ? svgImg.getAttribute('href') : null;
-    }
-    if (!src) { running = false; openShow(); return; }
-
-    sticker.style.visibility = 'hidden';
-    sticker.style.animation = 'none';
-
-    /* ================= ИСПАРЕНИЕ: частицы + облако ================= */
-    var layer = document.createElement('div');
-    layer.className = 'evap-layer';
-    var canvas = document.createElement('canvas');
-    var scale = window.devicePixelRatio || 1;
-    canvas.width = window.innerWidth * scale;
-    canvas.height = window.innerHeight * scale;
-    canvas.style.width = window.innerWidth + 'px';
-    canvas.style.height = window.innerHeight + 'px';
-    layer.appendChild(canvas);
-    document.body.appendChild(layer);
-
-    var flash = document.createElement('div');
-    flash.className = 'evap-flash';
-    document.body.appendChild(flash);
-
-    var img = new Image();
-    img.onload = function() { dissolve(img, rect, scale); };
-    img.src = src;
-
-    function dissolve(img, rect, scale) {
-      var ctx = canvas.getContext('2d');
-      ctx.scale(scale, scale);
-
-      var W = Math.round(rect.width), H = Math.round(rect.height);
-      var off = document.createElement('canvas');
-      off.width = W; off.height = H;
-      var octx = off.getContext('2d');
-      octx.drawImage(img, 0, 0, W, H);
-      var data;
-      try { data = octx.getImageData(0, 0, W, H).data; }
-      catch (e) { data = null; }
-
-      var parts = [];
-      if (data) {
-        for (var y = 0; y < H; y += 2) {
-          for (var x = 0; x < W; x += 2) {
-            var idx = (y * W + x) * 4;
-            var a = data[idx + 3];
-            if (a < 40) continue;
-            parts.push({
-              x: rect.left + x, y: rect.top + y, s: 2,
-              c: 'rgba(' + data[idx] + ',' + data[idx + 1] + ',' + data[idx + 2] + ',' + (a / 255).toFixed(2) + ')',
-              d: Math.random() * 0.5,
-              vx: (Math.random() - 0.5) * 26,
-              vy: -(26 + Math.random() * 60),
-              bl: 0
-            });
-          }
-        }
-        // облачные клубы: мягкие светлые пятна из палитры наклейки
-        for (var j = 0; j < 26; j++) {
-          var cx = parseInt(data[(Math.floor(Math.random() * (W * H))) * 4]);
-          parts.push({
-            cloud: true,
-            x: rect.left + Math.random() * W,
-            y: rect.top + Math.random() * H,
-            r: 14 + Math.random() * 34,
-            c: 'rgba(' + (200 + Math.floor(Math.random() * 55)) + ',' + (205 + Math.floor(Math.random() * 50)) + ',' + (210 + Math.floor(Math.random() * 45)) + ',0.5)',
-            d: 0.1 + Math.random() * 0.5,
-            vx: (Math.random() - 0.5) * 18,
-            vy: -(40 + Math.random() * 55),
-            bl: 6 + Math.random() * 10
-          });
-        }
-      } else {
-        for (var k = 0; k < 260; k++) {
-          parts.push({
-            x: rect.left + Math.random() * rect.width,
-            y: rect.top + Math.random() * rect.height,
-            s: 3,
-            c: 'rgba(102,192,244,0.9)',
-            d: Math.random() * 0.5,
-            vx: (Math.random() - 0.5) * 26,
-            vy: -(30 + Math.random() * 60),
-            bl: 0
-          });
-        }
-      }
-
-      var t0 = performance.now();
-
-      function frame(t) {
-        var el = t - t0;
-        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-        var alive = 0;
-
-        parts.forEach(function(p) {
-          var lt = el / 1000 - p.d;
-          if (lt < 0) {
-            if (p.cloud) {
-              ctx.save(); ctx.filter = 'blur(' + p.bl + 'px)';
-              ctx.fillStyle = p.c; ctx.beginPath();
-              ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill(); ctx.restore();
-            } else {
-              ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, p.s, p.s);
-            }
-            alive++; return;
-          }
-          if (lt > 1.3) return;
-          alive++;
-          var e = 1 - Math.pow(1 - Math.min(lt / 1.2, 1), 2);
-          var px = p.x + p.vx * lt, py = p.y + p.vy * lt;
-          ctx.globalAlpha = 1 - e;
-          if (p.cloud) {
-            ctx.save(); ctx.filter = 'blur(' + (p.bl + e * 14) + 'px)';
-            ctx.fillStyle = p.c; ctx.beginPath();
-            ctx.arc(px, py, p.r * (1 + e * 1.4), 0, 6.283); ctx.fill(); ctx.restore();
-          } else {
-            ctx.fillStyle = p.c;
-            ctx.fillRect(px, py, Math.max(0.5, p.s * (1 - 0.5 * e)), Math.max(0.5, p.s * (1 - 0.5 * e)));
-          }
-        });
-        ctx.globalAlpha = 1;
-
-        if (el > 350 && el < 750) flash.classList.add('on');
-        else if (el >= 750) flash.classList.remove('on');
-
-        if (alive > 0 && el < 3300) {
-          requestAnimationFrame(frame);
-        } else {
-          document.body.removeChild(layer);
-          document.body.removeChild(flash);
-          openShow();
-          running = false;
-        }
-      }
-      requestAnimationFrame(frame);
-    }
-  });
+'use strict';
+var show = document.getElementById('magicClutch');
+var pages = show.querySelectorAll('.mc-page');
+var current = 0;
+function pad(n) { return (n < 9 ? '0' : '') + (n + 1); }
+function go(n) {
+current = (n + pages.length) % pages.length;
+pages.forEach(function(p, i) { p.classList.toggle('active', i === current); });
+document.getElementById('mcCurrent').textContent = pad(current);
+document.querySelector('.mc-pages').scrollTop = 0;
+}
+document.getElementById('mcPrev').addEventListener('click', function() { go(current - 1); });
+document.getElementById('mcNext').addEventListener('click', function() { go(current + 1); });
+function openShow() { show.classList.add('open'); go(0); }
+function closeShow() {
+show.classList.remove('open');
+sticker.style.visibility = 'visible';
+sticker.style.animation = '';
+}
+document.getElementById('mcClose').addEventListener('click', closeShow);
+document.getElementById('mcBackdrop').addEventListener('click', closeShow);
+document.addEventListener('keydown', function(e) {
+if (!show.classList.contains('open')) return;
+if (e.key === 'Escape') closeShow();
+if (e.key === 'ArrowRight') go(current + 1);
+if (e.key === 'ArrowLeft') go(current - 1);
+});
+var sticker = document.querySelector('.holo-sticker');
+if (!sticker) return;
+var running = false;
+sticker.addEventListener('click', function() {
+if (running) return;
+running = true;
+var rect = sticker.getBoundingClientRect();
+var svgImg = sticker.querySelector('image');
+var src = svgImg ? svgImg.getAttribute('href') : null;
+if (!src) { running = false; openShow(); return; }
+sticker.style.visibility = 'hidden';
+sticker.style.animation = 'none';
+var layer = document.createElement('div');
+layer.className = 'evap-layer';
+var canvas = document.createElement('canvas');
+var scale = window.devicePixelRatio || 1;
+canvas.width = window.innerWidth * scale;
+canvas.height = window.innerHeight * scale;
+canvas.style.width = window.innerWidth + 'px';
+canvas.style.height = window.innerHeight + 'px';
+layer.appendChild(canvas);
+document.body.appendChild(layer);
+var flash = document.createElement('div');
+flash.className = 'evap-flash';
+document.body.appendChild(flash);
+var img = new Image();
+img.onload = function() { dissolve(img, rect, scale); };
+img.src = src;
+function dissolve(img, rect, scale) {
+var ctx = canvas.getContext('2d');
+ctx.scale(scale, scale);
+var W = Math.round(rect.width), H = Math.round(rect.height);
+var off = document.createElement('canvas');
+off.width = W; off.height = H;
+var octx = off.getContext('2d');
+octx.drawImage(img, 0, 0, W, H);
+var data;
+try { data = octx.getImageData(0, 0, W, H).data; }
+catch (e) { data = null; }
+var parts = [];
+if (data) {
+for (var y = 0; y < H; y += 2) {
+for (var x = 0; x < W; x += 2) {
+var idx = (y * W + x) * 4;
+var a = data[idx + 3];
+if (a < 40) continue;
+parts.push({
+x: rect.left + x, y: rect.top + y, s: 2,
+c: 'rgba(' + data[idx] + ',' + data[idx + 1] + ',' + data[idx + 2] + ',' + (a / 255).toFixed(2) + ')',
+d: Math.random() * 0.5,
+vx: (Math.random() - 0.5) * 26,
+vy: -(26 + Math.random() * 60),
+bl: 0
+});
+}
+}
+for (var j = 0; j < 26; j++) {
+parts.push({
+cloud: true,
+x: rect.left + Math.random() * W,
+y: rect.top + Math.random() * H,
+r: 14 + Math.random() * 34,
+c: 'rgba(' + (200 + Math.floor(Math.random() * 55)) + ',' + (205 + Math.floor(Math.random() * 50)) + ',' + (210 + Math.floor(Math.random() * 45)) + ',0.5)',
+d: 0.1 + Math.random() * 0.5,
+vx: (Math.random() - 0.5) * 18,
+vy: -(40 + Math.random() * 55),
+bl: 6 + Math.random() * 10
+});
+}
+} else {
+for (var k = 0; k < 260; k++) {
+parts.push({
+x: rect.left + Math.random() * rect.width,
+y: rect.top + Math.random() * rect.height,
+s: 3,
+c: 'rgba(102,192,244,0.9)',
+d: Math.random() * 0.5,
+vx: (Math.random() - 0.5) * 26,
+vy: -(30 + Math.random() * 60),
+bl: 0
+});
+}
+}
+var t0 = performance.now();
+function frame(t) {
+var el = t - t0;
+ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+var alive = 0;
+parts.forEach(function(p) {
+var lt = el / 1000 - p.d;
+if (lt < 0) {
+if (p.cloud) {
+ctx.save(); ctx.filter = 'blur(' + p.bl + 'px)';
+ctx.fillStyle = p.c; ctx.beginPath();
+ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill(); ctx.restore();
+} else {
+ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, p.s, p.s);
+}
+alive++; return;
+}
+if (lt > 1.3) return;
+alive++;
+var e = 1 - Math.pow(1 - Math.min(lt / 1.2, 1), 2);
+var px = p.x + p.vx * lt, py = p.y + p.vy * lt;
+ctx.globalAlpha = 1 - e;
+if (p.cloud) {
+ctx.save(); ctx.filter = 'blur(' + (p.bl + e * 14) + 'px)';
+ctx.fillStyle = p.c; ctx.beginPath();
+ctx.arc(px, py, p.r * (1 + e * 1.4), 0, 6.283); ctx.fill(); ctx.restore();
+} else {
+ctx.fillStyle = p.c;
+ctx.fillRect(px, py, Math.max(0.5, p.s * (1 - 0.5 * e)), Math.max(0.5, p.s * (1 - 0.5 * e)));
+}
+});
+ctx.globalAlpha = 1;
+if (el > 350 && el < 750) flash.classList.add('on');
+else if (el >= 750) flash.classList.remove('on');
+if (alive > 0 && el < 3300) {
+requestAnimationFrame(frame);
+} else {
+document.body.removeChild(layer);
+document.body.removeChild(flash);
+openShow();
+running = false;
+}
+}
+requestAnimationFrame(frame);
+}
+});
 })();
 </script>
 </body>
