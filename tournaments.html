@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -61,9 +60,7 @@ body {
     text-shadow: 0 2px 4px rgba(0,0,0,0.6);
     font-weight: 700;
 }
-.archive-icon-wrapper a {
-    display: block;
-}
+.archive-icon-wrapper a { display: block; }
 .archive-icon-wrapper img {
     height: 168px;
     width: auto;
@@ -71,9 +68,7 @@ body {
     cursor: pointer;
     transition: transform 0.3s ease;
 }
-.archive-icon-wrapper img:hover {
-    transform: scale(1.05);
-}
+.archive-icon-wrapper img:hover { transform: scale(1.05); }
 
 /* Iframe с турнирной сеткой */
 .tournament-frame {
@@ -87,17 +82,26 @@ body {
 }
 
 /* ==========================================
+   PAGE WRAPPER — как в фывфывфывфыв.txt
+   ========================================== */
+.page-wrapper {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* ==========================================
    СТИЛИ ГОЛОГРАФИЧЕСКОГО СТИКЕРА
-   Закреплён через position: fixed — не двигается при скролле
-   Вынесен из контейнеров для корректной работы
+   Точно как в фывфывфывфыв.txt: position: absolute внутри .page-wrapper
+   Позиция: справа внизу, отступ 50px
    ========================================== */
 .holo-sticker {
-    position: fixed;
+    position: absolute;
     right: 50px;
     bottom: 50px;
     width: 180px;
     height: 180px;
-    z-index: 9990;
+    z-index: 5;
     filter: drop-shadow(0 0 25px rgba(74, 158, 255, 0.5));
     animation: sticker-float 4s ease-in-out infinite;
     pointer-events: auto;
@@ -394,59 +398,65 @@ body {
 <!-- Шапка -->
 <div id="header-placeholder" class="header-wrapper"></div>
 
-<div class="page-content">
-    <!-- Блок: «правила [картинка] турнира» — справа -->
-    <div class="archive-block">
-        <span class="archive-title-part">правила</span>
-        <div class="archive-icon-wrapper">
-            <a href="rules.html" title="Правила турнира">
-                <img src="png/wepon1bez.png" alt="Правила турнира">
-            </a>
+<!-- ==========================================
+     PAGE WRAPPER — содержит контент и стикер
+     ========================================== -->
+<div class="page-wrapper">
+    <div class="page-content">
+        <!-- Блок: «правила [картинка] турнира» — справа -->
+        <div class="archive-block">
+            <span class="archive-title-part">правила</span>
+            <div class="archive-icon-wrapper">
+                <a href="rules.html" title="Правила турнира">
+                    <img src="png/wepon1bez.png" alt="Правила турнира">
+                </a>
+            </div>
+            <span class="archive-title-part">турнира</span>
         </div>
-        <span class="archive-title-part">турнира</span>
+
+        <!-- Турнирная сетка в iframe -->
+        <iframe src="tournament-bracket.html" class="tournament-frame" id="tournamentFrame"></iframe>
     </div>
 
-    <!-- Турнирная сетка в iframe -->
-    <iframe src="tournament-bracket.html" class="tournament-frame" id="tournamentFrame"></iframe>
-</div>
-
-<!-- ==========================================
-     ГОЛОГРАФИЧЕСКИЙ СТИКЕР (ТРИГГЕР)
-     ВЫНЕСЕН ИЗ КОНТЕЙНЕРОВ — закреплён в правом нижнем углу
-     ========================================== -->
-<div class="holo-sticker" id="holoSticker">
-    <svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
-        <defs>
-            <pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots" viewBox="12.5 -34 26 23" style="overflow:visible;">
-                <g>
-                    <rect x="12.5" y="-34" width="26" height="23"/>
-                    <g><circle class="color1" cx="45" cy="-7.5" r="7.5"/></g>
-                    <g><circle class="color1" cx="19" cy="-7.5" r="7.5"/><circle class="color2" cx="29.5" cy="-10" r="7.5"/></g>
-                    <g><circle class="color3" cx="39.5" cy="-26" r="7.5"/><circle class="color1" cx="45" cy="-30.5" r="7.5"/><circle class="color4" cx="42.5" cy="-17" r="7.5"/></g>
-                    <g><circle class="color3" cx="13.5" cy="-26" r="7.5"/><circle class="color1" cx="19" cy="-30.5" r="7.5"/><circle class="color1" cx="33.5" cy="-16" r="7.5"/><circle class="color2" cx="23.5" cy="-12" r="7.5"/><circle class="color2" cx="29.5" cy="-33" r="7.5"/><circle class="color4" cx="16.5" cy="-17" r="7.5"/><circle class="color5" cx="37.5" cy="-26" r="7.5"/><circle class="color3" cx="27.5" cy="-23" r="7.5"/></g>
-                    <g><circle class="color1" cx="7.5" cy="-16" r="7.5"/><circle class="color5" cx="11.5" cy="-26" r="7.5"/></g>
-                    <g><circle class="color4" cx="42.5" cy="-40" r="7.5"/></g>
-                    <g><circle class="color1" cx="33.5" cy="-39" r="7.5"/><circle class="color2" cx="23.5" cy="-35" r="7.5"/><circle class="color4" cx="16.5" cy="-40" r="7.5"/></g>
-                    <g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
-                </g>
-            </pattern>
-            <clipPath id="badge-clip">
-                <circle cx="128" cy="128" r="120"/>
-            </clipPath>
-            <linearGradient id="holo-shine" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
-                <stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
-                <stop offset="40%" stop-color="#5cff7a" stop-opacity="0.6"/>
-                <stop offset="60%" stop-color="#4de4ff" stop-opacity="0.7"/>
-                <stop offset="80%" stop-color="#b96bff" stop-opacity="0.6"/>
-                <stop offset="100%" stop-color="#ff4dd2" stop-opacity="0.7"/>
-            </linearGradient>
-        </defs>
-        <circle class="circle" cx="128" cy="128" r="120"/>
-        <circle cx="128" cy="128" r="120" fill="url(#holo-shine)" clip-path="url(#badge-clip)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
-        <image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip)"/>
-        <circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.35;"/>
-    </svg>
+    <!-- ==========================================
+         ГОЛОГРАФИЧЕСКИЙ СТИКЕР (ТРИГГЕР)
+         position: absolute внутри .page-wrapper (как в фывфывфывфыв.txt)
+         Позиция: справа внизу, отступ 50px
+         ========================================== -->
+    <div class="holo-sticker" id="holoSticker">
+        <svg id="badge" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
+            <defs>
+                <pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots" viewBox="12.5 -34 26 23" style="overflow:visible;">
+                    <g>
+                        <rect x="12.5" y="-34" width="26" height="23"/>
+                        <g><circle class="color1" cx="45" cy="-7.5" r="7.5"/></g>
+                        <g><circle class="color1" cx="19" cy="-7.5" r="7.5"/><circle class="color2" cx="29.5" cy="-10" r="7.5"/></g>
+                        <g><circle class="color3" cx="39.5" cy="-26" r="7.5"/><circle class="color1" cx="45" cy="-30.5" r="7.5"/><circle class="color4" cx="42.5" cy="-17" r="7.5"/></g>
+                        <g><circle class="color3" cx="13.5" cy="-26" r="7.5"/><circle class="color1" cx="19" cy="-30.5" r="7.5"/><circle class="color1" cx="33.5" cy="-16" r="7.5"/><circle class="color2" cx="23.5" cy="-12" r="7.5"/><circle class="color2" cx="29.5" cy="-33" r="7.5"/><circle class="color4" cx="16.5" cy="-17" r="7.5"/><circle class="color5" cx="37.5" cy="-26" r="7.5"/><circle class="color3" cx="27.5" cy="-23" r="7.5"/></g>
+                        <g><circle class="color1" cx="7.5" cy="-16" r="7.5"/><circle class="color5" cx="11.5" cy="-26" r="7.5"/></g>
+                        <g><circle class="color4" cx="42.5" cy="-40" r="7.5"/></g>
+                        <g><circle class="color1" cx="33.5" cy="-39" r="7.5"/><circle class="color2" cx="23.5" cy="-35" r="7.5"/><circle class="color4" cx="16.5" cy="-40" r="7.5"/></g>
+                        <g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
+                    </g>
+                </pattern>
+                <clipPath id="badge-clip">
+                    <circle cx="128" cy="128" r="120"/>
+                </clipPath>
+                <linearGradient id="holo-shine" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
+                    <stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
+                    <stop offset="40%" stop-color="#5cff7a" stop-opacity="0.6"/>
+                    <stop offset="60%" stop-color="#4de4ff" stop-opacity="0.7"/>
+                    <stop offset="80%" stop-color="#b96bff" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#ff4dd2" stop-opacity="0.7"/>
+                </linearGradient>
+            </defs>
+            <circle class="circle" cx="128" cy="128" r="120"/>
+            <circle cx="128" cy="128" r="120" fill="url(#holo-shine)" clip-path="url(#badge-clip)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
+            <image href="png/mirage.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip)"/>
+            <circle class="circle" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.35;"/>
+        </svg>
+    </div>
 </div>
 
 <!-- ==========================================
