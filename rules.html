@@ -421,7 +421,7 @@ cursor: pointer;
 top: 550px;
 left: 150px;
 }
-/* Правый стикер: top 250px, right: 150px */
+/* Правый стикер: top 250px, right 150px */
 .holo-sticker-right {
 top: 250px;
 right: 150px;
@@ -695,7 +695,7 @@ color: #555;
 <div class="rules-bg"></div>
 <canvas id="tubes-canvas"></canvas>
 <div id="header-placeholder" class="header-wrapper"></div>
-<!-- ===== СТИКЕР ЛЕВЫЙ (top: 250px, left: 150px) ===== -->
+<!-- ===== СТИКЕР ЛЕВЫЙ (top: 550px, left: 150px) ===== -->
 <div class="holo-sticker holo-sticker-left" id="holoStickerLeft" data-modal="mcMagic">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -782,7 +782,7 @@ color: #555;
 </div>
 </div>
 <div class="page-side back-side">
-<button class="nav-arrow prev-arrow" onclick="turnPage(5, 'prev')">↩ Назад</button>
+<button class="nav-arrow prev-arrow" onclick="turnPage('5', 'prev')">↩ Назад</button>
 </div>
 </div>
 <!-- СТРАНИЦА 4: ПРИЗЫ -->
@@ -798,10 +798,10 @@ color: #555;
 </ul>
 <p class="small-text-note">Турнир создан ради эмоций и символических призов!</p>
 </div>
-<button class="nav-arrow next-arrow" onclick="turnPage(4, 'next')">Вперед ↪</button>
+<button class="nav-arrow next-arrow" onclick="turnPage('4', 'next')">Вперед ↪</button>
 </div>
 <div class="page-side back-side">
-<button class="nav-arrow prev-arrow" onclick="turnPage(4, 'prev')">↩ Назад</button>
+<button class="nav-arrow prev-arrow" onclick="turnPage('4', 'prev')">↩ Назад</button>
 </div>
 </div>
 <!-- СТРАНИЦА 3: АНТИЧИТ -->
@@ -815,18 +815,20 @@ color: #555;
 <li><b>Залив файла анти-чита:</b> После игры найдите в «Моих документах» файл <b>match_log</b> и загрузите его через <b>желтый плюс</b> в противостоянии матча.</li>
 </ul>
 </div>
-<button class="nav-arrow next-arrow" onclick="turnPage(3, 'next')">Вперед ↪</button>
+<button class="nav-arrow next-arrow" onclick="turnPage('3', 'next')">Вперед ↪</button>
 </div>
 <div class="page-side back-side">
 <div class="gif-container">
 <img src="gif/20261026_InexpensiveBlueSquirrelNotATK-tmAsxdSkeHp.gif" class="page-gif" alt="Призы">
 <div class="gif-caption">Ценные призы ждут победителей!</div>
 </div>
-<button class="nav-arrow prev-arrow" onclick="turnPage(3, 'prev')">↩ Назад</button>
+<button class="nav-arrow prev-arrow" onclick="turnPage('3', 'prev')">↩ Назад</button>
 </div>
 </div>
 <!-- ==========================================
 НОВАЯ СТРАНИЦА 2b: МЕЖДУ "ОСНОВНЫЕ ПРАВИЛА" И "ANTI-CHEAT"
+Лицевая сторона: привет / как дела
+Оборот: GIF "Следи за статусом античита!" (перенесён с p2)
 ========================================== -->
 <div class="b-page paper-page" id="p2b" style="z-index: 5;">
 <div class="page-side front-side">
@@ -837,6 +839,10 @@ color: #555;
 <button class="nav-arrow next-arrow" onclick="turnPage('2b', 'next')">Вперед ↪</button>
 </div>
 <div class="page-side back-side">
+<div class="gif-container">
+<img src="gif/20261026_SuccessfulEagerPastaArsonNoSexy-gUbG2z5bg.gif" class="page-gif" alt="Античит">
+<div class="gif-caption">Следи за статусом античита!</div>
+</div>
 <button class="nav-arrow prev-arrow" onclick="turnPage('2b', 'prev')">↩ Назад</button>
 </div>
 </div>
@@ -852,14 +858,10 @@ color: #555;
 <li><b>Замена читера:</b> Если команда где есть читер проходит дальше по описанию с пункта выше, то админ на свое усмотрение заменят игрока, приглашает или друга или любого зрителя с чата во время трансляции, если того кто желает.</li>
 </ul>
 </div>
-<button class="nav-arrow next-arrow" onclick="turnPage(2, 'next')">Вперед ↪</button>
+<button class="nav-arrow next-arrow" onclick="turnPage('2', 'next')">Вперед ↪</button>
 </div>
 <div class="page-side back-side">
-<div class="gif-container">
-<img src="gif/20261026_SuccessfulEagerPastaArsonNoSexy-gUbG2z5bg.gif" class="page-gif" alt="Античит">
-<div class="gif-caption">Следи за статусом античита!</div>
-</div>
-<button class="nav-arrow prev-arrow" onclick="turnPage(2, 'prev')">↩ Назад</button>
+<button class="nav-arrow prev-arrow" onclick="turnPage('2', 'prev')">↩ Назад</button>
 </div>
 </div>
 <!-- СТРАНИЦА 1: ЗАСТАВКА -->
@@ -869,10 +871,10 @@ color: #555;
 <h2>Читай<br>внимательно!</h2>
 <p>Здесь собраны все важные правила турнира.</p>
 </div>
-<button class="nav-arrow next-arrow" onclick="turnPage(1, 'next')">Вперед ↪</button>
+<button class="nav-arrow next-arrow" onclick="turnPage('1', 'next')">Вперед ↪</button>
 </div>
 <div class="page-side back-side">
-<button class="nav-arrow prev-arrow" onclick="turnPage(1, 'prev')">↩ Назад</button>
+<button class="nav-arrow prev-arrow" onclick="turnPage('1', 'prev')">↩ Назад</button>
 </div>
 </div>
 <!-- ПЕРЕДНЯЯ ОБЛОЖКА -->
@@ -883,7 +885,7 @@ color: #555;
 <h2>РУКОВОДСТВО</h2>
 <div class="gold-badge">ЧАК-ЧАК</div>
 <p>Официальные правила турниров CS2</p>
-<button class="open-book-btn" onclick="turnPage(0, 'next')">Открыть книгу 📖</button>
+<button class="open-book-btn" onclick="turnPage('0', 'next')">Открыть книгу 📖</button>
 <button class="back-to-start-btn" id="backToStartBtn" onclick="closeBook()">Вернуться на обложку</button>
 </div>
 </div>
@@ -1003,47 +1005,61 @@ document.body.appendChild(script);
 .catch(error => console.error('Ошибка загрузки шапки:', error));
 </script>
 <script>
+/* ==========================================
+СЛОВАРИ Z-INDEX
+zRight — для страниц в правой стопке (не перевёрнуты)
+zLeft  — для страниц в левой стопке (перевёрнуты)
+========================================== */
+var zRight = {
+'0': 8,
+'1': 7,
+'2': 6,
+'2b': 5,
+'3': 4,
+'4': 3,
+'5': 2
+};
+
+var zLeft = {
+'0': 2,
+'1': 3,
+'2': 4,
+'2b': 5,
+'3': 6,
+'4': 7,
+'5': 8
+};
+
 function turnPage(pageId, direction) {
+pageId = String(pageId);
 const page = document.getElementById('p' + pageId);
+if (!page) return;
+
 if (direction === 'next') {
 page.classList.add('flipped');
-setTimeout(() => {
-if (pageId === '2b') page.style.zIndex = 5;
-else page.style.zIndex = pageId;
-}, 300);
-if (pageId === 0) {
+setTimeout(() => { page.style.zIndex = zLeft[pageId]; }, 300);
+if (pageId === '0') {
 document.getElementById('backToStartBtn').style.display = 'inline-block';
 }
 } else if (direction === 'prev') {
 page.style.zIndex = 100;
 setTimeout(() => { page.classList.remove('flipped'); }, 10);
-setTimeout(() => {
-if (pageId === 1) page.style.zIndex = 7;
-else if (pageId === 2) page.style.zIndex = 6;
-else if (pageId === '2b') page.style.zIndex = 5;
-else if (pageId === 3) page.style.zIndex = 4;
-else if (pageId === 4) page.style.zIndex = 3;
-else if (pageId === 5) page.style.zIndex = 2;
-}, 800);
+setTimeout(() => { page.style.zIndex = zRight[pageId]; }, 800);
 }
 }
+
 function closeBook() {
-[1, 2, '2b', 3, 4, 5].forEach(i => {
-const page = document.getElementById('p' + i);
+['1', '2', '2b', '3', '4', '5'].forEach(id => {
+const page = document.getElementById('p' + id);
 if (page) {
 page.classList.remove('flipped');
-if (i === 1) page.style.zIndex = 7;
-else if (i === 2) page.style.zIndex = 6;
-else if (i === '2b') page.style.zIndex = 5;
-else if (i === 3) page.style.zIndex = 4;
-else if (i === 4) page.style.zIndex = 3;
-else if (i === 5) page.style.zIndex = 2;
+page.style.zIndex = zRight[id];
 }
 });
 const p0 = document.getElementById('p0');
 setTimeout(() => {
 p0.classList.remove('flipped');
-p0.style.zIndex = 8;
+p0.style.zIndex = zRight['0'];
 }, 100);
 document.getElementById('backToStartBtn').style.display = 'none';
 }
@@ -1221,7 +1237,6 @@ s.style.animation = '';
 currentShow = null;
 currentSticker = null;
 }
-// Закрытие по крестику и фону в обеих модалках
 document.querySelectorAll('[data-close]').forEach(function(el) {
 el.addEventListener('click', closeShow);
 });
