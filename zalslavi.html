@@ -161,49 +161,7 @@ white-space: nowrap;
 0%, 100% { background-position: 0% 50%; }
 50% { background-position: 100% 50%; }
 }
-/* ===== СЕТКА КАРТОЧЕК ===== */
-.hall-grid {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-gap: 22px;
-}
-.hall-card {
-position: relative;
-display: flex;
-flex-direction: column;
-background: linear-gradient(160deg, rgba(20,30,60,0.85) 0%, rgba(10,20,45,0.9) 100%);
-border: 1px solid rgba(255,215,0,0.2);
-border-radius: 16px;
-padding: 22px 22px 18px;
-overflow: hidden;
-transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-border-color 0.3s, box-shadow 0.35s;
-animation: cardAppear 0.7s ease-out backwards;
-cursor: pointer;
-text-decoration: none;
-color: inherit;
-}
-.hall-card::before {
-content: '';
-position: absolute;
-top: 0; left: -100%;
-width: 100%; height: 100%;
-background: linear-gradient(90deg, transparent, rgba(255,215,0,0.08), transparent);
-transition: left 0.7s;
-pointer-events: none;
-}
-.hall-card:hover::before { left: 100%; }
-.hall-card:hover {
-transform: translateY(-8px);
-border-color: rgba(255,215,0,0.75);
-box-shadow:
-0 20px 40px rgba(0,0,0,0.5),
-0 0 40px rgba(255,215,0,0.25);
-}
-@keyframes cardAppear {
-from { opacity: 0; transform: translateY(30px) scale(0.95); }
-to { opacity: 1; transform: translateY(0) scale(1); }
-}
+/* ===== ОБЩИЕ ЭЛЕМЕНТЫ КАРТОЧЕК ===== */
 .card-thumb {
 width: 100%;
 height: 150px;
@@ -256,40 +214,125 @@ display: -webkit-box;
 -webkit-box-orient: vertical;
 overflow: hidden;
 }
-.card-desc {
-font-size: 13px;
-color: rgba(255,255,255,0.6);
-line-height: 1.5;
-margin: 0 0 16px;
-flex: 1;
-display: -webkit-box;
--webkit-line-clamp: 3;
--webkit-box-orient: vertical;
+/* ==========================================
+   3D КОНВЕЙЕРНАЯ ЛЕНТА (БЕСКОНЕЧНАЯ)
+   ========================================== */
+.belt-scene {
+position: relative;
+height: 560px;
+margin-top: 14px;
+perspective: 900px;
+perspective-origin: 50% 28%;
 overflow: hidden;
+border-radius: 16px;
+background: radial-gradient(ellipse at 50% 28%, rgba(30,50,110,0.45) 0%, rgba(5,8,18,0.95) 72%);
+cursor: grab;
+touch-action: pan-y;
+user-select: none;
+-webkit-user-select: none;
 }
-.card-btn {
-display: inline-flex;
+.belt-scene.dragging { cursor: grabbing; }
+.belt-horizon {
+position: absolute;
+left: 6%; right: 6%;
+top: 28%;
+height: 2px;
+background: linear-gradient(90deg, transparent, rgba(255,215,0,0.85), transparent);
+box-shadow: 0 0 30px rgba(255,215,0,0.55);
+pointer-events: none;
+}
+.belt-floor {
+position: absolute;
+left: 50%;
+top: 28%;
+width: 460px;
+height: 3000px;
+transform: translateX(-50%) rotateX(77deg);
+transform-origin: 50% 0;
+background:
+repeating-linear-gradient(180deg, rgba(255,215,0,0.18) 0 4px, rgba(20,30,60,0.6) 4px 80px);
+border-left: 2px solid rgba(255,215,0,0.4);
+border-right: 2px solid rgba(255,215,0,0.4);
+box-shadow: 0 0 80px rgba(0,0,0,0.65);
+will-change: background-position;
+pointer-events: none;
+}
+.belt-cards {
+position: absolute;
+inset: 0;
+transform-style: preserve-3d;
+}
+.belt-card {
+position: absolute;
+left: 50%;
+top: 50%;
+width: 290px;
+padding: 12px 12px 14px;
+border-radius: 14px;
+background: linear-gradient(160deg, rgba(20,30,60,0.95) 0%, rgba(10,20,45,0.96) 100%);
+border: 1px solid rgba(255,215,0,0.3);
+cursor: pointer;
+backface-visibility: hidden;
+will-change: transform, opacity;
+transition: border-color 0.3s, box-shadow 0.3s;
+box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+}
+.belt-card:hover {
+border-color: rgba(255,215,0,0.9);
+box-shadow: 0 18px 50px rgba(0,0,0,0.55), 0 0 45px rgba(255,215,0,0.3);
+}
+.belt-card .card-thumb { height: 145px; margin-bottom: 10px; }
+.belt-card .card-title { font-size: 14px; margin: 0; -webkit-line-clamp: 1; }
+.belt-card .belt-channel {
+font-size: 11px;
+color: rgba(255,215,0,0.75);
+font-weight: 600;
+letter-spacing: 0.5px;
+margin-top: 6px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+.belt-card .belt-play {
+position: absolute;
+top: 58px;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 52px;
+height: 52px;
+border-radius: 50%;
+background: rgba(255,0,0,0.92);
+display: flex;
 align-items: center;
 justify-content: center;
+opacity: 0;
+transition: opacity 0.25s, transform 0.25s;
+box-shadow: 0 0 25px rgba(255,0,0,0.6);
+pointer-events: none;
+}
+.belt-card:hover .belt-play { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+.belt-card .belt-play .material-symbols-outlined { color: #fff; font-size: 30px; }
+.belt-hint {
+position: absolute;
+bottom: 12px;
+left: 50%;
+transform: translateX(-50%);
+font-size: 12px;
+letter-spacing: 1px;
+color: rgba(255,255,255,0.45);
+display: flex;
+align-items: center;
 gap: 8px;
-padding: 10px 18px;
-background: linear-gradient(135deg, #c0392b, #ff0000);
-color: #fff;
-border-radius: 30px;
-font-size: 13px;
-font-weight: 700;
-text-decoration: none;
-letter-spacing: 0.5px;
-transition: transform 0.2s, box-shadow 0.2s;
-align-self: flex-start;
-border: none;
-box-shadow: 0 4px 14px rgba(255,0,0,0.3);
+pointer-events: none;
+white-space: nowrap;
 }
-.card-btn:hover {
-transform: translateY(-2px);
-box-shadow: 0 8px 22px rgba(255,0,0,0.55);
+.belt-hint .material-symbols-outlined { font-size: 17px; color: rgba(255,215,0,0.6); }
+@media (max-width: 640px) {
+.belt-scene { height: 440px; }
+.belt-card { width: 220px; }
+.belt-card .card-thumb { height: 110px; }
+.belt-hint { font-size: 10px; }
 }
-.card-btn .material-symbols-outlined { font-size: 18px; }
 /* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
 .hall-empty {
 text-align: center;
@@ -433,7 +476,7 @@ z-index: 5;
 transition: background 0.2s, transform 0.2s;
 box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
-.hall-card:hover .card-delete.admin-visible { display: flex; }
+.belt-card:hover .card-delete.admin-visible { display: flex; }
 .card-delete:hover { background: #dc2626; transform: scale(1.1); }
 @media (max-width: 640px) {
 .hall-stand { padding: 32px 16px; }
@@ -493,7 +536,7 @@ display: block;
 }
 
 /* ==========================================
-   СТИЛИ МОДАЛКИ И ЭФФЕКТА ИСПАРЕНИЯ
+   СТИЛИ МОДАЛОК СТИКЕРОВ + ИСПАРЕНИЕ
    ========================================== */
 .mc-show {
 position: fixed;
@@ -624,6 +667,74 @@ transition: opacity 0.5s ease;
 .mc-topbar { padding: 10px 16px 8px; }
 .mc-rule { margin: 0 16px; }
 .mc-pages { top: 48px; }
+}
+
+/* ==========================================
+   3D МОДАЛКА С YOUTUBE (ДЛЯ ЛЕНТЫ)
+   ========================================== */
+.yt-window {
+position: absolute;
+left: 50%;
+top: 50%;
+width: min(1100px, 94vw);
+transform-origin: 50% 50%;
+animation: ytIn 0.6s cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+@keyframes ytIn {
+from { opacity: 0; transform: translate(-50%, -50%) perspective(1400px) rotateX(22deg) scale(0.86); }
+to   { opacity: 1; transform: translate(-50%, -50%) perspective(1400px) rotateX(0deg) scale(1); }
+}
+.yt-topbar {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 14px 20px;
+background: linear-gradient(135deg, rgba(10,42,107,0.92), rgba(10,20,50,0.95));
+border: 1px solid rgba(255,215,0,0.4);
+border-bottom: none;
+border-radius: 14px 14px 0 0;
+}
+.yt-topbar .yt-brand {
+font-size: 11px;
+letter-spacing: 4px;
+font-weight: 700;
+color: rgba(255,215,0,0.85);
+text-transform: uppercase;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.yt-topbar .yt-brand .material-symbols-outlined { font-size: 18px; }
+.yt-topbar .mc-x {
+border-color: rgba(255,255,255,0.35);
+color: #fff;
+}
+.yt-topbar .mc-x:hover { background: #fff; color: #1a1a2e; }
+.yt-title {
+font-size: 14px;
+font-weight: 700;
+color: #fff;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+max-width: 60vw;
+margin-left: 14px;
+flex: 1;
+}
+.yt-frame {
+aspect-ratio: 16 / 9;
+background: #000;
+border: 1px solid rgba(255,215,0,0.4);
+border-top: none;
+border-radius: 0 0 14px 14px;
+box-shadow: 0 50px 140px rgba(0,0,0,0.85), 0 0 70px rgba(255,215,0,0.12);
+overflow: hidden;
+}
+.yt-frame iframe {
+width: 100%;
+height: 100%;
+border: 0;
+display: block;
 }
 
 /* ==========================================
@@ -818,10 +929,18 @@ color: #555;
 </p>
 <div class="hall-divider"></div>
 </section>
-<!-- Анимированный стенд -->
+<!-- 3D Конвейерная лента -->
 <section class="hall-stand">
 <div class="stand-label">★ Выдающиеся моменты ★</div>
-<div class="hall-grid" id="hallGrid"></div>
+<div class="belt-scene" id="beltScene">
+<div class="belt-horizon"></div>
+<div class="belt-floor" id="beltFloor"></div>
+<div class="belt-cards" id="beltCards"></div>
+<div class="belt-hint">
+<span class="material-symbols-outlined">swipe</span>
+Тяни или крути колесо — лента едет · клик по карточке — смотреть
+</div>
+</div>
 <div class="hall-empty" id="hallEmpty" style="display:none;">
 <span class="material-symbols-outlined">movie</span>
 Пока здесь пусто. Скоро появятся лучшие моменты турниров!
@@ -860,6 +979,24 @@ color: #555;
 </div>
 </div>
 </main>
+
+<!-- ===== 3D МОДАЛКА С YOUTUBE (для карточек ленты) ===== -->
+<div class="mc-show" id="ytShow">
+<div class="mc-backdrop" data-yt-close></div>
+<div class="yt-window">
+<div class="yt-topbar">
+<span class="yt-brand">
+<span class="material-symbols-outlined">play_circle</span>
+HALL OF FAME
+</span>
+<span class="yt-title" id="ytTitle"></span>
+<button class="mc-x" data-yt-close title="Закрыть">&#10005;</button>
+</div>
+<div class="yt-frame">
+<iframe id="ytFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen title="YouTube видео"></iframe>
+</div>
+</div>
+</div>
 
 <!-- ===== МОДАЛКА 1: COLDZERA / MIRAGE ===== -->
 <div class="mc-show" id="mcColdzera">
@@ -911,6 +1048,7 @@ Banan clutch
 </div>
 </div>
 </div>
+</div>
 
 <!-- ===== МОДАЛКА 2: MAGIC / MIRAGE ===== -->
 <div class="mc-show" id="mcMagic">
@@ -955,6 +1093,7 @@ pixel bug
 <div class="footer-left">оlofmeister / Overpass</div>
 <div class="footer-right">
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+</div>
 </div>
 </div>
 </div>
@@ -1037,11 +1176,26 @@ renderCards();
 });
 });
 var lastData = null;
+
+/* ==========================================================
+   3D КОНВЕЙЕРНАЯ ЛЕНТА
+   ========================================================== */
+var SPACING = 380;          // расстояние между карточками на ленте
+var Z_NEAR = 260;           // ближний край ленты
+var Z_FADE = 2750;          // глубина исчезновения у горизонта
+var belt = { offset: 0, target: 0, vel: 0, dragging: false, lastX: 0, moved: 0 };
+var beltItems = [];
+var beltScene = document.getElementById('beltScene');
+var beltCards = document.getElementById('beltCards');
+var beltFloor = document.getElementById('beltFloor');
+
+function mod(a, m) { return ((a % m) + m) % m; }
+
 function renderCards() {
-var grid = document.getElementById('hallGrid');
 var empty = document.getElementById('hallEmpty');
 var data = lastData;
-grid.innerHTML = '';
+beltCards.innerHTML = '';
+beltItems = [];
 var entries = [];
 if (data) {
 Object.keys(data).forEach(function(id) {
@@ -1059,9 +1213,11 @@ createdAt: e.createdAt || 0
 }
 if (entries.length === 0) {
 empty.style.display = 'block';
+beltScene.style.display = 'none';
 return;
 }
 empty.style.display = 'none';
+beltScene.style.display = 'block';
 entries.sort(function(a, b) { return b.createdAt - a.createdAt; });
 entries.forEach(function(e, idx) {
 var ytId = extractYouTubeId(e.url);
@@ -1073,36 +1229,119 @@ thumbHtml = '<img src="' + escapeHtml(thumbUrl) + '" alt="" onerror="this.style.
 } else {
 thumbHtml = '<div class="yt-icon"></div>';
 }
-var descHtml = e.desc ? '<p class="card-desc">' + escapeHtml(e.desc) + '</p>' : '<p class="card-desc"></p>';
-var channelHtml = e.channel ? '<div style="font-size:12px;color:rgba(255,215,0,0.75);font-weight:600;margin-bottom:10px;letter-spacing:0.5px;">' + escapeHtml(e.channel) + '</div>' : '';
+var channelHtml = e.channel ? '<div class="belt-channel">' + escapeHtml(e.channel) + '</div>' : '';
 var delBtn = isAdmin
 ? '<button class="card-delete admin-visible" data-id="' + escapeHtml(e.id) + '" title="Удалить">&times;</button>'
 : '';
-var safeUrl = e.url ? escapeHtml(normalizeUrl(e.url)) : '#';
-var card = document.createElement('a');
-card.className = 'hall-card';
-card.href = safeUrl;
-card.target = '_blank';
-card.rel = 'noopener noreferrer';
-card.style.animationDelay = (idx * 0.07) + 's';
+var card = document.createElement('div');
+card.className = 'belt-card';
 card.innerHTML =
 delBtn +
 '<div class="card-thumb">' + thumbHtml + '</div>' +
+'<div class="belt-play"><span class="material-symbols-outlined">play_arrow</span></div>' +
 '<h4 class="card-title">' + escapeHtml(e.title) + '</h4>' +
-channelHtml +
-descHtml +
-'<span class="card-btn"><span class="material-symbols-outlined">play_circle</span> Смотреть</span>';
-var del = card.querySelector('.card-delete');
-if (del) {
-del.addEventListener('click', function(ev) {
-ev.preventDefault();
-ev.stopPropagation();
-deleteEntry(e.id);
+channelHtml;
+card.addEventListener('click', function(ev) {
+if (belt.moved > 6) return; // это был drag, не клик
+var del = ev.target.closest('.card-delete');
+if (del) { deleteEntry(e.id); return; }
+openYtModal(e);
+});
+beltCards.appendChild(card);
+beltItems.push({ el: card, base: idx * SPACING });
 });
 }
-grid.appendChild(card);
-});
+
+function beltFrame() {
+if (!belt.dragging) {
+belt.vel *= 0.94;          // инерция после броска
+belt.target += belt.vel;
+belt.target += 0.25;       // медленный автодрейф ленты
 }
+belt.offset += (belt.target - belt.offset) * 0.12; // плавность
+var n = beltItems.length;
+if (n) {
+var total = n * SPACING;
+for (var i = 0; i < n; i++) {
+var it = beltItems[i];
+var z = Z_NEAR - mod(it.base + belt.offset, total);
+if (z < -Z_FADE) {
+it.el.style.visibility = 'hidden';
+continue;
+}
+it.el.style.visibility = 'visible';
+var t = (Z_NEAR - z) / total;   // 0 = рядом, 1 = у горизонта
+var y = 205 - t * 330;          // едет снизу к горизонту
+var x = (i % 2 === 0 ? -1 : 1) * 150; // две колеи, сходятся сами за счёт перспективы
+it.el.style.transform = 'translate(-50%, -100%) translate3d(' + x + 'px,' + y + 'px,' + z + 'px)';
+it.el.style.zIndex = Math.round(5000 + z);
+it.el.style.opacity = z < -(Z_FADE - 650) ? Math.max(0, (z + Z_FADE) / 650).toFixed(3) : '1';
+}
+}
+beltFloor.style.backgroundPositionY = (belt.offset * 0.4) + 'px';
+requestAnimationFrame(beltFrame);
+}
+requestAnimationFrame(beltFrame);
+
+/* Колесо мыши — лента крутится */
+beltScene.addEventListener('wheel', function(e) {
+e.preventDefault();
+belt.target += e.deltaY * 1.15;
+belt.vel = 0;
+}, { passive: false });
+
+/* Drag — тянем ленту рукой */
+beltScene.addEventListener('pointerdown', function(e) {
+if (e.target.closest('.card-delete')) return;
+belt.dragging = true;
+belt.moved = 0;
+belt.lastX = e.clientX;
+belt.vel = 0;
+beltScene.classList.add('dragging');
+try { beltScene.setPointerCapture(e.pointerId); } catch (err) {}
+});
+beltScene.addEventListener('pointermove', function(e) {
+if (!belt.dragging) return;
+var dx = e.clientX - belt.lastX;
+belt.lastX = e.clientX;
+belt.moved += Math.abs(dx);
+belt.target += dx * 1.6;
+belt.vel = dx * 1.6;
+});
+function endDrag() {
+belt.dragging = false;
+beltScene.classList.remove('dragging');
+}
+beltScene.addEventListener('pointerup', endDrag);
+beltScene.addEventListener('pointercancel', endDrag);
+
+/* ===== 3D МОДАЛКА С YOUTUBE ===== */
+var ytShow = document.getElementById('ytShow');
+var ytFrame = document.getElementById('ytFrame');
+var ytTitle = document.getElementById('ytTitle');
+function openYtModal(entry) {
+var ytId = extractYouTubeId(entry.url);
+if (!ytId) {
+// не одиночное видео (плейлист/канал) — открываем в новой вкладке
+var u = normalizeUrl(entry.url);
+if (u) window.open(u, '_blank', 'noopener');
+return;
+}
+ytTitle.textContent = entry.title || 'Hall of Fame';
+ytFrame.src = 'https://www.youtube.com/embed/' + ytId + '?autoplay=1&rel=0';
+ytShow.classList.add('open');
+}
+function closeYtModal() {
+ytShow.classList.remove('open');
+ytFrame.src = ''; // останавливает видео
+}
+document.querySelectorAll('[data-yt-close]').forEach(function(el) {
+el.addEventListener('click', closeYtModal);
+});
+document.addEventListener('keydown', function(e) {
+if (ytShow.classList.contains('open') && e.key === 'Escape') closeYtModal();
+});
+
 db.ref(HOF_REF).on('value', function(snap) {
 lastData = snap.val();
 renderCards();
