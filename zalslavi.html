@@ -734,16 +734,23 @@ transition: opacity 0.5s ease;
    3D МОДАЛКА С YOUTUBE (ДЛЯ ЛЕНТЫ)
    ========================================== */
 .yt-window {
-position: absolute;
-left: 50%;
-top: 50%;
-width: min(1100px, 94vw);
-transform-origin: 50% 50%;
-animation: ytIn 0.6s cubic-bezier(0.2, 0.8, 0.25, 1);
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: min(1100px, 94vw);
+    transform-origin: 50% 50%;
+    z-index: 10001;
+    animation: ytIn 0.6s cubic-bezier(0.2, 0.8, 0.25, 1);
 }
 @keyframes ytIn {
-from { opacity: 0; transform: translate(-50%, -50%) perspective(1400px) rotateX(22deg) scale(0.86); }
-to   { opacity: 1; transform: translate(-50%, -50%) perspective(1400px) rotateX(0deg) scale(1); }
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) perspective(1400px) rotateX(22deg) scale(0.86);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) perspective(1400px) rotateX(0deg) scale(1);
+    }
 }
 .yt-topbar {
 display: flex;
@@ -1377,23 +1384,30 @@ gal.target -= dx * 1.8; // тянешь влево — идёшь вперёд �
 gal.vel = -dx * 1.8;
 });
 function endDrag(e) {
-var wasDragging = gal.dragging;
-gal.dragging = false;
-galScene.classList.remove('dragging');
-if (!wasDragging || !e || typeof e.clientX !== 'number') return;
-if (gal.moved > 8) return; // это был drag, не клик
-// click при pointer capture не доходит до карточки, поэтому ищем её вручную
-var el = document.elementFromPoint(e.clientX, e.clientY);
-var card = el && el.closest ? el.closest('.gal-card') : null;
-if (!card || !card._entry) return;
-if (el.closest('.card-delete')) { deleteEntry(card._entry.id); return; }
-openYtModal(card._entry);
+    var wasDragging = gal.dragging;
+    gal.dragging = false;
+    galScene.classList.remove('dragging');
+    if (!e || typeof e.clientX !== 'number') return;
+
+    // Если это был реальный drag с движением — не считаем кликом
+    if (wasDragging && gal.moved > 8) return;
+
+    var el = document.elementFromPoint(e.clientX, e.clientY);
+    if (!el) return;
+
+    // Клик по красному крестику удаления (работает даже без dragging)
+    var delBtn = el.closest('.card-delete');
+    if (delBtn) {
+        var card = delBtn.closest('.gal-card');
+        if (card && card._entry) deleteEntry(card._entry.id);
+        return;
+    }
+
+    // Клик по карточке — открыть видео
+    var card = el.closest('.gal-card');
+    if (!card || !card._entry) return;
+    openYtModal(card._entry);
 }
-galScene.addEventListener('pointerup', endDrag);
-galScene.addEventListener('pointercancel', function() {
-gal.dragging = false;
-galScene.classList.remove('dragging');
-});
 
 /* ===== 3D МОДАЛКА С YOUTUBE ===== */
 var ytShow = document.getElementById('ytShow');
