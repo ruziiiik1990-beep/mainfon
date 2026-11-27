@@ -168,41 +168,76 @@ grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 gap: 22px;
 }
 .hall-card {
-position: relative;
-display: flex;
-flex-direction: column;
-background: linear-gradient(160deg, rgba(20,30,60,0.85) 0%, rgba(10,20,45,0.9) 100%);
-border: 1px solid rgba(255,215,0,0.2);
-border-radius: 16px;
-padding: 22px 22px 18px;
-overflow: hidden;
-transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-border-color 0.3s, box-shadow 0.35s;
-animation: cardAppear 0.7s ease-out backwards;
-cursor: pointer;
-text-decoration: none;
-color: inherit;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(160deg, rgba(20,30,60,0.85) 0%, rgba(10,20,45,0.9) 100%);
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 16px;
+    padding: 22px 22px 18px;
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.35s, transform 0.15s ease-out;
+    animation: cardAppear 0.7s ease-out backwards;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transform-style: preserve-3d;
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0);
+    will-change: transform;
 }
 .hall-card::before {
-content: '';
-position: absolute;
-top: 0; left: -100%;
-width: 100%; height: 100%;
-background: linear-gradient(90deg, transparent, rgba(255,215,0,0.08), transparent);
-transition: left 0.7s;
-pointer-events: none;
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.08), transparent);
+    transition: left 0.7s;
+    pointer-events: none;
+    z-index: 1;
 }
+/* 3D-блик, который двигается за курсором */
+.hall-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(
+        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(255, 215, 0, 0.25) 0%,
+        rgba(255, 215, 0, 0.08) 25%,
+        transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 16px;
+    mix-blend-mode: screen;
+}
+.hall-card.tilt-active::after { opacity: 1; }
 .hall-card:hover::before { left: 100%; }
 .hall-card:hover {
-transform: translateY(-8px);
-border-color: rgba(255,215,0,0.75);
-box-shadow:
-0 20px 40px rgba(0,0,0,0.5),
-0 0 40px rgba(255,215,0,0.25);
+    border-color: rgba(255,215,0,0.75);
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.5),
+        0 0 40px rgba(255,215,0,0.25);
 }
-@keyframes cardAppear {
-from { opacity: 0; transform: translateY(30px) scale(0.95); }
-to { opacity: 1; transform: translateY(0) scale(1); }
+/* Внутренние элементы "всплывают" в 3D при наведении */
+.hall-card .card-thumb {
+    transform: translateZ(40px);
+    transition: transform 0.3s ease-out;
+}
+.hall-card .card-title {
+    transform: translateZ(30px);
+    transition: transform 0.3s ease-out;
+}
+.hall-card .card-desc {
+    transform: translateZ(20px);
+    transition: transform 0.3s ease-out;
+}
+.hall-card .card-btn {
+    transform: translateZ(50px);
+    transition: transform 0.3s ease-out;
 }
 .card-thumb {
 width: 100%;
@@ -729,6 +764,16 @@ color: #555;
 .magic-mirage-wrapper .main-content { grid-template-columns: 1fr; gap: 40px; padding: 40px 30px; }
 .magic-mirage-wrapper .footer { margin: 0 30px; padding: 20px 0 30px; }
 }
+   /* ==========================================
+3D-СТЕНА С ПАРАЛЛАКСОМ
+========================================== */
+.hall-stand {
+    perspective: 1500px;
+    perspective-origin: 50% 50%;
+}
+.hall-grid {
+    transform-style: preserve-3d;
+}
 </style>
 </head>
 <body>
@@ -1187,6 +1232,68 @@ document.body.style.minHeight = Math.ceil(fullHeight) + 'px';
 }
 img.onload = syncBgHeight;
 window.addEventListener('resize', syncBgHeight);
+})();
+</script>
+   <script>
+/* ==========================================
+3D-ПАРАЛЛАКС ДЛЯ КАРТОЧЕК ЗАЛА СЛАВЫ
+========================================== */
+(function() {
+    'use strict';
+    var grid = document.getElementById('hallGrid');
+    if (!grid) return;
+
+    var MAX_ROTATE = 14;   // максимальный угол наклона (градусы)
+    var MAX_TRANSLATE = 30; // насколько карточка "всплывает" (px)
+    var cards = [];
+
+    function attachCard(card) {
+        if (card.dataset.tiltAttached) return;
+        card.dataset.tiltAttached = '1';
+
+        card.addEventListener('mousemove', function(e) {
+            var rect = card.getBoundingClientRect();
+            var x = e.clientX - rect.left;
+            var y = e.clientY - rect.top;
+            var cx = rect.width / 2;
+            var cy = rect.height / 2;
+
+            // Нормализованные координаты от -1 до 1
+            var nx = (x - cx) / cx;
+            var ny = (y - cy) / cy;
+
+            // Углы наклона (инвертируем Y, чтобы наклон был "за курсором")
+            var rotY = nx * MAX_ROTATE;
+            var rotX = -ny * MAX_ROTATE;
+
+            card.style.transform =
+                'perspective(1000px) rotateX(' + rotX.toFixed(2) + 'deg) rotateY(' + rotY.toFixed(2) + 'deg) translateZ(' + MAX_TRANSLATE + 'px) scale(1.03)';
+
+            // Позиция блика (в процентах)
+            var px = (x / rect.width) * 100;
+            var py = (y / rect.height) * 100;
+            card.style.setProperty('--mouse-x', px + '%');
+            card.style.setProperty('--mouse-y', py + '%');
+            card.classList.add('tilt-active');
+        });
+
+        card.addEventListener('mouseleave', function() {
+            card.style.transform =
+                'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0) scale(1)';
+            card.classList.remove('tilt-active');
+        });
+
+        cards.push(card);
+    }
+
+    // Подцепляем существующие карточки
+    grid.querySelectorAll('.hall-card').forEach(attachCard);
+
+    // Подцепляем новые карточки, когда они появляются из Firebase
+    var observer = new MutationObserver(function() {
+        grid.querySelectorAll('.hall-card').forEach(attachCard);
+    });
+    observer.observe(grid, { childList: true });
 })();
 </script>
 
