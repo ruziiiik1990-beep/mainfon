@@ -533,7 +533,8 @@ z-index: 5;
 filter: drop-shadow(0 0 18px rgba(74, 158, 255, 0.45));
 animation: sticker-float 4s ease-in-out infinite;
 animation-delay: -2s;
-pointer-events: none;
+pointer-events: auto;
+cursor: pointer;
 }
 .holo-sticker-left svg {
 width: 100%;
@@ -932,11 +933,11 @@ PAGE WRAPPER — содержит весь контент и стикеры
 </div>
 
 <!-- ==========================================
-ГОЛОГРАФИЧЕСКИЙ СТИКЕР (ЛЕВЫЙ — ДЕКОРАТИВНЫЙ)
+ГОЛОГРАФИЧЕСКИЙ СТИКЕР (ЛЕВЫЙ — ТРИГГЕР)
 Закреплён слева в нижнем углу, отступ 150px слева и 250px снизу
 Размер уменьшен в 2 раза (90x90px)
 ========================================== -->
-<div class="holo-sticker-left">
+<div class="holo-sticker-left" id="holoStickerLeft">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
 <pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-profile-2" viewBox="12.5 -34 26 23" style="overflow:visible;">
@@ -1156,15 +1157,18 @@ $wrap.classList.remove("active");
 })();
 </script>
 <!-- ==========================================
-JAVASCRIPT ДЛЯ ЭФФЕКТА ИСПАРЕНИЯ
+JAVASCRIPT ДЛЯ ЭФФЕКТА ИСПАРЕНИЯ (ОБА СТИКЕРА)
 ========================================== -->
 <script>
 (function() {
 'use strict';
 var show = document.getElementById('magicClutch');
-var sticker = document.getElementById('holoSticker');
-if (!sticker) return;
+var stickerRight = document.getElementById('holoSticker');
+var stickerLeft = document.getElementById('holoStickerLeft');
+if (!stickerRight || !stickerLeft) return;
 var running = false;
+
+function initSticker(sticker) {
 sticker.addEventListener('click', function() {
 if (running) return;
 running = true;
@@ -1188,9 +1192,12 @@ var flash = document.createElement('div');
 flash.className = 'evap-flash';
 document.body.appendChild(flash);
 var img = new Image();
-img.onload = function() { dissolve(img, rect, scale); };
+img.onload = function() { dissolve(img, rect, scale, sticker); };
 img.src = src;
-function dissolve(img, rect, scale) {
+});
+}
+
+function dissolve(img, rect, scale, sticker) {
 var ctx = canvas.getContext('2d');
 ctx.scale(scale, scale);
 var W = Math.round(rect.width), H = Math.round(rect.height);
@@ -1290,12 +1297,17 @@ running = false;
 }
 requestAnimationFrame(frame);
 }
-});
+
 function closeShow() {
 show.classList.remove('open');
-sticker.style.visibility = 'visible';
-sticker.style.animation = '';
+stickerRight.style.visibility = 'visible';
+stickerRight.style.animation = '';
+stickerLeft.style.visibility = 'visible';
+stickerLeft.style.animation = '';
 }
+
+initSticker(stickerRight);
+initSticker(stickerLeft);
 document.getElementById('mcClose').addEventListener('click', closeShow);
 document.getElementById('mcBackdrop').addEventListener('click', closeShow);
 document.addEventListener('keydown', function(e) {
