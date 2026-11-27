@@ -326,20 +326,18 @@ user-select: none;
     0%, 100% { background-position: 0% 50%; filter: hue-rotate(0deg); }
     50% { background-position: 100% 50%; filter: hue-rotate(90deg); }
 }
-.gal-wall-left {
-    left: calc(50% - 380px);
-    transform-origin: 0 50%;
-    transform: rotateY(90deg);
-    filter: brightness(0.95);
-    z-index: 1;
-}
-
 .gal-wall-right {
-    left: calc(50% + 380px);
+    left: calc(50% + 470px);
     transform-origin: 100% 50%;
     transform: rotateY(-90deg);
-    filter: brightness(0.8);
-    z-index: 1;
+    filter: brightness(0.75); /* правая чуть темнее — так видно объём */
+}
+
+.gal-wall-left {
+    left: calc(50% - 470px);
+    transform-origin: 0 50%;
+    transform: rotateY(90deg);
+    filter: brightness(0.9);
 }
 .gal-end {
     position: absolute;
@@ -374,8 +372,7 @@ user-select: none;
         box-shadow: 0 0 180px rgba(255,215,0,0.65), inset 0 0 120px rgba(255,215,0,0.35);
     }
 }
-    .gal-end   { z-index: 0; }
-.gal-cards { z-index: 2; }
+   
 .gal-end span {
 font-size: 46px;
 font-weight: 900;
