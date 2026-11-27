@@ -514,19 +514,20 @@ display: block;
 .color4 { fill: #F8FCA8; }
 .color5 { fill: #B5DFC8; }
 .circle { fill: url(#multi-dots-profile); }
+.circle-left { fill: url(#multi-dots-profile-left); }
 @media (max-width: 1100px) { .holo-sticker { right: 30px; bottom: 30px; width: 140px; height: 140px; } }
 @media (max-width: 850px) { .holo-sticker { right: 20px; bottom: 20px; width: 120px; height: 120px; } }
 
 /* ==========================================
 СТИЛИ ГОЛОГРАФИЧЕСКОГО СТИКЕРА (ЛЕВЫЙ)
 Закреплён слева в нижнем углу
-Отступ 150px слева и 250px снизу
+Отступ 150px слева и 100px снизу
 Уменьшен в 2 раза (90x90px вместо 180x180px)
 ========================================== */
 .holo-sticker-left {
 position: absolute;
 left: 150px;
-bottom: 250px;
+bottom: 100px;
 width: 90px;
 height: 90px;
 z-index: 5;
@@ -934,13 +935,13 @@ PAGE WRAPPER — содержит весь контент и стикеры
 
 <!-- ==========================================
 ГОЛОГРАФИЧЕСКИЙ СТИКЕР (ЛЕВЫЙ — ТРИГГЕР)
-Закреплён слева в нижнем углу, отступ 150px слева и 250px снизу
+Закреплён слева в нижнем углу, отступ 150px слева и 100px снизу
 Размер уменьшен в 2 раза (90x90px)
 ========================================== -->
 <div class="holo-sticker-left" id="holoStickerLeft">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
-<pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-profile-2" viewBox="12.5 -34 26 23" style="overflow:visible;">
+<pattern width="16.25" height="14.375" patternUnits="userSpaceOnUse" id="multi-dots-profile-left" viewBox="12.5 -34 26 23" style="overflow:visible;">
 <g>
 <rect x="12.5" y="-34" width="26" height="23"/>
 <g><circle class="color1" cx="45" cy="-7.5" r="7.5"/></g>
@@ -953,10 +954,10 @@ PAGE WRAPPER — содержит весь контент и стикеры
 <g><circle class="color1" cx="7.5" cy="-39" r="7.5"/></g>
 </g>
 </pattern>
-<clipPath id="badge-clip-2">
+<clipPath id="badge-clip-left">
 <circle cx="128" cy="128" r="120"/>
 </clipPath>
-<linearGradient id="holo-shine-2" x1="0%" y1="0%" x2="100%" y2="100%">
+<linearGradient id="holo-shine-left" x1="0%" y1="0%" x2="100%" y2="100%">
 <stop offset="0%" stop-color="#ff3b5c" stop-opacity="0.7"/>
 <stop offset="20%" stop-color="#ffd24d" stop-opacity="0.5"/>
 <stop offset="40%" stop-color="#5cff7a" stop-opacity="0.6"/>
@@ -965,10 +966,10 @@ PAGE WRAPPER — содержит весь контент и стикеры
 <stop offset="100%" stop-color="#ff4dd2" stop-opacity="0.7"/>
 </linearGradient>
 </defs>
-<circle class="circle" cx="128" cy="128" r="120" style="fill: url(#multi-dots-profile-2);"/>
-<circle cx="128" cy="128" r="120" fill="url(#holo-shine-2)" clip-path="url(#badge-clip-2)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
-<image href="png/inferno.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip-2)"/>
-<circle class="circle" cx="128" cy="128" r="120" style="fill: url(#multi-dots-profile-2); mix-blend-mode: screen; opacity: 0.35;"/>
+<circle class="circle-left" cx="128" cy="128" r="120"/>
+<circle cx="128" cy="128" r="120" fill="url(#holo-shine-left)" clip-path="url(#badge-clip-left)" style="mix-blend-mode: color-dodge; opacity: 0.6;"/>
+<image href="png/inferno.png" x="44" y="44" width="168" height="168" preserveAspectRatio="xMidYMid slice" clip-path="url(#badge-clip-left)"/>
+<circle class="circle-left" cx="128" cy="128" r="120" style="mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
 </div>
@@ -1192,13 +1193,13 @@ var flash = document.createElement('div');
 flash.className = 'evap-flash';
 document.body.appendChild(flash);
 var img = new Image();
-img.onload = function() { dissolve(img, rect, scale, sticker); };
+img.onload = function() { dissolve(img, rect, scale); };
 img.src = src;
 });
 }
 
-function dissolve(img, rect, scale, sticker) {
-var ctx = canvas.getContext('2d');
+function dissolve(img, rect, scale) {
+var ctx = document.querySelector('.evap-layer canvas').getContext('2d');
 ctx.scale(scale, scale);
 var W = Math.round(rect.width), H = Math.round(rect.height);
 var off = document.createElement('canvas');
@@ -1252,6 +1253,7 @@ bl: 0
 });
 }
 }
+var flash = document.querySelector('.evap-flash');
 var t0 = performance.now();
 function frame(t) {
 var el = t - t0;
@@ -1289,8 +1291,9 @@ else if (el >= 750) flash.classList.remove('on');
 if (alive > 0 && el < 3300) {
 requestAnimationFrame(frame);
 } else {
-document.body.removeChild(layer);
-document.body.removeChild(flash);
+var layer = document.querySelector('.evap-layer');
+if (layer) document.body.removeChild(layer);
+if (flash) document.body.removeChild(flash);
 show.classList.add('open');
 running = false;
 }
