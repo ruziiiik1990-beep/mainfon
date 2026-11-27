@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -127,7 +128,6 @@ box-shadow:
 0 20px 60px rgba(0,0,0,0.5),
 inset 0 1px 0 rgba(255,255,255,0.08);
 animation: standPulse 4s ease-in-out infinite;
-overflow: hidden;
 }
 @keyframes standPulse {
 0%, 100% {
@@ -156,82 +156,54 @@ text-transform: uppercase;
 color: #1a1a2e;
 box-shadow: 0 6px 20px rgba(255,215,0,0.5);
 white-space: nowrap;
-z-index: 5;
 }
 @keyframes labelShimmer {
 0%, 100% { background-position: 0% 50%; }
 50% { background-position: 100% 50%; }
 }
-
-/* ==========================================
-3D-КАРУСЕЛЬ (БАРАБАН)
-========================================== */
-.hall-carousel {
-position: relative;
-width: 100%;
-height: 520px;
-perspective: 1500px;
-perspective-origin: 50% 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-user-select: none;
-}
+/* ===== СЕТКА КАРТОЧЕК ===== */
 .hall-grid {
-position: relative;
-width: 280px;
-height: 440px;
-transform-style: preserve-3d;
-transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-}
-.hall-grid.dragging {
-transition: none;
-cursor: grabbing;
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+gap: 22px;
 }
 .hall-card {
-position: absolute;
-top: 0;
-left: 0;
-width: 280px;
-height: 440px;
+position: relative;
 display: flex;
 flex-direction: column;
-background: linear-gradient(160deg, rgba(20,30,60,0.92) 0%, rgba(10,20,45,0.95) 100%);
-border: 1px solid rgba(255,215,0,0.25);
+background: linear-gradient(160deg, rgba(20,30,60,0.85) 0%, rgba(10,20,45,0.9) 100%);
+border: 1px solid rgba(255,215,0,0.2);
 border-radius: 16px;
 padding: 22px 22px 18px;
 overflow: hidden;
-backface-visibility: hidden;
+transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+border-color 0.3s, box-shadow 0.35s;
+animation: cardAppear 0.7s ease-out backwards;
 cursor: pointer;
 text-decoration: none;
 color: inherit;
-box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-transition: border-color 0.3s, box-shadow 0.3s;
 }
 .hall-card::before {
 content: '';
 position: absolute;
 top: 0; left: -100%;
 width: 100%; height: 100%;
-background: linear-gradient(90deg, transparent, rgba(255,215,0,0.12), transparent);
+background: linear-gradient(90deg, transparent, rgba(255,215,0,0.08), transparent);
 transition: left 0.7s;
 pointer-events: none;
 }
 .hall-card:hover::before { left: 100%; }
 .hall-card:hover {
-border-color: rgba(255,215,0,0.85);
+transform: translateY(-8px);
+border-color: rgba(255,215,0,0.75);
 box-shadow:
-0 20px 40px rgba(0,0,0,0.6),
-0 0 50px rgba(255,215,0,0.35);
+0 20px 40px rgba(0,0,0,0.5),
+0 0 40px rgba(255,215,0,0.25);
 }
-/* Подсветка фронтальной карточки */
-.hall-card.is-front {
-border-color: rgba(255,215,0,0.9);
-box-shadow:
-0 25px 50px rgba(0,0,0,0.7),
-0 0 60px rgba(255,215,0,0.4);
+@keyframes cardAppear {
+from { opacity: 0; transform: translateY(30px) scale(0.95); }
+to { opacity: 1; transform: translateY(0) scale(1); }
 }
-
 .card-thumb {
 width: 100%;
 height: 150px;
@@ -244,7 +216,6 @@ align-items: center;
 justify-content: center;
 position: relative;
 border: 1px solid rgba(255,255,255,0.08);
-flex-shrink: 0;
 }
 .card-thumb img {
 width: 100%;
@@ -313,69 +284,12 @@ transition: transform 0.2s, box-shadow 0.2s;
 align-self: flex-start;
 border: none;
 box-shadow: 0 4px 14px rgba(255,0,0,0.3);
-cursor: pointer;
 }
 .card-btn:hover {
 transform: translateY(-2px);
 box-shadow: 0 8px 22px rgba(255,0,0,0.55);
 }
 .card-btn .material-symbols-outlined { font-size: 18px; }
-
-/* ===== СТРЕЛКИ КАРУСЕЛИ ===== */
-.carousel-arrow {
-position: absolute;
-top: 50%;
-transform: translateY(-50%);
-width: 54px;
-height: 54px;
-border-radius: 50%;
-background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,215,0,0.05));
-border: 2px solid rgba(255,215,0,0.4);
-color: #ffd700;
-font-size: 28px;
-font-weight: bold;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-z-index: 10;
-transition: all 0.3s;
-backdrop-filter: blur(10px);
--webkit-backdrop-filter: blur(10px);
-box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-}
-.carousel-arrow:hover {
-background: linear-gradient(135deg, rgba(255,215,0,0.4), rgba(255,215,0,0.15));
-border-color: rgba(255,215,0,0.8);
-box-shadow: 0 8px 30px rgba(255,215,0,0.35);
-transform: translateY(-50%) scale(1.1);
-}
-.carousel-arrow:active { transform: translateY(-50%) scale(0.95); }
-.carousel-arrow.prev { left: 20px; }
-.carousel-arrow.next { right: 20px; }
-
-/* ===== ИНДИКАТОР КАРУСЕЛИ ===== */
-.carousel-dots {
-display: flex;
-justify-content: center;
-gap: 8px;
-margin-top: 20px;
-}
-.carousel-dot {
-width: 10px;
-height: 10px;
-border-radius: 50%;
-background: rgba(255,215,0,0.25);
-border: 1px solid rgba(255,215,0,0.4);
-cursor: pointer;
-transition: all 0.3s;
-}
-.carousel-dot.active {
-background: #ffd700;
-box-shadow: 0 0 12px rgba(255,215,0,0.7);
-transform: scale(1.3);
-}
-
 /* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
 .hall-empty {
 text-align: center;
@@ -390,117 +304,6 @@ display: block;
 margin: 0 auto 14px;
 color: rgba(255,215,0,0.3);
 }
-
-/* ==========================================
-3D-ВИДЕО МОДАЛКА
-========================================== */
-.video-modal {
-position: fixed;
-inset: 0;
-z-index: 9999;
-display: none;
-perspective: 1500px;
-}
-.video-modal.open { display: flex; align-items: center; justify-content: center; }
-.video-modal-backdrop {
-position: absolute;
-inset: 0;
-background: rgba(5, 7, 15, 0.92);
-backdrop-filter: blur(8px);
--webkit-backdrop-filter: blur(8px);
-animation: vmBackdropIn 0.4s ease;
-}
-@keyframes vmBackdropIn {
-from { opacity: 0; }
-to { opacity: 1; }
-}
-.video-modal-window {
-position: relative;
-width: min(1100px, 92vw);
-aspect-ratio: 16/9;
-background: #0a0a15;
-border: 2px solid rgba(255,215,0,0.5);
-border-radius: 18px;
-box-shadow:
-0 40px 100px rgba(0,0,0,0.8),
-0 0 80px rgba(255,215,0,0.3);
-overflow: hidden;
-transform-style: preserve-3d;
-animation: vmWindowIn 0.7s cubic-bezier(0.2, 0.8, 0.25, 1);
-z-index: 2;
-}
-@keyframes vmWindowIn {
-0% {
-opacity: 0;
-transform: rotateY(-75deg) translateZ(-400px) scale(0.5);
-}
-60% {
-opacity: 1;
-transform: rotateY(8deg) translateZ(50px) scale(1.02);
-}
-100% {
-opacity: 1;
-transform: rotateY(0deg) translateZ(0) scale(1);
-}
-}
-.video-modal-window.closing {
-animation: vmWindowOut 0.45s cubic-bezier(0.5, 0, 0.75, 0.25) forwards;
-}
-@keyframes vmWindowOut {
-to {
-opacity: 0;
-transform: rotateY(75deg) translateZ(-400px) scale(0.5);
-}
-}
-.video-modal-topbar {
-position: absolute;
-top: 0; left: 0; right: 0;
-padding: 12px 18px;
-background: linear-gradient(180deg, rgba(0,0,0,0.7), transparent);
-display: flex;
-justify-content: space-between;
-align-items: center;
-z-index: 10;
-pointer-events: none;
-}
-.video-modal-title {
-color: #ffd700;
-font-size: 14px;
-font-weight: 700;
-letter-spacing: 1px;
-text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-max-width: calc(100% - 60px);
-overflow: hidden;
-text-overflow: ellipsis;
-white-space: nowrap;
-}
-.video-modal-close {
-width: 38px;
-height: 38px;
-border-radius: 50%;
-background: rgba(220,38,38,0.85);
-border: 2px solid rgba(255,255,255,0.3);
-color: #fff;
-font-size: 18px;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-pointer-events: auto;
-transition: all 0.2s;
-box-shadow: 0 4px 14px rgba(0,0,0,0.5);
-}
-.video-modal-close:hover {
-background: #dc2626;
-transform: scale(1.1) rotate(90deg);
-}
-.video-modal-iframe {
-width: 100%;
-height: 100%;
-border: 0;
-display: block;
-}
-
 /* ===== АДМИН-ПАНЕЛЬ ===== */
 .admin-panel {
 margin-top: 32px;
@@ -632,36 +435,15 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 .hall-card:hover .card-delete.admin-visible { display: flex; }
 .card-delete:hover { background: #dc2626; transform: scale(1.1); }
-
-/* ===== МОБИЛЬНАЯ ВЕРСИЯ ===== */
-@media (max-width: 768px) {
-.hall-carousel { height: auto; perspective: none; }
-.hall-grid {
-position: static;
-width: 100%;
-height: auto;
-transform-style: flat;
-display: grid;
-grid-template-columns: 1fr;
-gap: 20px;
-transition: none;
-}
-.hall-card {
-position: static;
-width: 100%;
-height: auto;
-transform: none !important;
-backface-visibility: visible;
-}
-.carousel-arrow, .carousel-dots { display: none; }
+@media (max-width: 640px) {
 .hall-stand { padding: 32px 16px; }
 .hall-trophy { font-size: 64px; }
 .hall-container { margin: 20px auto 40px; }
 }
 
 /* ==========================================
-СТИЛИ ДВУХ СТИКЕРОВ (ЛЕВЫЙ + ПРАВЫЙ)
-========================================== */
+   СТИЛИ ДВУХ СТИКЕРОВ (ЛЕВЫЙ + ПРАВЫЙ)
+   ========================================== */
 .holo-sticker {
 position: absolute;
 width: 180px;
@@ -672,6 +454,7 @@ animation: sticker-float 4s ease-in-out infinite;
 pointer-events: auto;
 cursor: pointer;
 }
+
 .holo-sticker-left {
 top: 250px;
 left: 150px;
@@ -697,6 +480,7 @@ display: block;
 .color5 { fill: #B5DFC8; }
 .circle-left { fill: url(#multi-dots-left); }
 .circle-right { fill: url(#multi-dots-right); }
+
 @media (max-width: 1100px) {
 .holo-sticker { width: 140px; height: 140px; }
 .holo-sticker-left { top: 30px; left: 30px; }
@@ -707,12 +491,251 @@ display: block;
 .holo-sticker-left { top: 20px; left: 20px; }
 .holo-sticker-right { top: 20px; right: 20px; }
 }
+
+/* ==========================================
+   СТИЛИ МОДАЛКИ И ЭФФЕКТА ИСПАРЕНИЯ
+   ========================================== */
+.mc-show {
+position: fixed;
+inset: 0;
+z-index: 9999;
+display: none;
+}
+.mc-show.open { display: block; }
+.mc-backdrop {
+position: absolute;
+inset: 0;
+background: rgba(10, 14, 18, 0.85);
+animation: mcFade 0.5s ease;
+}
+@keyframes mcFade { from { opacity: 0; } to { opacity: 1; } }
+.mc-window {
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+width: 1700px;
+height: 600px;
+max-width: calc(100vw - 32px);
+max-height: calc(100vh - 32px);
+background: transparent;
+border-radius: 6px;
+box-shadow: 0 30px 90px rgba(0,0,0,0.55);
+overflow: hidden;
+animation: mcZoom 0.55s cubic-bezier(0.2, 0.8, 0.25, 1);
+font-family: 'Inter', -apple-system, sans-serif;
+color: #23241f;
+}
+@keyframes mcZoom {
+from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
+to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+.mc-window * { box-sizing: border-box; }
+.mc-topbar {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 14px 32px 10px;
+background: #e9e7e0;
+position: relative;
+z-index: 10;
+}
+.mc-topbar .brand {
+font-size: 11px;
+letter-spacing: 4px;
+font-weight: 600;
+color: #3a3b33;
+}
+.mc-topbar .counter {
+display: flex;
+align-items: center;
+gap: 20px;
+font-size: 11px;
+letter-spacing: 3px;
+color: #63645a;
+}
+.mc-count-cur { font-weight: 700; color: #2c2d27; }
+.mc-x {
+width: 34px; height: 34px;
+border-radius: 50%;
+border: 1px solid rgba(0,0,0,0.35);
+background: transparent;
+font-size: 14px;
+cursor: pointer;
+color: #23241f;
+margin-left: 16px;
+transition: all 0.2s;
+}
+.mc-x:hover { background: #23241f; color: #e9e7e0; }
+.mc-rule {
+margin: 0 32px;
+border: 0;
+border-top: 1px solid rgba(0,0,0,0.28);
+background: #e9e7e0;
+position: relative;
+z-index: 10;
+}
+.mc-pages {
+position: absolute;
+top: 54px;
+bottom: 0;
+left: 0; right: 0;
+overflow: hidden;
+padding: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.mc-page {
+display: none;
+width: 100%;
+height: 100%;
+}
+.mc-page.active {
+display: flex;
+animation: mcPageIn 0.5s ease;
+}
+@keyframes mcPageIn {
+from { opacity: 0; transform: translateY(12px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+.evap-layer {
+position: fixed;
+inset: 0;
+z-index: 9998;
+pointer-events: none;
+overflow: hidden;
+}
+.evap-layer canvas { position: absolute; }
+.evap-flash {
+position: fixed;
+inset: 0;
+background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, rgba(232, 231, 224, 0.14) 40%, transparent 70%);
+opacity: 0;
+z-index: 9997;
+pointer-events: none;
+transition: opacity 0.5s ease;
+}
+.evap-flash.on { opacity: 1; }
+@media (max-width: 1760px) {
+.mc-window { width: calc(100vw - 32px); height: calc(100vh - 32px); }
+}
+@media (max-width: 760px) {
+.mc-topbar { padding: 10px 16px 8px; }
+.mc-rule { margin: 0 16px; }
+.mc-pages { top: 48px; }
+}
+
+/* ==========================================
+   СТИЛИ КОНТЕНТА СЛАЙДА
+   ========================================== */
+.magic-mirage-wrapper {
+background-color: #e8e4de;
+font-family: 'Inter', sans-serif;
+color: #2a2a2a;
+width: 100%;
+height: 100%;
+display: flex;
+flex-direction: column;
+overflow-y: auto;
+}
+.magic-mirage-wrapper .main-content {
+display: grid;
+grid-template-columns: 1fr 1.4fr 1fr;
+gap: 40px;
+padding: 60px 50px 40px;
+flex: 1;
+align-items: start;
+}
+.magic-mirage-wrapper .left-column { padding-top: 20px; }
+.magic-mirage-wrapper .section-label {
+font-family: 'Space Mono', monospace;
+font-size: 16px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #555;
+margin-bottom: 20px;
+}
+.magic-mirage-wrapper .main-title {
+font-family: 'Inter', sans-serif;
+font-size: 38px;
+font-weight: 300;
+line-height: 1.2;
+margin-bottom: 30px;
+color: #1a1a1a;
+}
+.magic-mirage-wrapper .main-title .highlight {
+color: #5a7a3a;
+font-weight: 400;
+}
+.magic-mirage-wrapper .description {
+font-size: 16px;
+line-height: 1.7;
+color: #555;
+margin-bottom: 20px;
+font-weight: 300;
+}
+.magic-mirage-wrapper .tagline {
+display: flex;
+align-items: center;
+gap: 10px;
+font-family: 'Space Mono', monospace;
+font-size: 16px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #5a7a3a;
+margin-top: 30px;
+}
+.magic-mirage-wrapper .tagline svg { width: 16px; height: 16px; fill: #5a7a3a; }
+.magic-mirage-wrapper .center-column { display: flex; flex-direction: column; }
+.magic-mirage-wrapper .image-wrapper,
+.magic-mirage-wrapper .image-container {
+width: 100%;
+aspect-ratio: 16/9;
+border-radius: 4px;
+overflow: hidden;
+margin-bottom: 20px;
+}
+.magic-mirage-wrapper .image-wrapper { background: #1a1a1a; }
+.magic-mirage-wrapper .image-container { background: #3a5a3a; }
+.magic-mirage-wrapper .image-wrapper img,
+.magic-mirage-wrapper .image-container img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.magic-mirage-wrapper .right-column { padding-top: 0; }
+.magic-mirage-wrapper .right-column .section-label { margin-bottom: 15px; }
+.magic-mirage-wrapper .footer {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 20px 50px 30px;
+border-top: 1px solid #ccc;
+margin: 0 50px;
+flex-shrink: 0;
+}
+.magic-mirage-wrapper .footer-left,
+.magic-mirage-wrapper .footer-right {
+font-family: 'Space Mono', monospace;
+font-size: 16px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #555;
+}
+.magic-mirage-wrapper .footer-right { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.magic-mirage-wrapper .footer-right svg { width: 16px; height: 16px; stroke: #555; }
+@media (max-width: 1024px) {
+.magic-mirage-wrapper .main-content { grid-template-columns: 1fr; gap: 40px; padding: 40px 30px; }
+.magic-mirage-wrapper .footer { margin: 0 30px; padding: 20px 0 30px; }
+}
 </style>
 </head>
 <body>
 <canvas id="tubes-canvas"></canvas>
 <div id="header-placeholder" class="header-wrapper"></div>
-<!-- ===== СТИКЕР 1: ЛЕВЫЙ ===== -->
+
+<!-- ===== СТИКЕР 1: ЛЕВЫЙ (top: 250px, left: 150px) → Coldzera ===== -->
 <div class="holo-sticker holo-sticker-left" id="holoStickerLeft" data-modal="mcColdzera">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -747,7 +770,8 @@ display: block;
 <circle class="circle-left" cx="128" cy="128" r="120" style="fill: url(#multi-dots-left); mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
-<!-- ===== СТИКЕР 2: ПРАВЫЙ ===== -->
+
+<!-- ===== СТИКЕР 2: ПРАВЫЙ (top: 250px, right: 150px) → Magic ===== -->
 <div class="holo-sticker holo-sticker-right" id="holoStickerRight" data-modal="mcMagic">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -782,6 +806,7 @@ display: block;
 <circle class="circle-right" cx="128" cy="128" r="120" style="fill: url(#multi-dots-right); mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
+
 <main class="hall-container">
 <!-- HERO -->
 <section class="hall-hero">
@@ -793,24 +818,15 @@ display: block;
 </p>
 <div class="hall-divider"></div>
 </section>
-<!-- Анимированный стенд с каруселью -->
+<!-- Анимированный стенд -->
 <section class="hall-stand">
 <div class="stand-label">★ Выдающиеся моменты ★</div>
-
-<!-- 3D-КАРУСЕЛЬ -->
-<div class="hall-carousel" id="hallCarousel">
-<button class="carousel-arrow prev" id="carouselPrev" aria-label="Назад">‹</button>
 <div class="hall-grid" id="hallGrid"></div>
-<button class="carousel-arrow next" id="carouselNext" aria-label="Вперёд">›</button>
-</div>
-<div class="carousel-dots" id="carouselDots"></div>
-
 <div class="hall-empty" id="hallEmpty" style="display:none;">
 <span class="material-symbols-outlined">movie</span>
 Пока здесь пусто. Скоро появятся лучшие моменты турниров!
 </div>
 </section>
-
 <!-- Админ-панель -->
 <div class="admin-toggle-wrap" id="adminToggleWrap" style="display:none;">
 <button class="admin-toggle-btn" id="adminToggleBtn">
@@ -845,21 +861,6 @@ display: block;
 </div>
 </main>
 
-<!-- ===== 3D-ВИДЕО МОДАЛКА ===== -->
-<div class="video-modal" id="videoModal">
-<div class="video-modal-backdrop" id="vmBackdrop"></div>
-<div class="video-modal-window" id="vmWindow">
-<div class="video-modal-topbar">
-<div class="video-modal-title" id="vmTitle">Видео</div>
-<button class="video-modal-close" id="vmClose" title="Закрыть">&#10005;</button>
-</div>
-<iframe class="video-modal-iframe" id="vmIframe"
-src=""
-allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-allowfullscreen></iframe>
-</div>
-</div>
-
 <!-- ===== МОДАЛКА 1: COLDZERA / MIRAGE ===== -->
 <div class="mc-show" id="mcColdzera">
 <div class="mc-backdrop" data-close></div>
@@ -879,7 +880,7 @@ allowfullscreen></iframe>
 <div class="left-column">
 <div class="section-label">CONTEXT</div>
 <h1 class="main-title"><span class="highlight">Banan</span></h1>
-<p class="description">Шведский киберспортсмен неоднократно делал мультикиллы на этой позиции, ввиду чего Valve решили в обновленной Inferno добавить надпись "Via Adamo", которая переводится с итальянского как "Улица Адама". </p>
+<p class="description">Шведский киберспортсмен неоднократно делал мультикиллы на этой позиции, ввиду чего Valve решили в обновленной Inferno добавить надпись “Via Adamo”, которая переводится с итальянского как “Улица Адама”. </p>
 <p class="description"></p>
 <div class="tagline">
 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.09 8.26L20 9.27L15.55 13.97L16.91 20L12 16.9L7.09 20L8.45 13.97L4 9.27L9.91 8.26L12 2Z"/></svg>
@@ -896,7 +897,7 @@ Banan clutch
 <div class="image-container">
 <img src="png/banan.png" alt="Fly AWP">
 </div>
-<p class="description">Четыре момента из пяти на нижеприведенного видео — это хайлайты на Inferno и по большей части на "банане", что говорит о весьма заслуженном названии улицы.</p>
+<p class="description">Четыре момента из пяти на нижеприведенного видео — это хайлайты на Inferno и по большей части на “банане”, что говорит о весьма заслуженном названии улицы.</p>
 </div>
 </div>
 <div class="footer">
@@ -910,6 +911,7 @@ Banan clutch
 </div>
 </div>
 </div>
+
 <!-- ===== МОДАЛКА 2: MAGIC / MIRAGE ===== -->
 <div class="mc-show" id="mcMagic">
 <div class="mc-backdrop" data-close></div>
@@ -960,6 +962,7 @@ pixel bug
 </div>
 </div>
 </div>
+
 <!-- Загрузка шапки -->
 <script>
 fetch('header.html')
@@ -1056,7 +1059,6 @@ createdAt: e.createdAt || 0
 }
 if (entries.length === 0) {
 empty.style.display = 'block';
-updateCarousel();
 return;
 }
 empty.style.display = 'none';
@@ -1076,11 +1078,13 @@ var channelHtml = e.channel ? '<div style="font-size:12px;color:rgba(255,215,0,0
 var delBtn = isAdmin
 ? '<button class="card-delete admin-visible" data-id="' + escapeHtml(e.id) + '" title="Удалить">&times;</button>'
 : '';
-var card = document.createElement('div');
+var safeUrl = e.url ? escapeHtml(normalizeUrl(e.url)) : '#';
+var card = document.createElement('a');
 card.className = 'hall-card';
-card.dataset.url = e.url || '';
-card.dataset.title = e.title || '';
-card.dataset.index = idx;
+card.href = safeUrl;
+card.target = '_blank';
+card.rel = 'noopener noreferrer';
+card.style.animationDelay = (idx * 0.07) + 's';
 card.innerHTML =
 delBtn +
 '<div class="card-thumb">' + thumbHtml + '</div>' +
@@ -1088,15 +1092,6 @@ delBtn +
 channelHtml +
 descHtml +
 '<span class="card-btn"><span class="material-symbols-outlined">play_circle</span> Смотреть</span>';
-
-// Клик по карточке → открывает 3D-модалку с видео
-card.addEventListener('click', function(ev) {
-if (ev.target.closest('.card-delete')) return;
-var url = card.dataset.url;
-var title = card.dataset.title;
-if (url) openVideoModal(url, title);
-});
-
 var del = card.querySelector('.card-delete');
 if (del) {
 del.addEventListener('click', function(ev) {
@@ -1107,8 +1102,6 @@ deleteEntry(e.id);
 }
 grid.appendChild(card);
 });
-// Пересчёт позиций карусели
-updateCarousel();
 }
 db.ref(HOF_REF).on('value', function(snap) {
 lastData = snap.val();
@@ -1156,264 +1149,8 @@ if (!isAdmin) return;
 if (!confirm('Удалить эту запись из зала славы?')) return;
 db.ref(HOF_REF + '/' + id).remove();
 }
-
-// Делаем функции глобальными для карусели
-window._hofExtractYouTubeId = extractYouTubeId;
-window._hofNormalizeUrl = normalizeUrl;
 })();
 </script>
-
-<!-- ==========================================
-3D-КАРУСЕЛЬ + ВИДЕО-МОДАЛКА
-========================================== -->
-<script>
-(function() {
-'use strict';
-var grid = document.getElementById('hallGrid');
-var carousel = document.getElementById('hallCarousel');
-var prevBtn = document.getElementById('carouselPrev');
-var nextBtn = document.getElementById('carouselNext');
-var dotsContainer = document.getElementById('carouselDots');
-
-var currentRotation = 0;
-var stepAngle = 0;
-var cardsCount = 0;
-var radius = 350;
-var isDragging = false;
-var dragStartX = 0;
-var dragStartRotation = 0;
-var lastMoveX = 0;
-var lastMoveTime = 0;
-var velocity = 0;
-var inertiaRaf = null;
-var autoRotateRaf = null;
-var autoRotateSpeed = 0.08; // градус/кадр
-var isHovering = false;
-
-// ===== РАСЧЁТ ПОЗИЦИЙ =====
-function updateCarousel() {
-var cards = grid.querySelectorAll('.hall-card');
-cardsCount = cards.length;
-if (cardsCount === 0) {
-dotsContainer.innerHTML = '';
-return;
-}
-stepAngle = 360 / cardsCount;
-// Радиус зависит от числа карточек и их ширины
-var cardWidth = 280;
-radius = Math.max(320, (cardsCount * cardWidth) / (2 * Math.PI));
-
-cards.forEach(function(card, i) {
-var angle = i * stepAngle;
-card.style.transform = 'rotateY(' + angle + 'deg) translateZ(' + radius + 'px)';
-});
-
-// Точки-индикаторы
-dotsContainer.innerHTML = '';
-for (var i = 0; i < cardsCount; i++) {
-var dot = document.createElement('div');
-dot.className = 'carousel-dot';
-dot.dataset.index = i;
-dot.addEventListener('click', function() {
-var idx = parseInt(this.dataset.index);
-goToCard(idx);
-});
-dotsContainer.appendChild(dot);
-}
-applyRotation();
-}
-
-function applyRotation() {
-grid.style.transform = 'rotateY(' + currentRotation + 'deg)';
-updateFrontCard();
-}
-
-function updateFrontCard() {
-var cards = grid.querySelectorAll('.hall-card');
-cards.forEach(function(c) { c.classList.remove('is-front'); });
-// Нормализуем угол
-var norm = ((-currentRotation % 360) + 360) % 360;
-var frontIdx = Math.round(norm / stepAngle) % cardsCount;
-if (cards[frontIdx]) cards[frontIdx].classList.add('is-front');
-// Обновляем точки
-var dots = dotsContainer.querySelectorAll('.carousel-dot');
-dots.forEach(function(d, i) {
-d.classList.toggle('active', i === frontIdx);
-});
-}
-
-function goToCard(idx) {
-var norm = ((-currentRotation % 360) + 360) % 360;
-var currentIdx = Math.round(norm / stepAngle) % cardsCount;
-var diff = idx - currentIdx;
-// Идём кратчайшим путём
-if (diff > cardsCount / 2) diff -= cardsCount;
-if (diff < -cardsCount / 2) diff += cardsCount;
-currentRotation -= diff * stepAngle;
-grid.classList.remove('dragging');
-applyRotation();
-}
-
-function rotateBy(steps) {
-currentRotation -= steps * stepAngle;
-grid.classList.remove('dragging');
-applyRotation();
-}
-
-// ===== СТРЕЛКИ =====
-prevBtn.addEventListener('click', function() { rotateBy(-1); });
-nextBtn.addEventListener('click', function() { rotateBy(1); });
-
-// ===== КЛАВИШИ =====
-document.addEventListener('keydown', function(e) {
-if (document.querySelector('.video-modal.open')) return;
-if (e.key === 'ArrowLeft') rotateBy(-1);
-if (e.key === 'ArrowRight') rotateBy(1);
-});
-
-// ===== DRAG (МЫШЬ + ТАЧ) =====
-function getX(e) {
-return e.touches ? e.touches[0].clientX : e.clientX;
-}
-function onDragStart(e) {
-if (window.innerWidth <= 768) return;
-cancelInertia();
-isDragging = true;
-dragStartX = getX(e);
-dragStartRotation = currentRotation;
-lastMoveX = dragStartX;
-lastMoveTime = performance.now();
-velocity = 0;
-grid.classList.add('dragging');
-if (e.cancelable) e.preventDefault();
-}
-function onDragMove(e) {
-if (!isDragging) return;
-var x = getX(e);
-var dx = x - dragStartX;
-currentRotation = dragStartRotation + dx * 0.35;
-// Считаем скорость для инерции
-var now = performance.now();
-var dt = now - lastMoveTime;
-if (dt > 0) {
-velocity = ((x - lastMoveX) * 0.35) / dt * 16; // на кадр
-}
-lastMoveX = x;
-lastMoveTime = now;
-applyRotation();
-if (e.cancelable) e.preventDefault();
-}
-function onDragEnd() {
-if (!isDragging) return;
-isDragging = false;
-grid.classList.remove('dragging');
-// Инерция
-if (Math.abs(velocity) > 0.3) {
-startInertia();
-} else {
-snapToNearest();
-}
-}
-function startInertia() {
-cancelInertia();
-function loop() {
-velocity *= 0.93;
-currentRotation += velocity;
-applyRotation();
-if (Math.abs(velocity) > 0.1) {
-inertiaRaf = requestAnimationFrame(loop);
-} else {
-snapToNearest();
-}
-}
-inertiaRaf = requestAnimationFrame(loop);
-}
-function cancelInertia() {
-if (inertiaRaf) {
-cancelAnimationFrame(inertiaRaf);
-inertiaRaf = null;
-}
-}
-function snapToNearest() {
-var snapped = Math.round(currentRotation / stepAngle) * stepAngle;
-currentRotation = snapped;
-grid.classList.remove('dragging');
-applyRotation();
-}
-
-carousel.addEventListener('mousedown', onDragStart);
-window.addEventListener('mousemove', onDragMove);
-window.addEventListener('mouseup', onDragEnd);
-carousel.addEventListener('touchstart', onDragStart, { passive: false });
-window.addEventListener('touchmove', onDragMove, { passive: false });
-window.addEventListener('touchend', onDragEnd);
-
-// Колесо мыши
-carousel.addEventListener('wheel', function(e) {
-if (window.innerWidth <= 768) return;
-e.preventDefault();
-if (e.deltaY > 0) rotateBy(1);
-else rotateBy(-1);
-}, { passive: false });
-
-// Пауза авто-вращения при наведении
-carousel.addEventListener('mouseenter', function() { isHovering = true; });
-carousel.addEventListener('mouseleave', function() { isHovering = false; });
-
-// ===== АВТО-ВРАЩЕНИЕ =====
-function autoRotateLoop() {
-if (!isDragging && !isHovering && cardsCount > 0 && window.innerWidth > 768) {
-currentRotation += autoRotateSpeed;
-applyRotation();
-}
-autoRotateRaf = requestAnimationFrame(autoRotateLoop);
-}
-autoRotateRaf = requestAnimationFrame(autoRotateLoop);
-
-// ===== 3D-ВИДЕО МОДАЛКА =====
-var videoModal = document.getElementById('videoModal');
-var vmWindow = document.getElementById('vmWindow');
-var vmIframe = document.getElementById('vmIframe');
-var vmTitle = document.getElementById('vmTitle');
-var vmClose = document.getElementById('vmClose');
-var vmBackdrop = document.getElementById('vmBackdrop');
-
-window.openVideoModal = function(url, title) {
-var ytId = window._hofExtractYouTubeId(url);
-if (!ytId) {
-// Если не YouTube — открываем в новой вкладке
-window.open(window._hofNormalizeUrl(url), '_blank');
-return;
-}
-vmTitle.textContent = title || 'Видео';
-vmIframe.src = 'https://www.youtube.com/embed/' + ytId + '?autoplay=1&rel=0';
-vmWindow.classList.remove('closing');
-videoModal.classList.add('open');
-};
-
-function closeVideoModal() {
-vmWindow.classList.add('closing');
-setTimeout(function() {
-vmIframe.src = '';
-videoModal.classList.remove('open');
-vmWindow.classList.remove('closing');
-}, 450);
-}
-window.closeVideoModal = closeVideoModal;
-
-vmClose.addEventListener('click', closeVideoModal);
-vmBackdrop.addEventListener('click', closeVideoModal);
-document.addEventListener('keydown', function(e) {
-if (e.key === 'Escape' && videoModal.classList.contains('open')) {
-closeVideoModal();
-}
-});
-
-// Экспортируем
-window.updateCarousel = updateCarousel;
-})();
-</script>
-
 <!-- Трубки-радуга за курсором -->
 <script type="module">
 import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
@@ -1452,6 +1189,7 @@ img.onload = syncBgHeight;
 window.addEventListener('resize', syncBgHeight);
 })();
 </script>
+
 <!-- ===== JS ИСПАРЕНИЯ (ОБЩИЙ ДЛЯ ОБОИХ СТИКЕРОВ, РАЗНЫЕ МОДАЛКИ) ===== -->
 <script>
 (function() {
@@ -1460,18 +1198,23 @@ var stickers = document.querySelectorAll('.holo-sticker');
 if (!stickers.length) return;
 var running = false;
 var currentShow = null;
+
 stickers.forEach(function(sticker) {
 sticker.addEventListener('click', function() {
 if (running) return;
 running = true;
+
 var modalId = sticker.getAttribute('data-modal');
 currentShow = document.getElementById(modalId);
+
 var rect = sticker.getBoundingClientRect();
 var svgImg = sticker.querySelector('image');
 var src = svgImg ? svgImg.getAttribute('href') : null;
 if (!src) { running = false; if (currentShow) currentShow.classList.add('open'); return; }
+
 sticker.style.visibility = 'hidden';
 sticker.style.animation = 'none';
+
 var layer = document.createElement('div');
 layer.className = 'evap-layer';
 var canvas = document.createElement('canvas');
@@ -1482,12 +1225,15 @@ canvas.style.width = window.innerWidth + 'px';
 canvas.style.height = window.innerHeight + 'px';
 layer.appendChild(canvas);
 document.body.appendChild(layer);
+
 var flash = document.createElement('div');
 flash.className = 'evap-flash';
 document.body.appendChild(flash);
+
 var img = new Image();
 img.onload = function() { dissolve(img, rect, scale); };
 img.src = src;
+
 function dissolve(img, rect, scale) {
 var ctx = canvas.getContext('2d');
 ctx.scale(scale, scale);
@@ -1499,6 +1245,7 @@ octx.drawImage(img, 0, 0, W, H);
 var data;
 try { data = octx.getImageData(0, 0, W, H).data; }
 catch (e) { data = null; }
+
 var parts = [];
 if (data) {
 for (var y = 0; y < H; y += 2) {
@@ -1543,6 +1290,7 @@ bl: 0
 });
 }
 }
+
 var t0 = performance.now();
 function frame(t) {
 var el = t - t0;
@@ -1590,6 +1338,7 @@ requestAnimationFrame(frame);
 }
 });
 });
+
 function closeShow() {
 if (currentShow) currentShow.classList.remove('open');
 stickers.forEach(function(s) {
@@ -1598,6 +1347,7 @@ s.style.animation = '';
 });
 currentShow = null;
 }
+
 document.querySelectorAll('[data-close]').forEach(function(el) {
 el.addEventListener('click', closeShow);
 });
