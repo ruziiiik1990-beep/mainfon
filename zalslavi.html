@@ -1408,6 +1408,11 @@ function endDrag(e) {
     if (!card || !card._entry) return;
     openYtModal(card._entry);
 }
+galScene.addEventListener('pointerup', endDrag);
+galScene.addEventListener('pointercancel', function() {
+gal.dragging = false;
+galScene.classList.remove('dragging');
+});
 
 /* ===== 3D МОДАЛКА С YOUTUBE ===== */
 var ytShow = document.getElementById('ytShow');
