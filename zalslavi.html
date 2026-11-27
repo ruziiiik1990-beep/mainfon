@@ -113,21 +113,21 @@ animation: dividerGlow 3s ease-in-out infinite;
 0%, 100% { box-shadow: 0 0 15px rgba(255,215,0,0.4); }
 50% { box-shadow: 0 0 35px rgba(255,215,0,0.9); }
 }
-/* ===== СТЕНД ===== */
+/* ===== 3D-СТЕНА С ПАРАЛЛАКСОМ ===== */
 .hall-stand {
 position: relative;
 margin-top: 40px;
-padding: 40px 30px;
+padding: 46px 32px;
 border-radius: 24px;
-background:
-linear-gradient(135deg, rgba(10,42,107,0.55) 0%, rgba(10,20,50,0.55) 100%);
+background: linear-gradient(135deg, rgba(10,42,107,0.55) 0%, rgba(10,20,50,0.55) 100%);
 backdrop-filter: blur(12px);
 -webkit-backdrop-filter: blur(12px);
 border: 2px solid rgba(255,215,0,0.25);
-box-shadow:
-0 20px 60px rgba(0,0,0,0.5),
-inset 0 1px 0 rgba(255,255,255,0.08);
+box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
 animation: standPulse 4s ease-in-out infinite;
+transform-style: preserve-3d;
+transition: transform 0.25s ease-out;
+will-change: transform;
 }
 @keyframes standPulse {
 0%, 100% {
@@ -143,7 +143,7 @@ box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 60px rgba(255,215,0,0.25), inset 0 
 position: absolute;
 top: -18px;
 left: 50%;
-transform: translateX(-50%);
+transform: translateX(-50%) translateZ(35px);
 padding: 8px 28px;
 background: linear-gradient(135deg, #b8860b, #ffd700, #b8860b);
 background-size: 200% 200%;
@@ -154,59 +154,62 @@ font-weight: 800;
 letter-spacing: 3px;
 text-transform: uppercase;
 color: #1a1a2e;
-box-shadow: 0 6px 20px rgba(255,215,0,0.5);
+box-shadow: 0 10px 25px rgba(255,215,0,0.5);
 white-space: nowrap;
 }
 @keyframes labelShimmer {
 0%, 100% { background-position: 0% 50%; }
 50% { background-position: 100% 50%; }
 }
-/* ===== СЕТКА КАРТОЧЕК ===== */
+
+/* ===== 3D-СЕТКА КАРТОЧЕК ===== */
 .hall-grid {
 display: grid;
 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-gap: 22px;
+gap: 26px;
+transform-style: preserve-3d;
+perspective: 1200px;
 }
 .hall-card {
 position: relative;
 display: flex;
 flex-direction: column;
-background: linear-gradient(160deg, rgba(20,30,60,0.85) 0%, rgba(10,20,45,0.9) 100%);
-border: 1px solid rgba(255,215,0,0.2);
+background: linear-gradient(160deg, rgba(20,30,60,0.88) 0%, rgba(10,20,45,0.94) 100%);
+border: 1px solid rgba(255,215,0,0.25);
 border-radius: 16px;
 padding: 22px 22px 18px;
-overflow: hidden;
-transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-border-color 0.3s, box-shadow 0.35s;
+transform-style: preserve-3d;
+transition: transform 0.18s ease-out, border-color 0.3s, box-shadow 0.3s;
 animation: cardAppear 0.7s ease-out backwards;
 cursor: pointer;
 text-decoration: none;
 color: inherit;
+will-change: transform;
+--rx: 0deg; --ry: 0deg; --tz: 0px; --gx: 50%; --gy: 50%;
+transform: rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz));
 }
-.hall-card::before {
-content: '';
-position: absolute;
-top: 0; left: -100%;
-width: 100%; height: 100%;
-background: linear-gradient(90deg, transparent, rgba(255,215,0,0.08), transparent);
-transition: left 0.7s;
-pointer-events: none;
-}
-.hall-card:hover::before { left: 100%; }
 .hall-card:hover {
-transform: translateY(-8px);
-border-color: rgba(255,215,0,0.75);
-box-shadow:
-0 20px 40px rgba(0,0,0,0.5),
-0 0 40px rgba(255,215,0,0.25);
+border-color: rgba(255,215,0,0.85);
+box-shadow: 0 25px 50px rgba(0,0,0,0.65), 0 0 40px rgba(255,215,0,0.3);
 }
+.card-glare {
+position: absolute;
+inset: 0;
+border-radius: 16px;
+pointer-events: none;
+background: radial-gradient(circle at var(--gx) var(--gy), rgba(255, 240, 170, 0.24) 0%, rgba(255, 215, 0, 0.06) 35%, transparent 70%);
+opacity: 0;
+transition: opacity 0.25s ease;
+z-index: 4;
+}
+.hall-card:hover .card-glare { opacity: 1; }
 @keyframes cardAppear {
 from { opacity: 0; transform: translateY(30px) scale(0.95); }
 to { opacity: 1; transform: translateY(0) scale(1); }
 }
 .card-thumb {
 width: 100%;
-height: 150px;
+height: 155px;
 border-radius: 10px;
 overflow: hidden;
 margin-bottom: 16px;
@@ -215,81 +218,91 @@ display: flex;
 align-items: center;
 justify-content: center;
 position: relative;
-border: 1px solid rgba(255,255,255,0.08);
+border: 1px solid rgba(255,255,255,0.12);
+transform: translateZ(26px);
+box-shadow: 0 10px 20px rgba(0,0,0,0.45);
+transition: transform 0.25s ease;
 }
-.card-thumb img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-display: block;
-}
+.hall-card:hover .card-thumb { transform: translateZ(38px); }
+.card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease; }
+.hall-card:hover .card-thumb img { transform: scale(1.06); }
 .card-thumb .yt-icon {
-width: 60px;
-height: 42px;
-background: #ff0000;
-border-radius: 10px;
-position: relative;
-box-shadow: 0 0 25px rgba(255,0,0,0.5);
-animation: ytPulse 2.4s ease-in-out infinite;
+width: 60px; height: 42px; background: #ff0000; border-radius: 10px;
+position: relative; box-shadow: 0 0 25px rgba(255,0,0,0.5);
+animation: ytPulse 2.4s ease-in-out infinite; transform: translateZ(15px);
 }
 .card-thumb .yt-icon::after {
-content: '';
-position: absolute;
-top: 50%; left: 50%;
-transform: translate(-40%, -50%);
-border-style: solid;
-border-width: 10px 0 10px 16px;
-border-color: transparent transparent transparent #fff;
+content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-40%, -50%);
+border-style: solid; border-width: 10px 0 10px 16px; border-color: transparent transparent transparent #fff;
 }
 @keyframes ytPulse {
 0%, 100% { box-shadow: 0 0 20px rgba(255,0,0,0.4); }
 50% { box-shadow: 0 0 40px rgba(255,0,0,0.9); }
 }
 .card-title {
-font-size: 16px;
-font-weight: 700;
-color: #fff;
-margin: 0 0 8px;
-line-height: 1.35;
-display: -webkit-box;
--webkit-line-clamp: 2;
--webkit-box-orient: vertical;
-overflow: hidden;
+font-size: 16px; font-weight: 700; color: #fff; margin: 0 0 8px; line-height: 1.35;
+display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+transform: translateZ(20px); text-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+.card-channel {
+font-size: 12px; color: rgba(255,215,0,0.85); font-weight: 600; margin-bottom: 10px;
+letter-spacing: 0.5px; transform: translateZ(16px);
 }
 .card-desc {
-font-size: 13px;
-color: rgba(255,255,255,0.6);
-line-height: 1.5;
-margin: 0 0 16px;
-flex: 1;
-display: -webkit-box;
--webkit-line-clamp: 3;
--webkit-box-orient: vertical;
-overflow: hidden;
+font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.5; margin: 0 0 16px; flex: 1;
+display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+transform: translateZ(12px);
 }
 .card-btn {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-gap: 8px;
-padding: 10px 18px;
-background: linear-gradient(135deg, #c0392b, #ff0000);
-color: #fff;
-border-radius: 30px;
-font-size: 13px;
-font-weight: 700;
-text-decoration: none;
-letter-spacing: 0.5px;
-transition: transform 0.2s, box-shadow 0.2s;
-align-self: flex-start;
-border: none;
-box-shadow: 0 4px 14px rgba(255,0,0,0.3);
+display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 18px;
+background: linear-gradient(135deg, #c0392b, #ff0000); color: #fff; border-radius: 30px;
+font-size: 13px; font-weight: 700; text-decoration: none; letter-spacing: 0.5px;
+transition: transform 0.2s, box-shadow 0.2s; align-self: flex-start; border: none;
+box-shadow: 0 6px 16px rgba(255,0,0,0.35); transform: translateZ(24px);
 }
-.card-btn:hover {
-transform: translateY(-2px);
-box-shadow: 0 8px 22px rgba(255,0,0,0.55);
-}
+.card-btn:hover { transform: translateZ(30px) translateY(-2px); box-shadow: 0 10px 24px rgba(255,0,0,0.6); }
 .card-btn .material-symbols-outlined { font-size: 18px; }
+
+/* ===== 3D-МОДАЛКА ВИДЕОПЛЕЕРА ===== */
+.video-3d-modal {
+position: fixed; inset: 0; z-index: 10000; display: none;
+align-items: center; justify-content: center; perspective: 1400px;
+}
+.video-3d-modal.open { display: flex; }
+.video-3d-backdrop {
+position: absolute; inset: 0; background: rgba(3, 6, 15, 0.88);
+backdrop-filter: blur(8px); animation: mcFade 0.35s ease;
+}
+.video-3d-stage {
+position: relative; width: 960px; max-width: calc(100vw - 32px);
+background: linear-gradient(145deg, rgba(16, 28, 62, 0.96), rgba(8, 14, 32, 0.98));
+border: 2px solid rgba(255, 215, 0, 0.45); border-radius: 20px; padding: 20px;
+box-shadow: 0 35px 90px rgba(0, 0, 0, 0.85), 0 0 50px rgba(255, 215, 0, 0.2);
+transform-style: preserve-3d;
+animation: video3dOpen 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 2;
+}
+@keyframes video3dOpen {
+from { opacity: 0; transform: rotateX(18deg) scale(0.86) translateY(40px); }
+to { opacity: 1; transform: rotateX(0deg) scale(1) translateY(0); }
+}
+.video-3d-header {
+display: flex; align-items: center; justify-content: space-between;
+gap: 16px; margin-bottom: 14px; transform: translateZ(20px);
+}
+.video-3d-title { font-size: 18px; font-weight: 800; color: #ffd700; margin: 0; }
+.video-3d-close {
+width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255, 215, 0, 0.4);
+background: rgba(255, 255, 255, 0.08); color: #fff; font-size: 16px;
+cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+}
+.video-3d-close:hover { background: #ffd700; color: #1a1a2e; transform: scale(1.08); }
+.video-3d-frame-wrap {
+position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px;
+overflow: hidden; background: #000; border: 1px solid rgba(255, 215, 0, 0.25);
+box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7); transform: translateZ(30px);
+}
+.video-3d-frame-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
+
 /* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
 .hall-empty {
 text-align: center;
@@ -860,6 +873,17 @@ color: #555;
 </div>
 </div>
 </main>
+<!-- ===== 3D-ОКНО ПРОИГРЫВАНИЯ ВИДЕО ===== -->
+<div class="video-3d-modal" id="video3dModal">
+  <div class="video-3d-backdrop" id="video3dBackdrop"></div>
+  <div class="video-3d-stage" id="video3dStage">
+    <div class="video-3d-header">
+      <h3 class="video-3d-title" id="video3dTitle">Видео</h3>
+      <button class="video-3d-close" id="video3dClose" title="Закрыть">&#10005;</button>
+    </div>
+    <div class="video-3d-frame-wrap" id="video3dFrameWrap"></div>
+  </div>
+</div>
 
 <!-- ===== МОДАЛКА 1: COLDZERA / MIRAGE ===== -->
 <div class="mc-show" id="mcColdzera">
@@ -984,10 +1008,10 @@ document.body.appendChild(script);
 (function() {
 var firebaseConfig = {
 apiKey: "AIzaSyDQMXKc1q4SQYIKlhqzPmB9-h0rCV90Itk",
-authDomain: "ak4ak-8be45.firebaseapp.com",
-databaseURL: "https://ak4ak-8be45-default-rtdb.europe-west1.firebasedatabase.app",
+authDomain: "://firebaseapp.com",
+databaseURL: "https://firebasedatabase.app",
 projectId: "ak4ak-8be45",
-storageBucket: "ak4ak-8be45.appspot.com",
+storageBucket: "://appspot.com",
 messagingSenderId: "408070680295",
 appId: "1:408070680295:web:77b9656094e330b803bc42"
 };
@@ -996,14 +1020,10 @@ var db = firebase.database();
 var auth = firebase.auth();
 var isAdmin = false;
 var HOF_REF = 'hallOfFame';
+
 function escapeHtml(t) {
 if (!t) return '';
-return String(t)
-.replace(/&/g, "&amp;")
-.replace(/</g, "&lt;")
-.replace(/>/g, "&gt;")
-.replace(/"/g, "&quot;")
-.replace(/'/g, "&#039;");
+return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
 function extractYouTubeId(url) {
 if (!url) return null;
@@ -1020,6 +1040,68 @@ url = url.trim();
 if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
 return url;
 }
+
+/* 3D-плеер */
+var videoModal = document.getElementById('video3dModal');
+var videoStage = document.getElementById('video3dStage');
+var videoTitle = document.getElementById('video3dTitle');
+var videoWrap = document.getElementById('video3dFrameWrap');
+
+function openVideo3D(title, url) {
+var ytId = extractYouTubeId(url);
+if (!ytId) { window.open(normalizeUrl(url), '_blank', 'noopener,noreferrer'); return; }
+videoTitle.textContent = title || 'Видео';
+videoWrap.innerHTML = '<iframe src="https://youtube.com' + ytId + '?autoplay=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
+videoModal.classList.add('open');
+}
+function closeVideo3D() {
+videoModal.classList.remove('open');
+videoWrap.innerHTML = '';
+videoStage.style.transform = '';
+}
+document.getElementById('video3dClose').addEventListener('click', closeVideo3D);
+document.getElementById('video3dBackdrop').addEventListener('click', closeVideo3D);
+document.addEventListener('keydown', function(e) {
+if (e.key === 'Escape' && videoModal.classList.contains('open')) closeVideo3D();
+});
+videoModal.addEventListener('mousemove', function(e) {
+if (!videoModal.classList.contains('open')) return;
+var nx = (e.clientX / window.innerWidth - 0.5) * 2;
+var ny = (e.clientY / window.innerHeight - 0.5) * 2;
+videoStage.style.transform = 'rotateX(' + (-ny * 4).toFixed(2) + 'deg) rotateY(' + (nx * 4).toFixed(2) + 'deg)';
+});
+
+/* 3D-параллакс стены и карточек */
+var stand3d = document.querySelector('.hall-stand');
+if (stand3d) {
+stand3d.addEventListener('mousemove', function(e) {
+if (window.innerWidth < 768) return;
+var rect = stand3d.getBoundingClientRect();
+var nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+var ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+stand3d.style.transform = 'rotateX(' + (-ny * 3.5).toFixed(2) + 'deg) rotateY(' + (nx * 3.5).toFixed(2) + 'deg)';
+});
+stand3d.addEventListener('mouseleave', function() { stand3d.style.transform = 'rotateX(0deg) rotateY(0deg)'; });
+}
+function attachCard3D(card) {
+card.addEventListener('mousemove', function(e) {
+if (window.innerWidth < 768) return;
+var rect = card.getBoundingClientRect();
+var x = e.clientX - rect.left, y = e.clientY - rect.top;
+var nx = (x / rect.width - 0.5) * 2, ny = (y / rect.height - 0.5) * 2;
+card.style.setProperty('--rx', (-ny * 12).toFixed(2) + 'deg');
+card.style.setProperty('--ry', (nx * 12).toFixed(2) + 'deg');
+card.style.setProperty('--tz', '22px');
+card.style.setProperty('--gx', ((x / rect.width) * 100).toFixed(1) + '%');
+card.style.setProperty('--gy', ((y / rect.height) * 100).toFixed(1) + '%');
+});
+card.addEventListener('mouseleave', function() {
+card.style.setProperty('--rx', '0deg');
+card.style.setProperty('--ry', '0deg');
+card.style.setProperty('--tz', '0px');
+});
+}
+
 auth.onAuthStateChanged(function(user) {
 if (!user) return;
 db.ref('users/' + user.uid).once('value').then(function(snap) {
@@ -1029,13 +1111,11 @@ var myNick = ud.nick || (ud.email ? ud.email.split('@')[0] : null);
 if (!myNick) return;
 db.ref('playoff/adminNicks/' + myNick).once('value').then(function(s) {
 isAdmin = s.exists() && s.val() === true;
-if (isAdmin) {
-document.getElementById('adminToggleWrap').style.display = 'block';
-renderCards();
-}
+if (isAdmin) { document.getElementById('adminToggleWrap').style.display = 'block'; renderCards(); }
 });
 });
 });
+
 var lastData = null;
 function renderCards() {
 var grid = document.getElementById('hallGrid');
@@ -1046,74 +1126,55 @@ var entries = [];
 if (data) {
 Object.keys(data).forEach(function(id) {
 var e = data[id] || {};
-entries.push({
-id: id,
-title: e.title || 'Без названия',
-desc: e.desc || '',
-url: e.url || '',
-channel: e.channel || '',
-thumb: e.thumb || '',
-createdAt: e.createdAt || 0
-});
+entries.push({ id: id, title: e.title || 'Без названия', desc: e.desc || '', url: e.url || '', channel: e.channel || '', thumb: e.thumb || '', createdAt: e.createdAt || 0 });
 });
 }
-if (entries.length === 0) {
-empty.style.display = 'block';
-return;
-}
+if (entries.length === 0) { empty.style.display = 'block'; return; }
 empty.style.display = 'none';
 entries.sort(function(a, b) { return b.createdAt - a.createdAt; });
+
 entries.forEach(function(e, idx) {
 var ytId = extractYouTubeId(e.url);
-var thumbUrl = e.thumb || (ytId ? 'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg' : '');
-var thumbHtml;
-if (thumbUrl) {
-thumbHtml = '<img src="' + escapeHtml(thumbUrl) + '" alt="" onerror="this.style.display=\'none\';this.parentNode.querySelector(\'.yt-icon\').style.display=\'block\';">' +
-'<div class="yt-icon" style="display:none;position:absolute;"></div>';
-} else {
-thumbHtml = '<div class="yt-icon"></div>';
-}
+var thumbUrl = e.thumb || (ytId ? 'https://youtube.com' + ytId + '/hqdefault.jpg' : '');
+var thumbHtml = thumbUrl
+? '<img src="' + escapeHtml(thumbUrl) + '" alt="" onerror="this.style.display=\'none\';this.parentNode.querySelector(\'.yt-icon\').style.display=\'block\';"><div class="yt-icon" style="display:none;position:absolute;"></div>'
+: '<div class="yt-icon"></div>';
 var descHtml = e.desc ? '<p class="card-desc">' + escapeHtml(e.desc) + '</p>' : '<p class="card-desc"></p>';
-var channelHtml = e.channel ? '<div style="font-size:12px;color:rgba(255,215,0,0.75);font-weight:600;margin-bottom:10px;letter-spacing:0.5px;">' + escapeHtml(e.channel) + '</div>' : '';
-var delBtn = isAdmin
-? '<button class="card-delete admin-visible" data-id="' + escapeHtml(e.id) + '" title="Удалить">&times;</button>'
-: '';
+var channelHtml = e.channel ? '<div class="card-channel">' + escapeHtml(e.channel) + '</div>' : '';
+var delBtn = isAdmin ? '<button class="card-delete admin-visible" data-id="' + escapeHtml(e.id) + '" title="Удалить">&times;</button>' : '';
 var safeUrl = e.url ? escapeHtml(normalizeUrl(e.url)) : '#';
+
 var card = document.createElement('a');
 card.className = 'hall-card';
 card.href = safeUrl;
-card.target = '_blank';
-card.rel = 'noopener noreferrer';
 card.style.animationDelay = (idx * 0.07) + 's';
 card.innerHTML =
-delBtn +
+'<div class="card-glare"></div>' + delBtn +
 '<div class="card-thumb">' + thumbHtml + '</div>' +
 '<h4 class="card-title">' + escapeHtml(e.title) + '</h4>' +
-channelHtml +
-descHtml +
-'<span class="card-btn"><span class="material-symbols-outlined">play_circle</span> Смотреть</span>';
+channelHtml + descHtml +
+'<span class="card-btn"><span class="material-symbols-outlined">play_circle</span> Смотреть в 3D</span>';
+
+card.addEventListener('click', function(ev) {
+ev.preventDefault();
+if (e.url) openVideo3D(e.title, e.url);
+});
+attachCard3D(card);
+
 var del = card.querySelector('.card-delete');
 if (del) {
-del.addEventListener('click', function(ev) {
-ev.preventDefault();
-ev.stopPropagation();
-deleteEntry(e.id);
-});
+del.addEventListener('click', function(ev) { ev.preventDefault(); ev.stopPropagation(); deleteEntry(e.id); });
 }
 grid.appendChild(card);
 });
 }
-db.ref(HOF_REF).on('value', function(snap) {
-lastData = snap.val();
-renderCards();
-});
+
+db.ref(HOF_REF).on('value', function(snap) { lastData = snap.val(); renderCards(); });
 document.getElementById('adminToggleBtn').addEventListener('click', function() {
 var p = document.getElementById('adminPanel');
 p.style.display = (p.style.display === 'none' || !p.style.display) ? 'block' : 'none';
 });
-document.getElementById('adminCancelBtn').addEventListener('click', function() {
-document.getElementById('adminPanel').style.display = 'none';
-});
+document.getElementById('adminCancelBtn').addEventListener('click', function() { document.getElementById('adminPanel').style.display = 'none'; });
 document.getElementById('adminAddBtn').addEventListener('click', function() {
 if (!isAdmin) { alert('Только администратор может добавлять записи.'); return; }
 var title = document.getElementById('newTitle').value.trim();
@@ -1123,34 +1184,20 @@ var thumb = document.getElementById('newThumb').value.trim();
 var desc = document.getElementById('newDesc').value.trim();
 if (!title) { alert('Введите название.'); return; }
 if (!url) { alert('Введите ссылку на YouTube.'); return; }
-if (!isYouTubeUrl(url)) {
-if (!confirm('Ссылка не похожа на YouTube. Всё равно добавить?')) return;
-}
-db.ref(HOF_REF).push({
-title: title,
-channel: channel,
-url: normalizeUrl(url),
-thumb: thumb ? normalizeUrl(thumb) : '',
-desc: desc,
-createdAt: Date.now()
-}).then(function() {
-document.getElementById('newTitle').value = '';
-document.getElementById('newChannel').value = '';
-document.getElementById('newUrl').value = '';
-document.getElementById('newThumb').value = '';
-document.getElementById('newDesc').value = '';
-document.getElementById('adminPanel').style.display = 'none';
-}).catch(function(err) {
-alert('Ошибка сохранения: ' + err.message);
-});
+if (!isYouTubeUrl(url) && !confirm('Ссылка не похожа на YouTube. Всё равно добавить?')) return;
+db.ref(HOF_REF).push({ title: title, channel: channel, url: normalizeUrl(url), thumb: thumb ? normalizeUrl(thumb) : '', desc: desc, createdAt: Date.now() })
+.then(function() {
+document.getElementById('newTitle').value = ''; document.getElementById('newChannel').value = '';
+document.getElementById('newUrl').value = ''; document.getElementById('newThumb').value = '';
+document.getElementById('newDesc').value = ''; document.getElementById('adminPanel').style.display = 'none';
+}).catch(function(err) { alert('Ошибка сохранения: ' + err.message); });
 });
 function deleteEntry(id) {
-if (!isAdmin) return;
-if (!confirm('Удалить эту запись из зала славы?')) return;
-db.ref(HOF_REF + '/' + id).remove();
+if (isAdmin && confirm('Удалить эту запись из зала славы?')) db.ref(HOF_REF + '/' + id).remove();
 }
 })();
 </script>
+
 <!-- Трубки-радуга за курсором -->
 <script type="module">
 import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
