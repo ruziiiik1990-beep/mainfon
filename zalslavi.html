@@ -161,49 +161,7 @@ white-space: nowrap;
 0%, 100% { background-position: 0% 50%; }
 50% { background-position: 100% 50%; }
 }
-/* ===== СЕТКА КАРТОЧЕК ===== */
-.hall-grid {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-gap: 22px;
-}
-.hall-card {
-position: relative;
-display: flex;
-flex-direction: column;
-background: linear-gradient(160deg, rgba(20,30,60,0.85) 0%, rgba(10,20,45,0.9) 100%);
-border: 1px solid rgba(255,215,0,0.2);
-border-radius: 16px;
-padding: 22px 22px 18px;
-overflow: hidden;
-transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-border-color 0.3s, box-shadow 0.35s;
-animation: cardAppear 0.7s ease-out backwards;
-cursor: pointer;
-text-decoration: none;
-color: inherit;
-}
-.hall-card::before {
-content: '';
-position: absolute;
-top: 0; left: -100%;
-width: 100%; height: 100%;
-background: linear-gradient(90deg, transparent, rgba(255,215,0,0.08), transparent);
-transition: left 0.7s;
-pointer-events: none;
-}
-.hall-card:hover::before { left: 100%; }
-.hall-card:hover {
-transform: translateY(-8px);
-border-color: rgba(255,215,0,0.75);
-box-shadow:
-0 20px 40px rgba(0,0,0,0.5),
-0 0 40px rgba(255,215,0,0.25);
-}
-@keyframes cardAppear {
-from { opacity: 0; transform: translateY(30px) scale(0.95); }
-to { opacity: 1; transform: translateY(0) scale(1); }
-}
+/* ===== ОБЩИЕ ЭЛЕМЕНТЫ КАРТОЧЕК ===== */
 .card-thumb {
 width: 100%;
 height: 150px;
@@ -256,40 +214,186 @@ display: -webkit-box;
 -webkit-box-orient: vertical;
 overflow: hidden;
 }
-.card-desc {
-font-size: 13px;
-color: rgba(255,255,255,0.6);
-line-height: 1.5;
-margin: 0 0 16px;
-flex: 1;
-display: -webkit-box;
--webkit-line-clamp: 3;
--webkit-box-orient: vertical;
+/* ==========================================
+   МУЗЕЙНАЯ ГАЛЕРЕЯ-КОРИДОР
+   ========================================== */
+.gal-scene {
+position: relative;
+height: 620px;
+margin-top: 14px;
+perspective: 1000px;
+perspective-origin: 50% 42%;
 overflow: hidden;
+border-radius: 16px;
+background: #060a14;
+cursor: grab;
+touch-action: pan-y;
+user-select: none;
+-webkit-user-select: none;
 }
-.card-btn {
-display: inline-flex;
+.gal-scene.dragging { cursor: grabbing; }
+.gal-floor {
+position: absolute;
+left: 50%;
+top: 42%;
+width: 1100px;
+height: 3200px;
+transform: translateX(-50%) rotateX(90deg);
+transform-origin: 50% 0;
+background:
+repeating-linear-gradient(90deg, rgba(255,215,0,0.06) 0 2px, transparent 2px 140px),
+linear-gradient(180deg, rgba(28,38,68,0.92), rgba(8,12,24,0.96));
+pointer-events: none;
+}
+.gal-ceiling {
+position: absolute;
+left: 50%;
+top: calc(42% - 3200px);
+width: 1100px;
+height: 3200px;
+transform: translateX(-50%) rotateX(-90deg);
+transform-origin: 50% 100%;
+background: linear-gradient(180deg, rgba(8,12,24,0.96), rgba(16,24,48,0.92));
+pointer-events: none;
+}
+.gal-wall {
+position: absolute;
+top: -50px;
+height: 720px;
+width: 3200px;
+background:
+linear-gradient(180deg, rgba(255,215,0,0.35) 0 2px, transparent 2px 46px, rgba(255,215,0,0.35) 46px 48px, transparent 48px),
+linear-gradient(180deg, rgba(22,30,58,0.96), rgba(9,14,30,0.98));
+pointer-events: none;
+}
+.gal-wall-left {
+left: calc(50% - 470px);
+transform-origin: 0 50%;
+transform: rotateY(90deg);
+}
+.gal-wall-right {
+left: calc(50% + 470px);
+transform-origin: 100% 50%;
+transform: rotateY(-90deg);
+}
+.gal-end {
+position: absolute;
+left: 50%;
+top: 42%;
+width: 940px;
+height: 740px;
+transform: translate(-50%, -50%) translateZ(-2900px);
+background:
+radial-gradient(ellipse at 50% 45%, rgba(255,215,0,0.16) 0%, rgba(30,40,80,0.5) 45%, rgba(6,10,20,0.9) 100%);
+border: 2px solid rgba(255,215,0,0.35);
+box-shadow: 0 0 120px rgba(255,215,0,0.15);
+display: flex;
 align-items: center;
 justify-content: center;
+pointer-events: none;
+}
+.gal-end span {
+font-size: 46px;
+font-weight: 900;
+letter-spacing: 10px;
+text-transform: uppercase;
+color: rgba(255,215,0,0.55);
+white-space: nowrap;
+text-shadow: 0 0 40px rgba(255,215,0,0.4);
+}
+.gal-cards {
+position: absolute;
+inset: 0;
+transform-style: preserve-3d;
+}
+.gal-card {
+position: absolute;
+left: 50%;
+top: 50%;
+width: 300px;
+padding: 10px 10px 12px;
+border-radius: 6px;
+background: linear-gradient(160deg, #2a2118 0%, #17110a 100%);
+border: 3px solid #b8860b;
+box-shadow:
+0 0 0 1px rgba(255,215,0,0.35),
+0 30px 70px rgba(0,0,0,0.7),
+0 0 60px rgba(255,215,0,0.12);
+cursor: pointer;
+backface-visibility: hidden;
+will-change: transform, opacity;
+transition: border-color 0.3s, box-shadow 0.3s;
+}
+.gal-card:hover {
+border-color: #ffd700;
+box-shadow:
+0 0 0 1px rgba(255,215,0,0.55),
+0 30px 70px rgba(0,0,0,0.7),
+0 0 90px rgba(255,215,0,0.3);
+}
+.gal-card .card-thumb { height: 170px; margin-bottom: 10px; border-radius: 2px; }
+.gal-card .card-title {
+font-size: 14px;
+margin: 0;
+-webkit-line-clamp: 1;
+text-align: center;
+color: #f3e6c2;
+}
+.gal-card .gal-plaque {
+text-align: center;
+font-size: 11px;
+font-weight: 600;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: rgba(255,215,0,0.75);
+margin-top: 5px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+.gal-card .gal-play {
+position: absolute;
+top: 92px;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 54px;
+height: 54px;
+border-radius: 50%;
+background: rgba(255,0,0,0.92);
+display: flex;
+align-items: center;
+justify-content: center;
+opacity: 0;
+transition: opacity 0.25s, transform 0.25s;
+box-shadow: 0 0 25px rgba(255,0,0,0.6);
+pointer-events: none;
+}
+.gal-card:hover .gal-play { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+.gal-card .gal-play .material-symbols-outlined { color: #fff; font-size: 32px; }
+.gal-card:hover .card-delete.admin-visible { display: flex; }
+.gal-hint {
+position: absolute;
+bottom: 12px;
+left: 50%;
+transform: translateX(-50%);
+font-size: 12px;
+letter-spacing: 1px;
+color: rgba(255,255,255,0.45);
+display: flex;
+align-items: center;
 gap: 8px;
-padding: 10px 18px;
-background: linear-gradient(135deg, #c0392b, #ff0000);
-color: #fff;
-border-radius: 30px;
-font-size: 13px;
-font-weight: 700;
-text-decoration: none;
-letter-spacing: 0.5px;
-transition: transform 0.2s, box-shadow 0.2s;
-align-self: flex-start;
-border: none;
-box-shadow: 0 4px 14px rgba(255,0,0,0.3);
+pointer-events: none;
+white-space: nowrap;
 }
-.card-btn:hover {
-transform: translateY(-2px);
-box-shadow: 0 8px 22px rgba(255,0,0,0.55);
+.gal-hint .material-symbols-outlined { font-size: 17px; color: rgba(255,215,0,0.6); }
+@media (max-width: 640px) {
+.gal-scene { height: 460px; }
+.gal-card { width: 230px; }
+.gal-card .card-thumb { height: 125px; }
+.gal-card .gal-play { top: 72px; }
+.gal-hint { font-size: 10px; }
+.gal-end span { font-size: 28px; letter-spacing: 6px; }
 }
-.card-btn .material-symbols-outlined { font-size: 18px; }
 /* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
 .hall-empty {
 text-align: center;
@@ -429,66 +533,12 @@ cursor: pointer;
 display: none;
 align-items: center;
 justify-content: center;
-z-index: 30;
-pointer-events: auto;
+z-index: 5;
 transition: background 0.2s, transform 0.2s;
 box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
-.hall-card .card-delete.admin-visible { display: flex; }
+.gal-card:hover .card-delete.admin-visible { display: flex; }
 .card-delete:hover { background: #dc2626; transform: scale(1.1); }
-/* ===== ВИДЕО-МОДАЛКА ПО ЦЕНТРУ ===== */
-.video-modal {
-position: fixed;
-inset: 0;
-z-index: 10000;
-display: none;
-}
-.video-modal.open { display: block; }
-.video-modal-backdrop {
-position: absolute;
-inset: 0;
-background: rgba(5, 7, 15, 0.92);
-}
-.video-modal-window {
-position: absolute;
-left: 50%;
-top: 50%;
-transform: translate(-50%, -50%);
-width: min(1100px, calc(100vw - 48px));
-aspect-ratio: 16 / 9;
-max-height: calc(100vh - 64px);
-background: #000;
-border-radius: 14px;
-overflow: hidden;
-box-shadow: 0 30px 90px rgba(0,0,0,0.75);
-animation: vpZoom 0.35s ease;
-}
-.video-modal-window iframe {
-width: 100%;
-height: 100%;
-border: 0;
-display: block;
-}
-.video-modal-x {
-position: absolute;
-top: -44px;
-right: 0;
-width: 34px;
-height: 34px;
-border-radius: 50%;
-border: 1px solid rgba(255,255,255,0.5);
-background: rgba(0,0,0,0.45);
-color: #fff;
-font-size: 14px;
-line-height: 1;
-cursor: pointer;
-transition: background 0.2s, border-color 0.2s;
-}
-.video-modal-x:hover { background: #dc2626; border-color: #dc2626; }
-@keyframes vpZoom {
-from { opacity: 0; transform: translate(-50%, -48%) scale(0.95); }
-to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-}
 @media (max-width: 640px) {
 .hall-stand { padding: 32px 16px; }
 .hall-trophy { font-size: 64px; }
@@ -547,7 +597,7 @@ display: block;
 }
 
 /* ==========================================
-   СТИЛИ МОДАЛКИ И ЭФФЕКТА ИСПАРЕНИЯ
+   СТИЛИ МОДАЛОК СТИКЕРОВ + ИСПАРЕНИЕ
    ========================================== */
 .mc-show {
 position: fixed;
@@ -678,6 +728,74 @@ transition: opacity 0.5s ease;
 .mc-topbar { padding: 10px 16px 8px; }
 .mc-rule { margin: 0 16px; }
 .mc-pages { top: 48px; }
+}
+
+/* ==========================================
+   3D МОДАЛКА С YOUTUBE (ДЛЯ ЛЕНТЫ)
+   ========================================== */
+.yt-window {
+position: absolute;
+left: 50%;
+top: 50%;
+width: min(1100px, 94vw);
+transform-origin: 50% 50%;
+animation: ytIn 0.6s cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+@keyframes ytIn {
+from { opacity: 0; transform: translate(-50%, -50%) perspective(1400px) rotateX(22deg) scale(0.86); }
+to   { opacity: 1; transform: translate(-50%, -50%) perspective(1400px) rotateX(0deg) scale(1); }
+}
+.yt-topbar {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 14px 20px;
+background: linear-gradient(135deg, rgba(10,42,107,0.92), rgba(10,20,50,0.95));
+border: 1px solid rgba(255,215,0,0.4);
+border-bottom: none;
+border-radius: 14px 14px 0 0;
+}
+.yt-topbar .yt-brand {
+font-size: 11px;
+letter-spacing: 4px;
+font-weight: 700;
+color: rgba(255,215,0,0.85);
+text-transform: uppercase;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.yt-topbar .yt-brand .material-symbols-outlined { font-size: 18px; }
+.yt-topbar .mc-x {
+border-color: rgba(255,255,255,0.35);
+color: #fff;
+}
+.yt-topbar .mc-x:hover { background: #fff; color: #1a1a2e; }
+.yt-title {
+font-size: 14px;
+font-weight: 700;
+color: #fff;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+max-width: 60vw;
+margin-left: 14px;
+flex: 1;
+}
+.yt-frame {
+aspect-ratio: 16 / 9;
+background: #000;
+border: 1px solid rgba(255,215,0,0.4);
+border-top: none;
+border-radius: 0 0 14px 14px;
+box-shadow: 0 50px 140px rgba(0,0,0,0.85), 0 0 70px rgba(255,215,0,0.12);
+overflow: hidden;
+}
+.yt-frame iframe {
+width: 100%;
+height: 100%;
+border: 0;
+display: block;
 }
 
 /* ==========================================
@@ -872,10 +990,21 @@ color: #555;
 </p>
 <div class="hall-divider"></div>
 </section>
-<!-- Анимированный стенд -->
+<!-- 3D Конвейерная лента -->
 <section class="hall-stand">
 <div class="stand-label">★ Выдающиеся моменты ★</div>
-<div class="hall-grid" id="hallGrid"></div>
+<div class="gal-scene" id="galScene">
+<div class="gal-floor"></div>
+<div class="gal-ceiling"></div>
+<div class="gal-wall gal-wall-left"></div>
+<div class="gal-wall gal-wall-right"></div>
+<div class="gal-end"><span>Зал славы</span></div>
+<div class="gal-cards" id="galCards"></div>
+<div class="gal-hint">
+<span class="material-symbols-outlined">swipe</span>
+Стрелки ← → или тяни — прогулка по галерее · клик по картине — смотреть
+</div>
+</div>
 <div class="hall-empty" id="hallEmpty" style="display:none;">
 <span class="material-symbols-outlined">movie</span>
 Пока здесь пусто. Скоро появятся лучшие моменты турниров!
@@ -914,6 +1043,24 @@ color: #555;
 </div>
 </div>
 </main>
+
+<!-- ===== 3D МОДАЛКА С YOUTUBE (для карточек ленты) ===== -->
+<div class="mc-show" id="ytShow">
+<div class="mc-backdrop" data-yt-close></div>
+<div class="yt-window">
+<div class="yt-topbar">
+<span class="yt-brand">
+<span class="material-symbols-outlined">play_circle</span>
+HALL OF FAME
+</span>
+<span class="yt-title" id="ytTitle"></span>
+<button class="mc-x" data-yt-close title="Закрыть">&#10005;</button>
+</div>
+<div class="yt-frame">
+<iframe id="ytFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen title="YouTube видео"></iframe>
+</div>
+</div>
+</div>
 
 <!-- ===== МОДАЛКА 1: COLDZERA / MIRAGE ===== -->
 <div class="mc-show" id="mcColdzera">
@@ -965,6 +1112,7 @@ Banan clutch
 </div>
 </div>
 </div>
+</div>
 
 <!-- ===== МОДАЛКА 2: MAGIC / MIRAGE ===== -->
 <div class="mc-show" id="mcMagic">
@@ -1009,6 +1157,7 @@ pixel bug
 <div class="footer-left">оlofmeister / Overpass</div>
 <div class="footer-right">
 <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+</div>
 </div>
 </div>
 </div>
@@ -1091,11 +1240,25 @@ renderCards();
 });
 });
 var lastData = null;
+
+/* ==========================================================
+   МУЗЕЙНАЯ ГАЛЕРЕЯ-КОРИДОР
+   ========================================================== */
+var SPACING = 430;          // расстояние между картинами в коридоре
+var Z_NEAR = 220;           // точка, где картина проходит мимо зрителя
+var Z_FADE = 2750;          // глубина растворения в конце коридора
+var gal = { pos: 0, target: 0, vel: 0, dragging: false, lastX: 0, moved: 0 };
+var galItems = [];
+var galScene = document.getElementById('galScene');
+var galCards = document.getElementById('galCards');
+
+function mod(a, m) { return ((a % m) + m) % m; }
+
 function renderCards() {
-var grid = document.getElementById('hallGrid');
 var empty = document.getElementById('hallEmpty');
 var data = lastData;
-grid.innerHTML = '';
+galCards.innerHTML = '';
+galItems = [];
 var entries = [];
 if (data) {
 Object.keys(data).forEach(function(id) {
@@ -1113,9 +1276,11 @@ createdAt: e.createdAt || 0
 }
 if (entries.length === 0) {
 empty.style.display = 'block';
+galScene.style.display = 'none';
 return;
 }
 empty.style.display = 'none';
+galScene.style.display = 'block';
 entries.sort(function(a, b) { return b.createdAt - a.createdAt; });
 entries.forEach(function(e, idx) {
 var ytId = extractYouTubeId(e.url);
@@ -1127,43 +1292,136 @@ thumbHtml = '<img src="' + escapeHtml(thumbUrl) + '" alt="" onerror="this.style.
 } else {
 thumbHtml = '<div class="yt-icon"></div>';
 }
-var descHtml = e.desc ? '<p class="card-desc">' + escapeHtml(e.desc) + '</p>' : '<p class="card-desc"></p>';
-var channelHtml = e.channel ? '<div style="font-size:12px;color:rgba(255,215,0,0.75);font-weight:600;margin-bottom:10px;letter-spacing:0.5px;">' + escapeHtml(e.channel) + '</div>' : '';
+var channelHtml = e.channel ? '<div class="gal-plaque">' + escapeHtml(e.channel) + '</div>' : '';
 var delBtn = isAdmin
 ? '<button class="card-delete admin-visible" data-id="' + escapeHtml(e.id) + '" title="Удалить">&times;</button>'
 : '';
-var safeUrl = e.url ? escapeHtml(normalizeUrl(e.url)) : '#';
-var card = document.createElement('a');
-card.className = 'hall-card';
-card.href = safeUrl;
-card.target = '_blank';
-card.rel = 'noopener noreferrer';
-card.style.animationDelay = (idx * 0.07) + 's';
+var card = document.createElement('div');
+card.className = 'gal-card';
+card._entry = e; // для открытия модалки из pointerup (click не работает при pointer capture)
 card.innerHTML =
 delBtn +
 '<div class="card-thumb">' + thumbHtml + '</div>' +
+'<div class="gal-play"><span class="material-symbols-outlined">play_arrow</span></div>' +
 '<h4 class="card-title">' + escapeHtml(e.title) + '</h4>' +
-channelHtml +
-descHtml +
-'<span class="card-btn"><span class="material-symbols-outlined">play_circle</span> Смотреть</span>';
-var del = card.querySelector('.card-delete');
-if (del) {
-del.addEventListener('click', function(ev) {
-ev.preventDefault();
-ev.stopPropagation();
-deleteEntry(e.id);
+channelHtml;
+galCards.appendChild(card);
+galItems.push({ el: card, base: idx * SPACING });
 });
 }
-card.addEventListener('click', function(ev) {
-if (!e.url) return;
-if (extractYouTubeId(e.url)) {
-ev.preventDefault();
-openVideoModal(e.url);
+
+function galFrame() {
+if (!gal.dragging) {
+gal.vel *= 0.92;           // инерция после броска
+gal.target += gal.vel;
 }
-});
-grid.appendChild(card);
-});
+gal.pos += (gal.target - gal.pos) * 0.1; // плавность шага
+var n = galItems.length;
+if (n) {
+var total = n * SPACING;
+for (var i = 0; i < n; i++) {
+var it = galItems[i];
+var z = Z_NEAR - mod(it.base + gal.pos, total);
+if (z < -Z_FADE || z > Z_NEAR + 60) {
+it.el.style.visibility = 'hidden';
+continue;
 }
+it.el.style.visibility = 'visible';
+var side = (i % 2 === 0) ? -1 : 1; // картины чередуются: левая стена / правая стена
+var x = side * 310;
+var rot = side === -1 ? 62 : -62;  // картина развёрнута к центру коридора
+it.el.style.transform = 'translate(-50%, -50%) translate3d(' + x + 'px,0px,' + z + 'px) rotateY(' + rot + 'deg)';
+it.el.style.zIndex = Math.round(5000 + z);
+var op;
+if (z > 100) op = Math.max(0, (Z_NEAR - z) / 120);            // растворяется у самого зрителя
+else if (z < -(Z_FADE - 650)) op = Math.max(0, (z + Z_FADE) / 650); // растворяется в глубине
+else op = 1;
+it.el.style.opacity = op.toFixed(3);
+}
+}
+requestAnimationFrame(galFrame);
+}
+requestAnimationFrame(galFrame);
+
+/* Стрелки ← → — шаг по коридору */
+document.addEventListener('keydown', function(e) {
+var tag = (e.target && e.target.tagName) || '';
+if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+if (e.key === 'ArrowRight') { gal.target += SPACING; gal.vel = 0; e.preventDefault(); }
+else if (e.key === 'ArrowLeft') { gal.target -= SPACING; gal.vel = 0; e.preventDefault(); }
+});
+
+/* Колесо мыши — движение по коридору */
+galScene.addEventListener('wheel', function(e) {
+e.preventDefault();
+gal.target += e.deltaY * 1.2;
+gal.vel = 0;
+}, { passive: false });
+
+/* Drag — тянем коридор на себя */
+galScene.addEventListener('pointerdown', function(e) {
+if (e.target.closest('.card-delete')) return;
+gal.dragging = true;
+gal.moved = 0;
+gal.lastX = e.clientX;
+gal.vel = 0;
+galScene.classList.add('dragging');
+try { galScene.setPointerCapture(e.pointerId); } catch (err) {}
+});
+galScene.addEventListener('pointermove', function(e) {
+if (!gal.dragging) return;
+var dx = e.clientX - gal.lastX;
+gal.lastX = e.clientX;
+gal.moved += Math.abs(dx);
+gal.target -= dx * 1.8; // тянешь влево — идёшь вперёд по коридору
+gal.vel = -dx * 1.8;
+});
+function endDrag(e) {
+var wasDragging = gal.dragging;
+gal.dragging = false;
+galScene.classList.remove('dragging');
+if (!wasDragging || !e || typeof e.clientX !== 'number') return;
+if (gal.moved > 8) return; // это был drag, не клик
+// click при pointer capture не доходит до карточки, поэтому ищем её вручную
+var el = document.elementFromPoint(e.clientX, e.clientY);
+var card = el && el.closest ? el.closest('.gal-card') : null;
+if (!card || !card._entry) return;
+if (el.closest('.card-delete')) { deleteEntry(card._entry.id); return; }
+openYtModal(card._entry);
+}
+galScene.addEventListener('pointerup', endDrag);
+galScene.addEventListener('pointercancel', function() {
+gal.dragging = false;
+galScene.classList.remove('dragging');
+});
+
+/* ===== 3D МОДАЛКА С YOUTUBE ===== */
+var ytShow = document.getElementById('ytShow');
+var ytFrame = document.getElementById('ytFrame');
+var ytTitle = document.getElementById('ytTitle');
+function openYtModal(entry) {
+var ytId = extractYouTubeId(entry.url);
+if (!ytId) {
+// не одиночное видео (плейлист/канал) — открываем в новой вкладке
+var u = normalizeUrl(entry.url);
+if (u) window.open(u, '_blank', 'noopener');
+return;
+}
+ytTitle.textContent = entry.title || 'Hall of Fame';
+ytFrame.src = 'https://www.youtube.com/embed/' + ytId + '?autoplay=1&rel=0';
+ytShow.classList.add('open');
+}
+function closeYtModal() {
+ytShow.classList.remove('open');
+ytFrame.src = ''; // останавливает видео
+}
+document.querySelectorAll('[data-yt-close]').forEach(function(el) {
+el.addEventListener('click', closeYtModal);
+});
+document.addEventListener('keydown', function(e) {
+if (ytShow.classList.contains('open') && e.key === 'Escape') closeYtModal();
+});
+
 db.ref(HOF_REF).on('value', function(snap) {
 lastData = snap.val();
 renderCards();
@@ -1209,43 +1467,6 @@ function deleteEntry(id) {
 if (!isAdmin) return;
 if (!confirm('Удалить эту запись из зала славы?')) return;
 db.ref(HOF_REF + '/' + id).remove();
-}
-
-/* ===== ВИДЕО-МОДАЛКА ПО ЦЕНТРУ ЭКРАНА ===== */
-var vpModal = null;
-var vpFrame = null;
-function openVideoModal(url) {
-if (!vpModal) {
-vpModal = document.createElement('div');
-vpModal.className = 'video-modal';
-vpModal.innerHTML =
-'<div class="video-modal-backdrop" data-vpclose></div>' +
-'<div class="video-modal-window">' +
-'<button class="video-modal-x" data-vpclose type="button" title="Закрыть">&#10005;</button>' +
-'<iframe allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>' +
-'</div>';
-document.body.appendChild(vpModal);
-vpModal.addEventListener('click', function(ev) {
-var t = ev.target;
-if (t && (t.hasAttribute('data-vpclose') || (t.closest && t.closest('[data-vpclose]')))) {
-closeVideoModal();
-}
-});
-document.addEventListener('keydown', function(ev) {
-if (ev.key === 'Escape') closeVideoModal();
-});
-vpFrame = vpModal.querySelector('iframe');
-}
-var id = extractYouTubeId(url);
-vpFrame.src = id
-? 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0'
-: url;
-vpModal.classList.add('open');
-}
-function closeVideoModal() {
-if (!vpModal) return;
-vpModal.classList.remove('open');
-vpFrame.src = '';
 }
 })();
 </script>
