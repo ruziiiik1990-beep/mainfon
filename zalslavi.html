@@ -241,19 +241,23 @@ user-select: none;
     transform: translateX(-50%) rotateX(90deg);
     transform-origin: 50% 0;
     background:
-        repeating-linear-gradient(90deg, rgba(255,215,0,0.06) 0 2px, transparent 2px 140px),
+        /* швы между досками */
+        repeating-linear-gradient(90deg,
+            rgba(0,0,0,0.45) 0 2px,
+            transparent 2px 120px),
+        /* текстура досок */
+        repeating-linear-gradient(0deg,
+            rgba(80,50,30,0.9) 0 18px,
+            rgba(110,70,40,0.9) 18px 20px,
+            rgba(90,58,34,0.9) 20px 38px,
+            rgba(120,78,45,0.9) 38px 40px),
+        /* общий градиент освещения */
         linear-gradient(180deg,
-            rgba(40,60,120,0.92) 0%,
-            rgba(120,40,160,0.35) 25%,
-            rgba(40,160,140,0.25) 50%,
-            rgba(8,12,24,0.96) 100%);
-    animation: floorShift 12s linear infinite;
+            rgba(140,95,55,0.95) 0%,
+            rgba(90,60,35,0.95) 40%,
+            rgba(40,25,15,0.98) 100%);
+    box-shadow: inset 0 0 200px rgba(0,0,0,0.6);
     pointer-events: none;
-}
-
-@keyframes floorShift {
-    0% { background-position: 0 0, 0 0; }
-    100% { background-position: 0 0, 0 3200px; }
 }
 .gal-ceiling {
     position: absolute;
@@ -280,14 +284,30 @@ user-select: none;
     50% { opacity: 1; }
 }
 .gal-wall {
-position: absolute;
-top: -50px;
-height: 720px;
-width: 3200px;
-background:
-linear-gradient(180deg, rgba(255,215,0,0.35) 0 2px, transparent 2px 46px, rgba(255,215,0,0.35) 46px 48px, transparent 48px),
-linear-gradient(180deg, rgba(22,30,58,0.96), rgba(9,14,30,0.98));
-pointer-events: none;
+    position: absolute;
+    top: -50px;
+    height: 720px;
+    width: 3200px;
+    background:
+        /* верхний бордюр */
+        linear-gradient(180deg,
+            rgba(255,215,0,0.5) 0 6px,
+            transparent 6px 40px),
+        /* горизонтальные панели */
+        repeating-linear-gradient(180deg,
+            rgba(0,0,0,0.35) 0 2px,
+            transparent 2px 90px),
+        /* вертикальные стыки панелей */
+        repeating-linear-gradient(90deg,
+            rgba(0,0,0,0.25) 0 2px,
+            transparent 2px 160px),
+        /* основной коричневый градиент */
+        linear-gradient(180deg,
+            rgba(120,80,50,0.98) 0%,
+            rgba(90,58,34,0.98) 45%,
+            rgba(55,35,20,0.98) 100%);
+    box-shadow: inset 0 0 120px rgba(0,0,0,0.5);
+    pointer-events: none;
 }
    .gal-wall::before {
     content: '';
@@ -306,15 +326,18 @@ pointer-events: none;
     0%, 100% { background-position: 0% 50%; filter: hue-rotate(0deg); }
     50% { background-position: 100% 50%; filter: hue-rotate(90deg); }
 }
-.gal-wall-left {
-left: calc(50% - 470px);
-transform-origin: 0 50%;
-transform: rotateY(90deg);
-}
 .gal-wall-right {
-left: calc(50% + 470px);
-transform-origin: 100% 50%;
-transform: rotateY(-90deg);
+    left: calc(50% + 470px);
+    transform-origin: 100% 50%;
+    transform: rotateY(-90deg);
+    filter: brightness(0.75); /* правая чуть темнее — так видно объём */
+}
+
+.gal-wall-left {
+    left: calc(50% - 470px);
+    transform-origin: 0 50%;
+    transform: rotateY(90deg);
+    filter: brightness(0.9);
 }
 .gal-end {
     position: absolute;
