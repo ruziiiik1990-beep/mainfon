@@ -29,6 +29,7 @@ color: #fff;
 overflow-x: hidden;
 min-height: 100vh;
 }
+/* ===== ТРУБКИ-РАДУГА ===== */
 #tubes-canvas {
 position: fixed;
 top: 0;
@@ -41,6 +42,7 @@ background-color: #000000 !important;
 mix-blend-mode: screen;
 }
 .header-wrapper { position: relative; z-index: 10; }
+/* ===== HERO ===== */
 .hall-container {
 position: relative;
 z-index: 5;
@@ -111,6 +113,7 @@ animation: dividerGlow 3s ease-in-out infinite;
 0%, 100% { box-shadow: 0 0 15px rgba(255,215,0,0.4); }
 50% { box-shadow: 0 0 35px rgba(255,215,0,0.9); }
 }
+/* ===== СТЕНД ===== */
 .hall-stand {
 position: relative;
 margin-top: 40px;
@@ -158,70 +161,49 @@ white-space: nowrap;
 0%, 100% { background-position: 0% 50%; }
 50% { background-position: 100% 50%; }
 }
-
-/* 3D-ЛЕНТА (CONVEYOR BELT) */
-.hall-conveyor {
-position: relative;
-width: 100%;
-height: 520px;
-perspective: 1200px;
-perspective-origin: 50% 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-user-select: none;
-overflow: hidden;
-}
+/* ===== СЕТКА КАРТОЧЕК ===== */
 .hall-grid {
-position: relative;
-width: 100%;
-height: 100%;
-transform-style: preserve-3d;
-display: flex;
-align-items: center;
-justify-content: center;
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+gap: 22px;
 }
 .hall-card {
-position: absolute;
-width: 280px;
-height: 440px;
+position: relative;
 display: flex;
 flex-direction: column;
-background: linear-gradient(160deg, rgba(20,30,60,0.92) 0%, rgba(10,20,45,0.95) 100%);
-border: 1px solid rgba(255,215,0,0.25);
+background: linear-gradient(160deg, rgba(20,30,60,0.85) 0%, rgba(10,20,45,0.9) 100%);
+border: 1px solid rgba(255,215,0,0.2);
 border-radius: 16px;
 padding: 22px 22px 18px;
 overflow: hidden;
+transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+border-color 0.3s, box-shadow 0.35s;
+animation: cardAppear 0.7s ease-out backwards;
 cursor: pointer;
 text-decoration: none;
 color: inherit;
-box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-transition: border-color 0.3s, box-shadow 0.3s;
-transform-style: preserve-3d;
 }
 .hall-card::before {
 content: '';
 position: absolute;
 top: 0; left: -100%;
 width: 100%; height: 100%;
-background: linear-gradient(90deg, transparent, rgba(255,215,0,0.12), transparent);
+background: linear-gradient(90deg, transparent, rgba(255,215,0,0.08), transparent);
 transition: left 0.7s;
 pointer-events: none;
 }
 .hall-card:hover::before { left: 100%; }
 .hall-card:hover {
-border-color: rgba(255,215,0,0.85);
+transform: translateY(-8px);
+border-color: rgba(255,215,0,0.75);
 box-shadow:
-0 20px 40px rgba(0,0,0,0.6),
-0 0 50px rgba(255,215,0,0.35);
+0 20px 40px rgba(0,0,0,0.5),
+0 0 40px rgba(255,215,0,0.25);
 }
-.hall-card.is-front {
-border-color: rgba(255,215,0,0.9);
-box-shadow:
-0 25px 50px rgba(0,0,0,0.7),
-0 0 60px rgba(255,215,0,0.4);
+@keyframes cardAppear {
+from { opacity: 0; transform: translateY(30px) scale(0.95); }
+to { opacity: 1; transform: translateY(0) scale(1); }
 }
-
 .card-thumb {
 width: 100%;
 height: 150px;
@@ -234,7 +216,6 @@ align-items: center;
 justify-content: center;
 position: relative;
 border: 1px solid rgba(255,255,255,0.08);
-flex-shrink: 0;
 }
 .card-thumb img {
 width: 100%;
@@ -303,35 +284,13 @@ transition: transform 0.2s, box-shadow 0.2s;
 align-self: flex-start;
 border: none;
 box-shadow: 0 4px 14px rgba(255,0,0,0.3);
-cursor: pointer;
 }
 .card-btn:hover {
 transform: translateY(-2px);
 box-shadow: 0 8px 22px rgba(255,0,0,0.55);
 }
 .card-btn .material-symbols-outlined { font-size: 18px; }
-
-.conveyor-dots {
-display: flex;
-justify-content: center;
-gap: 8px;
-margin-top: 20px;
-}
-.conveyor-dot {
-width: 10px;
-height: 10px;
-border-radius: 50%;
-background: rgba(255,215,0,0.25);
-border: 1px solid rgba(255,215,0,0.4);
-cursor: pointer;
-transition: all 0.3s;
-}
-.conveyor-dot.active {
-background: #ffd700;
-box-shadow: 0 0 12px rgba(255,215,0,0.7);
-transform: scale(1.3);
-}
-
+/* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
 .hall-empty {
 text-align: center;
 padding: 60px 20px;
@@ -345,115 +304,7 @@ display: block;
 margin: 0 auto 14px;
 color: rgba(255,215,0,0.3);
 }
-
-/* 3D-ВИДЕО МОДАЛКА */
-.video-modal {
-position: fixed;
-inset: 0;
-z-index: 9999;
-display: none;
-perspective: 1500px;
-}
-.video-modal.open { display: flex; align-items: center; justify-content: center; }
-.video-modal-backdrop {
-position: absolute;
-inset: 0;
-background: rgba(5, 7, 15, 0.92);
-backdrop-filter: blur(8px);
--webkit-backdrop-filter: blur(8px);
-animation: vmBackdropIn 0.4s ease;
-}
-@keyframes vmBackdropIn {
-from { opacity: 0; }
-to { opacity: 1; }
-}
-.video-modal-window {
-position: relative;
-width: min(1100px, 92vw);
-aspect-ratio: 16/9;
-background: #0a0a15;
-border: 2px solid rgba(255,215,0,0.5);
-border-radius: 18px;
-box-shadow:
-0 40px 100px rgba(0,0,0,0.8),
-0 0 80px rgba(255,215,0,0.3);
-overflow: hidden;
-transform-style: preserve-3d;
-animation: vmWindowIn 0.7s cubic-bezier(0.2, 0.8, 0.25, 1);
-z-index: 2;
-}
-@keyframes vmWindowIn {
-0% {
-opacity: 0;
-transform: rotateY(-75deg) translateZ(-400px) scale(0.5);
-}
-60% {
-opacity: 1;
-transform: rotateY(8deg) translateZ(50px) scale(1.02);
-}
-100% {
-opacity: 1;
-transform: rotateY(0deg) translateZ(0) scale(1);
-}
-}
-.video-modal-window.closing {
-animation: vmWindowOut 0.45s cubic-bezier(0.5, 0, 0.75, 0.25) forwards;
-}
-@keyframes vmWindowOut {
-to {
-opacity: 0;
-transform: rotateY(75deg) translateZ(-400px) scale(0.5);
-}
-}
-.video-modal-topbar {
-position: absolute;
-top: 0; left: 0; right: 0;
-padding: 12px 18px;
-background: linear-gradient(180deg, rgba(0,0,0,0.7), transparent);
-display: flex;
-justify-content: space-between;
-align-items: center;
-z-index: 10;
-pointer-events: none;
-}
-.video-modal-title {
-color: #ffd700;
-font-size: 14px;
-font-weight: 700;
-letter-spacing: 1px;
-text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-max-width: calc(100% - 60px);
-overflow: hidden;
-text-overflow: ellipsis;
-white-space: nowrap;
-}
-.video-modal-close {
-width: 38px;
-height: 38px;
-border-radius: 50%;
-background: rgba(220,38,38,0.85);
-border: 2px solid rgba(255,255,255,0.3);
-color: #fff;
-font-size: 18px;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-pointer-events: auto;
-transition: all 0.2s;
-box-shadow: 0 4px 14px rgba(0,0,0,0.5);
-}
-.video-modal-close:hover {
-background: #dc2626;
-transform: scale(1.1) rotate(90deg);
-}
-.video-modal-iframe {
-width: 100%;
-height: 100%;
-border: 0;
-display: block;
-}
-
+/* ===== АДМИН-ПАНЕЛЬ ===== */
 .admin-panel {
 margin-top: 32px;
 padding: 26px;
@@ -578,36 +429,75 @@ cursor: pointer;
 display: none;
 align-items: center;
 justify-content: center;
-z-index: 5;
+z-index: 30;
+pointer-events: auto;
 transition: background 0.2s, transform 0.2s;
 box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
-.hall-card:hover .card-delete.admin-visible { display: flex; }
+.hall-card .card-delete.admin-visible { display: flex; }
 .card-delete:hover { background: #dc2626; transform: scale(1.1); }
-
-@media (max-width: 768px) {
-.hall-conveyor { height: auto; perspective: none; }
-.hall-grid {
-position: static;
-width: 100%;
-height: auto;
-transform-style: flat;
-display: grid;
-grid-template-columns: 1fr;
-gap: 20px;
+/* ===== ВИДЕО-МОДАЛКА ПО ЦЕНТРУ ===== */
+.video-modal {
+position: fixed;
+inset: 0;
+z-index: 10000;
+display: none;
 }
-.hall-card {
-position: static;
-width: 100%;
-height: auto;
-transform: none !important;
+.video-modal.open { display: block; }
+.video-modal-backdrop {
+position: absolute;
+inset: 0;
+background: rgba(5, 7, 15, 0.92);
 }
-.conveyor-dots { display: none; }
+.video-modal-window {
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+width: min(1100px, calc(100vw - 48px));
+aspect-ratio: 16 / 9;
+max-height: calc(100vh - 64px);
+background: #000;
+border-radius: 14px;
+overflow: hidden;
+box-shadow: 0 30px 90px rgba(0,0,0,0.75);
+animation: vpZoom 0.35s ease;
+}
+.video-modal-window iframe {
+width: 100%;
+height: 100%;
+border: 0;
+display: block;
+}
+.video-modal-x {
+position: absolute;
+top: -44px;
+right: 0;
+width: 34px;
+height: 34px;
+border-radius: 50%;
+border: 1px solid rgba(255,255,255,0.5);
+background: rgba(0,0,0,0.45);
+color: #fff;
+font-size: 14px;
+line-height: 1;
+cursor: pointer;
+transition: background 0.2s, border-color 0.2s;
+}
+.video-modal-x:hover { background: #dc2626; border-color: #dc2626; }
+@keyframes vpZoom {
+from { opacity: 0; transform: translate(-50%, -48%) scale(0.95); }
+to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@media (max-width: 640px) {
 .hall-stand { padding: 32px 16px; }
 .hall-trophy { font-size: 64px; }
 .hall-container { margin: 20px auto 40px; }
 }
 
+/* ==========================================
+   СТИЛИ ДВУХ СТИКЕРОВ (ЛЕВЫЙ + ПРАВЫЙ)
+   ========================================== */
 .holo-sticker {
 position: absolute;
 width: 180px;
@@ -618,6 +508,7 @@ animation: sticker-float 4s ease-in-out infinite;
 pointer-events: auto;
 cursor: pointer;
 }
+
 .holo-sticker-left {
 top: 250px;
 left: 150px;
@@ -643,6 +534,7 @@ display: block;
 .color5 { fill: #B5DFC8; }
 .circle-left { fill: url(#multi-dots-left); }
 .circle-right { fill: url(#multi-dots-right); }
+
 @media (max-width: 1100px) {
 .holo-sticker { width: 140px; height: 140px; }
 .holo-sticker-left { top: 30px; left: 30px; }
@@ -654,6 +546,9 @@ display: block;
 .holo-sticker-right { top: 20px; right: 20px; }
 }
 
+/* ==========================================
+   СТИЛИ МОДАЛКИ И ЭФФЕКТА ИСПАРЕНИЯ
+   ========================================== */
 .mc-show {
 position: fixed;
 inset: 0;
@@ -785,6 +680,9 @@ transition: opacity 0.5s ease;
 .mc-pages { top: 48px; }
 }
 
+/* ==========================================
+   СТИЛИ КОНТЕНТА СЛАЙДА
+   ========================================== */
 .magic-mirage-wrapper {
 background-color: #e8e4de;
 font-family: 'Inter', sans-serif;
@@ -890,6 +788,8 @@ color: #555;
 <body>
 <canvas id="tubes-canvas"></canvas>
 <div id="header-placeholder" class="header-wrapper"></div>
+
+<!-- ===== СТИКЕР 1: ЛЕВЫЙ (top: 250px, left: 150px) → Coldzera ===== -->
 <div class="holo-sticker holo-sticker-left" id="holoStickerLeft" data-modal="mcColdzera">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -924,6 +824,8 @@ color: #555;
 <circle class="circle-left" cx="128" cy="128" r="120" style="fill: url(#multi-dots-left); mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
+
+<!-- ===== СТИКЕР 2: ПРАВЫЙ (top: 250px, right: 150px) → Magic ===== -->
 <div class="holo-sticker holo-sticker-right" id="holoStickerRight" data-modal="mcMagic">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -958,7 +860,9 @@ color: #555;
 <circle class="circle-right" cx="128" cy="128" r="120" style="fill: url(#multi-dots-right); mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
+
 <main class="hall-container">
+<!-- HERO -->
 <section class="hall-hero">
 <div class="hall-trophy">🏆</div>
 <h1 class="hall-title">Зал славы</h1>
@@ -968,17 +872,16 @@ color: #555;
 </p>
 <div class="hall-divider"></div>
 </section>
+<!-- Анимированный стенд -->
 <section class="hall-stand">
 <div class="stand-label">★ Выдающиеся моменты ★</div>
-<div class="hall-conveyor" id="hallConveyor">
 <div class="hall-grid" id="hallGrid"></div>
-</div>
-<div class="conveyor-dots" id="conveyorDots"></div>
 <div class="hall-empty" id="hallEmpty" style="display:none;">
 <span class="material-symbols-outlined">movie</span>
 Пока здесь пусто. Скоро появятся лучшие моменты турниров!
 </div>
 </section>
+<!-- Админ-панель -->
 <div class="admin-toggle-wrap" id="adminToggleWrap" style="display:none;">
 <button class="admin-toggle-btn" id="adminToggleBtn">
 <span class="material-symbols-outlined">add_circle</span>
@@ -1012,20 +915,7 @@ color: #555;
 </div>
 </main>
 
-<div class="video-modal" id="videoModal">
-<div class="video-modal-backdrop" id="vmBackdrop"></div>
-<div class="video-modal-window" id="vmWindow">
-<div class="video-modal-topbar">
-<div class="video-modal-title" id="vmTitle">Видео</div>
-<button class="video-modal-close" id="vmClose" title="Закрыть">&#10005;</button>
-</div>
-<iframe class="video-modal-iframe" id="vmIframe"
-src=""
-allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-allowfullscreen></iframe>
-</div>
-</div>
-
+<!-- ===== МОДАЛКА 1: COLDZERA / MIRAGE ===== -->
 <div class="mc-show" id="mcColdzera">
 <div class="mc-backdrop" data-close></div>
 <div class="mc-window">
@@ -1044,7 +934,7 @@ allowfullscreen></iframe>
 <div class="left-column">
 <div class="section-label">CONTEXT</div>
 <h1 class="main-title"><span class="highlight">Banan</span></h1>
-<p class="description">Шведский киберспортсмен неоднократно делал мультикиллы на этой позиции, ввиду чего Valve решили в обновленной Inferno добавить надпись "Via Adamo", которая переводится с итальянского как "Улица Адама". </p>
+<p class="description">Шведский киберспортсмен неоднократно делал мультикиллы на этой позиции, ввиду чего Valve решили в обновленной Inferno добавить надпись “Via Adamo”, которая переводится с итальянского как “Улица Адама”. </p>
 <p class="description"></p>
 <div class="tagline">
 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.09 8.26L20 9.27L15.55 13.97L16.91 20L12 16.9L7.09 20L8.45 13.97L4 9.27L9.91 8.26L12 2Z"/></svg>
@@ -1061,7 +951,7 @@ Banan clutch
 <div class="image-container">
 <img src="png/banan.png" alt="Fly AWP">
 </div>
-<p class="description">Четыре момента из пяти на нижеприведенного видео — это хайлайты на Inferno и по большей части на "банане", что говорит о весьма заслуженном названии улицы.</p>
+<p class="description">Четыре момента из пяти на нижеприведенного видео — это хайлайты на Inferno и по большей части на “банане”, что говорит о весьма заслуженном названии улицы.</p>
 </div>
 </div>
 <div class="footer">
@@ -1076,6 +966,7 @@ Banan clutch
 </div>
 </div>
 
+<!-- ===== МОДАЛКА 2: MAGIC / MIRAGE ===== -->
 <div class="mc-show" id="mcMagic">
 <div class="mc-backdrop" data-close></div>
 <div class="mc-window">
@@ -1126,6 +1017,7 @@ pixel bug
 </div>
 </div>
 
+<!-- Загрузка шапки -->
 <script>
 fetch('header.html')
 .then(r => r.text())
@@ -1138,7 +1030,7 @@ document.body.appendChild(script);
 })
 .catch(e => console.error('Ошибка загрузки шапки:', e));
 </script>
-
+<!-- Firebase (compat) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
@@ -1221,7 +1113,6 @@ createdAt: e.createdAt || 0
 }
 if (entries.length === 0) {
 empty.style.display = 'block';
-updateConveyor();
 return;
 }
 empty.style.display = 'none';
@@ -1241,11 +1132,13 @@ var channelHtml = e.channel ? '<div style="font-size:12px;color:rgba(255,215,0,0
 var delBtn = isAdmin
 ? '<button class="card-delete admin-visible" data-id="' + escapeHtml(e.id) + '" title="Удалить">&times;</button>'
 : '';
-var card = document.createElement('div');
+var safeUrl = e.url ? escapeHtml(normalizeUrl(e.url)) : '#';
+var card = document.createElement('a');
 card.className = 'hall-card';
-card.dataset.url = e.url || '';
-card.dataset.title = e.title || '';
-card.dataset.index = idx;
+card.href = safeUrl;
+card.target = '_blank';
+card.rel = 'noopener noreferrer';
+card.style.animationDelay = (idx * 0.07) + 's';
 card.innerHTML =
 delBtn +
 '<div class="card-thumb">' + thumbHtml + '</div>' +
@@ -1253,14 +1146,6 @@ delBtn +
 channelHtml +
 descHtml +
 '<span class="card-btn"><span class="material-symbols-outlined">play_circle</span> Смотреть</span>';
-
-card.addEventListener('click', function(ev) {
-if (ev.target.closest('.card-delete')) return;
-var url = card.dataset.url;
-var title = card.dataset.title;
-if (url) openVideoModal(url, title);
-});
-
 var del = card.querySelector('.card-delete');
 if (del) {
 del.addEventListener('click', function(ev) {
@@ -1269,9 +1154,15 @@ ev.stopPropagation();
 deleteEntry(e.id);
 });
 }
+card.addEventListener('click', function(ev) {
+if (!e.url) return;
+if (extractYouTubeId(e.url)) {
+ev.preventDefault();
+openVideoModal(e.url);
+}
+});
 grid.appendChild(card);
 });
-updateConveyor();
 }
 db.ref(HOF_REF).on('value', function(snap) {
 lastData = snap.val();
@@ -1320,231 +1211,45 @@ if (!confirm('Удалить эту запись из зала славы?')) re
 db.ref(HOF_REF + '/' + id).remove();
 }
 
-window._hofExtractYouTubeId = extractYouTubeId;
-window._hofNormalizeUrl = normalizeUrl;
-})();
-</script>
-
-<script>
-(function() {
-'use strict';
-var grid = document.getElementById('hallGrid');
-var conveyor = document.getElementById('hallConveyor');
-var dotsContainer = document.getElementById('conveyorDots');
-
-var CARD_SPACING = 320;
-var currentOffset = 0;
-var cardsCount = 0;
-var isDragging = false;
-var dragStartY = 0;
-var dragStartOffset = 0;
-var lastMoveY = 0;
-var lastMoveTime = 0;
-var velocity = 0;
-var inertiaRaf = null;
-var autoRotateRaf = null;
-var autoRotateSpeed = 0.5;
-var isHovering = false;
-
-function updateConveyor() {
-var cards = grid.querySelectorAll('.hall-card');
-cardsCount = cards.length;
-if (cardsCount === 0) {
-dotsContainer.innerHTML = '';
-return;
-}
-
-dotsContainer.innerHTML = '';
-for (var i = 0; i < cardsCount; i++) {
-var dot = document.createElement('div');
-dot.className = 'conveyor-dot';
-dot.dataset.index = i;
-dot.addEventListener('click', function() {
-var idx = parseInt(this.dataset.index);
-goToCard(idx);
-});
-dotsContainer.appendChild(dot);
-}
-applyOffset();
-}
-
-function applyOffset() {
-var cards = grid.querySelectorAll('.hall-card');
-var frontIdx = Math.round(currentOffset / CARD_SPACING) % cardsCount;
-if (frontIdx < 0) frontIdx += cardsCount;
-
-cards.forEach(function(card, i) {
-var dist = i - frontIdx;
-if (dist > cardsCount / 2) dist -= cardsCount;
-if (dist < -cardsCount / 2) dist += cardsCount;
-
-var z = -Math.abs(dist) * CARD_SPACING;
-var scale = Math.max(0.3, 1 - Math.abs(dist) * 0.15);
-var opacity = Math.max(0, 1 - Math.abs(dist) * 0.25);
-
-card.style.transform = 'translateZ(' + z + 'px) scale(' + scale + ')';
-card.style.opacity = opacity;
-card.style.zIndex = 100 - Math.abs(dist);
-
-if (i === frontIdx) {
-card.classList.add('is-front');
-} else {
-card.classList.remove('is-front');
-}
-});
-
-var dots = dotsContainer.querySelectorAll('.conveyor-dot');
-dots.forEach(function(d, i) {
-d.classList.toggle('active', i === frontIdx);
-});
-}
-
-function goToCard(idx) {
-var currentIdx = Math.round(currentOffset / CARD_SPACING) % cardsCount;
-if (currentIdx < 0) currentIdx += cardsCount;
-var diff = idx - currentIdx;
-if (diff > cardsCount / 2) diff -= cardsCount;
-if (diff < -cardsCount / 2) diff += cardsCount;
-currentOffset += diff * CARD_SPACING;
-applyOffset();
-}
-
-function moveBy(steps) {
-currentOffset += steps * CARD_SPACING;
-applyOffset();
-}
-
-function getY(e) {
-return e.touches ? e.touches[0].clientY : e.clientY;
-}
-function onDragStart(e) {
-if (window.innerWidth <= 768) return;
-cancelInertia();
-isDragging = true;
-dragStartY = getY(e);
-dragStartOffset = currentOffset;
-lastMoveY = dragStartY;
-lastMoveTime = performance.now();
-velocity = 0;
-if (e.cancelable) e.preventDefault();
-}
-function onDragMove(e) {
-if (!isDragging) return;
-var y = getY(e);
-var dy = y - dragStartY;
-currentOffset = dragStartOffset - dy * 0.5;
-var now = performance.now();
-var dt = now - lastMoveTime;
-if (dt > 0) {
-velocity = -((y - lastMoveY) * 0.5) / dt * 16;
-}
-lastMoveY = y;
-lastMoveTime = now;
-applyOffset();
-if (e.cancelable) e.preventDefault();
-}
-function onDragEnd() {
-if (!isDragging) return;
-isDragging = false;
-if (Math.abs(velocity) > 0.3) {
-startInertia();
-} else {
-snapToNearest();
-}
-}
-function startInertia() {
-cancelInertia();
-function loop() {
-velocity *= 0.93;
-currentOffset += velocity;
-applyOffset();
-if (Math.abs(velocity) > 0.1) {
-inertiaRaf = requestAnimationFrame(loop);
-} else {
-snapToNearest();
-}
-}
-inertiaRaf = requestAnimationFrame(loop);
-}
-function cancelInertia() {
-if (inertiaRaf) {
-cancelAnimationFrame(inertiaRaf);
-inertiaRaf = null;
-}
-}
-function snapToNearest() {
-var snapped = Math.round(currentOffset / CARD_SPACING) * CARD_SPACING;
-currentOffset = snapped;
-applyOffset();
-}
-
-conveyor.addEventListener('mousedown', onDragStart);
-window.addEventListener('mousemove', onDragMove);
-window.addEventListener('mouseup', onDragEnd);
-conveyor.addEventListener('touchstart', onDragStart, { passive: false });
-window.addEventListener('touchmove', onDragMove, { passive: false });
-window.addEventListener('touchend', onDragEnd);
-
-conveyor.addEventListener('wheel', function(e) {
-if (window.innerWidth <= 768) return;
-e.preventDefault();
-if (e.deltaY > 0) moveBy(1);
-else moveBy(-1);
-}, { passive: false });
-
-conveyor.addEventListener('mouseenter', function() { isHovering = true; });
-conveyor.addEventListener('mouseleave', function() { isHovering = false; });
-
-function autoRotateLoop() {
-if (!isDragging && !isHovering && cardsCount > 0 && window.innerWidth > 768) {
-currentOffset += autoRotateSpeed;
-applyOffset();
-}
-autoRotateRaf = requestAnimationFrame(autoRotateLoop);
-}
-autoRotateRaf = requestAnimationFrame(autoRotateLoop);
-
-var videoModal = document.getElementById('videoModal');
-var vmWindow = document.getElementById('vmWindow');
-var vmIframe = document.getElementById('vmIframe');
-var vmTitle = document.getElementById('vmTitle');
-var vmClose = document.getElementById('vmClose');
-var vmBackdrop = document.getElementById('vmBackdrop');
-
-window.openVideoModal = function(url, title) {
-var ytId = window._hofExtractYouTubeId(url);
-if (!ytId) {
-window.open(window._hofNormalizeUrl(url), '_blank');
-return;
-}
-vmTitle.textContent = title || 'Видео';
-vmIframe.src = 'https://www.youtube.com/embed/' + ytId + '?autoplay=1&rel=0';
-vmWindow.classList.remove('closing');
-videoModal.classList.add('open');
-};
-
-function closeVideoModal() {
-vmWindow.classList.add('closing');
-setTimeout(function() {
-vmIframe.src = '';
-videoModal.classList.remove('open');
-vmWindow.classList.remove('closing');
-}, 450);
-}
-window.closeVideoModal = closeVideoModal;
-
-vmClose.addEventListener('click', closeVideoModal);
-vmBackdrop.addEventListener('click', closeVideoModal);
-document.addEventListener('keydown', function(e) {
-if (e.key === 'Escape' && videoModal.classList.contains('open')) {
+/* ===== ВИДЕО-МОДАЛКА ПО ЦЕНТРУ ЭКРАНА ===== */
+var vpModal = null;
+var vpFrame = null;
+function openVideoModal(url) {
+if (!vpModal) {
+vpModal = document.createElement('div');
+vpModal.className = 'video-modal';
+vpModal.innerHTML =
+'<div class="video-modal-backdrop" data-vpclose></div>' +
+'<div class="video-modal-window">' +
+'<button class="video-modal-x" data-vpclose type="button" title="Закрыть">&#10005;</button>' +
+'<iframe allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>' +
+'</div>';
+document.body.appendChild(vpModal);
+vpModal.addEventListener('click', function(ev) {
+var t = ev.target;
+if (t && (t.hasAttribute('data-vpclose') || (t.closest && t.closest('[data-vpclose]')))) {
 closeVideoModal();
 }
 });
-
-window.updateConveyor = updateConveyor;
+document.addEventListener('keydown', function(ev) {
+if (ev.key === 'Escape') closeVideoModal();
+});
+vpFrame = vpModal.querySelector('iframe');
+}
+var id = extractYouTubeId(url);
+vpFrame.src = id
+? 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0'
+: url;
+vpModal.classList.add('open');
+}
+function closeVideoModal() {
+if (!vpModal) return;
+vpModal.classList.remove('open');
+vpFrame.src = '';
+}
 })();
 </script>
-
+<!-- Трубки-радуга за курсором -->
 <script type="module">
 import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
 const canvas = document.getElementById('tubes-canvas');
@@ -1569,7 +1274,6 @@ return new Array(count)
 .map(() => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
 }
 </script>
-
 <script>
 (function() {
 const img = new Image();
@@ -1584,6 +1288,7 @@ window.addEventListener('resize', syncBgHeight);
 })();
 </script>
 
+<!-- ===== JS ИСПАРЕНИЯ (ОБЩИЙ ДЛЯ ОБОИХ СТИКЕРОВ, РАЗНЫЕ МОДАЛКИ) ===== -->
 <script>
 (function() {
 'use strict';
@@ -1591,18 +1296,23 @@ var stickers = document.querySelectorAll('.holo-sticker');
 if (!stickers.length) return;
 var running = false;
 var currentShow = null;
+
 stickers.forEach(function(sticker) {
 sticker.addEventListener('click', function() {
 if (running) return;
 running = true;
+
 var modalId = sticker.getAttribute('data-modal');
 currentShow = document.getElementById(modalId);
+
 var rect = sticker.getBoundingClientRect();
 var svgImg = sticker.querySelector('image');
 var src = svgImg ? svgImg.getAttribute('href') : null;
 if (!src) { running = false; if (currentShow) currentShow.classList.add('open'); return; }
+
 sticker.style.visibility = 'hidden';
 sticker.style.animation = 'none';
+
 var layer = document.createElement('div');
 layer.className = 'evap-layer';
 var canvas = document.createElement('canvas');
@@ -1613,12 +1323,15 @@ canvas.style.width = window.innerWidth + 'px';
 canvas.style.height = window.innerHeight + 'px';
 layer.appendChild(canvas);
 document.body.appendChild(layer);
+
 var flash = document.createElement('div');
 flash.className = 'evap-flash';
 document.body.appendChild(flash);
+
 var img = new Image();
 img.onload = function() { dissolve(img, rect, scale); };
 img.src = src;
+
 function dissolve(img, rect, scale) {
 var ctx = canvas.getContext('2d');
 ctx.scale(scale, scale);
@@ -1630,6 +1343,7 @@ octx.drawImage(img, 0, 0, W, H);
 var data;
 try { data = octx.getImageData(0, 0, W, H).data; }
 catch (e) { data = null; }
+
 var parts = [];
 if (data) {
 for (var y = 0; y < H; y += 2) {
@@ -1674,6 +1388,7 @@ bl: 0
 });
 }
 }
+
 var t0 = performance.now();
 function frame(t) {
 var el = t - t0;
@@ -1721,6 +1436,7 @@ requestAnimationFrame(frame);
 }
 });
 });
+
 function closeShow() {
 if (currentShow) currentShow.classList.remove('open');
 stickers.forEach(function(s) {
@@ -1729,6 +1445,7 @@ s.style.animation = '';
 });
 currentShow = null;
 }
+
 document.querySelectorAll('[data-close]').forEach(function(el) {
 el.addEventListener('click', closeShow);
 });
