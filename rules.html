@@ -102,7 +102,6 @@ background: #fcf8f2;
 border-radius: 12px 4px 4px 12px;
 border: 1px solid #e8dec9;
 }
-/* ====== ПРЕМИАЛЬНАЯ ПЕРЕДНЯЯ ОБЛОЖКА ====== */
 .front-cover-page {
 background-color: #5a0a0a;
 background-image:
@@ -145,7 +144,6 @@ border-radius: 2px;
 pointer-events: none;
 box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3);
 }
-/* ====== ПРЕМИАЛЬНАЯ ЗАДНЯЯ ОБЛОЖКА ====== */
 .back-cover-page {
 background-color: #4a0808;
 background-image:
@@ -403,10 +401,6 @@ font-style: italic;
 .b-page.flipped {
 transform: rotateY(-180deg);
 }
-
-/* ==========================================
-   СТИЛИ ДВУХ СТИКЕРОВ (ЛЕВЫЙ + ПРАВЫЙ)
-   ========================================== */
 .holo-sticker {
 position: fixed;
 width: 180px;
@@ -417,12 +411,10 @@ animation: sticker-float 4s ease-in-out infinite;
 pointer-events: auto;
 cursor: pointer;
 }
-/* Левый стикер: top 550px, left 150px */
 .holo-sticker-left {
 top: 550px;
 left: 150px;
 }
-/* Правый стикер: top 250px, right 150px */
 .holo-sticker-right {
 top: 250px;
 right: 150px;
@@ -444,7 +436,6 @@ display: block;
 .color5 { fill: #B5DFC8; }
 .circle-left { fill: url(#multi-dots-left); }
 .circle-right { fill: url(#multi-dots-right); }
-
 @media (max-width: 1100px) {
 .holo-sticker { width: 140px; height: 140px; }
 .holo-sticker-left { top: 30px; left: 30px; }
@@ -455,10 +446,6 @@ display: block;
 .holo-sticker-left { top: 20px; left: 20px; }
 .holo-sticker-right { top: 20px; right: 20px; }
 }
-
-/* ==========================================
-   СТИЛИ МОДАЛКИ И ЭФФЕКТА ИСПАРЕНИЯ
-   ========================================== */
 .mc-show {
 position: fixed;
 inset: 0;
@@ -589,10 +576,6 @@ transition: opacity 0.5s ease;
 .mc-rule { margin: 0 16px; }
 .mc-pages { top: 48px; }
 }
-
-/* ==========================================
-   СТИЛИ СЛАЙДА (Coldzera / Mirage)
-   ========================================== */
 .magic-mirage-wrapper {
 background-color: #e8e4de;
 font-family: 'Inter', sans-serif;
@@ -699,8 +682,6 @@ color: #555;
 <div class="rules-bg"></div>
 <canvas id="tubes-canvas"></canvas>
 <div id="header-placeholder" class="header-wrapper"></div>
-
-<!-- ===== СТИКЕР ЛЕВЫЙ (top: 250px, left: 150px) ===== -->
 <div class="holo-sticker holo-sticker-left" id="holoStickerLeft" data-modal="mcMagic">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -735,8 +716,6 @@ color: #555;
 <circle class="circle-left" cx="128" cy="128" r="120" style="fill: url(#multi-dots-left); mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
-
-<!-- ===== СТИКЕР ПРАВЫЙ (top: 250px, right: 150px) ===== -->
 <div class="holo-sticker holo-sticker-right" id="holoStickerRight" data-modal="mcColdzera">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -771,15 +750,12 @@ color: #555;
 <circle class="circle-right" cx="128" cy="128" r="120" style="fill: url(#multi-dots-right); mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
-
 <div class="book-viewport">
 <div class="book-wrapper" id="myBook">
-<!-- ЗАДНЯЯ ОБЛОЖКА -->
 <div class="b-page back-cover-page" style="z-index: 1;">
 <div class="back-cover-text">Спасибо за прочтение<br>и удача в погоне за <span style="white-space: nowrap;">Чак-Чак!</span></div>
 <img src="logo1.jpg" class="back-cover-logo" alt="Чак-Чак">
 </div>
-<!-- СТРАНИЦА 5: СПАСИБО -->
 <div class="b-page paper-page thanks-page" id="p5" style="z-index: 2;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -789,10 +765,9 @@ color: #555;
 </div>
 </div>
 <div class="page-side back-side">
-<button class="nav-arrow prev-arrow" onclick="turnPage(5, 'prev')">↩ Назад</button>
+<button class="nav-arrow prev-arrow" onclick="turnPage('5', 'prev')">↩ Назад</button>
 </div>
 </div>
-<!-- СТРАНИЦА 4: ПРИЗЫ -->
 <div class="b-page paper-page" id="p4" style="z-index: 3;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -805,13 +780,16 @@ color: #555;
 </ul>
 <p class="small-text-note">Турнир создан ради эмоций и символических призов!</p>
 </div>
-<button class="nav-arrow next-arrow" onclick="turnPage(4, 'next')">Вперед ↪</button>
+<button class="nav-arrow next-arrow" onclick="turnPage('4', 'next')">Вперед ↪</button>
 </div>
 <div class="page-side back-side">
-<button class="nav-arrow prev-arrow" onclick="turnPage(4, 'prev')">↩ Назад</button>
+<div class="gif-container">
+<img src="gif/20261026_InexpensiveBlueSquirrelNotATK-tmAsxdSkeHp.gif" class="page-gif" alt="Призы">
+<div class="gif-caption">Ценные призы ждут победителей!</div>
+</div>
+<button class="nav-arrow prev-arrow" onclick="turnPage('4', 'prev')">↩ Назад</button>
 </div>
 </div>
-<!-- СТРАНИЦА 3: АНТИЧИТ -->
 <div class="b-page paper-page" id="p3" style="z-index: 4;">
 <div class="page-side front-side">
 <div class="text-box">
@@ -822,37 +800,38 @@ color: #555;
 <li><b>Залив файла анти-чита:</b> После игры найдите в «Моих документах» файл <b>match_log</b> и загрузите его через <b>желтый плюс</b> в противостоянии матча.</li>
 </ul>
 </div>
-<button class="nav-arrow next-arrow" onclick="turnPage(3, 'next')">Вперед ↪</button>
+<button class="nav-arrow next-arrow" onclick="turnPage('3', 'next')">Вперед ↪</button>
 </div>
 <div class="page-side back-side">
 <div class="gif-container">
-<img src="gif/20261026_InexpensiveBlueSquirrelNotATK-tmAsxdSkeHp.gif" class="page-gif" alt="Призы">
-<div class="gif-caption">Ценные призы ждут победителей!</div>
+<img src="gif/20261026_SuccessfulEagerPastaArsonNoSexy-gUbG2z5bg.gif" class="page-gif" alt="Античит">
+<div class="gif-caption">Следи за статусом античита!</div>
 </div>
-<button class="nav-arrow prev-arrow" onclick="turnPage(3, 'prev')">↩ Назад</button>
+<button class="nav-arrow prev-arrow" onclick="turnPage('2b', 'prev')">↩ Назад</button>
 </div>
 </div>
-  <!-- СТРАНИЦА 2.5: ПРИЗЫ -->
-<div class="b-page paper-page" id="p2.5" style="z-index: 2.5;">
+<div class="b-page paper-page" id="p2b" style="z-index: 5;">
 <div class="page-side front-side">
 <div class="text-box">
-<h3>🏆 Призы и Рейтинг</h3>
+<h3>📝 Основные правила (продолжение)</h3>
 <ul>
-<li><b>Финал матча:</b> Победители получают скины лучшего качества, проигравшие в финале — скины послабее. Призы отображаются в меню противостояния.</li>
-<li><b>Выдача скинов:</b> Админ добавляет вас в друзья в Steam, заносит в блокнот и передает скины сразу, как спадет временная блокировка обмена Steam.</li>
-<li><b>Рейтинг «Чак-Чак»:</b> За победу в турнире начисляется <b>2 чак-чака</b>, за участие в финале (2 место) — <b>1 чак-чак</b>.</li>
-<li><b>Стикеры и достижения</b> Призовые места так же поощраются достижениями в профиле, 3 место кубок получает та команда, в которой в полуфинале выграли больше раундов. Игроки сделавшие хайлайты увековечиваются галографическим стикером на сайте</li>
+<li><b>Формат:</b> Сетка плей-офф 5х5. Турнир проходит раз в 2 недели (с четверга по воскресенье). Регистрация открывается начала месяца для первого турнира и с середины для второго турнира.</li>
+<li><b>Рандом:</b> Участники распределяются по командам случайно. Победители этапа снова перемешиваются в новые команды для следующей стадии.</li>
+<li><b>Читеры:</b> Если выявится читер в команде, команда не проходит в следующий этап. Но если читеры в обоих командах, то проходит та команда, в которых читеров меньше, если одинаковое количество читеров, то проигравшая команда проходит дальше.</li>
+<li><b>Замена читера:</b> Если команда где есть читер проходит дальше по описанию с пункта выше, то админ на свое усмотрение заменят игрока, приглашает или друга или любого зрителя с чата во время трансляции, если того кто желает.</li>
 </ul>
-<p class="small-text-note">Турнир создан ради эмоций и символических призов!</p>
 </div>
-<button class="nav-arrow next-arrow" onclick="turnPage(2.5, 'next')">Вперед ↪</button>
+<button class="nav-arrow next-arrow" onclick="turnPage('2b', 'next')">Вперед ↪</button>
 </div>
 <div class="page-side back-side">
-<button class="nav-arrow prev-arrow" onclick="turnPage(2.5, 'prev')">↩ Назад</button>
+<div class="gif-container">
+<img src="gif/20261026_SuccessfulEagerPastaArsonNoSexy-gUbG2z5bg.gif" class="page-gif" alt="Античит">
+<div class="gif-caption">Следи за статусом античита!</div>
+</div>
+<button class="nav-arrow prev-arrow" onclick="turnPage('2', 'prev')">↩ Назад</button>
 </div>
 </div>
-<!-- СТРАНИЦА 2: ОСНОВНЫЕ ПРАВИЛА -->
-<div class="b-page paper-page" id="p2" style="z-index: 5;">
+<div class="b-page paper-page" id="p2" style="z-index: 6;">
 <div class="page-side front-side">
 <div class="text-box">
 <h3>📝 Основные правила</h3>
@@ -863,46 +842,42 @@ color: #555;
 <li><b>Замена читера:</b> Если команда где есть читер проходит дальше по описанию с пункта выше, то админ на свое усмотрение заменят игрока, приглашает или друга или любого зрителя с чата во время трансляции, если того кто желает.</li>
 </ul>
 </div>
-<button class="nav-arrow next-arrow" onclick="turnPage(2, 'next')">Вперед ↪</button>
+<button class="nav-arrow next-arrow" onclick="turnPage('2', 'next')">Вперед ↪</button>
 </div>
 <div class="page-side back-side">
 <div class="gif-container">
 <img src="gif/20261026_SuccessfulEagerPastaArsonNoSexy-gUbG2z5bg.gif" class="page-gif" alt="Античит">
 <div class="gif-caption">Следи за статусом античита!</div>
 </div>
-<button class="nav-arrow prev-arrow" onclick="turnPage(2, 'prev')">↩ Назад</button>
+<button class="nav-arrow prev-arrow" onclick="turnPage('1', 'prev')">↩ Назад</button>
 </div>
 </div>
-<!-- СТРАНИЦА 1: ЗАСТАВКА -->
-<div class="b-page paper-page intro-page" id="p1" style="z-index: 6;">
+<div class="b-page paper-page intro-page" id="p1" style="z-index: 7;">
 <div class="page-side front-side">
 <div class="text-box">
 <h2>Читай<br>внимательно!</h2>
 <p>Здесь собраны все важные правила турнира.</p>
 </div>
-<button class="nav-arrow next-arrow" onclick="turnPage(1, 'next')">Вперед ↪</button>
+<button class="nav-arrow next-arrow" onclick="turnPage('1', 'next')">Вперед ↪</button>
 </div>
 <div class="page-side back-side">
-<button class="nav-arrow prev-arrow" onclick="turnPage(1, 'prev')">↩ Назад</button>
+<button class="nav-arrow prev-arrow" onclick="turnPage('0', 'prev')">↩ Назад</button>
 </div>
 </div>
-<!-- ПЕРЕДНЯЯ ОБЛОЖКА -->
-<div class="b-page front-cover-page" id="p0" style="z-index: 7;">
+<div class="b-page front-cover-page" id="p0" style="z-index: 8;">
 <div class="page-side front-side">
 <div class="cover-design">
 <img src="logo1.jpg" class="front-cover-logo" alt="Логотип">
 <h2>РУКОВОДСТВО</h2>
 <div class="gold-badge">ЧАК-ЧАК</div>
 <p>Официальные правила турниров CS2</p>
-<button class="open-book-btn" onclick="turnPage(0, 'next')">Открыть книгу 📖</button>
+<button class="open-book-btn" onclick="turnPage('0', 'next')">Открыть книгу 📖</button>
 <button class="back-to-start-btn" id="backToStartBtn" onclick="closeBook()">Вернуться на обложку</button>
 </div>
 </div>
 </div>
 </div>
 </div>
-
-<!-- ===== МОДАЛКА 1: COLDZERA / MIRAGE ===== -->
 <div class="mc-show" id="mcColdzera">
 <div class="mc-backdrop" data-close></div>
 <div class="mc-window">
@@ -952,7 +927,7 @@ winged AWP
 </div>
 </div>
 </div>
-   <!-- ===== МОДАЛКА 2: MAGIC / MIRAGE ===== -->
+</div>
 <div class="mc-show" id="mcMagic">
 <div class="mc-backdrop" data-close></div>
 <div class="mc-window">
@@ -1002,7 +977,7 @@ Molotov cocktail
 </div>
 </div>
 </div>
-
+</div>
 <script>
 fetch('header.html')
 .then(response => response.text())
@@ -1016,42 +991,47 @@ document.body.appendChild(script);
 .catch(error => console.error('Ошибка загрузки шапки:', error));
 </script>
 <script>
+var zIndexMap = {
+'0': 8,
+'1': 7,
+'2': 6,
+'2b': 5,
+'3': 4,
+'4': 3,
+'5': 2
+};
+
 function turnPage(pageId, direction) {
 const page = document.getElementById('p' + pageId);
+if (!page) return;
+
 if (direction === 'next') {
 page.classList.add('flipped');
-setTimeout(() => { page.style.zIndex = pageId; }, 300);
-if (pageId === 0) {
+setTimeout(() => { page.style.zIndex = 100; }, 10);
+if (pageId === '0') {
 document.getElementById('backToStartBtn').style.display = 'inline-block';
 }
 } else if (direction === 'prev') {
 page.style.zIndex = 100;
 setTimeout(() => { page.classList.remove('flipped'); }, 10);
 setTimeout(() => {
-if (pageId === 1) page.style.zIndex = 6;
-else if (pageId === 2) page.style.zIndex = 5;
-else if (pageId === 3) page.style.zIndex = 4;
-else if (pageId === 4) page.style.zIndex = 3;
-else if (pageId === 5) page.style.zIndex = 2;
+page.style.zIndex = zIndexMap[pageId];
 }, 800);
 }
 }
+
 function closeBook() {
-[1, 2, 3, 4, 5].forEach(i => {
-const page = document.getElementById('p' + i);
+['1', '2', '2b', '3', '4', '5'].forEach(id => {
+const page = document.getElementById('p' + id);
 if (page) {
 page.classList.remove('flipped');
-if (i === 1) page.style.zIndex = 6;
-else if (i === 2) page.style.zIndex = 5;
-else if (i === 3) page.style.zIndex = 4;
-else if (i === 4) page.style.zIndex = 3;
-else if (i === 5) page.style.zIndex = 2;
+page.style.zIndex = zIndexMap[id];
 }
 });
 const p0 = document.getElementById('p0');
 setTimeout(() => {
 p0.classList.remove('flipped');
-p0.style.zIndex = 7;
+p0.style.zIndex = zIndexMap['0'];
 }, 100);
 document.getElementById('backToStartBtn').style.display = 'none';
 }
@@ -1080,8 +1060,6 @@ return new Array(count)
 .map(() => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
 }
 </script>
-
-<!-- ===== JS ИСПАРЕНИЯ (ОБЩИЙ ДЛЯ ОБОИХ СТИКЕРОВ) ===== -->
 <script>
 (function() {
 'use strict';
@@ -1090,24 +1068,19 @@ if (!stickers.length) return;
 var running = false;
 var currentShow = null;
 var currentSticker = null;
-
 stickers.forEach(function(sticker) {
 sticker.addEventListener('click', function() {
 if (running) return;
 running = true;
 currentSticker = sticker;
-
 var modalId = sticker.getAttribute('data-modal');
 currentShow = document.getElementById(modalId);
-
 var rect = sticker.getBoundingClientRect();
 var svgImg = sticker.querySelector('image');
 var src = svgImg ? svgImg.getAttribute('href') : null;
 if (!src) { running = false; if (currentShow) currentShow.classList.add('open'); return; }
-
 sticker.style.visibility = 'hidden';
 sticker.style.animation = 'none';
-
 var layer = document.createElement('div');
 layer.className = 'evap-layer';
 var canvas = document.createElement('canvas');
@@ -1118,15 +1091,12 @@ canvas.style.width = window.innerWidth + 'px';
 canvas.style.height = window.innerHeight + 'px';
 layer.appendChild(canvas);
 document.body.appendChild(layer);
-
 var flash = document.createElement('div');
 flash.className = 'evap-flash';
 document.body.appendChild(flash);
-
 var img = new Image();
 img.onload = function() { dissolve(img, rect, scale); };
 img.src = src;
-
 function dissolve(img, rect, scale) {
 var ctx = canvas.getContext('2d');
 ctx.scale(scale, scale);
@@ -1138,7 +1108,6 @@ octx.drawImage(img, 0, 0, W, H);
 var data;
 try { data = octx.getImageData(0, 0, W, H).data; }
 catch (e) { data = null; }
-
 var parts = [];
 if (data) {
 for (var y = 0; y < H; y += 2) {
@@ -1183,7 +1152,6 @@ bl: 0
 });
 }
 }
-
 var t0 = performance.now();
 function frame(t) {
 var el = t - t0;
@@ -1231,7 +1199,6 @@ requestAnimationFrame(frame);
 }
 });
 });
-
 function closeShow() {
 if (currentShow) currentShow.classList.remove('open');
 stickers.forEach(function(s) {
@@ -1241,8 +1208,6 @@ s.style.animation = '';
 currentShow = null;
 currentSticker = null;
 }
-
-// Закрытие по крестику и фону в обеих модалках
 document.querySelectorAll('[data-close]').forEach(function(el) {
 el.addEventListener('click', closeShow);
 });
