@@ -707,29 +707,30 @@ max-width: 100%;
 overflow: hidden;
 text-overflow: ellipsis;
 }
-/* Кнопка удаления в карусели */
+/* Кнопка удаления — всегда кликабельна */
 .film-item .card-delete {
 position: absolute;
 top: 16px;
 right: 16px;
-width: 36px;
-height: 36px;
+width: 40px;
+height: 40px;
 border-radius: 50%;
 background: rgba(220, 38, 38, 0.95);
-border: 2px solid rgba(255, 255, 255, 0.3);
+border: 2px solid rgba(255, 255, 255, 0.4);
 color: #fff;
-font-size: 22px;
+font-size: 24px;
 font-weight: bold;
 line-height: 1;
 cursor: pointer;
 display: none;
 align-items: center;
 justify-content: center;
-z-index: 50;
-transition: background 0.2s, transform 0.2s;
-box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+z-index: 100;
+transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(220, 38, 38, 0.3);
 pointer-events: auto;
 padding: 0;
+font-family: inherit;
 }
 .film-item:hover .card-delete.admin-visible {
 display: flex;
@@ -737,6 +738,10 @@ display: flex;
 .film-item .card-delete:hover {
 background: #dc2626;
 transform: scale(1.15);
+box-shadow: 0 6px 20px rgba(220, 38, 38, 0.7), 0 0 0 3px rgba(220, 38, 38, 0.5);
+}
+.film-item .card-delete:active {
+transform: scale(0.95);
 }
 @media (max-width: 768px) {
 .film-carousel-wrapper { height: 55vh; border-top-width: 10px; border-bottom-width: 10px; }
@@ -988,6 +993,7 @@ pixel bug
 </div>
 </div>
 </div>
+</div>
 <!-- Загрузка шапки -->
 <script>
 fetch('header.html')
@@ -1160,6 +1166,7 @@ delBtn.className = 'card-delete admin-visible';
 delBtn.innerHTML = '&times;';
 delBtn.setAttribute('data-id', e.id);
 delBtn.title = 'Удалить';
+delBtn.setAttribute('type', 'button');
 fig.appendChild(delBtn);
 }
 var cap = document.createElement('span');
@@ -1179,9 +1186,9 @@ var filmProgress = 0;
 var filmBaseSpeed = 0.8;
 var filmCurrentSpeed = 0.8;
 var filmIsDragging = false;
-var filmDragMoved = 0;
 var filmDragStartX = 0;
 var filmDragStartProgress = 0;
+var filmDragTotalMoved = 0;
 function resizeFilm() {
 if (!filmItemsEls.length) return;
 filmItemWidth = filmItemsEls[0].offsetWidth + filmGap;
@@ -1190,7 +1197,8 @@ filmTotalWidth = filmItemWidth * filmItemsEls.length;
 function initFilmCarousel() {
 if (typeof gsap === 'undefined') return;
 var wrapper = document.getElementById('filmCarousel');
-if (!wrapper) return;
+var track = document.getElementById('filmTrack');
+if (!wrapper || !track) return;
 window.addEventListener('resize', resizeFilm);
 // Замедление при наведении
 wrapper.addEventListener('mouseenter', function() {
@@ -1201,36 +1209,61 @@ wrapper.addEventListener('mouseleave', function() {
 if (filmIsDragging) return;
 gsap.to({ val: filmCurrentSpeed }, { val: filmBaseSpeed, duration: 0.6, onUpdate: function() { filmCurrentSpeed = this.targets()[0].val; } });
 });
-// Drag через pointer events
+
+/* ============================================
+ПРЯМОЙ ОБРАБОТЧИК КЛИКА ПО КРЕСТИКУ УДАЛЕНИЯ
+Работает через pointerdown — срабатывает СРАЗУ,
+независимо от drag'а карусели
+============================================ */
+track.addEventListener('pointerdown', function(e) {
+var delBtn = e.target.closest('.card-delete');
+if (!delBtn) return;
+// Клик по крестику — отменяем drag, сразу удаляем
+e.preventDefault();
+e.stopPropagation();
+e.stopImmediatePropagation();
+var id = delBtn.getAttribute('data-id');
+if (id && isAdmin) {
+deleteEntry(id);
+}
+}, true); // capture: перехватываем раньше, чем wrapper
+
+// Также через click для надёжности (мобильные, клавиатура)
+track.addEventListener('click', function(e) {
+var delBtn = e.target.closest('.card-delete');
+if (!delBtn) return;
+e.preventDefault();
+e.stopPropagation();
+e.stopImmediatePropagation();
+var id = delBtn.getAttribute('data-id');
+if (id && isAdmin) {
+deleteEntry(id);
+}
+}, true);
+
+/* Drag через pointer events (только если не крестик) */
 wrapper.addEventListener('pointerdown', function(e) {
+// Если клик был по крестику — не начинаем drag
 if (e.target.closest('.card-delete')) return;
 filmIsDragging = true;
-filmDragMoved = 0;
+filmDragTotalMoved = 0;
 filmDragStartX = e.clientX;
 filmDragStartProgress = filmProgress;
 });
 window.addEventListener('pointermove', function(e) {
 if (!filmIsDragging) return;
 var dx = e.clientX - filmDragStartX;
-filmDragMoved += Math.abs(e.movementX || 0);
+filmDragTotalMoved = Math.abs(dx);
 filmProgress = filmDragStartProgress + dx;
 });
 window.addEventListener('pointerup', function(e) {
 if (!filmIsDragging) return;
 filmIsDragging = false;
-// Если двигали мало — считаем кликом
-if (filmDragMoved < 10) {
-var el = document.elementFromPoint(e.clientX, e.clientY);
-if (!el) return;
-// Клик по крестику удаления
-var delBtn = el.closest('.card-delete');
-if (delBtn) {
-var id = delBtn.getAttribute('data-id');
-if (id) deleteEntry(id);
-return;
-}
-// Клик по карточке — открыть видео
-var item = el.closest('.film-item');
+// Если двигали мало — считаем кликом по карточке
+if (filmDragTotalMoved < 8) {
+// Крестик уже обработан выше, здесь — только карточка
+if (e.target.closest('.card-delete')) return;
+var item = e.target.closest('.film-item');
 if (item && item._entry) {
 openYtModal(item._entry);
 }
