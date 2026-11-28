@@ -635,6 +635,9 @@ color: #555;
 .magic-mirage-wrapper .main-content { grid-template-columns: 1fr; gap: 40px; padding: 40px 30px; }
 .magic-mirage-wrapper .footer { margin: 0 30px; padding: 20px 0 30px; }
 }
+/* ==========================================
+КАРУСЕЛЬ В СТИЛЕ CINETIC
+========================================== */
 .film-carousel-wrapper {
 position: relative;
 width: 100%;
@@ -681,7 +684,8 @@ border-color: #ffd700;
 z-index: 10;
 }
 .film-item video,
-.film-item iframe {
+.film-item iframe,
+.film-item img {
 width: 100%;
 height: 100%;
 object-fit: cover;
@@ -703,28 +707,37 @@ max-width: 100%;
 overflow: hidden;
 text-overflow: ellipsis;
 }
+/* Кнопка удаления в карусели */
 .film-item .card-delete {
 position: absolute;
-top: 12px;
-right: 12px;
-width: 32px;
-height: 32px;
+top: 16px;
+right: 16px;
+width: 36px;
+height: 36px;
 border-radius: 50%;
-background: rgba(220,38,38,0.9);
-border: none;
+background: rgba(220, 38, 38, 0.95);
+border: 2px solid rgba(255, 255, 255, 0.3);
 color: #fff;
-font-size: 18px;
+font-size: 22px;
+font-weight: bold;
 line-height: 1;
 cursor: pointer;
 display: none;
 align-items: center;
 justify-content: center;
-z-index: 20;
+z-index: 50;
 transition: background 0.2s, transform 0.2s;
-box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+pointer-events: auto;
+padding: 0;
 }
-.film-item:hover .card-delete.admin-visible { display: flex; }
-.card-delete:hover { background: #dc2626; transform: scale(1.1); }
+.film-item:hover .card-delete.admin-visible {
+display: flex;
+}
+.film-item .card-delete:hover {
+background: #dc2626;
+transform: scale(1.15);
+}
 @media (max-width: 768px) {
 .film-carousel-wrapper { height: 55vh; border-top-width: 10px; border-bottom-width: 10px; }
 .film-item { width: 72vw; min-width: 240px; }
@@ -734,6 +747,7 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 <body>
 <canvas id="tubes-canvas"></canvas>
 <div id="header-placeholder" class="header-wrapper"></div>
+<!-- ===== СТИКЕР 1: ЛЕВЫЙ ===== -->
 <div class="holo-sticker holo-sticker-left" id="holoStickerLeft" data-modal="mcColdzera">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -768,6 +782,7 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 <circle class="circle-left" cx="128" cy="128" r="120" style="fill: url(#multi-dots-left); mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
+<!-- ===== СТИКЕР 2: ПРАВЫЙ ===== -->
 <div class="holo-sticker holo-sticker-right" id="holoStickerRight" data-modal="mcMagic">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -812,6 +827,7 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 </p>
 <div class="hall-divider"></div>
 </section>
+<!-- ===== КИНОЛЕНТА: БЕСКОНЕЧНАЯ КАРУСЕЛЬ ВИДЕО ===== -->
 <section class="hall-stand">
 <div class="stand-label">★ Выдающиеся моменты ★</div>
 <section class="film-carousel-wrapper" id="filmCarousel">
@@ -822,6 +838,7 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 Пока здесь пусто. Скоро появятся лучшие моменты турниров!
 </div>
 </section>
+<!-- Админ-панель -->
 <div class="admin-toggle-wrap" id="adminToggleWrap" style="display:none;">
 <button class="admin-toggle-btn" id="adminToggleBtn">
 <span class="material-symbols-outlined">add_circle</span>
@@ -854,6 +871,7 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 </div>
 </div>
 </main>
+<!-- ===== МОДАЛКА С YOUTUBE ===== -->
 <div class="mc-show" id="ytShow">
 <div class="mc-backdrop" data-yt-close></div>
 <div class="yt-window">
@@ -870,6 +888,7 @@ HALL OF FAME
 </div>
 </div>
 </div>
+<!-- ===== МОДАЛКА 1: COLDZERA ===== -->
 <div class="mc-show" id="mcColdzera">
 <div class="mc-backdrop" data-close></div>
 <div class="mc-window">
@@ -889,7 +908,6 @@ HALL OF FAME
 <div class="section-label">CONTEXT</div>
 <h1 class="main-title"><span class="highlight">Banan</span></h1>
 <p class="description">Шведский киберспортсмен неоднократно делал мультикиллы на этой позиции, ввиду чего Valve решили в обновленной Inferno добавить надпись "Via Adamo", которая переводится с итальянского как "Улица Адама". </p>
-<p class="description"></p>
 <div class="tagline">
 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.09 8.26L20 9.27L15.55 13.97L16.91 20L12 16.9L7.09 20L8.45 13.97L4 9.27L9.91 8.26L12 2Z"/></svg>
 Banan clutch
@@ -920,6 +938,7 @@ Banan clutch
 </div>
 </div>
 </div>
+<!-- ===== МОДАЛКА 2: MAGIC ===== -->
 <div class="mc-show" id="mcMagic">
 <div class="mc-backdrop" data-close></div>
 <div class="mc-window">
@@ -938,8 +957,7 @@ Banan clutch
 <div class="left-column">
 <div class="section-label">CONTEXT</div>
 <h1 class="main-title"><span class="highlight">Пиксельный баг</span></h1>
-<p class="description">оlofmeister, JW и KRiMZ выполнили тройную подсадку у спавна CT: одного игрока подняли на невидимый «пиксель» — место, где можно буквально висеть в воздухе над перилами. Оттуда открывался обзор на болото перед точкой B, выход из коннектора и путь со спавна террористов — по правилам такая «пиксельная прогулка» (pixel-walking) была запрещена, ведь игрок видел соперников, оставаясь практически незаметным.</p>
-<p class="description"></p>
+<p class="description">оlofmeister, JW и KRiMZ выполнили тройную подсадку у спавна CT: одного игрока подняли на невидимый «пиксель» — место, где можно буквально висеть в воздухе над перилами.</p>
 <div class="tagline">
 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.09 8.26L20 9.27L15.55 13.97L16.91 20L12 16.9L7.09 20L8.45 13.97L4 9.27L9.91 8.26L12 2Z"/></svg>
 pixel bug
@@ -955,7 +973,7 @@ pixel bug
 <div class="image-container">
 <img src="png/verb.png" alt="Magic Tomato Paste">
 </div>
-<p class="description">29 ноября 2014 года на мейджоре DreamHack Winter 2014 Fnatic и Team LDLC встретились в четвертьфинале — это был матч двух сильнейших команд того времени. Первую карту (Dust II) взяли французы, вторую (Cache) — шведы, решающая игралась на Overpass. Там LDLC разгромили первую половину 12:3, а после пистолетного раунда счёт стал 13:3 в их пользу. </p>
+<p class="description">29 ноября 2014 года на мейджоре DreamHack Winter 2014 Fnatic и Team LDLC встретились в четвертьфинале.</p>
 </div>
 </div>
 <div class="footer">
@@ -970,6 +988,7 @@ pixel bug
 </div>
 </div>
 </div>
+<!-- Загрузка шапки -->
 <script>
 fetch('header.html')
 .then(r => r.text())
@@ -982,9 +1001,11 @@ document.body.appendChild(script);
 })
 .catch(e => console.error('Ошибка загрузки шапки:', e));
 </script>
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<!-- GSAP -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js"></script>
 <script>
@@ -1027,23 +1048,7 @@ url = url.trim();
 if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
 return url;
 }
-auth.onAuthStateChanged(function(user) {
-if (!user) return;
-db.ref('users/' + user.uid).once('value').then(function(snap) {
-if (!snap.exists()) return;
-var ud = snap.val();
-var myNick = ud.nick || (ud.email ? ud.email.split('@')[0] : null);
-if (!myNick) return;
-db.ref('playoff/adminNicks/' + myNick).once('value').then(function(s) {
-isAdmin = s.exists() && s.val() === true;
-if (isAdmin) {
-document.getElementById('adminToggleWrap').style.display = 'block';
-renderFilmItems();
-}
-});
-});
-});
-var lastData = null;
+/* ===== МОДАЛКА YOUTUBE ===== */
 var ytShow = document.getElementById('ytShow');
 var ytFrame = document.getElementById('ytFrame');
 var ytTitle = document.getElementById('ytTitle');
@@ -1068,10 +1073,31 @@ el.addEventListener('click', closeYtModal);
 document.addEventListener('keydown', function(e) {
 if (ytShow.classList.contains('open') && e.key === 'Escape') closeYtModal();
 });
-db.ref(HOF_REF).on('value', function(snap) {
-lastData = snap.val();
+/* ===== УДАЛЕНИЕ ===== */
+function deleteEntry(id) {
+if (!isAdmin) return;
+if (!confirm('Удалить эту запись из зала славы?')) return;
+db.ref(HOF_REF + '/' + id).remove();
+}
+/* ===== АВТОРИЗАЦИЯ ===== */
+auth.onAuthStateChanged(function(user) {
+if (!user) return;
+db.ref('users/' + user.uid).once('value').then(function(snap) {
+if (!snap.exists()) return;
+var ud = snap.val();
+var myNick = ud.nick || (ud.email ? ud.email.split('@')[0] : null);
+if (!myNick) return;
+db.ref('playoff/adminNicks/' + myNick).once('value').then(function(s) {
+isAdmin = s.exists() && s.val() === true;
+if (isAdmin) {
+document.getElementById('adminToggleWrap').style.display = 'block';
 renderFilmItems();
+}
 });
+});
+});
+var lastData = null;
+/* ===== РЕНДЕР КАРУСЕЛИ ===== */
 var filmItemsEls = [];
 var filmEntries = [];
 function renderFilmItems() {
@@ -1086,7 +1112,15 @@ var entries = [];
 if (lastData) {
 Object.keys(lastData).forEach(function(id) {
 var e = lastData[id] || {};
-if (e.url) entries.push({ id: id, title: e.title || 'Без названия', url: e.url, createdAt: e.createdAt || 0 });
+if (e.url) {
+entries.push({
+id: id,
+title: e.title || 'Без названия',
+url: e.url,
+thumb: e.thumb || '',
+createdAt: e.createdAt || 0
+});
+}
 });
 }
 entries.sort(function(a, b) { return b.createdAt - a.createdAt; });
@@ -1097,9 +1131,10 @@ return;
 }
 empty.style.display = 'none';
 carousel.style.display = 'block';
-filmEntries = entries;
+// Дублируем для бесконечной ленты
 var loop = entries.slice();
 while (loop.length < 6) loop = loop.concat(entries);
+filmEntries = loop;
 loop.forEach(function(e, i) {
 var fig = document.createElement('figure');
 fig.className = 'film-item';
@@ -1110,9 +1145,6 @@ if (thumbUrl) {
 var img = document.createElement('img');
 img.src = thumbUrl;
 img.alt = '';
-img.style.width = '100%';
-img.style.height = '100%';
-img.style.objectFit = 'cover';
 fig.appendChild(img);
 } else {
 var video = document.createElement('video');
@@ -1121,11 +1153,13 @@ video.muted = true; video.loop = true; video.autoplay = true;
 video.setAttribute('playsinline', '');
 fig.appendChild(video);
 }
-if (isAdmin) {
+// Кнопка удаления для админа
+if (isAdmin && e.id) {
 var delBtn = document.createElement('button');
 delBtn.className = 'card-delete admin-visible';
 delBtn.innerHTML = '&times;';
 delBtn.setAttribute('data-id', e.id);
+delBtn.title = 'Удалить';
 fig.appendChild(delBtn);
 }
 var cap = document.createElement('span');
@@ -1137,6 +1171,7 @@ filmItemsEls.push(fig);
 });
 resizeFilm();
 }
+/* ===== КАРУСЕЛЬ: АВТОПРОКРУТКА + DRAG ===== */
 var filmGap = 36;
 var filmItemWidth = 400;
 var filmTotalWidth = 400;
@@ -1144,19 +1179,20 @@ var filmProgress = 0;
 var filmBaseSpeed = 0.8;
 var filmCurrentSpeed = 0.8;
 var filmIsDragging = false;
+var filmDragMoved = 0;
 var filmDragStartX = 0;
 var filmDragStartProgress = 0;
-var filmDragMoved = 0;
 function resizeFilm() {
 if (!filmItemsEls.length) return;
 filmItemWidth = filmItemsEls[0].offsetWidth + filmGap;
 filmTotalWidth = filmItemWidth * filmItemsEls.length;
 }
 function initFilmCarousel() {
-if (typeof gsap === 'undefined' || typeof Draggable === 'undefined') return;
-gsap.registerPlugin(Draggable);
+if (typeof gsap === 'undefined') return;
 var wrapper = document.getElementById('filmCarousel');
+if (!wrapper) return;
 window.addEventListener('resize', resizeFilm);
+// Замедление при наведении
 wrapper.addEventListener('mouseenter', function() {
 if (filmIsDragging) return;
 gsap.to({ val: filmCurrentSpeed }, { val: filmBaseSpeed * 0.25, duration: 0.6, onUpdate: function() { filmCurrentSpeed = this.targets()[0].val; } });
@@ -1165,37 +1201,42 @@ wrapper.addEventListener('mouseleave', function() {
 if (filmIsDragging) return;
 gsap.to({ val: filmCurrentSpeed }, { val: filmBaseSpeed, duration: 0.6, onUpdate: function() { filmCurrentSpeed = this.targets()[0].val; } });
 });
+// Drag через pointer events
 wrapper.addEventListener('pointerdown', function(e) {
 if (e.target.closest('.card-delete')) return;
 filmIsDragging = true;
+filmDragMoved = 0;
 filmDragStartX = e.clientX;
 filmDragStartProgress = filmProgress;
-filmDragMoved = 0;
 });
-wrapper.addEventListener('pointermove', function(e) {
+window.addEventListener('pointermove', function(e) {
 if (!filmIsDragging) return;
 var dx = e.clientX - filmDragStartX;
-filmDragMoved += Math.abs(dx);
+filmDragMoved += Math.abs(e.movementX || 0);
 filmProgress = filmDragStartProgress + dx;
 });
-wrapper.addEventListener('pointerup', function(e) {
+window.addEventListener('pointerup', function(e) {
 if (!filmIsDragging) return;
 filmIsDragging = false;
+// Если двигали мало — считаем кликом
 if (filmDragMoved < 10) {
 var el = document.elementFromPoint(e.clientX, e.clientY);
 if (!el) return;
+// Клик по крестику удаления
 var delBtn = el.closest('.card-delete');
 if (delBtn) {
 var id = delBtn.getAttribute('data-id');
 if (id) deleteEntry(id);
 return;
 }
+// Клик по карточке — открыть видео
 var item = el.closest('.film-item');
 if (item && item._entry) {
 openYtModal(item._entry);
 }
 }
 });
+// Анимация движения
 gsap.ticker.add(function() {
 if (!filmItemsEls.length) return;
 if (!filmIsDragging) filmProgress -= filmCurrentSpeed;
@@ -1213,7 +1254,15 @@ gsap.set(item, { x: rawX, yPercent: -50, y: arcY, rotation: rotateZ });
 });
 resizeFilm();
 }
-document.addEventListener('DOMContentLoaded', initFilmCarousel);
+document.addEventListener('DOMContentLoaded', function() {
+initFilmCarousel();
+});
+/* ===== FIREBASE LISTENER ===== */
+db.ref(HOF_REF).on('value', function(snap) {
+lastData = snap.val();
+renderFilmItems();
+});
+/* ===== АДМИН-ПАНЕЛЬ ===== */
 document.getElementById('adminToggleBtn').addEventListener('click', function() {
 var p = document.getElementById('adminPanel');
 p.style.display = (p.style.display === 'none' || !p.style.display) ? 'block' : 'none';
@@ -1251,13 +1300,9 @@ document.getElementById('adminPanel').style.display = 'none';
 alert('Ошибка сохранения: ' + err.message);
 });
 });
-function deleteEntry(id) {
-if (!isAdmin) return;
-if (!confirm('Удалить эту запись из зала славы?')) return;
-db.ref(HOF_REF + '/' + id).remove();
-}
 })();
 </script>
+<!-- Трубки-радуга -->
 <script type="module">
 import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
 const canvas = document.getElementById('tubes-canvas');
@@ -1295,6 +1340,7 @@ img.onload = syncBgHeight;
 window.addEventListener('resize', syncBgHeight);
 })();
 </script>
+<!-- Испарение стикеров -->
 <script>
 (function() {
 'use strict';
