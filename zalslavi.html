@@ -636,7 +636,7 @@ color: #555;
 .magic-mirage-wrapper .footer { margin: 0 30px; padding: 20px 0 30px; }
 }
 /* ==========================================
-КАРУСЕЛЬ (КИНОЛЕНТА) — ЖЁЛТЫЕ ПОЛОСКИ НЕ ТРОНУТЫ
+КАРУСЕЛЬ + ГОЛОГРАФИЧЕСКИЙ DEER
 ========================================== */
 .film-carousel-wrapper {
 position: relative;
@@ -656,9 +656,7 @@ box-sizing: border-box;
 }
 .film-carousel-wrapper:active { cursor: grabbing; }
 /* ============================================
-ГОЛОГРАФИЧЕСКИЙ ФОН DEER — ПРАВИЛЬНЫЕ ПРОПОРЦИИ
-Вписывается по высоте (от полоски до полоски),
-ширина авто → НЕ растягивается
+ГОЛОГРАФИЧЕСКИЙ DEER — ТРИ СЛОЯ
 ============================================ */
 .film-bg {
 position: absolute;
@@ -666,15 +664,15 @@ inset: 0;
 z-index: 0;
 overflow: hidden;
 pointer-events: none;
-background: #000;
 display: flex;
 align-items: center;
 justify-content: center;
+background: #000;
 }
 .deer-shader {
 position: relative;
-height: 100%;          /* ровно от верхней до нижней жёлтой полоски */
-width: auto;           /* ширина по пропорциям картинки */
+height: 100%;
+width: auto;
 max-width: 100%;
 flex: 0 0 auto;
 overflow: hidden;
@@ -683,7 +681,7 @@ backface-visibility: hidden;
 .deer-shader > .deer-base {
 display: block;
 height: 100%;
-width: auto;           /* ключ: пропорции сохраняются */
+width: auto;
 max-width: none;
 }
 .shader-layer {
@@ -691,11 +689,12 @@ position: absolute;
 inset: 0;
 width: 100%;
 height: 100%;
-mix-blend-mode: multiply;
 background-position: center;
 background-size: 100% 100%;
 }
-.specular { mix-blend-mode: color-dodge; }
+.specular {
+mix-blend-mode: color-dodge;
+}
 .gradient-deer {
 background-image: linear-gradient(
 -25deg,
@@ -706,10 +705,13 @@ hsl(0, 0%, 0%) 70%
 );
 }
 img.shader-layer.mask {
-object-fit: contain;   /* маска тоже без растяжения */
+object-fit: contain;
+mix-blend-mode: multiply;
 }
-/* мягкое дыхание голограммы */
-.deer-shader { animation: deerBreath 9s ease-in-out infinite; }
+/* Мягкое дыхание голограммы */
+.deer-shader {
+animation: deerBreath 9s ease-in-out infinite;
+}
 @keyframes deerBreath {
 0%, 100% { filter: brightness(1) saturate(1); }
 50%      { filter: brightness(1.18) saturate(1.25); }
@@ -740,6 +742,7 @@ box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
 will-change: transform;
 transition: border-color 0.3s ease;
 cursor: pointer;
+overflow: hidden;
 }
 .film-item:hover {
 border-color: #ffd700;
@@ -772,7 +775,6 @@ overflow: hidden;
 text-overflow: ellipsis;
 z-index: 3;
 }
-/* Кнопка удаления — всегда кликабельна */
 .film-item .card-delete {
 position: absolute;
 top: 16px;
@@ -813,7 +815,6 @@ box-shadow: 0 6px 20px rgba(220, 38, 38, 0.7), 0 0 0 3px rgba(220, 38, 38, 0.5);
 <body>
 <canvas id="tubes-canvas"></canvas>
 <div id="header-placeholder" class="header-wrapper"></div>
-<!-- ===== СТИКЕР 1: ЛЕВЫЙ ===== -->
 <div class="holo-sticker holo-sticker-left" id="holoStickerLeft" data-modal="mcColdzera">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -848,7 +849,6 @@ box-shadow: 0 6px 20px rgba(220, 38, 38, 0.7), 0 0 0 3px rgba(220, 38, 38, 0.5);
 <circle class="circle-left" cx="128" cy="128" r="120" style="fill: url(#multi-dots-left); mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
-<!-- ===== СТИКЕР 2: ПРАВЫЙ ===== -->
 <div class="holo-sticker holo-sticker-right" id="holoStickerRight" data-modal="mcMagic">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -893,16 +893,15 @@ box-shadow: 0 6px 20px rgba(220, 38, 38, 0.7), 0 0 0 3px rgba(220, 38, 38, 0.5);
 </p>
 <div class="hall-divider"></div>
 </section>
-<!-- ===== КИНОЛЕНТА С ГОЛОГРАФИЧЕСКИМ ОЛЕНЕМ НА ФОНЕ ===== -->
 <section class="hall-stand">
 <div class="stand-label">★ Выдающиеся моменты ★</div>
 <section class="film-carousel-wrapper" id="filmCarousel">
-<!-- Голографический DEER: вписан по высоте, пропорции сохранены -->
+<!-- ГОЛОГРАФИЧЕСКИЙ DEER — ТРИ СЛОЯ -->
 <div class="film-bg">
 <div class="deer-shader">
-<img class="deer-base" src="https://assets.codepen.io/2153413/deer-base.png" alt="">
+<img class="deer-base" src="https://assets.codepen.io/2153413/deer-base.png" alt="" width="1024">
 <div class="shader-layer specular gradient-deer">
-<img class="shader-layer mask" src="https://assets.codepen.io/2153413/deer-mask.png" alt="">
+<img class="shader-layer mask" src="https://assets.codepen.io/2153413/deer-mask.png" alt="" width="1024">
 </div>
 </div>
 </div>
@@ -913,7 +912,6 @@ box-shadow: 0 6px 20px rgba(220, 38, 38, 0.7), 0 0 0 3px rgba(220, 38, 38, 0.5);
 Пока здесь пусто. Скоро появятся лучшие моменты турниров!
 </div>
 </section>
-<!-- Админ-панель -->
 <div class="admin-toggle-wrap" id="adminToggleWrap" style="display:none;">
 <button class="admin-toggle-btn" id="adminToggleBtn">
 <span class="material-symbols-outlined">add_circle</span>
@@ -946,7 +944,6 @@ box-shadow: 0 6px 20px rgba(220, 38, 38, 0.7), 0 0 0 3px rgba(220, 38, 38, 0.5);
 </div>
 </div>
 </main>
-<!-- ===== МОДАЛКА С YOUTUBE ===== -->
 <div class="mc-show" id="ytShow">
 <div class="mc-backdrop" data-yt-close></div>
 <div class="yt-window">
@@ -963,7 +960,6 @@ HALL OF FAME
 </div>
 </div>
 </div>
-<!-- ===== МОДАЛКА 1: COLDZERA ===== -->
 <div class="mc-show" id="mcColdzera">
 <div class="mc-backdrop" data-close></div>
 <div class="mc-window">
@@ -1013,7 +1009,6 @@ Banan clutch
 </div>
 </div>
 </div>
-<!-- ===== МОДАЛКА 2: MAGIC ===== -->
 <div class="mc-show" id="mcMagic">
 <div class="mc-backdrop" data-close></div>
 <div class="mc-window">
@@ -1063,7 +1058,7 @@ pixel bug
 </div>
 </div>
 </div>
-<!-- Загрузка шапки -->
+</div>
 <script>
 fetch('header.html')
 .then(r => r.text())
@@ -1076,11 +1071,9 @@ document.body.appendChild(script);
 })
 .catch(e => console.error('Ошибка загрузки шапки:', e));
 </script>
-<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<!-- GSAP -->
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js"></script>
 <script>
@@ -1123,7 +1116,6 @@ url = url.trim();
 if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
 return url;
 }
-/* ===== МОДАЛКА YOUTUBE ===== */
 var ytShow = document.getElementById('ytShow');
 var ytFrame = document.getElementById('ytFrame');
 var ytTitle = document.getElementById('ytTitle');
@@ -1148,13 +1140,11 @@ el.addEventListener('click', closeYtModal);
 document.addEventListener('keydown', function(e) {
 if (ytShow.classList.contains('open') && e.key === 'Escape') closeYtModal();
 });
-/* ===== УДАЛЕНИЕ ===== */
 function deleteEntry(id) {
 if (!isAdmin) return;
 if (!confirm('Удалить эту запись из зала славы?')) return;
 db.ref(HOF_REF + '/' + id).remove();
 }
-/* ===== АВТОРИЗАЦИЯ ===== */
 auth.onAuthStateChanged(function(user) {
 if (!user) return;
 db.ref('users/' + user.uid).once('value').then(function(snap) {
@@ -1172,7 +1162,6 @@ renderFilmItems();
 });
 });
 var lastData = null;
-/* ===== РЕНДЕР КАРУСЕЛИ ===== */
 var filmItemsEls = [];
 var filmEntries = [];
 function renderFilmItems() {
@@ -1205,7 +1194,7 @@ carousel.style.display = 'none';
 return;
 }
 empty.style.display = 'none';
-carousel.style.display = 'flex';
+carousel.style.display = 'block';
 var loop = entries.slice();
 while (loop.length < 6) loop = loop.concat(entries);
 filmEntries = loop;
@@ -1245,7 +1234,6 @@ filmItemsEls.push(fig);
 });
 resizeFilm();
 }
-/* ===== КАРУСЕЛЬ: АВТОПРОКРУТКА + DRAG ===== */
 var filmGap = 36;
 var filmItemWidth = 400;
 var filmTotalWidth = 400;
@@ -1275,7 +1263,6 @@ wrapper.addEventListener('mouseleave', function() {
 if (filmIsDragging) return;
 gsap.to({ val: filmCurrentSpeed }, { val: filmBaseSpeed, duration: 0.6, onUpdate: function() { filmCurrentSpeed = this.targets()[0].val; } });
 });
-/* КРЕСТИК УДАЛЕНИЯ — срабатывает сразу */
 track.addEventListener('pointerdown', function(e) {
 var delBtn = e.target.closest('.card-delete');
 if (!delBtn) return;
@@ -1283,7 +1270,9 @@ e.preventDefault();
 e.stopPropagation();
 e.stopImmediatePropagation();
 var id = delBtn.getAttribute('data-id');
-if (id && isAdmin) deleteEntry(id);
+if (id && isAdmin) {
+deleteEntry(id);
+}
 }, true);
 track.addEventListener('click', function(e) {
 var delBtn = e.target.closest('.card-delete');
@@ -1292,9 +1281,10 @@ e.preventDefault();
 e.stopPropagation();
 e.stopImmediatePropagation();
 var id = delBtn.getAttribute('data-id');
-if (id && isAdmin) deleteEntry(id);
+if (id && isAdmin) {
+deleteEntry(id);
+}
 }, true);
-/* Drag */
 wrapper.addEventListener('pointerdown', function(e) {
 if (e.target.closest('.card-delete')) return;
 filmIsDragging = true;
@@ -1314,7 +1304,9 @@ filmIsDragging = false;
 if (filmDragTotalMoved < 8) {
 if (e.target.closest('.card-delete')) return;
 var item = e.target.closest('.film-item');
-if (item && item._entry) openYtModal(item._entry);
+if (item && item._entry) {
+openYtModal(item._entry);
+}
 }
 });
 gsap.ticker.add(function() {
@@ -1337,12 +1329,10 @@ resizeFilm();
 document.addEventListener('DOMContentLoaded', function() {
 initFilmCarousel();
 });
-/* ===== FIREBASE ===== */
 db.ref(HOF_REF).on('value', function(snap) {
 lastData = snap.val();
 renderFilmItems();
 });
-/* ===== АДМИН-ПАНЕЛЬ ===== */
 document.getElementById('adminToggleBtn').addEventListener('click', function() {
 var p = document.getElementById('adminPanel');
 p.style.display = (p.style.display === 'none' || !p.style.display) ? 'block' : 'none';
@@ -1382,7 +1372,6 @@ alert('Ошибка сохранения: ' + err.message);
 });
 })();
 </script>
-<!-- Трубки-радуга -->
 <script type="module">
 import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
 const canvas = document.getElementById('tubes-canvas');
@@ -1420,7 +1409,6 @@ img.onload = syncBgHeight;
 window.addEventListener('resize', syncBgHeight);
 })();
 </script>
-<!-- Испарение стикеров -->
 <script>
 (function() {
 'use strict';
