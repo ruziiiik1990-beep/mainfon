@@ -29,7 +29,6 @@ color: #fff;
 overflow-x: hidden;
 min-height: 100vh;
 }
-/* ===== ТРУБКИ-РАДУГА ===== */
 #tubes-canvas {
 position: fixed;
 top: 0;
@@ -42,7 +41,6 @@ background-color: #000000 !important;
 mix-blend-mode: screen;
 }
 .header-wrapper { position: relative; z-index: 10; }
-/* ===== HERO ===== */
 .hall-container {
 position: relative;
 z-index: 5;
@@ -113,7 +111,6 @@ animation: dividerGlow 3s ease-in-out infinite;
 0%, 100% { box-shadow: 0 0 15px rgba(255,215,0,0.4); }
 50% { box-shadow: 0 0 35px rgba(255,215,0,0.9); }
 }
-/* ===== СТЕНД ===== */
 .hall-stand {
 position: relative;
 margin-top: 40px;
@@ -161,321 +158,6 @@ white-space: nowrap;
 0%, 100% { background-position: 0% 50%; }
 50% { background-position: 100% 50%; }
 }
-/* ===== ОБЩИЕ ЭЛЕМЕНТЫ КАРТОЧЕК ===== */
-.card-thumb {
-width: 100%;
-height: 150px;
-border-radius: 10px;
-overflow: hidden;
-margin-bottom: 16px;
-background: linear-gradient(135deg, #1a1a2e, #0a1428);
-display: flex;
-align-items: center;
-justify-content: center;
-position: relative;
-border: 1px solid rgba(255,255,255,0.08);
-}
-.card-thumb img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-display: block;
-}
-.card-thumb .yt-icon {
-width: 60px;
-height: 42px;
-background: #ff0000;
-border-radius: 10px;
-position: relative;
-box-shadow: 0 0 25px rgba(255,0,0,0.5);
-animation: ytPulse 2.4s ease-in-out infinite;
-}
-.card-thumb .yt-icon::after {
-content: '';
-position: absolute;
-top: 50%; left: 50%;
-transform: translate(-40%, -50%);
-border-style: solid;
-border-width: 10px 0 10px 16px;
-border-color: transparent transparent transparent #fff;
-}
-@keyframes ytPulse {
-0%, 100% { box-shadow: 0 0 20px rgba(255,0,0,0.4); }
-50% { box-shadow: 0 0 40px rgba(255,0,0,0.9); }
-}
-.card-title {
-font-size: 16px;
-font-weight: 700;
-color: #fff;
-margin: 0 0 8px;
-line-height: 1.35;
-display: -webkit-box;
--webkit-line-clamp: 2;
--webkit-box-orient: vertical;
-overflow: hidden;
-}
-/* ==========================================
-   МУЗЕЙНАЯ ГАЛЕРЕЯ-КОРИДОР
-   ========================================== */
-.gal-scene {
-position: relative;
-height: 620px;
-margin-top: 14px;
-perspective: 1000px;
-perspective-origin: 50% 42%;
-overflow: hidden;
-border-radius: 16px;
-background: #060a14;
-cursor: grab;
-touch-action: pan-y;
-user-select: none;
--webkit-user-select: none;
-}
-.gal-scene.dragging { cursor: grabbing; }
-.gal-floor {
-    position: absolute;
-    left: 50%;
-    top: 42%;
-    width: 1100px;
-    height: 3200px;
-    transform: translateX(-50%) rotateX(90deg);
-    transform-origin: 50% 0;
-    background:
-        /* швы между досками */
-        repeating-linear-gradient(90deg,
-            rgba(0,0,0,0.45) 0 2px,
-            transparent 2px 120px),
-        /* текстура досок */
-        repeating-linear-gradient(0deg,
-            rgba(80,50,30,0.9) 0 18px,
-            rgba(110,70,40,0.9) 18px 20px,
-            rgba(90,58,34,0.9) 20px 38px,
-            rgba(120,78,45,0.9) 38px 40px),
-        /* общий градиент освещения */
-        linear-gradient(180deg,
-            rgba(140,95,55,0.95) 0%,
-            rgba(90,60,35,0.95) 40%,
-            rgba(40,25,15,0.98) 100%);
-    box-shadow: inset 0 0 200px rgba(0,0,0,0.6);
-    pointer-events: none;
-}
-.gal-ceiling {
-    position: absolute;
-    left: 50%;
-    top: calc(42% - 3200px);
-    width: 1100px;
-    height: 3200px;
-    transform: translateX(-50%) rotateX(-90deg);
-    transform-origin: 50% 100%;
-    background:
-        radial-gradient(1px 1px at 20% 30%, #fff, transparent),
-        radial-gradient(1px 1px at 80% 10%, #ffd700, transparent),
-        radial-gradient(1.5px 1.5px at 50% 60%, #fff, transparent),
-        radial-gradient(1px 1px at 10% 80%, #83f36e, transparent),
-        radial-gradient(1px 1px at 70% 50%, #fe8a2e, transparent),
-        linear-gradient(180deg, rgba(8,12,24,0.96), rgba(16,24,48,0.92));
-    background-size: 200px 200px, 300px 300px, 250px 250px, 180px 180px, 220px 220px, 100% 100%;
-    animation: starsTwinkle 6s ease-in-out infinite;
-    pointer-events: none;
-}
-
-@keyframes starsTwinkle {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
-}
-.gal-wall {
-    position: absolute;
-    top: -50px;
-    height: 720px;
-    width: 3200px;
-    background:
-        /* верхний бордюр */
-        linear-gradient(180deg,
-            rgba(255,215,0,0.5) 0 6px,
-            transparent 6px 40px),
-        /* горизонтальные панели */
-        repeating-linear-gradient(180deg,
-            rgba(0,0,0,0.35) 0 2px,
-            transparent 2px 90px),
-        /* вертикальные стыки панелей */
-        repeating-linear-gradient(90deg,
-            rgba(0,0,0,0.25) 0 2px,
-            transparent 2px 160px),
-        /* основной коричневый градиент */
-        linear-gradient(180deg,
-            rgba(120,80,50,0.98) 0%,
-            rgba(90,58,34,0.98) 45%,
-            rgba(55,35,20,0.98) 100%);
-    box-shadow: inset 0 0 120px rgba(0,0,0,0.5);
-    pointer-events: none;
-}
-   .gal-wall::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(ellipse 300px 400px at 20% 40%, rgba(255, 60, 120, 0.35), transparent 70%),
-        radial-gradient(ellipse 300px 400px at 50% 40%, rgba(60, 180, 255, 0.35), transparent 70%),
-        radial-gradient(ellipse 300px 400px at 80% 40%, rgba(255, 215, 0, 0.35), transparent 70%);
-    background-size: 200% 100%;
-    animation: wallLights 8s ease-in-out infinite;
-    pointer-events: none;
-}
-
-@keyframes wallLights {
-    0%, 100% { background-position: 0% 50%; filter: hue-rotate(0deg); }
-    50% { background-position: 100% 50%; filter: hue-rotate(90deg); }
-}
-.gal-wall-right {
-    left: calc(50% + 470px);
-    transform-origin: 100% 50%;
-    transform: rotateY(-90deg);
-    filter: brightness(0.75); /* правая чуть темнее — так видно объём */
-}
-
-.gal-wall-left {
-    left: calc(50% - 470px);
-    transform-origin: 0 50%;
-    transform: rotateY(90deg);
-    filter: brightness(0.9);
-}
-.gal-end {
-    position: absolute;
-    left: 50%;
-    top: 42%;
-    width: 940px;
-    height: 740px;
-    transform: translate(-50%, -50%) translateZ(-2900px);
-    background:
-        radial-gradient(ellipse at 50% 45%,
-            rgba(255,215,0,0.35) 0%,
-            rgba(255,120,0,0.18) 30%,
-            rgba(30,40,80,0.5) 55%,
-            rgba(6,10,20,0.9) 100%);
-    border: 2px solid rgba(255,215,0,0.6);
-    box-shadow:
-        0 0 120px rgba(255,215,0,0.35),
-        inset 0 0 80px rgba(255,215,0,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    animation: portalPulse 3s ease-in-out infinite;
-}
-  
-
-@keyframes portalPulse {
-    0%, 100% {
-        box-shadow: 0 0 120px rgba(255,215,0,0.35), inset 0 0 80px rgba(255,215,0,0.2);
-    }
-    50% {
-        box-shadow: 0 0 180px rgba(255,215,0,0.65), inset 0 0 120px rgba(255,215,0,0.35);
-    }
-}
-   
-.gal-end span {
-font-size: 46px;
-font-weight: 900;
-letter-spacing: 10px;
-text-transform: uppercase;
-color: rgba(255,215,0,0.55);
-white-space: nowrap;
-text-shadow: 0 0 40px rgba(255,215,0,0.4);
-}
-.gal-cards {
-position: absolute;
-inset: 0;
-transform-style: preserve-3d;
-}
-.gal-card {
-position: absolute;
-left: 50%;
-top: 50%;
-width: 300px;
-padding: 10px 10px 12px;
-border-radius: 6px;
-background: linear-gradient(160deg, #2a2118 0%, #17110a 100%);
-border: 3px solid #b8860b;
-box-shadow:
-0 0 0 1px rgba(255,215,0,0.35),
-0 30px 70px rgba(0,0,0,0.7),
-0 0 60px rgba(255,215,0,0.12);
-cursor: pointer;
-backface-visibility: hidden;
-will-change: transform, opacity;
-transition: border-color 0.3s, box-shadow 0.3s;
-}
-.gal-card:hover {
-border-color: #ffd700;
-box-shadow:
-0 0 0 1px rgba(255,215,0,0.55),
-0 30px 70px rgba(0,0,0,0.7),
-0 0 90px rgba(255,215,0,0.3);
-}
-.gal-card .card-thumb { height: 170px; margin-bottom: 10px; border-radius: 2px; }
-.gal-card .card-title {
-font-size: 14px;
-margin: 0;
--webkit-line-clamp: 1;
-text-align: center;
-color: #f3e6c2;
-}
-.gal-card .gal-plaque {
-text-align: center;
-font-size: 11px;
-font-weight: 600;
-letter-spacing: 1.5px;
-text-transform: uppercase;
-color: rgba(255,215,0,0.75);
-margin-top: 5px;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-}
-.gal-card .gal-play {
-position: absolute;
-top: 92px;
-left: 50%;
-transform: translate(-50%, -50%);
-width: 54px;
-height: 54px;
-border-radius: 50%;
-background: rgba(255,0,0,0.92);
-display: flex;
-align-items: center;
-justify-content: center;
-opacity: 0;
-transition: opacity 0.25s, transform 0.25s;
-box-shadow: 0 0 25px rgba(255,0,0,0.6);
-pointer-events: none;
-}
-.gal-card:hover .gal-play { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
-.gal-card .gal-play .material-symbols-outlined { color: #fff; font-size: 32px; }
-.gal-card:hover .card-delete.admin-visible { display: flex; }
-.gal-hint {
-position: absolute;
-bottom: 12px;
-left: 50%;
-transform: translateX(-50%);
-font-size: 12px;
-letter-spacing: 1px;
-color: rgba(255,255,255,0.45);
-display: flex;
-align-items: center;
-gap: 8px;
-pointer-events: none;
-white-space: nowrap;
-}
-.gal-hint .material-symbols-outlined { font-size: 17px; color: rgba(255,215,0,0.6); }
-@media (max-width: 640px) {
-.gal-scene { height: 460px; }
-.gal-card { width: 230px; }
-.gal-card .card-thumb { height: 125px; }
-.gal-card .gal-play { top: 72px; }
-.gal-hint { font-size: 10px; }
-.gal-end span { font-size: 28px; letter-spacing: 6px; }
-}
-/* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
 .hall-empty {
 text-align: center;
 padding: 60px 20px;
@@ -489,7 +171,6 @@ display: block;
 margin: 0 auto 14px;
 color: rgba(255,215,0,0.3);
 }
-/* ===== АДМИН-ПАНЕЛЬ ===== */
 .admin-panel {
 margin-top: 32px;
 padding: 26px;
@@ -598,37 +279,11 @@ transform: translateY(-2px);
 box-shadow: 0 10px 28px rgba(255,215,0,0.55);
 }
 .admin-toggle-wrap { text-align: center; margin-top: 32px; }
-.card-delete {
-position: absolute;
-top: 10px;
-right: 10px;
-width: 30px;
-height: 30px;
-border-radius: 50%;
-background: rgba(220,38,38,0.9);
-border: none;
-color: #fff;
-font-size: 16px;
-line-height: 1;
-cursor: pointer;
-display: none;
-align-items: center;
-justify-content: center;
-z-index: 5;
-transition: background 0.2s, transform 0.2s;
-box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-.gal-card:hover .card-delete.admin-visible { display: flex; }
-.card-delete:hover { background: #dc2626; transform: scale(1.1); }
 @media (max-width: 640px) {
 .hall-stand { padding: 32px 16px; }
 .hall-trophy { font-size: 64px; }
 .hall-container { margin: 20px auto 40px; }
 }
-
-/* ==========================================
-   СТИЛИ ДВУХ СТИКЕРОВ (ЛЕВЫЙ + ПРАВЫЙ)
-   ========================================== */
 .holo-sticker {
 position: absolute;
 width: 180px;
@@ -639,7 +294,6 @@ animation: sticker-float 4s ease-in-out infinite;
 pointer-events: auto;
 cursor: pointer;
 }
-
 .holo-sticker-left {
 top: 250px;
 left: 150px;
@@ -665,7 +319,6 @@ display: block;
 .color5 { fill: #B5DFC8; }
 .circle-left { fill: url(#multi-dots-left); }
 .circle-right { fill: url(#multi-dots-right); }
-
 @media (max-width: 1100px) {
 .holo-sticker { width: 140px; height: 140px; }
 .holo-sticker-left { top: 30px; left: 30px; }
@@ -676,10 +329,6 @@ display: block;
 .holo-sticker-left { top: 20px; left: 20px; }
 .holo-sticker-right { top: 20px; right: 20px; }
 }
-
-/* ==========================================
-   СТИЛИ МОДАЛОК СТИКЕРОВ + ИСПАРЕНИЕ
-   ========================================== */
 .mc-show {
 position: fixed;
 inset: 0;
@@ -810,32 +459,28 @@ transition: opacity 0.5s ease;
 .mc-rule { margin: 0 16px; }
 .mc-pages { top: 48px; }
 }
-
-/* ==========================================
-   3D МОДАЛКА С YOUTUBE (ДЛЯ ЛЕНТЫ)
-   ========================================== */
 .yt-window {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: min(1100px, 94vw);
-    max-height: 94vh;
-    display: flex;
-    flex-direction: column;
-    transform-origin: 50% 50%;
-    z-index: 10001;
-    animation: ytIn 0.6s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+position: fixed;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+width: min(1100px, 94vw);
+max-height: 94vh;
+display: flex;
+flex-direction: column;
+transform-origin: 50% 50%;
+z-index: 10001;
+animation: ytIn 0.6s cubic-bezier(0.2, 0.8, 0.25, 1) both;
 }
 @keyframes ytIn {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -50%) perspective(1400px) rotateX(22deg) scale(0.86);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%) perspective(1400px) rotateX(0deg) scale(1);
-    }
+from {
+opacity: 0;
+transform: translate(-50%, -50%) perspective(1400px) rotateX(22deg) scale(0.86);
+}
+to {
+opacity: 1;
+transform: translate(-50%, -50%) perspective(1400px) rotateX(0deg) scale(1);
+}
 }
 .yt-topbar {
 display: flex;
@@ -875,25 +520,21 @@ margin-left: 14px;
 flex: 1;
 }
 .yt-frame {
-    aspect-ratio: 16 / 9;
-    max-height: calc(94vh - 60px); /* 60px — примерная высота топбара */
-    background: #000;
-    border: 1px solid rgba(255,215,0,0.4);
-    border-top: none;
-    border-radius: 0 0 14px 14px;
-    box-shadow: 0 50px 140px rgba(0,0,0,0.85), 0 0 70px rgba(255,215,0,0.12);
-    overflow: hidden;
+aspect-ratio: 16 / 9;
+max-height: calc(94vh - 60px);
+background: #000;
+border: 1px solid rgba(255,215,0,0.4);
+border-top: none;
+border-radius: 0 0 14px 14px;
+box-shadow: 0 50px 140px rgba(0,0,0,0.85), 0 0 70px rgba(255,215,0,0.12);
+overflow: hidden;
 }
 .yt-frame iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
+width: 100%;
+height: 100%;
+border: 0;
+display: block;
 }
-
-/* ==========================================
-   СТИЛИ КОНТЕНТА СЛАЙДА
-   ========================================== */
 .magic-mirage-wrapper {
 background-color: #e8e4de;
 font-family: 'Inter', sans-serif;
@@ -994,88 +635,105 @@ color: #555;
 .magic-mirage-wrapper .main-content { grid-template-columns: 1fr; gap: 40px; padding: 40px 30px; }
 .magic-mirage-wrapper .footer { margin: 0 30px; padding: 20px 0 30px; }
 }
-
-/* ==========================================
-   КИНОЛЕНТА (GSAP-КАРУСЕЛЬ С ВИДЕО)
-   ========================================== */
 .film-carousel-wrapper {
-  position: relative;
-  width: 100%;
-  height: 75vh;
-  min-height: 420px;
-  background-color: #080808;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-  border-top: 14px dashed rgba(255, 215, 0, 0.25);
-  border-bottom: 14px dashed rgba(255, 215, 0, 0.25);
-  box-sizing: border-box;
+position: relative;
+width: 100%;
+height: 75vh;
+min-height: 420px;
+background-color: #080808;
+overflow: hidden;
+display: flex;
+align-items: center;
+cursor: grab;
+user-select: none;
+-webkit-user-select: none;
+border-top: 14px dashed rgba(255, 215, 0, 0.25);
+border-bottom: 14px dashed rgba(255, 215, 0, 0.25);
+box-sizing: border-box;
 }
 .film-carousel-wrapper:active { cursor: grabbing; }
 .film-track {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
+position: relative;
+width: 100%;
+height: 100%;
+display: flex;
+align-items: center;
 }
 .film-item {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  margin: 0;
-  width: 26vw;
-  min-width: 280px;
-  max-width: 480px;
-  aspect-ratio: 16 / 9;
-  background: #141414;
-  padding: 8px;
-  border: 1px solid rgba(255, 215, 0, 0.25);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-  will-change: transform;
-  transition: border-color 0.3s ease;
+position: absolute;
+top: 50%;
+left: 0;
+margin: 0;
+width: 26vw;
+min-width: 280px;
+max-width: 480px;
+aspect-ratio: 16 / 9;
+background: #141414;
+padding: 8px;
+border: 1px solid rgba(255, 215, 0, 0.25);
+box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+will-change: transform;
+transition: border-color 0.3s ease;
+cursor: pointer;
 }
 .film-item:hover {
-  border-color: #ffd700;
-  z-index: 10;
+border-color: #ffd700;
+z-index: 10;
 }
 .film-item video,
 .film-item iframe {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border: 0;
-  pointer-events: none;
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
+border: 0;
+pointer-events: none;
 }
 .film-caption {
-  position: absolute;
-  bottom: -22px;
-  left: 4px;
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: rgba(255, 255, 255, 0.45);
-  pointer-events: none;
-  white-space: nowrap;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+position: absolute;
+bottom: -22px;
+left: 4px;
+font-family: 'Space Mono', monospace;
+font-size: 11px;
+letter-spacing: 2px;
+color: rgba(255, 255, 255, 0.45);
+pointer-events: none;
+white-space: nowrap;
+max-width: 100%;
+overflow: hidden;
+text-overflow: ellipsis;
 }
+.film-item .card-delete {
+position: absolute;
+top: 12px;
+right: 12px;
+width: 32px;
+height: 32px;
+border-radius: 50%;
+background: rgba(220,38,38,0.9);
+border: none;
+color: #fff;
+font-size: 18px;
+line-height: 1;
+cursor: pointer;
+display: none;
+align-items: center;
+justify-content: center;
+z-index: 20;
+transition: background 0.2s, transform 0.2s;
+box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+.film-item:hover .card-delete.admin-visible { display: flex; }
+.card-delete:hover { background: #dc2626; transform: scale(1.1); }
 @media (max-width: 768px) {
-  .film-carousel-wrapper { height: 55vh; border-top-width: 10px; border-bottom-width: 10px; }
-  .film-item { width: 72vw; min-width: 240px; }
+.film-carousel-wrapper { height: 55vh; border-top-width: 10px; border-bottom-width: 10px; }
+.film-item { width: 72vw; min-width: 240px; }
 }
 </style>
 </head>
 <body>
 <canvas id="tubes-canvas"></canvas>
 <div id="header-placeholder" class="header-wrapper"></div>
-
-<!-- ===== СТИКЕР 1: ЛЕВЫЙ (top: 250px, left: 150px) → Coldzera ===== -->
 <div class="holo-sticker holo-sticker-left" id="holoStickerLeft" data-modal="mcColdzera">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -1110,8 +768,6 @@ color: #555;
 <circle class="circle-left" cx="128" cy="128" r="120" style="fill: url(#multi-dots-left); mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
-
-<!-- ===== СТИКЕР 2: ПРАВЫЙ (top: 250px, right: 150px) → Magic ===== -->
 <div class="holo-sticker holo-sticker-right" id="holoStickerRight" data-modal="mcMagic">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
 <defs>
@@ -1146,9 +802,7 @@ color: #555;
 <circle class="circle-right" cx="128" cy="128" r="120" style="fill: url(#multi-dots-right); mix-blend-mode: screen; opacity: 0.35;"/>
 </svg>
 </div>
-
 <main class="hall-container">
-<!-- HERO -->
 <section class="hall-hero">
 <div class="hall-trophy">🏆</div>
 <h1 class="hall-title">Зал славы</h1>
@@ -1158,31 +812,16 @@ color: #555;
 </p>
 <div class="hall-divider"></div>
 </section>
-<!-- 3D Конвейерная лента -->
 <section class="hall-stand">
 <div class="stand-label">★ Выдающиеся моменты ★</div>
-<div class="gal-scene" id="galScene">
-<div class="gal-floor"></div>
-<div class="gal-ceiling"></div>
-<div class="gal-wall gal-wall-left"></div>
-<div class="gal-wall gal-wall-right"></div>
-<div class="gal-end"><span>Зал славы</span></div>
-<div class="gal-cards" id="galCards"></div>
-<div class="gal-hint">
-<span class="material-symbols-outlined">swipe</span>
-Стрелки ← → или тяни — прогулка по галерее · клик по картине — смотреть
-</div>
-</div>
+<section class="film-carousel-wrapper" id="filmCarousel">
+<div class="film-track" id="filmTrack"></div>
+</section>
 <div class="hall-empty" id="hallEmpty" style="display:none;">
 <span class="material-symbols-outlined">movie</span>
 Пока здесь пусто. Скоро появятся лучшие моменты турниров!
 </div>
 </section>
-<!-- ===== КИНОЛЕНТА: БЕСКОНЕЧНАЯ КАРУСЕЛЬ ВИДЕО ===== -->
-<section class="film-carousel-wrapper" id="filmCarousel">
-  <div class="film-track" id="filmTrack"></div>
-</section>
-<!-- Админ-панель -->
 <div class="admin-toggle-wrap" id="adminToggleWrap" style="display:none;">
 <button class="admin-toggle-btn" id="adminToggleBtn">
 <span class="material-symbols-outlined">add_circle</span>
@@ -1215,8 +854,6 @@ color: #555;
 </div>
 </div>
 </main>
-
-<!-- ===== 3D МОДАЛКА С YOUTUBE (для карточек ленты) ===== -->
 <div class="mc-show" id="ytShow">
 <div class="mc-backdrop" data-yt-close></div>
 <div class="yt-window">
@@ -1233,8 +870,6 @@ HALL OF FAME
 </div>
 </div>
 </div>
-
-<!-- ===== МОДАЛКА 1: COLDZERA / MIRAGE ===== -->
 <div class="mc-show" id="mcColdzera">
 <div class="mc-backdrop" data-close></div>
 <div class="mc-window">
@@ -1253,7 +888,7 @@ HALL OF FAME
 <div class="left-column">
 <div class="section-label">CONTEXT</div>
 <h1 class="main-title"><span class="highlight">Banan</span></h1>
-<p class="description">Шведский киберспортсмен неоднократно делал мультикиллы на этой позиции, ввиду чего Valve решили в обновленной Inferno добавить надпись “Via Adamo”, которая переводится с итальянского как “Улица Адама”. </p>
+<p class="description">Шведский киберспортсмен неоднократно делал мультикиллы на этой позиции, ввиду чего Valve решили в обновленной Inferno добавить надпись "Via Adamo", которая переводится с итальянского как "Улица Адама". </p>
 <p class="description"></p>
 <div class="tagline">
 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.09 8.26L20 9.27L15.55 13.97L16.91 20L12 16.9L7.09 20L8.45 13.97L4 9.27L9.91 8.26L12 2Z"/></svg>
@@ -1270,7 +905,7 @@ Banan clutch
 <div class="image-container">
 <img src="png/banan.png" alt="Fly AWP">
 </div>
-<p class="description">Четыре момента из пяти на нижеприведенного видео — это хайлайты на Inferno и по большей части на “банане”, что говорит о весьма заслуженном названии улицы.</p>
+<p class="description">Четыре момента из пяти на нижеприведенного видео — это хайлайты на Inferno и по большей части на "банане", что говорит о весьма заслуженном названии улицы.</p>
 </div>
 </div>
 <div class="footer">
@@ -1285,8 +920,6 @@ Banan clutch
 </div>
 </div>
 </div>
-
-<!-- ===== МОДАЛКА 2: MAGIC / MIRAGE ===== -->
 <div class="mc-show" id="mcMagic">
 <div class="mc-backdrop" data-close></div>
 <div class="mc-window">
@@ -1337,8 +970,6 @@ pixel bug
 </div>
 </div>
 </div>
-
-<!-- Загрузка шапки -->
 <script>
 fetch('header.html')
 .then(r => r.text())
@@ -1351,10 +982,11 @@ document.body.appendChild(script);
 })
 .catch(e => console.error('Ошибка загрузки шапки:', e));
 </script>
-<!-- Firebase (compat) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js"></script>
 <script>
 (function() {
 var firebaseConfig = {
@@ -1406,187 +1038,18 @@ db.ref('playoff/adminNicks/' + myNick).once('value').then(function(s) {
 isAdmin = s.exists() && s.val() === true;
 if (isAdmin) {
 document.getElementById('adminToggleWrap').style.display = 'block';
-renderCards();
+renderFilmItems();
 }
 });
 });
 });
 var lastData = null;
-
-/* ==========================================================
-   МУЗЕЙНАЯ ГАЛЕРЕЯ-КОРИДОР
-   ========================================================== */
-var SPACING = 430;          // расстояние между картинами в коридоре
-var Z_NEAR = 220;           // точка, где картина проходит мимо зрителя
-var Z_FADE = 2750;          // глубина растворения в конце коридора
-var gal = { pos: 0, target: 0, vel: 0, dragging: false, lastX: 0, moved: 0 };
-var galItems = [];
-var galScene = document.getElementById('galScene');
-var galCards = document.getElementById('galCards');
-
-function mod(a, m) { return ((a % m) + m) % m; }
-
-function renderCards() {
-var empty = document.getElementById('hallEmpty');
-var data = lastData;
-galCards.innerHTML = '';
-galItems = [];
-var entries = [];
-if (data) {
-Object.keys(data).forEach(function(id) {
-var e = data[id] || {};
-entries.push({
-id: id,
-title: e.title || 'Без названия',
-desc: e.desc || '',
-url: e.url || '',
-channel: e.channel || '',
-thumb: e.thumb || '',
-createdAt: e.createdAt || 0
-});
-});
-}
-if (entries.length === 0) {
-empty.style.display = 'block';
-galScene.style.display = 'none';
-return;
-}
-empty.style.display = 'none';
-galScene.style.display = 'block';
-entries.sort(function(a, b) { return b.createdAt - a.createdAt; });
-entries.forEach(function(e, idx) {
-var ytId = extractYouTubeId(e.url);
-var thumbUrl = e.thumb || (ytId ? 'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg' : '');
-var thumbHtml;
-if (thumbUrl) {
-thumbHtml = '<img src="' + escapeHtml(thumbUrl) + '" alt="" onerror="this.style.display=\'none\';this.parentNode.querySelector(\'.yt-icon\').style.display=\'block\';">' +
-'<div class="yt-icon" style="display:none;position:absolute;"></div>';
-} else {
-thumbHtml = '<div class="yt-icon"></div>';
-}
-var channelHtml = e.channel ? '<div class="gal-plaque">' + escapeHtml(e.channel) + '</div>' : '';
-var delBtn = isAdmin
-? '<button class="card-delete admin-visible" data-id="' + escapeHtml(e.id) + '" title="Удалить">&times;</button>'
-: '';
-var card = document.createElement('div');
-card.className = 'gal-card';
-card._entry = e; // для открытия модалки из pointerup (click не работает при pointer capture)
-card.innerHTML =
-delBtn +
-'<div class="card-thumb">' + thumbHtml + '</div>' +
-'<div class="gal-play"><span class="material-symbols-outlined">play_arrow</span></div>' +
-'<h4 class="card-title">' + escapeHtml(e.title) + '</h4>' +
-channelHtml;
-galCards.appendChild(card);
-galItems.push({ el: card, base: idx * SPACING });
-});
-}
-
-function galFrame() {
-if (!gal.dragging) {
-gal.vel *= 0.92;           // инерция после броска
-gal.target += gal.vel;
-}
-gal.pos += (gal.target - gal.pos) * 0.1; // плавность шага
-var n = galItems.length;
-if (n) {
-var total = n * SPACING;
-for (var i = 0; i < n; i++) {
-var it = galItems[i];
-var z = Z_NEAR - mod(it.base + gal.pos, total);
-if (z < -Z_FADE || z > Z_NEAR + 60) {
-it.el.style.visibility = 'hidden';
-continue;
-}
-it.el.style.visibility = 'visible';
-var side = (i % 2 === 0) ? -1 : 1; // картины чередуются: левая стена / правая стена
-var x = side * 310;
-var rot = side === -1 ? 62 : -62;  // картина развёрнута к центру коридора
-it.el.style.transform = 'translate(-50%, -50%) translate3d(' + x + 'px,0px,' + z + 'px) rotateY(' + rot + 'deg)';
-it.el.style.zIndex = Math.round(5000 + z);
-var op;
-if (z > 100) op = Math.max(0, (Z_NEAR - z) / 120);            // растворяется у самого зрителя
-else if (z < -(Z_FADE - 650)) op = Math.max(0, (z + Z_FADE) / 650); // растворяется в глубине
-else op = 1;
-it.el.style.opacity = op.toFixed(3);
-}
-}
-requestAnimationFrame(galFrame);
-}
-requestAnimationFrame(galFrame);
-
-/* Стрелки ← → — шаг по коридору */
-document.addEventListener('keydown', function(e) {
-var tag = (e.target && e.target.tagName) || '';
-if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-if (e.key === 'ArrowRight') { gal.target += SPACING; gal.vel = 0; e.preventDefault(); }
-else if (e.key === 'ArrowLeft') { gal.target -= SPACING; gal.vel = 0; e.preventDefault(); }
-});
-
-/* Колесо мыши — движение по коридору */
-galScene.addEventListener('wheel', function(e) {
-e.preventDefault();
-gal.target += e.deltaY * 1.2;
-gal.vel = 0;
-}, { passive: false });
-
-/* Drag — тянем коридор на себя */
-galScene.addEventListener('pointerdown', function(e) {
-if (e.target.closest('.card-delete')) return;
-gal.dragging = true;
-gal.moved = 0;
-gal.lastX = e.clientX;
-gal.vel = 0;
-galScene.classList.add('dragging');
-try { galScene.setPointerCapture(e.pointerId); } catch (err) {}
-});
-galScene.addEventListener('pointermove', function(e) {
-if (!gal.dragging) return;
-var dx = e.clientX - gal.lastX;
-gal.lastX = e.clientX;
-gal.moved += Math.abs(dx);
-gal.target -= dx * 1.8; // тянешь влево — идёшь вперёд по коридору
-gal.vel = -dx * 1.8;
-});
-function endDrag(e) {
-    var wasDragging = gal.dragging;
-    gal.dragging = false;
-    galScene.classList.remove('dragging');
-    if (!e || typeof e.clientX !== 'number') return;
-
-    // Если это был реальный drag с движением — не считаем кликом
-    if (wasDragging && gal.moved > 8) return;
-
-    var el = document.elementFromPoint(e.clientX, e.clientY);
-    if (!el) return;
-
-    // Клик по красному крестику удаления (работает даже без dragging)
-    var delBtn = el.closest('.card-delete');
-    if (delBtn) {
-        var card = delBtn.closest('.gal-card');
-        if (card && card._entry) deleteEntry(card._entry.id);
-        return;
-    }
-
-    // Клик по карточке — открыть видео
-    var card = el.closest('.gal-card');
-    if (!card || !card._entry) return;
-    openYtModal(card._entry);
-}
-galScene.addEventListener('pointerup', endDrag);
-galScene.addEventListener('pointercancel', function() {
-gal.dragging = false;
-galScene.classList.remove('dragging');
-});
-
-/* ===== 3D МОДАЛКА С YOUTUBE ===== */
 var ytShow = document.getElementById('ytShow');
 var ytFrame = document.getElementById('ytFrame');
 var ytTitle = document.getElementById('ytTitle');
 function openYtModal(entry) {
 var ytId = extractYouTubeId(entry.url);
 if (!ytId) {
-// не одиночное видео (плейлист/канал) — открываем в новой вкладке
 var u = normalizeUrl(entry.url);
 if (u) window.open(u, '_blank', 'noopener');
 return;
@@ -1597,7 +1060,7 @@ ytShow.classList.add('open');
 }
 function closeYtModal() {
 ytShow.classList.remove('open');
-ytFrame.src = ''; // останавливает видео
+ytFrame.src = '';
 }
 document.querySelectorAll('[data-yt-close]').forEach(function(el) {
 el.addEventListener('click', closeYtModal);
@@ -1605,60 +1068,65 @@ el.addEventListener('click', closeYtModal);
 document.addEventListener('keydown', function(e) {
 if (ytShow.classList.contains('open') && e.key === 'Escape') closeYtModal();
 });
-
 db.ref(HOF_REF).on('value', function(snap) {
 lastData = snap.val();
-renderCards();
 renderFilmItems();
 });
-
-/* ==========================================================
-   КИНОЛЕНТА: рендер кадров из данных зала славы
-   ========================================================== */
 var filmItemsEls = [];
+var filmEntries = [];
 function renderFilmItems() {
 var track = document.getElementById('filmTrack');
+var empty = document.getElementById('hallEmpty');
+var carousel = document.getElementById('filmCarousel');
 if (!track) return;
 track.innerHTML = '';
 filmItemsEls = [];
+filmEntries = [];
 var entries = [];
 if (lastData) {
 Object.keys(lastData).forEach(function(id) {
 var e = lastData[id] || {};
-if (e.url) entries.push({ title: e.title || 'Без названия', url: e.url, createdAt: e.createdAt || 0 });
+if (e.url) entries.push({ id: id, title: e.title || 'Без названия', url: e.url, createdAt: e.createdAt || 0 });
 });
 }
 entries.sort(function(a, b) { return b.createdAt - a.createdAt; });
-// если записей нет — показываем заглушки, чтобы лента не была пустой
 if (entries.length === 0) {
-entries = [
-{ title: '01 // HALL OF FAME', url: '' },
-{ title: '02 // HIGHLIGHTS', url: '' },
-{ title: '03 // TOURNAMENT', url: '' },
-{ title: '04 // CLUTCH', url: '' },
-{ title: '05 // ACE', url: '' }
-];
+empty.style.display = 'block';
+carousel.style.display = 'none';
+return;
 }
-// дублируем кадры, чтобы лента всегда была бесконечной и заполненной
+empty.style.display = 'none';
+carousel.style.display = 'block';
+filmEntries = entries;
 var loop = entries.slice();
 while (loop.length < 6) loop = loop.concat(entries);
-entries = loop;
-entries.forEach(function(e, i) {
+loop.forEach(function(e, i) {
 var fig = document.createElement('figure');
 fig.className = 'film-item';
+fig._entry = e;
 var ytId = extractYouTubeId(e.url);
-if (ytId) {
-var iframe = document.createElement('iframe');
-iframe.src = 'https://www.youtube.com/embed/' + ytId + '?autoplay=1&mute=1&controls=0&loop=1&playlist=' + ytId + '&rel=0&playsinline=1';
-iframe.allow = 'autoplay; encrypted-media';
-iframe.loading = 'lazy';
-fig.appendChild(iframe);
+var thumbUrl = e.thumb || (ytId ? 'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg' : '');
+if (thumbUrl) {
+var img = document.createElement('img');
+img.src = thumbUrl;
+img.alt = '';
+img.style.width = '100%';
+img.style.height = '100%';
+img.style.objectFit = 'cover';
+fig.appendChild(img);
 } else {
 var video = document.createElement('video');
 video.src = 'https://cinetic-creatives.com/wp-content/uploads/2026/06/Ebel_Freestudio_Loop_Clustr-Films_V1-0001_EBEL-Coumpound-1.mp4';
 video.muted = true; video.loop = true; video.autoplay = true;
 video.setAttribute('playsinline', '');
 fig.appendChild(video);
+}
+if (isAdmin) {
+var delBtn = document.createElement('button');
+delBtn.className = 'card-delete admin-visible';
+delBtn.innerHTML = '&times;';
+delBtn.setAttribute('data-id', e.id);
+fig.appendChild(delBtn);
 }
 var cap = document.createElement('span');
 cap.className = 'film-caption';
@@ -1669,10 +1137,6 @@ filmItemsEls.push(fig);
 });
 resizeFilm();
 }
-
-/* ==========================================================
-   КИНОЛЕНТА: GSAP-автопрокрутка + drag (как на референсе)
-   ========================================================== */
 var filmGap = 36;
 var filmItemWidth = 400;
 var filmTotalWidth = 400;
@@ -1680,6 +1144,9 @@ var filmProgress = 0;
 var filmBaseSpeed = 0.8;
 var filmCurrentSpeed = 0.8;
 var filmIsDragging = false;
+var filmDragStartX = 0;
+var filmDragStartProgress = 0;
+var filmDragMoved = 0;
 function resizeFilm() {
 if (!filmItemsEls.length) return;
 filmItemWidth = filmItemsEls[0].offsetWidth + filmGap;
@@ -1698,13 +1165,36 @@ wrapper.addEventListener('mouseleave', function() {
 if (filmIsDragging) return;
 gsap.to({ val: filmCurrentSpeed }, { val: filmBaseSpeed, duration: 0.6, onUpdate: function() { filmCurrentSpeed = this.targets()[0].val; } });
 });
-var proxy = document.createElement('div');
-Draggable.create(proxy, {
-trigger: wrapper,
-type: 'x',
-onPress: function() { filmIsDragging = true; this.startProgress = filmProgress; },
-onDrag: function() { filmProgress = this.startProgress + (this.x - this.startX); },
-onRelease: function() { filmIsDragging = false; }
+wrapper.addEventListener('pointerdown', function(e) {
+if (e.target.closest('.card-delete')) return;
+filmIsDragging = true;
+filmDragStartX = e.clientX;
+filmDragStartProgress = filmProgress;
+filmDragMoved = 0;
+});
+wrapper.addEventListener('pointermove', function(e) {
+if (!filmIsDragging) return;
+var dx = e.clientX - filmDragStartX;
+filmDragMoved += Math.abs(dx);
+filmProgress = filmDragStartProgress + dx;
+});
+wrapper.addEventListener('pointerup', function(e) {
+if (!filmIsDragging) return;
+filmIsDragging = false;
+if (filmDragMoved < 10) {
+var el = document.elementFromPoint(e.clientX, e.clientY);
+if (!el) return;
+var delBtn = el.closest('.card-delete');
+if (delBtn) {
+var id = delBtn.getAttribute('data-id');
+if (id) deleteEntry(id);
+return;
+}
+var item = el.closest('.film-item');
+if (item && item._entry) {
+openYtModal(item._entry);
+}
+}
 });
 gsap.ticker.add(function() {
 if (!filmItemsEls.length) return;
@@ -1724,7 +1214,6 @@ gsap.set(item, { x: rawX, yPercent: -50, y: arcY, rotation: rotateZ });
 resizeFilm();
 }
 document.addEventListener('DOMContentLoaded', initFilmCarousel);
-
 document.getElementById('adminToggleBtn').addEventListener('click', function() {
 var p = document.getElementById('adminPanel');
 p.style.display = (p.style.display === 'none' || !p.style.display) ? 'block' : 'none';
@@ -1769,7 +1258,6 @@ db.ref(HOF_REF + '/' + id).remove();
 }
 })();
 </script>
-<!-- Трубки-радуга за курсором -->
 <script type="module">
 import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
 const canvas = document.getElementById('tubes-canvas');
@@ -1807,11 +1295,6 @@ img.onload = syncBgHeight;
 window.addEventListener('resize', syncBgHeight);
 })();
 </script>
-
-<!-- GSAP для киноленты -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Draggable.min.js"></script>
-<!-- ===== JS ИСПАРЕНИЯ (ОБЩИЙ ДЛЯ ОБОИХ СТИКЕРОВ, РАЗНЫЕ МОДАЛКИ) ===== -->
 <script>
 (function() {
 'use strict';
@@ -1819,23 +1302,18 @@ var stickers = document.querySelectorAll('.holo-sticker');
 if (!stickers.length) return;
 var running = false;
 var currentShow = null;
-
 stickers.forEach(function(sticker) {
 sticker.addEventListener('click', function() {
 if (running) return;
 running = true;
-
 var modalId = sticker.getAttribute('data-modal');
 currentShow = document.getElementById(modalId);
-
 var rect = sticker.getBoundingClientRect();
 var svgImg = sticker.querySelector('image');
 var src = svgImg ? svgImg.getAttribute('href') : null;
 if (!src) { running = false; if (currentShow) currentShow.classList.add('open'); return; }
-
 sticker.style.visibility = 'hidden';
 sticker.style.animation = 'none';
-
 var layer = document.createElement('div');
 layer.className = 'evap-layer';
 var canvas = document.createElement('canvas');
@@ -1846,15 +1324,12 @@ canvas.style.width = window.innerWidth + 'px';
 canvas.style.height = window.innerHeight + 'px';
 layer.appendChild(canvas);
 document.body.appendChild(layer);
-
 var flash = document.createElement('div');
 flash.className = 'evap-flash';
 document.body.appendChild(flash);
-
 var img = new Image();
 img.onload = function() { dissolve(img, rect, scale); };
 img.src = src;
-
 function dissolve(img, rect, scale) {
 var ctx = canvas.getContext('2d');
 ctx.scale(scale, scale);
@@ -1866,7 +1341,6 @@ octx.drawImage(img, 0, 0, W, H);
 var data;
 try { data = octx.getImageData(0, 0, W, H).data; }
 catch (e) { data = null; }
-
 var parts = [];
 if (data) {
 for (var y = 0; y < H; y += 2) {
@@ -1911,7 +1385,6 @@ bl: 0
 });
 }
 }
-
 var t0 = performance.now();
 function frame(t) {
 var el = t - t0;
@@ -1959,7 +1432,6 @@ requestAnimationFrame(frame);
 }
 });
 });
-
 function closeShow() {
 if (currentShow) currentShow.classList.remove('open');
 stickers.forEach(function(s) {
@@ -1968,7 +1440,6 @@ s.style.animation = '';
 });
 currentShow = null;
 }
-
 document.querySelectorAll('[data-close]').forEach(function(el) {
 el.addEventListener('click', closeShow);
 });
