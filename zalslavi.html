@@ -636,14 +636,14 @@ color: #555;
 .magic-mirage-wrapper .footer { margin: 0 30px; padding: 20px 0 30px; }
 }
 /* ==========================================
-КАРУСЕЛЬ В СТИЛЕ CINETIC
+КАРУСЕЛЬ В СТИЛЕ CINETIC + ГОЛОГРАФИЧЕСКИЙ ФОН DEER
 ========================================== */
 .film-carousel-wrapper {
 position: relative;
 width: 100%;
 height: 75vh;
 min-height: 420px;
-background-color: #080808;
+background-color: #000;
 overflow: hidden;
 display: flex;
 align-items: center;
@@ -655,12 +655,34 @@ border-bottom: 14px dashed rgba(255, 215, 0, 0.25);
 box-sizing: border-box;
 }
 .film-carousel-wrapper:active { cursor: grabbing; }
+/* Голографический фон DEER — занимает весь слайд */
+.film-bg {
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+z-index: 0;
+background: black;
+mix-blend-mode: multiply;
+background-position: center;
+background-image: linear-gradient(
+-25deg,
+hsl(0, 0%, 0%) 30%,
+hsl(104, 26%, 83%) 45%,
+hsl(273, 22%, 25%) 65%,
+hsl(0, 0%, 0%) 70%
+);
+background-attachment: fixed;
+mix-blend-mode: color-dodge;
+pointer-events: none;
+}
 .film-track {
 position: relative;
 width: 100%;
 height: 100%;
 display: flex;
 align-items: center;
+z-index: 1;
 }
 .film-item {
 position: absolute;
@@ -671,13 +693,14 @@ width: 26vw;
 min-width: 280px;
 max-width: 480px;
 aspect-ratio: 16 / 9;
-background: #141414;
+background: transparent;
 padding: 8px;
 border: 1px solid rgba(255, 215, 0, 0.25);
 box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
 will-change: transform;
 transition: border-color 0.3s ease;
 cursor: pointer;
+overflow: hidden;
 }
 .film-item:hover {
 border-color: #ffd700;
@@ -692,6 +715,8 @@ object-fit: cover;
 display: block;
 border: 0;
 pointer-events: none;
+position: relative;
+z-index: 2;
 }
 .film-caption {
 position: absolute;
@@ -706,6 +731,7 @@ white-space: nowrap;
 max-width: 100%;
 overflow: hidden;
 text-overflow: ellipsis;
+z-index: 3;
 }
 /* Кнопка удаления — всегда кликабельна */
 .film-item .card-delete {
@@ -832,10 +858,12 @@ transform: scale(0.95);
 </p>
 <div class="hall-divider"></div>
 </section>
-<!-- ===== КИНОЛЕНТА: БЕСКОНЕЧНАЯ КАРУСЕЛЬ ВИДЕО ===== -->
+<!-- ===== КИНОЛЕНТА: БЕСКОНЕЧНАЯ КАРУСЕЛЬ ВИДЕО С ГОЛОГРАФИЧЕСКИМ ФОНОМ DEER ===== -->
 <section class="hall-stand">
 <div class="stand-label">★ Выдающиеся моменты ★</div>
 <section class="film-carousel-wrapper" id="filmCarousel">
+<!-- Голографический фон DEER — занимает весь слайд -->
+<div class="film-bg"></div>
 <div class="film-track" id="filmTrack"></div>
 </section>
 <div class="hall-empty" id="hallEmpty" style="display:none;">
@@ -1209,16 +1237,12 @@ wrapper.addEventListener('mouseleave', function() {
 if (filmIsDragging) return;
 gsap.to({ val: filmCurrentSpeed }, { val: filmBaseSpeed, duration: 0.6, onUpdate: function() { filmCurrentSpeed = this.targets()[0].val; } });
 });
-
 /* ============================================
 ПРЯМОЙ ОБРАБОТЧИК КЛИКА ПО КРЕСТИКУ УДАЛЕНИЯ
-Работает через pointerdown — срабатывает СРАЗУ,
-независимо от drag'а карусели
 ============================================ */
 track.addEventListener('pointerdown', function(e) {
 var delBtn = e.target.closest('.card-delete');
 if (!delBtn) return;
-// Клик по крестику — отменяем drag, сразу удаляем
 e.preventDefault();
 e.stopPropagation();
 e.stopImmediatePropagation();
@@ -1226,9 +1250,7 @@ var id = delBtn.getAttribute('data-id');
 if (id && isAdmin) {
 deleteEntry(id);
 }
-}, true); // capture: перехватываем раньше, чем wrapper
-
-// Также через click для надёжности (мобильные, клавиатура)
+}, true);
 track.addEventListener('click', function(e) {
 var delBtn = e.target.closest('.card-delete');
 if (!delBtn) return;
@@ -1240,10 +1262,8 @@ if (id && isAdmin) {
 deleteEntry(id);
 }
 }, true);
-
-/* Drag через pointer events (только если не крестик) */
+/* Drag через pointer events */
 wrapper.addEventListener('pointerdown', function(e) {
-// Если клик был по крестику — не начинаем drag
 if (e.target.closest('.card-delete')) return;
 filmIsDragging = true;
 filmDragTotalMoved = 0;
@@ -1259,9 +1279,7 @@ filmProgress = filmDragStartProgress + dx;
 window.addEventListener('pointerup', function(e) {
 if (!filmIsDragging) return;
 filmIsDragging = false;
-// Если двигали мало — считаем кликом по карточке
 if (filmDragTotalMoved < 8) {
-// Крестик уже обработан выше, здесь — только карточка
 if (e.target.closest('.card-delete')) return;
 var item = e.target.closest('.film-item');
 if (item && item._entry) {
